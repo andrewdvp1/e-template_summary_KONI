@@ -1,0 +1,52 @@
+[PHP]
+; Extension directory
+extension_dir = "ext"
+
+; Required extensions for Laravel + PHPWord
+extension=pdo_sqlite
+extension=sqlite3
+extension=mbstring
+extension=fileinfo
+extension=openssl
+extension=zip
+extension=gd
+extension=curl
+
+; Production settings
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+error_log = ../storage/logs/php_errors.log
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+
+; Performance settings
+opcache.enable=1
+opcache.enable_cli=0
+opcache.memory_consumption=128
+opcache.max_accelerated_files=10000
+
+; Memory and execution limits
+memory_limit = 256M
+max_execution_time = 300
+max_input_time = 300
+
+; Upload settings
+post_max_size = 50M
+upload_max_filesize = 50M
+max_file_uploads = 20
+
+; Session configuration
+session.save_handler = files
+session.save_path = "../storage/framework/sessions"
+session.gc_maxlifetime = 7200
+
+; Timezone (adjust as needed)
+date.timezone = Asia/Jakarta
+
+; Disable dangerous functions
+disable_functions = exec,passthru,shell_exec,system,proc_open,popen
+
+; Security settings
+expose_php = Off
+allow_url_fopen = On
+allow_url_include = Off
