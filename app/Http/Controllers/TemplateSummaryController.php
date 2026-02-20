@@ -22,8 +22,7 @@ class TemplateSummaryController extends Controller
 
         $tabletDrafts = TemplateSummaryDraft::query()
         
-            ->where('draft_type', 'sirup',)
-            ->orWhere('draft_type', 'tablet')
+            ->Where('draft_type', 'tablet')
             ->latest('updated_at')
             ->limit(10)
             ->get();
