@@ -21,4 +21,7 @@ Route::post('template-summary/parse-excel', [TemplateSummaryController::class, '
 Route::get('template-summary/tablet', [TemplateSummaryController::class, 'tabletEditor'])->name('template-summary.tablet');
 Route::post('template-summary/tablet/draft', [TemplateSummaryController::class, 'saveTabletDraft'])->name('template-summary.tablet.draft');
 Route::post('template-summary/tablet/export', [TemplateSummaryController::class, 'exportTablet'])->name('template-summary.tablet.export');
+Route::get('template-summary/kapsul', [TemplateSummaryController::class, 'kapsulEditor'])->name('template-summary.kapsul');
+Route::post('template-summary/kapsul/draft', [TemplateSummaryController::class, 'saveKapsulDraft'])->name('template-summary.kapsul.draft');
+Route::post('template-summary/kapsul/export', [TemplateSummaryController::class, 'exportKapsul'])->name('template-summary.kapsul.export');
 Route::get('/template-summary/continue/{draft}', [TemplateSummaryController::class, 'continueDraft'])->name('template-summary.continue');
