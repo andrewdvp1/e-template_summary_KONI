@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{ route('template-summary.sirup.export') }}" method="POST" id="sirupTemplateForm"
+    <form action="{{ route('template-summary.kapsul.export') }}" method="POST" id="kapsulTemplateForm"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="draft_id" id="draft_id" value="{{ $draft->id ?? '' }}">
@@ -693,7 +693,7 @@
         function collectFormValues() {
             const values = {};
             document.querySelectorAll(
-                    '#sirupTemplateForm input[name]:not([type="file"]), #sirupTemplateForm textarea[name], #sirupTemplateForm select[name]'
+                    '#kapsulTemplateForm input[name]:not([type="file"]), #kapsulTemplateForm textarea[name], #kapsulTemplateForm select[name]'
                 )
                 .forEach(input => {
                     if (input.name === 'draft_id' || input.name === '_token') {
@@ -757,7 +757,7 @@
         function collectDraftState() {
             const disabledFieldNames = [];
             document.querySelectorAll(
-                    '#sirupTemplateForm input[name], #sirupTemplateForm textarea[name], #sirupTemplateForm select[name]')
+                    '#kapsulTemplateForm input[name], #kapsulTemplateForm textarea[name], #kapsulTemplateForm select[name]')
                 .forEach(field => {
                     if (field.disabled) {
                         disabledFieldNames.push(field.name);
@@ -946,7 +946,7 @@
             setSaveDraftLoading(true);
 
             try {
-                const form = document.getElementById('sirupTemplateForm');
+                const form = document.getElementById('kapsulTemplateForm');
                 const formData = new FormData(form);
                 formData.delete('_token');
                 formData.append('_token', CSRF_TOKEN);
@@ -1107,7 +1107,7 @@
         // ===========================================
 
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
-        const SAVE_DRAFT_URL = "{{ route('template-summary.sirup.draft', [], false) }}";
+        const SAVE_DRAFT_URL = "{{ route('template-summary.kapsul.draft', [], false) }}";
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INITIAL_DRAFT_STATE = @json($initialDraftState ?? null);
 
