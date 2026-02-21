@@ -6,6 +6,7 @@ use App\Models\TemplateSummaryDraft;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class TemplateSummaryController extends Controller
 {
@@ -21,9 +22,13 @@ class TemplateSummaryController extends Controller
             ->get();
 
         $tabletDrafts = TemplateSummaryDraft::query()
+            ->where('draft_type', 'tablet')
+            ->latest('updated_at')
+            ->limit(10)
+            ->get();
         
-            ->where('draft_type', 'sirup',)
-            ->orWhere('draft_type', 'tablet')
+        $kapsulDrafts =  TemplateSummaryDraft::query()
+            ->where('draft_type', 'kapsul')
             ->latest('updated_at')
             ->limit(10)
             ->get();
@@ -35,6 +40,7 @@ class TemplateSummaryController extends Controller
             ],
             'sirupDrafts' => $sirupDrafts,
             'tabletDrafts' => $tabletDrafts,
+            'kapsulDrafts' => $kapsulDrafts,
         ]);
     }
 
@@ -46,6 +52,7 @@ class TemplateSummaryController extends Controller
         $drafts = TemplateSummaryDraft::query()
             ->where('draft_type', 'sirup')
             ->orWhere('draft_type', 'tablet')
+            ->orWhere('draft_type', 'kapsul')
             ->latest('updated_at')
             ->get();
 
@@ -63,7 +70,7 @@ class TemplateSummaryController extends Controller
      */
     public function deleteDraft(TemplateSummaryDraft $draft): JsonResponse
     {
-        if ($draft->draft_type !== 'sirup' && $draft->draft_type !== 'tablet') {
+        if ($draft->draft_type !== 'sirup' && $draft->draft_type !== 'tablet' && $draft->draft_type !== 'kapsul') {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -80,7 +87,7 @@ class TemplateSummaryController extends Controller
 
     }
     /**
-     * Fungsi Continue Draft untuk mengarahkan ke editor yang sesuai berdasarkan tipe draft (sirup/tablet)
+     * Fungsi Continue Draft untuk mengarahkan ke editor yang sesuai berdasarkan tipe draft (sirup/tablet/kapsul)
      */
     public function continueDraft(TemplateSummaryDraft $draft)
     {
@@ -88,6 +95,8 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.sirup', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'tablet') {
             return redirect()->route('template-summary.tablet', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'kapsul') {
+            return redirect()->route('template-summary.kapsul', ['draft' => $draft->id]);
         }
 
         abort(404, 'Draft tidak ditemukan.');
@@ -366,6 +375,144 @@ class TemplateSummaryController extends Controller
             'draft_id' => $draft->id,
             'message' => 'Draft berhasil disimpan.',
             'redirect_url' => route('template-summary.tablet', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at' => now()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
+    public function kapsulEditor(Request $request)
+    {
+        $draft = null;
+        $from = 'new';
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'kapsul')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = [
+            'Summary' => route('template-summary.index'),
+        ];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Kapsul'] = null;
+
+        return view('template-summary.kapsul.editor', [
+            'title' => 'Template Kapsul',
+            'breadcrumb' => $breadcrumb,
+            'draft' => $draft,
+            'initialDraftState' => $draft?->payload,
+        ]);
+    }
+
+    /**
+     * Export Kapsul template to Word
+     */
+    public function exportKapsul(Request $request)
+    {
+        // Will be implemented later with KapsulExportService
+        $exportService = new \App\Services\Export\KapsulExportService();
+        return $exportService->export($request->all());
+    }
+
+    public function saveKapsulDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id' => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Format draft_state tidak valid.',
+            ], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'kapsul')
+                ->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type' => 'kapsul',
+                'title' => $this->resolveDraftTitle($decodedState),
+                'payload' => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) {
+            $storedFiles = [];
+        }
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
+            $request,
+            $draft->id,
+            'mixing_image_file',
+            'images'
+        );
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
+            $request,
+            $draft->id,
+            'mixing_excel_file',
+            'excel'
+        );
+
+        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
+        if (!is_array($mergedStoredImages)) {
+            $mergedStoredImages = [];
+        }
+        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
+
+        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
+        if (!is_array($mergedStoredExcel)) {
+            $mergedStoredExcel = [];
+        }
+        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = $decodedState['form_values'] ?? [];
+        if (!is_array($formValues)) {
+            $formValues = [];
+        }
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title' => $this->resolveDraftTitle($decodedState),
+            'payload' => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'draft_id' => $draft->id,
+            'message' => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.kapsul', ['draft' => $draft->id]),
             'stored_files' => $decodedState['stored_files'],
             'saved_at' => now()->format('Y-m-d H:i:s'),
         ]);
