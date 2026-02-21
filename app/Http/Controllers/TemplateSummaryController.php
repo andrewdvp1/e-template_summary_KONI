@@ -27,8 +27,18 @@ class TemplateSummaryController extends Controller
             ->limit(10)
             ->get();
         
+<<<<<<< HEAD
         $kapsulDrafts =  TemplateSummaryDraft::query()
             ->where('draft_type', 'kapsul')
+=======
+            ->Where('draft_type', 'tablet')
+            ->latest('updated_at')
+            ->limit(10)
+            ->get();
+
+        $kapsulDrafts = TemplateSummaryDraft::query()
+            ->Where('draft_type', 'kapsul')
+>>>>>>> 6125087b80bb040888bf644f5721b881639f562e
             ->latest('updated_at')
             ->limit(10)
             ->get();
