@@ -66,22 +66,21 @@
                                 class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 transition-colors">arrow_forward</span>
                         </a>
 
-                        <div
-                            class="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 opacity-60 cursor-not-allowed">
+                        <a href="{{ route('template-summary.kapsul') }}"
+                            class="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900/10 transition-all group">
                             <div class="flex items-center gap-3">
                                 <div
-                                    class="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400">
+                                    class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600">
                                     <span class="material-symbols-outlined text-[20px]">blender</span>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-slate-500 dark:text-slate-400">Kapsul</p>
-                                    <p class="text-xs text-slate-400">Segera hadir</p>
+                                    <p class="font-semibold text-slate-900 dark:text-white">Kapsul</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Template untuk produk kapsul</p>
                                 </div>
                             </div>
                             <span
-                                class="text-xs font-medium text-slate-400 bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded">Coming
-                                Soon</span>
-                        </div>
+                                class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 transition-colors">arrow_forward</span>
+                        </a>                        
                     </div>
                 </div>
             </div>
