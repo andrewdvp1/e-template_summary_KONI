@@ -327,16 +327,36 @@
                                         </div>
 
                                         {{-- Full Width Preview Container (Hidden by default) --}}
-                                        <div
-                                            class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
-                                            <img src="" alt="Preview"
-                                                class="w-full h-auto rounded-md shadow-sm">
-                                            <button type="button" onclick="removeImage(this)"
-                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
-                                                title="Hapus Gambar">
-                                                <span class="material-symbols-outlined text-[14px] block">close</span>
-                                            </button>
-                                        </div>
+                                        <br>
+                                        <td class="px-4 py-3 align-top">
+                                            <div class="image-upload-wrapper">
+                                                <div class="image-upload-container p-3 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center gap-2 transition-all hover:border-blue-400 group">
+                                                    
+                                                    {{-- Input File Hidden --}}
+                                                    <input type="file" 
+                                                        id="mixing_image_input_table_1"
+                                                        name="mixing_image_file[table_1]"
+                                                        accept="image/png, image/jpeg, image/jpg" 
+                                                        class="hidden hidden-file-input"
+                                                        onchange="previewImageWithPaste(this, 'preview-table-1')">
+                                                    
+                                                    {{-- Tombol Pemicu --}}
+                                                    <button type="button" 
+                                                            onclick="document.getElementById('mixing_image_input_table_1').click()"
+                                                            class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                                        <i class="fa-regular fa-image mr-1"></i> Pilih / Paste Gambar
+                                                    </button>
+
+                                                    {{-- Area Preview & Paste Target --}}
+                                                    <div id="preview-table-1" 
+                                                        class="paste-target w-full min-h-[80px] flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 overflow-hidden cursor-pointer"
+                                                        title="Klik di sini lalu tekan Ctrl+V untuk paste gambar"
+                                                        tabindex="0">
+                                                        <p class="text-[10px] text-slate-400 italic px-2 text-center">Klik & Paste screenshot di sini</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </div>
                                 </div>
                             </div>
@@ -541,6 +561,14 @@
 
     {{-- Custom Styles for Template Inputs --}}
     <style>
+        .paste-target:focus {
+            border-color: #3b82f6 !important;
+            background-color: rgba(59, 130, 246, 0.05) !important;
+            outline: none;
+    }
+        .image-upload-container:focus-within {
+            border-color: #3b82f6;
+    }
         .template-input {
             display: inline-block;
             border: none;
@@ -941,6 +969,17 @@
                 textEl.textContent = 'Simpan Draft';
             }
         }
+
+        window.previewImageWithPaste = function(input, previewId) {
+            const previewArea = document.getElementById(previewId);
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                previewArea.innerHTML = `<img src="${e.target.result}" class="max-h-[300px] w-auto object-contain p-1">`;
+                }
+        reader.readAsDataURL(input.files[0]);
+            }
+        };
 
         async function saveDraft() {
             setSaveDraftLoading(true);
@@ -1588,6 +1627,28 @@
                     footer.style.left = '4.5rem';
                 }
             }
+            
+        document.addEventListener('paste', function (e) {
+            const activeElement = document.activeElement;
+            const container = activeElement.closest('.image-upload-container');
+    
+            if (container) {
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                const fileInput = container.querySelector('.hidden-file-input');
+                const previewId = container.querySelector('.paste-target').id;
+
+                for (let item of items) {
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                    const blob = item.getAsFile();
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(blob);
+                    fileInput.files = dataTransfer.files;
+
+                    previewImageWithPaste(fileInput, previewId);
+                }
+                }
+            }
+        });
 
             const bab22Container = document.getElementById('bab22_dynamic_subab_container');
             const firstBab22Subab = document.getElementById('bab22_subab_mixing');
