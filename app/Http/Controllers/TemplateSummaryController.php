@@ -6,6 +6,7 @@ use App\Models\TemplateSummaryDraft;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class TemplateSummaryController extends Controller
 {
@@ -21,7 +22,15 @@ class TemplateSummaryController extends Controller
             ->get();
 
         $tabletDrafts = TemplateSummaryDraft::query()
+            ->where('draft_type', 'tablet')
+            ->latest('updated_at')
+            ->limit(10)
+            ->get();
         
+<<<<<<< HEAD
+        $kapsulDrafts =  TemplateSummaryDraft::query()
+            ->where('draft_type', 'kapsul')
+=======
             ->Where('draft_type', 'tablet')
             ->latest('updated_at')
             ->limit(10)
@@ -29,6 +38,7 @@ class TemplateSummaryController extends Controller
 
         $kapsulDrafts = TemplateSummaryDraft::query()
             ->Where('draft_type', 'kapsul')
+>>>>>>> 6125087b80bb040888bf644f5721b881639f562e
             ->latest('updated_at')
             ->limit(10)
             ->get();
@@ -87,7 +97,7 @@ class TemplateSummaryController extends Controller
 
     }
     /**
-     * Fungsi Continue Draft untuk mengarahkan ke editor yang sesuai berdasarkan tipe draft (sirup/tablet)
+     * Fungsi Continue Draft untuk mengarahkan ke editor yang sesuai berdasarkan tipe draft (sirup/tablet/kapsul)
      */
     public function continueDraft(TemplateSummaryDraft $draft)
     {

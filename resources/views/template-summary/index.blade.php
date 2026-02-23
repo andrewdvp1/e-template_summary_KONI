@@ -80,7 +80,11 @@
                             </div>
                             <span
                                 class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 transition-colors">arrow_forward</span>
+<<<<<<< HEAD
+                        </a>                        
+=======
                         </a>
+>>>>>>> 6125087b80bb040888bf644f5721b881639f562e
                     </div>
                 </div>
             </div>

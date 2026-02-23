@@ -20,7 +20,7 @@
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
                             <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
-                                data-sync="nama_produk" placeholder="Anakonidin OBH 30 ml">
+                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
@@ -29,8 +29,8 @@
                                 placeholder="2">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
-                                placeholder="Production (Pharmaceutical II) Gedung B">
+                                data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
+                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
                         </p>
                     </div>
 
@@ -92,14 +92,14 @@
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
                                 produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Anakonidin OBH 30 ml">
+                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
                                     data-sync="line" placeholder="2">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
-                                    placeholder="Production (Pharmaceutical II) Gedung B">
+                                    data-sync="bagian" value="Produksi Farmasi I Line Soft Capsule Gedung A"
+                                    placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
                                 yang diproduksi dengan
                                 <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
@@ -107,7 +107,7 @@
                                     placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
                                 dalam menghasilkan produk
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Anakonidin OBH 30 ml">
+                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
                                 dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
                                 dan Spesifikasi Kemasan yang berlaku.
                             </p>
@@ -401,7 +401,7 @@
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Anakonidin OBH 30 ml">,
+                                    placeholder="KONILIFE OMEGA 3 500 mg">,
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-48" data-sync="batch"
@@ -488,7 +488,7 @@
                                 pengolahan dan pengemasan produk
                                 <input type="text" name="kesimpulan_final_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Anakonidin OBH 30 ml">
+                                    placeholder="KONILIFE OMEGA 3 500 mg">
                                 menggunakan
                                 <input type="text" name="kesimpulan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
@@ -952,11 +952,11 @@
                 formData.append('_token', CSRF_TOKEN);
                 const state = collectDraftState();
 
-                const product = (state.form_values.judul_nama_produk || '').trim() || 'Paramex';
+                const product = (state.form_values.judul_nama_produk || '').trim() || 'Konilife';
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
-                    'Production (Pharmaceutical II) Gedung B';
+                    'Produksi Farmasi I Line Soft Capsule Gedung A';
                 const formulaSegment = formula ? ` (${formula})` : '';
                 const titleFallback =
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;
