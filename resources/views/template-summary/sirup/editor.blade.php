@@ -1351,90 +1351,6 @@
             previewBox.classList.remove('hidden');
         }
 
-        function focusClipboardField(container) {
-            if (!container) return;
-            const textarea = container.querySelector('.clipboard-input-area');
-            if (textarea) textarea.focus();
-        }
-
-        async function triggerClipboardPaste(button) {
-            const tableItem = button.closest('.mixing-table-item');
-            if (!tableItem) return;
-
-            const textarea = tableItem.querySelector('.clipboard-input-area');
-            if (!textarea) return;
-
-            textarea.focus();
-
-            if (!navigator.clipboard || !navigator.clipboard.readText) {
-                alert('Browser tidak mengizinkan baca clipboard langsung. Silakan tekan Ctrl+V di area clipboard.');
-                return;
-            }
-
-            try {
-                const clipText = await navigator.clipboard.readText();
-                if (!clipText) {
-                    alert('Clipboard kosong atau tidak berisi teks. Untuk gambar gunakan Ctrl+V.');
-                    return;
-                }
-
-                textarea.value = clipText;
-                processPastedTextToTable(tableItem, clipText);
-            } catch (error) {
-                alert('Gagal membaca clipboard. Silakan izin clipboard atau pakai Ctrl+V langsung.');
-            }
-        }
-
-        function processPastedTextToTable(tableItem, pastedText) {
-            if (!pastedText || !pastedText.includes('\t')) return;
-
-            const rows = pastedText
-                .replace(/\r/g, '')
-                .split('\n')
-                .map(row => row.split('\t').map(cell => cell.trim()))
-                .filter(row => row.some(cell => cell !== ''));
-
-            if (!rows.length) return;
-
-            const tableUid = getTableUidFromItem(tableItem);
-            const hiddenInput = tableUid ? tableItem.querySelector(
-                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-
-            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
-            renderPastedTablePreview(tableItem, rows);
-        }
-
-        function handleClipboardFieldPaste(event, textarea) {
-            const tableItem = textarea.closest('.mixing-table-item');
-            if (!tableItem) return;
-
-            const clipboardData = event.clipboardData || window.clipboardData;
-            if (!clipboardData) return;
-
-            const items = clipboardData.items || [];
-            for (const item of items) {
-                if (item.type && item.type.startsWith('image/')) {
-                    const imageFile = item.getAsFile();
-                    if (!imageFile) continue;
-
-                    event.preventDefault();
-                    const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
-                    const transfer = new DataTransfer();
-                    transfer.items.add(imageFile);
-                    imageInput.files = transfer.files;
-                    previewImage(imageInput);
-                    textarea.value = '[Screenshot berhasil ditempel]';
-                    return;
-                }
-            }
-
-            const pastedText = clipboardData.getData('text/plain');
-            if (!pastedText) return;
-
-            textarea.value = pastedText;
-            processPastedTextToTable(tableItem, pastedText);
-        }
-
         function removePastedTable(button) {
             const tableItem = button.closest('.mixing-table-item');
             if (!tableItem) return;
@@ -1476,13 +1392,23 @@
             }
 
             const pastedText = clipboardData.getData('text/plain');
-            if (!pastedText) return;
-
-            const textarea = tableItem.querySelector('.clipboard-input-area');
-            if (textarea) textarea.value = pastedText;
+            if (!pastedText || !pastedText.includes('\t')) return;
 
             event.preventDefault();
-            processPastedTextToTable(tableItem, pastedText);
+            const rows = pastedText
+                .replace(/\r/g, '')
+                .split('\n')
+                .map(row => row.split('\t').map(cell => cell.trim()))
+                .filter(row => row.some(cell => cell !== ''));
+
+            if (!rows.length) return;
+
+            const tableUid = getTableUidFromItem(tableItem);
+            const hiddenInput = tableUid ? tableItem.querySelector(
+                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
+
+            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
+            renderPastedTablePreview(tableItem, rows);
         }
 
         function previewImage(input) {
