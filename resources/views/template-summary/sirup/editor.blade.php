@@ -344,7 +344,6 @@
                                             <textarea rows="3"
                                                 class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200"
                                                 placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..."
-                                                onfocus="setActiveMixingTable(this.closest('.mixing-table-item'))"
                                                 onpaste="handleClipboardFieldPaste(event, this)"></textarea>
                                         </div>
 
@@ -1306,7 +1305,7 @@
                                 Tempel dari Clipboard
                             </button>
                         </div>
-                        <textarea rows="3" class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200" placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..." onfocus="setActiveMixingTable(this.closest('.mixing-table-item'))" onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                        <textarea rows="3" class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200" placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..." onpaste="handleClipboardFieldPaste(event, this)"></textarea>
                     </div>
                     <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
                         <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
@@ -1352,190 +1351,6 @@
             previewBox.classList.remove('hidden');
         }
 
-        function focusClipboardField(container) {
-            if (!container) return;
-            const textarea = container.querySelector('.clipboard-input-area');
-            if (textarea) {
-                textarea.focus();
-                setActiveMixingTable(textarea.closest('.mixing-table-item'));
-            }
-        }
-
-        let activeMixingTableItem = null;
-
-        function setActiveMixingTable(tableItem) {
-            if (!tableItem) return;
-            activeMixingTableItem = tableItem;
-        }
-
-        function applyClipboardImageToTable(tableItem, imageBlob, textarea = null) {
-            if (!tableItem || !imageBlob) return;
-
-            const imageFile = imageBlob instanceof File ? imageBlob : new File([imageBlob],
-                `clipboard.${(imageBlob.type || 'image/png').split('/')[1] || 'png'}`, {
-                    type: imageBlob.type || 'image/png'
-                });
-
-            const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
-            if (imageInput && typeof DataTransfer !== 'undefined') {
-                try {
-                    const transfer = new DataTransfer();
-                    transfer.items.add(imageFile);
-                    imageInput.files = transfer.files;
-                    previewImage(imageInput);
-                    if (textarea) textarea.value = '[Screenshot berhasil ditempel]';
-                    return;
-                } catch (error) {
-                    // fallback to direct preview below
-                }
-            }
-
-            const previewBox = tableItem.querySelector('.image-preview-box');
-            const img = previewBox ? previewBox.querySelector('img') : null;
-            const gridContainer = tableItem.querySelector('.mixing-upload-grid');
-
-            if (img && previewBox && gridContainer) {
-                const previousBlobUrl = img.dataset.blobUrl;
-                if (previousBlobUrl) URL.revokeObjectURL(previousBlobUrl);
-                const blobUrl = URL.createObjectURL(imageFile);
-                img.src = blobUrl;
-                img.dataset.blobUrl = blobUrl;
-                gridContainer.classList.add('hidden');
-                previewBox.classList.remove('hidden');
-            }
-
-            if (textarea) textarea.value = '[Screenshot berhasil ditempel]';
-        }
-
-        function parseClipboardRows(clipboardData, fallbackText = '') {
-            const htmlData = clipboardData?.getData ? clipboardData.getData('text/html') : '';
-
-            if (htmlData && htmlData.includes('<table')) {
-                try {
-                    const doc = new DOMParser().parseFromString(htmlData, 'text/html');
-                    const parsedRows = [...doc.querySelectorAll('tr')]
-                        .map(tr => [...tr.querySelectorAll('th,td')].map(cell => cell.textContent.trim()))
-                        .filter(row => row.some(cell => cell !== ''));
-                    if (parsedRows.length) return parsedRows;
-                } catch (error) {
-                    // fallback to plain text parser
-                }
-            }
-
-            const pastedText = fallbackText || (clipboardData?.getData ? clipboardData.getData('text/plain') : '');
-            if (!pastedText) return [];
-
-            return pastedText
-                .replace(/\r/g, '')
-                .split('\n')
-                .map(row => row.split('\t').map(cell => cell.trim()))
-                .filter(row => row.some(cell => cell !== ''));
-        }
-
-        async function triggerClipboardPaste(button) {
-            const tableItem = button.closest('.mixing-table-item');
-            if (!tableItem) return;
-
-            const textarea = tableItem.querySelector('.clipboard-input-area');
-            if (!textarea) return;
-
-            textarea.focus();
-
-            if (!navigator.clipboard) {
-                alert('Browser tidak mengizinkan baca clipboard langsung. Silakan tekan Ctrl+V di area clipboard.');
-                return;
-            }
-
-            try {
-                if (navigator.clipboard.read) {
-                    const clipboardItems = await navigator.clipboard.read();
-                    for (const clipboardItem of clipboardItems) {
-                        const imageType = clipboardItem.types.find(type => type.startsWith('image/'));
-                        if (!imageType) continue;
-
-                        const imageBlob = await clipboardItem.getType(imageType);
-                        const imageFile = new File([imageBlob], `clipboard.${imageType.split('/')[1] || 'png'}`, {
-                            type: imageType
-                        });
-                        applyClipboardImageToTable(tableItem, imageFile, textarea);
-                        return;
-                    }
-                }
-
-                if (!navigator.clipboard.readText) {
-                    alert('Clipboard API text tidak tersedia. Silakan tekan Ctrl+V di area clipboard.');
-                    return;
-                }
-
-                const clipText = await navigator.clipboard.readText();
-                if (!clipText) {
-                    alert('Clipboard kosong atau tidak berisi teks. Untuk gambar gunakan Ctrl+V.');
-                    return;
-                }
-
-                textarea.value = clipText;
-                processPastedTextToTable(tableItem, clipText);
-            } catch (error) {
-                alert('Gagal membaca clipboard. Silakan izin clipboard atau pakai Ctrl+V langsung.');
-            }
-        }
-
-        function processPastedTextToTable(tableItem, pastedText) {
-            if (!pastedText) return;
-
-            const rows = parseClipboardRows(null, pastedText);
-            const looksTabular = rows.length > 0 && rows.some(row => row.length > 1);
-            if (!looksTabular) return;
-
-            if (!rows.length) return;
-
-            const tableUid = getTableUidFromItem(tableItem);
-            const hiddenInput = tableUid ? tableItem.querySelector(
-                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-
-            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
-            renderPastedTablePreview(tableItem, rows);
-        }
-
-        function handleClipboardFieldPaste(event, textarea) {
-            const tableItem = textarea.closest('.mixing-table-item');
-            if (!tableItem) return;
-
-            const clipboardData = event.clipboardData || window.clipboardData;
-            if (!clipboardData) return;
-
-            const items = clipboardData.items || [];
-            for (const item of items) {
-                if (item.type && item.type.startsWith('image/')) {
-                    const imageFile = item.getAsFile();
-                    if (!imageFile) continue;
-
-                    event.preventDefault();
-                    applyClipboardImageToTable(tableItem, imageFile, textarea);
-                    return;
-                }
-            }
-
-            const pastedText = clipboardData.getData('text/plain');
-            const parsedRows = parseClipboardRows(clipboardData, pastedText);
-
-            if (pastedText) textarea.value = pastedText;
-
-            event.preventDefault();
-            if (parsedRows.length) {
-                const tableUid = getTableUidFromItem(tableItem);
-                const hiddenInput = tableUid ? tableItem.querySelector(
-                    `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-                if (hiddenInput) hiddenInput.value = JSON.stringify(parsedRows);
-                renderPastedTablePreview(tableItem, parsedRows);
-                return;
-            }
-
-            if (pastedText) {
-                processPastedTextToTable(tableItem, pastedText);
-            }
-        }
-
         function removePastedTable(button) {
             const tableItem = button.closest('.mixing-table-item');
             if (!tableItem) return;
@@ -1554,8 +1369,6 @@
         function handleMixingPaste(event, tableItem) {
             if (!tableItem) return;
 
-            setActiveMixingTable(tableItem);
-
             const clipboardData = event.clipboardData || window.clipboardData;
             if (!clipboardData) return;
 
@@ -1569,44 +1382,34 @@
                     if (!imageFile) continue;
 
                     event.preventDefault();
-                    const textarea = tableItem.querySelector('.clipboard-input-area');
-                    applyClipboardImageToTable(tableItem, imageFile, textarea);
+                    const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
+                    const transfer = new DataTransfer();
+                    transfer.items.add(imageFile);
+                    imageInput.files = transfer.files;
+                    previewImage(imageInput);
                     return;
                 }
             }
 
             const pastedText = clipboardData.getData('text/plain');
-            const parsedRows = parseClipboardRows(clipboardData, pastedText);
-            if (!pastedText && !parsedRows.length) return;
-
-            const textarea = tableItem.querySelector('.clipboard-input-area');
-            if (textarea && pastedText) textarea.value = pastedText;
+            if (!pastedText || !pastedText.includes('\t')) return;
 
             event.preventDefault();
-            if (parsedRows.length) {
-                const tableUid = getTableUidFromItem(tableItem);
-                const hiddenInput = tableUid ? tableItem.querySelector(
-                    `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-                if (hiddenInput) hiddenInput.value = JSON.stringify(parsedRows);
-                renderPastedTablePreview(tableItem, parsedRows);
-                return;
-            }
+            const rows = pastedText
+                .replace(/\r/g, '')
+                .split('\n')
+                .map(row => row.split('\t').map(cell => cell.trim()))
+                .filter(row => row.some(cell => cell !== ''));
 
-            if (pastedText) {
-                processPastedTextToTable(tableItem, pastedText);
-            }
+            if (!rows.length) return;
+
+            const tableUid = getTableUidFromItem(tableItem);
+            const hiddenInput = tableUid ? tableItem.querySelector(
+                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
+
+            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
+            renderPastedTablePreview(tableItem, rows);
         }
-
-        document.addEventListener('paste', function(event) {
-            const target = event.target;
-            if (target && target.closest && target.closest('.clipboard-input-area')) return;
-
-            const tableItem = target && target.closest ? target.closest('.mixing-table-item') : null;
-            const scopedTableItem = tableItem || activeMixingTableItem;
-            if (!scopedTableItem) return;
-
-            handleMixingPaste(event, scopedTableItem);
-        });
 
         function previewImage(input) {
             const tableItem = input.closest('.mixing-table-item');
