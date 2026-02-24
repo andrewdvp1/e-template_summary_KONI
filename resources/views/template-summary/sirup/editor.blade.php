@@ -251,7 +251,8 @@
                             <div class="mixing-tables-container flex flex-col gap-4">
                                 {{-- Initial Table (Table 1) --}}
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative"
-                                    data-table-index="0" data-table-uid="table_1">
+                                    data-table-index="0" data-table-uid="table_1"
+                                    onpaste="handleMixingPaste(event, this)">
                                     {{-- Three Dot Menu --}}
                                     <div class="absolute top-1 right-1 z-20 remove-table-btn">
                                         <button type="button" onclick="toggleTableMenu(this)"
@@ -284,6 +285,8 @@
                                                         Mentah (Excel)</p>
                                                     <p class="text-xs text-slate-400 dark:text-slate-500">Hanya untuk arsip
                                                         data</p>
+                                                    <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste
+                                                        tabel Excel (Ctrl+V)</p>
                                                 </div>
 
                                                 {{-- File Input Wrapper --}}
@@ -311,6 +314,8 @@
                                                         Screenshot Tabel</p>
                                                     <p class="text-xs text-slate-400 dark:text-slate-500">Akan ditampilkan
                                                         di laporan</p>
+                                                    <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste
+                                                        screenshot (Ctrl+V)</p>
                                                 </div>
 
                                                 {{-- Image Input Wrapper --}}
@@ -326,6 +331,23 @@
                                             </div>
                                         </div>
 
+                                        <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70"
+                                            onclick="focusClipboardField(this)">
+                                            <div class="flex items-center justify-between gap-2 mb-2">
+                                                <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa
+                                                    diketik / paste)</p>
+                                                <button type="button" onclick="triggerClipboardPaste(this)"
+                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
+                                                    Tempel dari Clipboard
+                                                </button>
+                                            </div>
+                                            <textarea rows="3"
+                                                class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200"
+                                                placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..."
+                                                onfocus="setActiveMixingTable(this.closest('.mixing-table-item'))"
+                                                onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                                        </div>
+
                                         {{-- Full Width Preview Container (Hidden by default) --}}
                                         <div
                                             class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
@@ -337,11 +359,24 @@
                                                 <span class="material-symbols-outlined text-[14px] block">close</span>
                                             </button>
                                         </div>
+
+                                        <div
+                                            class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
+                                            <div class="overflow-auto max-h-[420px]">
+                                                <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
+                                            </div>
+                                            <button type="button" onclick="removePastedTable(this)"
+                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
+                                                title="Hapus Tabel Paste">
+                                                <span class="material-symbols-outlined text-[14px] block">close</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <input type="hidden" name="bab22_table_subab_key[table_1]" value="mixing">
                             <input type="hidden" name="existing_mixing_image_file[table_1]" value="">
+                            <input type="hidden" name="mixing_pasted_table_json[table_1]" value="">
 
                             {{-- Add Table Button --}}
                             <button type="button" onclick="addMixingTableToSubab(this)"
@@ -1216,7 +1251,7 @@
             bab22TableUidCounter++;
             const tableUid = `table_${bab22TableUidCounter}`;
             return `
-            <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${tableUid}">
+            <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${tableUid}" onpaste="handleMixingPaste(event, this)">
                 <div class="absolute top-1 right-1 z-20 remove-table-btn">
                     <button type="button" onclick="toggleTableMenu(this)"
                         class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors"
@@ -1239,6 +1274,7 @@
                                 <span class="material-symbols-outlined text-3xl text-green-600 mb-2">table_view</span>
                                 <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Data Mentah (Excel)</p>
                                 <p class="text-xs text-slate-400 dark:text-slate-500">Hanya untuk arsip data</p>
+                                <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste tabel Excel (Ctrl+V)</p>
                             </div>
                             <div class="excel-upload-container">
                                 <input type="file" name="mixing_excel_file[${tableUid}]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
@@ -1253,6 +1289,7 @@
                                 <span class="material-symbols-outlined text-3xl text-red-600 mb-2">image</span>
                                 <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Screenshot Tabel</p>
                                 <p class="text-xs text-slate-400 dark:text-slate-500">Akan ditampilkan di laporan</p>
+                                <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste screenshot (Ctrl+V)</p>
                             </div>
                             <div class="image-upload-container">
                                 <input type="file" name="mixing_image_file[${tableUid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
@@ -1262,17 +1299,261 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70" onclick="focusClipboardField(this)">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa diketik / paste)</p>
+                            <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
+                                Tempel dari Clipboard
+                            </button>
+                        </div>
+                        <textarea rows="3" class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200" placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..." onfocus="setActiveMixingTable(this.closest('.mixing-table-item'))" onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                    </div>
                     <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
                         <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
                         <button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar">
                             <span class="material-symbols-outlined text-[14px] block">close</span>
                         </button>
                     </div>
+                    <div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
+                        <div class="overflow-auto max-h-[420px]">
+                            <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
+                        </div>
+                        <button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste">
+                            <span class="material-symbols-outlined text-[14px] block">close</span>
+                        </button>
+                    </div>
                 </div>
                 <input type="hidden" name="bab22_table_subab_key[${tableUid}]" value="${subabKey}">
                 <input type="hidden" name="existing_mixing_image_file[${tableUid}]" value="">
+                <input type="hidden" name="mixing_pasted_table_json[${tableUid}]" value="">
             </div>`;
         }
+
+        function renderPastedTablePreview(tableItem, rows) {
+            const previewBox = tableItem.querySelector('.pasted-table-preview-box');
+            const previewTable = tableItem.querySelector('.pasted-table-preview-table');
+
+            if (!previewBox || !previewTable || !Array.isArray(rows) || rows.length === 0) return;
+
+            previewTable.innerHTML = '';
+            rows.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                (row || []).forEach(cellValue => {
+                    const cell = document.createElement(rowIndex === 0 ? 'th' : 'td');
+                    cell.className = rowIndex === 0 ?
+                        'px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700' :
+                        'px-3 py-2 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700';
+                    cell.textContent = cellValue || '';
+                    tr.appendChild(cell);
+                });
+                previewTable.appendChild(tr);
+            });
+
+            previewBox.classList.remove('hidden');
+        }
+
+        function focusClipboardField(container) {
+            if (!container) return;
+            const textarea = container.querySelector('.clipboard-input-area');
+            if (textarea) {
+                textarea.focus();
+                setActiveMixingTable(textarea.closest('.mixing-table-item'));
+            }
+        }
+
+        let activeMixingTableItem = null;
+
+        function setActiveMixingTable(tableItem) {
+            if (!tableItem) return;
+            activeMixingTableItem = tableItem;
+        }
+
+        function applyClipboardImageToTable(tableItem, imageFile, textarea = null) {
+            if (!tableItem || !imageFile) return;
+
+            const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
+            if (imageInput && typeof DataTransfer !== 'undefined') {
+                try {
+                    const transfer = new DataTransfer();
+                    transfer.items.add(imageFile);
+                    imageInput.files = transfer.files;
+                    previewImage(imageInput);
+                    if (textarea) textarea.value = '[Screenshot berhasil ditempel]';
+                    return;
+                } catch (error) {
+                    // fallback to direct preview below
+                }
+            }
+
+            const previewBox = tableItem.querySelector('.image-preview-box');
+            const img = previewBox ? previewBox.querySelector('img') : null;
+            const gridContainer = tableItem.querySelector('.mixing-upload-grid');
+
+            if (img && previewBox && gridContainer) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    gridContainer.classList.add('hidden');
+                    previewBox.classList.remove('hidden');
+                };
+                reader.readAsDataURL(imageFile);
+            }
+
+            if (textarea) textarea.value = '[Screenshot berhasil ditempel]';
+        }
+
+        async function triggerClipboardPaste(button) {
+            const tableItem = button.closest('.mixing-table-item');
+            if (!tableItem) return;
+
+            const textarea = tableItem.querySelector('.clipboard-input-area');
+            if (!textarea) return;
+
+            textarea.focus();
+
+            if (!navigator.clipboard) {
+                alert('Browser tidak mengizinkan baca clipboard langsung. Silakan tekan Ctrl+V di area clipboard.');
+                return;
+            }
+
+            try {
+                if (navigator.clipboard.read) {
+                    const clipboardItems = await navigator.clipboard.read();
+                    for (const clipboardItem of clipboardItems) {
+                        const imageType = clipboardItem.types.find(type => type.startsWith('image/'));
+                        if (!imageType) continue;
+
+                        const imageBlob = await clipboardItem.getType(imageType);
+                        const imageFile = new File([imageBlob], `clipboard.${imageType.split('/')[1] || 'png'}`, {
+                            type: imageType
+                        });
+                        applyClipboardImageToTable(tableItem, imageFile, textarea);
+                        return;
+                    }
+                }
+
+                if (!navigator.clipboard.readText) {
+                    alert('Clipboard API text tidak tersedia. Silakan tekan Ctrl+V di area clipboard.');
+                    return;
+                }
+
+                const clipText = await navigator.clipboard.readText();
+                if (!clipText) {
+                    alert('Clipboard kosong atau tidak berisi teks. Untuk gambar gunakan Ctrl+V.');
+                    return;
+                }
+
+                textarea.value = clipText;
+                processPastedTextToTable(tableItem, clipText);
+            } catch (error) {
+                alert('Gagal membaca clipboard. Silakan izin clipboard atau pakai Ctrl+V langsung.');
+            }
+        }
+
+        function processPastedTextToTable(tableItem, pastedText) {
+            if (!pastedText || !pastedText.includes('\t')) return;
+
+            const rows = pastedText
+                .replace(/\r/g, '')
+                .split('\n')
+                .map(row => row.split('\t').map(cell => cell.trim()))
+                .filter(row => row.some(cell => cell !== ''));
+
+            if (!rows.length) return;
+
+            const tableUid = getTableUidFromItem(tableItem);
+            const hiddenInput = tableUid ? tableItem.querySelector(
+                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
+
+            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
+            renderPastedTablePreview(tableItem, rows);
+        }
+
+        function handleClipboardFieldPaste(event, textarea) {
+            const tableItem = textarea.closest('.mixing-table-item');
+            if (!tableItem) return;
+
+            const clipboardData = event.clipboardData || window.clipboardData;
+            if (!clipboardData) return;
+
+            const items = clipboardData.items || [];
+            for (const item of items) {
+                if (item.type && item.type.startsWith('image/')) {
+                    const imageFile = item.getAsFile();
+                    if (!imageFile) continue;
+
+                    event.preventDefault();
+                    applyClipboardImageToTable(tableItem, imageFile, textarea);
+                    return;
+                }
+            }
+
+            const pastedText = clipboardData.getData('text/plain');
+            if (!pastedText) return;
+
+            textarea.value = pastedText;
+            processPastedTextToTable(tableItem, pastedText);
+        }
+
+        function removePastedTable(button) {
+            const tableItem = button.closest('.mixing-table-item');
+            if (!tableItem) return;
+
+            const previewBox = tableItem.querySelector('.pasted-table-preview-box');
+            const previewTable = tableItem.querySelector('.pasted-table-preview-table');
+            const tableUid = getTableUidFromItem(tableItem);
+            const hiddenInput = tableUid ? tableItem.querySelector(
+                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
+
+            if (previewTable) previewTable.innerHTML = '';
+            if (hiddenInput) hiddenInput.value = '';
+            if (previewBox) previewBox.classList.add('hidden');
+        }
+
+        function handleMixingPaste(event, tableItem) {
+            if (!tableItem) return;
+
+            setActiveMixingTable(tableItem);
+
+            const clipboardData = event.clipboardData || window.clipboardData;
+            if (!clipboardData) return;
+
+            const activeTag = document.activeElement?.tagName?.toLowerCase();
+            if (activeTag === 'input' || activeTag === 'textarea') return;
+
+            const items = clipboardData.items || [];
+            for (const item of items) {
+                if (item.type && item.type.startsWith('image/')) {
+                    const imageFile = item.getAsFile();
+                    if (!imageFile) continue;
+
+                    event.preventDefault();
+                    const textarea = tableItem.querySelector('.clipboard-input-area');
+                    applyClipboardImageToTable(tableItem, imageFile, textarea);
+                    return;
+                }
+            }
+
+            const pastedText = clipboardData.getData('text/plain');
+            if (!pastedText) return;
+
+            const textarea = tableItem.querySelector('.clipboard-input-area');
+            if (textarea) textarea.value = pastedText;
+
+            event.preventDefault();
+            processPastedTextToTable(tableItem, pastedText);
+        }
+
+        document.addEventListener('paste', function(event) {
+            const target = event.target;
+            if (target && target.closest && target.closest('.clipboard-input-area')) return;
+
+            const tableItem = target && target.closest ? target.closest('.mixing-table-item') : null;
+            const scopedTableItem = tableItem || activeMixingTableItem;
+            if (!scopedTableItem) return;
+
+            handleMixingPaste(event, scopedTableItem);
+        });
 
         function previewImage(input) {
             const tableItem = input.closest('.mixing-table-item');
