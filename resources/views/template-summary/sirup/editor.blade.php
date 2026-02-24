@@ -1433,10 +1433,16 @@
             const tableItem = previewBox.closest('.mixing-table-item');
             const gridContainer = tableItem.querySelector('.mixing-upload-grid');
             const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
+            const imageEl = previewBox.querySelector('img');
             const tableUid = getTableUidFromItem(tableItem);
             const existingImageInput = tableUid ?
                 tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`) :
                 null;
+
+            if (imageEl && imageEl.dataset.blobUrl) {
+                URL.revokeObjectURL(imageEl.dataset.blobUrl);
+                delete imageEl.dataset.blobUrl;
+            }
 
             if (imageInput) {
                 imageInput.value = '';
