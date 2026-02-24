@@ -331,6 +331,22 @@
                                             </div>
                                         </div>
 
+                                        <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70"
+                                            onclick="focusClipboardField(this)">
+                                            <div class="flex items-center justify-between gap-2 mb-2">
+                                                <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa
+                                                    diketik / paste)</p>
+                                                <button type="button" onclick="triggerClipboardPaste(this)"
+                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
+                                                    Tempel dari Clipboard
+                                                </button>
+                                            </div>
+                                            <textarea rows="3"
+                                                class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200"
+                                                placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..."
+                                                onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                                        </div>
+
                                         {{-- Full Width Preview Container (Hidden by default) --}}
                                         <div
                                             class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
@@ -1281,6 +1297,15 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70" onclick="focusClipboardField(this)">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa diketik / paste)</p>
+                            <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
+                                Tempel dari Clipboard
+                            </button>
+                        </div>
+                        <textarea rows="3" class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200" placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..." onpaste="handleClipboardFieldPaste(event, this)"></textarea>
                     </div>
                     <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
                         <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
