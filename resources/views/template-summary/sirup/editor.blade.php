@@ -20,17 +20,17 @@
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
                             <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
-                                data-sync="nama_produk" placeholder="Anakonidin 500 mg">
+                                data-sync="nama_produk" placeholder="Anakonidin OBH 30 ml">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
                                 data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">) DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="2">
+                                placeholder="1">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
-                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
+                                data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
+                                placeholder="Production (Pharmaceutical II) Gedung B">
                         </p>
                     </div>
 
@@ -695,7 +695,10 @@
         }
 
         function handleClipboardFieldPaste(event, textarea) {
-            const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+            const clipboardData = event.clipboardData || event.originalEvent.clipboardData || window.clipboardData;
+            if (!clipboardData) return;
+
+            const items = clipboardData.items || [];
             let foundImage = false;
 
             for (let index in items) {
@@ -703,26 +706,79 @@
                 if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
                     // Logika Handle Paste Gambar
                     const blob = item.getAsFile();
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const tableItem = textarea.closest('.mixing-table-item');
-                        const previewBox = tableItem.querySelector('.image-preview-box');
-                        const img = previewBox.querySelector('img');
-                        img.src = e.target.result;
-                        previewBox.classList.remove('hidden');
-                        tableItem.querySelector('.mixing-upload-grid').classList.add('hidden');
-                    };
-                    reader.readAsDataURL(blob);
-                    foundImage = true;
+                    if (!blob) continue;
+
                     event.preventDefault();
+                    foundImage = true;
+
+                    const tableItem = textarea.closest('.mixing-table-item');
+                    if (!tableItem) break;
+
+                    // Isi input[type="file"] via DataTransfer agar gambar ikut ter-submit saat export
+                    const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
+                    if (imageInput) {
+                        try {
+                            const transfer = new DataTransfer();
+                            transfer.items.add(blob);
+                            imageInput.files = transfer.files;
+                            // previewImage akan menampilkan gambar DAN menyembunyikan upload-grid
+                            previewImage(imageInput);
+                        } catch (e) {
+                            // Fallback: tampilkan preview via FileReader jika DataTransfer gagal
+                            const reader = new FileReader();
+                            reader.onload = function(ev) {
+                                const previewBox = tableItem.querySelector('.image-preview-box');
+                                const img = previewBox ? previewBox.querySelector('img') : null;
+                                const grid = tableItem.querySelector('.mixing-upload-grid');
+                                if (img && previewBox) {
+                                    img.src = ev.target.result;
+                                    previewBox.classList.remove('hidden');
+                                }
+                                if (grid) grid.classList.add('hidden');
+                            };
+                            reader.readAsDataURL(blob);
+                        }
+                    } else {
+                        // Tidak ada file input, tampilkan preview saja
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            const previewBox = tableItem.querySelector('.image-preview-box');
+                            const img = previewBox ? previewBox.querySelector('img') : null;
+                            const grid = tableItem.querySelector('.mixing-upload-grid');
+                            if (img && previewBox) {
+                                img.src = ev.target.result;
+                                previewBox.classList.remove('hidden');
+                            }
+                            if (grid) grid.classList.add('hidden');
+                        };
+                        reader.readAsDataURL(blob);
+                    }
+                    break;
                 }
             }
 
-            // Jika bukan gambar, biarkan handleExcelPaste atau default yang bekerja
+            // Jika bukan gambar, cek apakah ada data tabel Excel (tab-separated)
             if (!foundImage) {
-                const text = (event.clipboardData || window.clipboardData).getData('text');
-                if (text.includes('\t')) { // Indikasi data Excel
-                    // Panggil logika parse tabel di sini jika perlu
+                const text = clipboardData.getData('text/plain') || clipboardData.getData('text');
+                if (text && text.includes('\t')) {
+                    // Ada data tabel dari Excel — proses sebagai tabel yang di-paste
+                    const tableItem = textarea.closest('.mixing-table-item');
+                    if (tableItem) {
+                        event.preventDefault();
+                        const rows = text
+                            .replace(/\r/g, '')
+                            .split('\n')
+                            .map(row => row.split('\t').map(cell => cell.trim()))
+                            .filter(row => row.some(cell => cell !== ''));
+
+                        if (rows.length) {
+                            const tableUid = getTableUidFromItem(tableItem);
+                            const hiddenInput = tableUid ? tableItem.querySelector(
+                                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
+                            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
+                            renderPastedTablePreview(tableItem, rows);
+                        }
+                    }
                 }
             }
         }
