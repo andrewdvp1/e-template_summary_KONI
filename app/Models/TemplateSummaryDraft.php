@@ -18,4 +18,3 @@ class TemplateSummaryDraft extends Model
         'last_saved_at' => 'datetime',
     ];
 }
-

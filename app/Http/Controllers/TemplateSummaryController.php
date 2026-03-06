@@ -26,19 +26,9 @@ class TemplateSummaryController extends Controller
             ->latest('updated_at')
             ->limit(10)
             ->get();
-        
-<<<<<<< HEAD
-        $kapsulDrafts =  TemplateSummaryDraft::query()
-            ->where('draft_type', 'kapsul')
-=======
-            ->Where('draft_type', 'tablet')
-            ->latest('updated_at')
-            ->limit(10)
-            ->get();
 
         $kapsulDrafts = TemplateSummaryDraft::query()
-            ->Where('draft_type', 'kapsul')
->>>>>>> 6125087b80bb040888bf644f5721b881639f562e
+            ->where('draft_type', 'kapsul')
             ->latest('updated_at')
             ->limit(10)
             ->get();
@@ -645,14 +635,14 @@ class TemplateSummaryController extends Controller
         $fields = $state['form_values'] ?? [];
         if (!is_array($fields)) {
             return 'Draft Sirup';
-        }
+        } 
 
         $product = trim((string) ($fields['judul_nama_produk'] ?? ''));
         $formula = trim((string) ($fields['judul_formula'] ?? ''));
         $line = trim((string) ($fields['judul_line'] ?? ''));
         $bagian = trim((string) ($fields['judul_bagian'] ?? ($fields['tujuan_bagian'] ?? '')));
 
-        $product = $product !== '' ? $product : 'Paramex';
+        $product = $product !== '' ? $product : '';
         $line = $line !== '' ? $line : '2';
         $bagian = $bagian !== '' ? $bagian : 'Production (Pharmaceutical II) Gedung B';
 

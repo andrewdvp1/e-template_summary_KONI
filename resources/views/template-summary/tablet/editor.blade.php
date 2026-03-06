@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{ route('template-summary.tablet.export') }}" method="POST" id="tabletTemplateForm"
+    <form action="{{ route('template-summary.kapsul.export') }}" method="POST" id="kapsulTemplateForm"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="draft_id" id="draft_id" value="{{ $draft->id ?? '' }}">
@@ -20,7 +20,7 @@
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
                             <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
-                                data-sync="nama_produk" placeholder="Paramex 500 mg Tablet">
+                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
@@ -29,8 +29,8 @@
                                 placeholder="2">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Natpro"
-                                placeholder="Natpro">
+                                data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
+                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
                         </p>
                     </div>
 
@@ -92,14 +92,14 @@
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
                                 produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Paramex 500 mg Tablet">
+                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
                                     data-sync="line" placeholder="2">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Natpro"
-                                    placeholder="Natpro">
+                                    data-sync="bagian" value="Produksi Farmasi I Line Soft Capsule Gedung A"
+                                    placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
                                 yang diproduksi dengan
                                 <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
@@ -107,8 +107,8 @@
                                     placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
                                 dalam menghasilkan produk
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Paramex 500 mg Tablet">
-                                dalam kemasan tablet yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
+                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
+                                dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
                                 dan Spesifikasi Kemasan yang berlaku.
                             </p>
                         </div>
@@ -127,11 +127,11 @@
                                 <input type="text" name="batch_besaran" class="template-input w-20"
                                     placeholder="600 L">
                                 =
-                                <input type="text" name="batch_jumlah_tablet" class="template-input w-24"
+                                <input type="text" name="batch_jumlah_botol" class="template-input w-24"
                                     placeholder="20.000">
-                                tablet @
-                                <input type="text" name="batch_volume_per_tablet" class="template-input w-16"
-                                    value="" placeholder="20 mg">,
+                                botol @
+                                <input type="text" name="batch_volume_per_botol" class="template-input w-16"
+                                    value="" placeholder="30 ml">,
                                 yaitu
                                 <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
                                     data-sync="batch" placeholder="A26A01, A26A02, A26A03">:
@@ -401,7 +401,7 @@
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Paramex 500 mg Tablet">,
+                                    placeholder="KONILIFE OMEGA 3 500 mg">,
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-48" data-sync="batch"
@@ -459,10 +459,10 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
-                                Atribut yang diuji pada tahap filling-capping produk suspensi ke dalam kemasan tablet (<input
+                                Atribut yang diuji pada tahap filling-capping produk suspensi ke dalam kemasan botol (<input
                                     type="text" name="kesimpulan_filling_atribut" class="template-input w-full"
-                                    value = "bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran tablet, volume terpindahkan"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran tablet, volume terpindahkan">)
+                                    value = "bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan"
+                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan">)
                                 sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
                                     value="" placeholder="memenuhi">
@@ -488,7 +488,7 @@
                                 pengolahan dan pengemasan produk
                                 <input type="text" name="kesimpulan_final_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Paramex 500 mg Tablet">
+                                    placeholder="KONILIFE OMEGA 3 500 mg">
                                 menggunakan
                                 <input type="text" name="kesimpulan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
@@ -693,7 +693,7 @@
         function collectFormValues() {
             const values = {};
             document.querySelectorAll(
-                    '#tabletTemplateForm input[name]:not([type="file"]), #tabletTemplateForm textarea[name], #tabletTemplateForm select[name]'
+                    '#kapsulTemplateForm input[name]:not([type="file"]), #kapsulTemplateForm textarea[name], #kapsulTemplateForm select[name]'
                 )
                 .forEach(input => {
                     if (input.name === 'draft_id' || input.name === '_token') {
@@ -757,7 +757,7 @@
         function collectDraftState() {
             const disabledFieldNames = [];
             document.querySelectorAll(
-                    '#tabletTemplateForm input[name], #tabletTemplateForm textarea[name], #tabletTemplateForm select[name]')
+                    '#kapsulTemplateForm input[name], #kapsulTemplateForm textarea[name], #kapsulTemplateForm select[name]')
                 .forEach(field => {
                     if (field.disabled) {
                         disabledFieldNames.push(field.name);
@@ -946,17 +946,17 @@
             setSaveDraftLoading(true);
 
             try {
-                const form = document.getElementById('tabletTemplateForm');
+                const form = document.getElementById('kapsulTemplateForm');
                 const formData = new FormData(form);
                 formData.delete('_token');
                 formData.append('_token', CSRF_TOKEN);
                 const state = collectDraftState();
 
-                const product = (state.form_values.judul_nama_produk || '').trim() || 'Paramex';
+                const product = (state.form_values.judul_nama_produk || '').trim() || 'Konilife';
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
-                    'Production (Pharmaceutical II) Gedung B';
+                    'Produksi Farmasi I Line Soft Capsule Gedung A';
                 const formulaSegment = formula ? ` (${formula})` : '';
                 const titleFallback =
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;
@@ -1107,7 +1107,7 @@
         // ===========================================
 
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
-        const SAVE_DRAFT_URL = "{{ route('template-summary.tablet.draft', [], false) }}";
+        const SAVE_DRAFT_URL = "{{ route('template-summary.kapsul.draft', [], false) }}";
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INITIAL_DRAFT_STATE = @json($initialDraftState ?? null);
 
