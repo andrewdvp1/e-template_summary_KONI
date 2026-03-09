@@ -376,6 +376,7 @@
                             <input type="hidden" name="bab22_table_subab_key[table_1]" value="mixing">
                             <input type="hidden" name="existing_mixing_image_file[table_1]" value="">
                             <input type="hidden" name="mixing_pasted_table_json[table_1]" value="">
+                            <input type="hidden" name="mixing_image_base64[table_1]" value="">
 
                             {{-- Add Table Button --}}
                             <button type="button" onclick="addMixingTableToSubab(this)"
@@ -694,6 +695,63 @@
             }
         }
 
+        async function triggerClipboardPaste(button) {
+            // Minta akses clipboard dari browser
+            if (!navigator.clipboard || !navigator.clipboard.read) {
+                alert('Browser Anda tidak mendukung akses clipboard otomatis. Silakan gunakan Ctrl+V langsung di area textarea.');
+                return;
+            }
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                const tableItem = button.closest('.mixing-table-item');
+                if (!tableItem) return;
+
+                for (const clipboardItem of clipboardItems) {
+                    // Cek apakah ada gambar di clipboard
+                    for (const type of clipboardItem.types) {
+                        if (type.startsWith('image/')) {
+                            const blob = await clipboardItem.getType(type);
+                            const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
+                            if (imageInput) {
+                                const transfer = new DataTransfer();
+                                transfer.items.add(new File([blob], 'pasted-image.png', { type: blob.type }));
+                                imageInput.files = transfer.files;
+                                previewImage(imageInput);
+                            }
+                            return;
+                        }
+                    }
+                    // Cek apakah ada teks/tabel di clipboard
+                    for (const type of clipboardItem.types) {
+                        if (type === 'text/plain') {
+                            const blob = await clipboardItem.getType(type);
+                            const text = await blob.text();
+                            if (text && text.includes('\t')) {
+                                const rows = text
+                                    .replace(/\r/g, '')
+                                    .split('\n')
+                                    .map(row => row.split('\t').map(cell => cell.trim()))
+                                    .filter(row => row.some(cell => cell !== ''));
+                                if (rows.length) {
+                                    const tableUid = getTableUidFromItem(tableItem);
+                                    const hiddenInput = tableUid ? tableItem.querySelector(
+                                        `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
+                                    if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
+                                    renderPastedTablePreview(tableItem, rows);
+                                }
+                            }
+                            return;
+                        }
+                    }
+                }
+            } catch (err) {
+                // Fallback: fokuskan textarea agar user bisa paste manual
+                const textarea = button.closest('.mt-4')?.querySelector('.clipboard-input-area');
+                if (textarea) textarea.focus();
+                alert('Tidak bisa membaca clipboard otomatis. Silakan klik area teks di bawah tombol ini lalu tekan Ctrl+V.');
+            }
+        }
+
         function handleClipboardFieldPaste(event, textarea) {
             const clipboardData = event.clipboardData || event.originalEvent.clipboardData || window.clipboardData;
             if (!clipboardData) return;
@@ -910,15 +968,24 @@
                     return;
                 }
 
+                // Prioritas 1: gambar dari existing (sudah di-upload ke server via Save Draft)
                 const existingImageInput = tableItem.querySelector(
                     `input[name="existing_mixing_image_file[${tableUid}]"]`);
                 if (existingImageInput && existingImageInput.value) {
-                    const previewImage = tableItem.querySelector('.image-preview-box img');
+                    const previewImageEl = tableItem.querySelector('.image-preview-box img');
                     storedFiles.mixing_image_file[tableUid] = {
                         path: existingImageInput.value,
-                        url: previewImage ? previewImage.src : '',
+                        url: previewImageEl ? previewImageEl.src : '',
                         name: '',
                     };
+                }
+
+                // Prioritas 2: gambar yang di-paste (base64, belum pernah di-save draft)
+                const base64Input = tableItem.querySelector(
+                    `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
+                if (base64Input && base64Input.value) {
+                    storedFiles.mixing_image_base64 = storedFiles.mixing_image_base64 || {};
+                    storedFiles.mixing_image_base64[tableUid] = base64Input.value;
                 }
             });
 
@@ -1029,6 +1096,8 @@
             document.querySelectorAll('#bab22_dynamic_subab_container .bab22-subab').forEach(attachBab22DragEvents);
 
             const storedFiles = state.stored_files || {};
+
+            // Restore gambar yang sudah di-upload ke server (existing)
             const storedImages = storedFiles.mixing_image_file || {};
             Object.entries(storedImages).forEach(([tableUid, imageMeta]) => {
                 const mapInput = document.querySelector(
@@ -1036,6 +1105,30 @@
                 if (mapInput) {
                     applyStoredImageToTable(mapInput.closest('.mixing-table-item'), imageMeta);
                 }
+            });
+
+            // Restore gambar base64 yang di-paste (belum pernah di-save ke server)
+            const storedBase64Images = storedFiles.mixing_image_base64 || {};
+            Object.entries(storedBase64Images).forEach(([tableUid, base64]) => {
+                if (!base64) return;
+                const mapInput = document.querySelector(
+                    `input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`);
+                if (!mapInput) return;
+                const tableItem = mapInput.closest('.mixing-table-item');
+                if (!tableItem) return;
+
+                const previewBox = tableItem.querySelector('.image-preview-box');
+                const gridContainer = tableItem.querySelector('.mixing-upload-grid');
+                const img = previewBox ? previewBox.querySelector('img') : null;
+                const base64Input = tableItem.querySelector(
+                    `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
+
+                if (img && previewBox) {
+                    img.src = base64;
+                    previewBox.classList.remove('hidden');
+                }
+                if (gridContainer) gridContainer.classList.add('hidden');
+                if (base64Input) base64Input.value = base64;
             });
 
             const counters = state.counters || {};
@@ -1416,6 +1509,7 @@
                 <input type="hidden" name="bab22_table_subab_key[${tableUid}]" value="${subabKey}">
                 <input type="hidden" name="existing_mixing_image_file[${tableUid}]" value="">
                 <input type="hidden" name="mixing_pasted_table_json[${tableUid}]" value="">
+                <input type="hidden" name="mixing_image_base64[${tableUid}]" value="">
             </div>`;
         }
 
@@ -1511,9 +1605,18 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    img.src = e.target.result;
+                    const base64 = e.target.result;
+                    img.src = base64;
                     gridContainer.classList.add('hidden');
                     previewBox.classList.remove('hidden');
+
+                    // Simpan base64 ke hidden input agar ikut ter-submit saat export
+                    const tableUid = getTableUidFromItem(tableItem);
+                    if (tableUid) {
+                        const base64Input = tableItem.querySelector(
+                            `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
+                        if (base64Input) base64Input.value = base64;
+                    }
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -1529,18 +1632,20 @@
             const existingImageInput = tableUid ?
                 tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`) :
                 null;
+            const base64Input = tableUid ?
+                tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`) :
+                null;
 
             if (imageEl && imageEl.dataset.blobUrl) {
                 URL.revokeObjectURL(imageEl.dataset.blobUrl);
                 delete imageEl.dataset.blobUrl;
             }
 
-            if (imageInput) {
-                imageInput.value = '';
-            }
-            if (existingImageInput) {
-                existingImageInput.value = '';
-            }
+            if (imageInput) imageInput.value = '';
+            if (existingImageInput) existingImageInput.value = '';
+            if (base64Input) base64Input.value = '';
+            if (imageEl) imageEl.src = '';
+
             previewBox.classList.add('hidden');
             gridContainer.classList.remove('hidden');
         }
@@ -1938,6 +2043,61 @@
                 const firstInput = document.querySelector(`.sync-input[data-sync="${syncKey}"]`);
                 if (firstInput && firstInput.value) {
                     syncLinkedFields(syncKey, firstInput.value);
+                }
+            });
+
+            // ===========================================
+            // FORM SUBMIT: Pastikan semua base64 & tabel
+            // ter-serialize ke hidden input sebelum export
+            // ===========================================
+            const sirupForm = document.getElementById('sirupTemplateForm');
+            if (sirupForm) {
+                sirupForm.addEventListener('submit', function() {
+                    // Pastikan setiap mixing-table-item sudah punya base64 di hidden input
+                    document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
+                        const tableUid = getTableUidFromItem(tableItem);
+                        if (!tableUid) return;
+
+                        // Sync base64 dari img.src ke hidden input (jaga-jaga jika belum ter-set)
+                        const previewBox = tableItem.querySelector('.image-preview-box');
+                        const img = previewBox ? previewBox.querySelector('img') : null;
+                        const base64Input = tableItem.querySelector(
+                            `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
+
+                        if (img && img.src && img.src.startsWith('data:image') && base64Input && !base64Input.value) {
+                            base64Input.value = img.src;
+                        }
+                    });
+                });
+            }
+
+            // Restore pasted table previews dari hidden input (setelah export/page load)
+            document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
+                const tableUid = getTableUidFromItem(tableItem);
+                if (!tableUid) return;
+
+                // Restore pasted table JSON preview
+                const pastedTableInput = tableItem.querySelector(
+                    `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`);
+                if (pastedTableInput && pastedTableInput.value) {
+                    try {
+                        const rows = JSON.parse(pastedTableInput.value);
+                        if (Array.isArray(rows) && rows.length) renderPastedTablePreview(tableItem, rows);
+                    } catch (e) { /* abaikan parse error */ }
+                }
+
+                // Restore base64 image preview (gambar yang di-paste, belum di-save ke server)
+                const base64Input = tableItem.querySelector(
+                    `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
+                if (base64Input && base64Input.value && base64Input.value.startsWith('data:image')) {
+                    const previewBox = tableItem.querySelector('.image-preview-box');
+                    const gridContainer = tableItem.querySelector('.mixing-upload-grid');
+                    const img = previewBox ? previewBox.querySelector('img') : null;
+                    if (img && previewBox) {
+                        img.src = base64Input.value;
+                        previewBox.classList.remove('hidden');
+                    }
+                    if (gridContainer) gridContainer.classList.add('hidden');
                 }
             });
         });

@@ -31,60 +31,63 @@
 
                     {{-- Template Type Selection --}}
                     <div class="flex flex-col gap-3">
-                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pilih
-                            Jenis Template</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pilih Jenis Template</p>
 
-                        <a href="{{ route('template-summary.sirup') }}"
-                            class="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900/10 transition-all group">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="flex items-center justify-center w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600">
-                                    <span class="material-symbols-outlined text-[20px]">water_drop</span>
+                        {{-- Native HTML Accordion --}}
+                        <details class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                            {{-- Tombol Utama (Summary) --}}
+                            <summary class="flex items-center justify-between p-4 cursor-pointer list-none hover:bg-slate-50 dark:hover:bg-slate-900/20 transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600">
+                                        <span class="material-symbols-outlined text-[28px]">factory</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-slate-900 dark:text-white">Production I A</h3>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Klik untuk melihat daftar sediaan</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="font-semibold text-slate-900 dark:text-white">Sirup</p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Template untuk produk sirup</p>
+                                {{-- Icon Panah Otomatis Berputar --}}
+                                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300 group-open:rotate-180">
+                                    expand_more
+                                </span>
+                            </summary>
+
+                            {{-- Isi Menu (Sub-menu) --}}
+                            <div class="p-4 pt-0 flex flex-col gap-2">
+                                <div class="pl-4 border-l-2 border-red-100 dark:border-red-900/30 flex flex-col gap-2 mt-2">
+                                    
+                                    {{-- Item: Sirup --}}
+                                    <a href="{{ route('template-summary.sirup') }}"
+                                        class="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-900/10 hover:border-amber-200 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-amber-600 text-[20px]">water_drop</span>
+                                            <p class="font-semibold text-slate-700 dark:text-slate-300">Sirup</p>
+                                        </div>
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">arrow_forward</span>
+                                    </a>
+
+                                    {{-- Item: Tablet --}}
+                                    <a href="{{ route('template-summary.tablet') }}"
+                                        class="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/10 hover:border-blue-200 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-blue-600 text-[20px]">medication</span>
+                                            <p class="font-semibold text-slate-700 dark:text-slate-300">Tablet</p>
+                                        </div>
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">arrow_forward</span>
+                                    </a>
+
+                                    {{-- Item: Kapsul --}}
+                                    <a href="{{ route('template-summary.kapsul') }}"
+                                        class="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-700 hover:bg-green-50 dark:hover:bg-green-900/10 hover:border-green-200 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-green-600 text-[20px]">blender</span>
+                                            <p class="font-semibold text-slate-700 dark:text-slate-300">Kapsul</p>
+                                        </div>
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">arrow_forward</span>
+                                    </a>
                                 </div>
                             </div>
-                            <span
-                                class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 transition-colors">arrow_forward</span>
-                        </a>
-
-                        <a href="{{ route('template-summary.tablet') }}"
-                            class="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900/10 transition-all group">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600">
-                                    <span class="material-symbols-outlined text-[20px]">medication</span>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-slate-900 dark:text-white">Tablet</p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Template untuk produk tablet</p>
-                                </div>
-                            </div>
-                            <span
-                                class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 transition-colors">arrow_forward</span>
-                        </a>
-
-                        <a href="{{ route('template-summary.kapsul') }}"
-                            class="flex items-center justify-between p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900/10 transition-all group">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600">
-                                    <span class="material-symbols-outlined text-[20px]">blender</span>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-slate-900 dark:text-white">Kapsul</p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Template untuk produk kapsul</p>
-                                </div>
-                            </div>
-                            <span
-                                class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 transition-colors">arrow_forward</span>
-<<<<<<< HEAD
-                        </a>                        
-=======
-                        </a>
->>>>>>> 6125087b80bb040888bf644f5721b881639f562e
+                        </details>
                     </div>
                 </div>
             </div>
