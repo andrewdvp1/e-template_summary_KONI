@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TemplateSummaryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [TemplateSummaryController::class, 'index'])->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Settings Routes
 Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
