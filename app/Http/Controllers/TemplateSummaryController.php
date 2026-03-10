@@ -15,20 +15,7 @@ class TemplateSummaryController extends Controller
      */
     public function index()
     {
-        $sirupDrafts = TemplateSummaryDraft::query()
-            ->where('draft_type', 'sirup')
-            ->latest('updated_at')
-            ->limit(10)
-            ->get();
-
-        $tabletDrafts = TemplateSummaryDraft::query()
-            ->where('draft_type', 'tablet')
-            ->latest('updated_at')
-            ->limit(10)
-            ->get();
-
-        $kapsulDrafts = TemplateSummaryDraft::query()
-            ->where('draft_type', 'kapsul')
+        $recentDrafts = TemplateSummaryDraft::query()
             ->latest('updated_at')
             ->limit(10)
             ->get();
@@ -38,9 +25,7 @@ class TemplateSummaryController extends Controller
                 'Summary' => null,
                 'Buat Baru' => route('template-summary.index'),
             ],
-            'sirupDrafts' => $sirupDrafts,
-            'tabletDrafts' => $tabletDrafts,
-            'kapsulDrafts' => $kapsulDrafts,
+            'recentDrafts' => $recentDrafts,
         ]);
     }
 
