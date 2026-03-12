@@ -91,7 +91,7 @@
                             </div>
                         </details>
                     </div>
-                    <br>
+                    
                     <div class="flex flex-col gap-3">
                         {{-- Native HTML Accordion --}}
                         <details class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
@@ -169,17 +169,14 @@
                                     
                                     if($draft->draft_type === 'sirup') {
                                         $icon = 'water_drop';
-                                        $iconColor = 'text-amber-500';
                                         $bgColor = 'bg-amber-50 dark:bg-amber-900/10';
                                         $borderColor = 'border-amber-200 dark:border-amber-900/30';
                                     } elseif($draft->draft_type === 'tablet') {
                                         $icon = 'medication';
-                                        $iconColor = 'text-blue-500';
                                         $bgColor = 'bg-blue-50 dark:bg-blue-900/10';
                                         $borderColor = 'border-blue-200 dark:border-blue-900/30';
                                     } elseif($draft->draft_type === 'kapsul') {
                                         $icon = 'blender';
-                                        $iconColor = 'text-green-500';
                                         $bgColor = 'bg-green-50 dark:bg-green-900/10';
                                         $borderColor = 'border-green-200 dark:border-green-900/30';
                                     }
