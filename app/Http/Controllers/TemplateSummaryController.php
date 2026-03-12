@@ -15,7 +15,24 @@ class TemplateSummaryController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $recentDrafts = TemplateSummaryDraft::query()
+=======
+        $sirupDrafts = TemplateSummaryDraft::query()
+            ->where('draft_type', 'sirup')
+            ->latest('updated_at')
+            ->limit(10)
+            ->get();
+
+        $tabletDrafts = TemplateSummaryDraft::query()
+            ->where('draft_type', 'tablet')
+            ->latest('updated_at')
+            ->limit(10)
+            ->get();
+
+        $kapsulDrafts = TemplateSummaryDraft::query()
+            ->where('draft_type', 'kapsul')
+>>>>>>> e6c8bbad1e89ef5a48fbfec9717d87942eace0ab
             ->latest('updated_at')
             ->limit(10)
             ->get();

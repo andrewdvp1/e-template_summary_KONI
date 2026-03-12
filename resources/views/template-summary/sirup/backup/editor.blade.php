@@ -26,11 +26,11 @@
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
                                 data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">) DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="1">
+                                placeholder="2">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
-                                placeholder="Production (Pharmaceutical II) Gedung B">
+                                data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
+                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
                         </p>
                     </div>
 
@@ -251,8 +251,7 @@
                             <div class="mixing-tables-container flex flex-col gap-4">
                                 {{-- Initial Table (Table 1) --}}
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative"
-                                    data-table-index="0" data-table-uid="table_1"
-                                    onpaste="handleMixingPaste(event, this)">
+                                    data-table-index="0" data-table-uid="table_1">
                                     {{-- Three Dot Menu --}}
                                     <div class="absolute top-1 right-1 z-20 remove-table-btn">
                                         <button type="button" onclick="toggleTableMenu(this)"
@@ -285,8 +284,6 @@
                                                         Mentah (Excel)</p>
                                                     <p class="text-xs text-slate-400 dark:text-slate-500">Hanya untuk arsip
                                                         data</p>
-                                                    <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste
-                                                        tabel Excel (Ctrl+V)</p>
                                                 </div>
 
                                                 {{-- File Input Wrapper --}}
@@ -314,8 +311,6 @@
                                                         Screenshot Tabel</p>
                                                     <p class="text-xs text-slate-400 dark:text-slate-500">Akan ditampilkan
                                                         di laporan</p>
-                                                    <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste
-                                                        screenshot (Ctrl+V)</p>
                                                 </div>
 
                                                 {{-- Image Input Wrapper --}}
@@ -331,22 +326,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70"
-                                            onclick="focusClipboardField(this)">
-                                            <div class="flex items-center justify-between gap-2 mb-2">
-                                                <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa
-                                                    diketik / paste)</p>
-                                                <button type="button" onclick="triggerClipboardPaste(this)"
-                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
-                                                    Tempel dari Clipboard
-                                                </button>
-                                            </div>
-                                            <textarea rows="3"
-                                                class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200"
-                                                placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..."
-                                                onpaste="handleClipboardFieldPaste(event, this)"></textarea>
-                                        </div>
-
                                         {{-- Full Width Preview Container (Hidden by default) --}}
                                         <div
                                             class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
@@ -358,25 +337,11 @@
                                                 <span class="material-symbols-outlined text-[14px] block">close</span>
                                             </button>
                                         </div>
-
-                                        <div
-                                            class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
-                                            <div class="overflow-auto max-h-[420px]">
-                                                <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
-                                            </div>
-                                            <button type="button" onclick="removePastedTable(this)"
-                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
-                                                title="Hapus Tabel Paste">
-                                                <span class="material-symbols-outlined text-[14px] block">close</span>
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <input type="hidden" name="bab22_table_subab_key[table_1]" value="mixing">
                             <input type="hidden" name="existing_mixing_image_file[table_1]" value="">
-                            <input type="hidden" name="mixing_pasted_table_json[table_1]" value="">
-                            <input type="hidden" name="mixing_image_base64[table_1]" value="">
 
                             {{-- Add Table Button --}}
                             <button type="button" onclick="addMixingTableToSubab(this)"
@@ -628,51 +593,56 @@
         const tableData = {};
 
         function handleExcelPaste(event, tableId) {
-            // Jangan hentikan default jika Anda ingin teks tetap muncul di textarea sebentar
-            // Namun untuk parsing Excel, kita butuh data clipboard-nya
-            const clipboardData = event.clipboardData || window.clipboardData;
-            const pastedData = clipboardData.getData('text');
+            event.preventDefault();
 
-            if (!pastedData || !pastedData.trim()) {
+            // Get pasted data
+            const pastedData = (event.clipboardData || window.clipboardData).getData('text');
+
+            if (!pastedData.trim()) {
                 return;
             }
 
-            event.preventDefault(); // Hentikan paste teks mentah ke textarea jika data valid
+            // Parse tab-separated values
+            const rows = pastedData.trim().split('\n').map(row => row.split('\t'));
 
-            // Parse tab-separated values (Excel format)
-            const rows = pastedData.trim().split(/\r?\n/).map(row => row.split('\t'));
-
-            if (rows.length === 0) return;
-
-            // Simpan ke hidden input
-            tableData[tableId] = rows;
-            const hiddenInput = document.getElementById('hidden_data_' + tableId);
-            if (hiddenInput) {
-                hiddenInput.value = JSON.stringify(rows);
+            if (rows.length === 0) {
+                return;
             }
 
-            // Update UI Preview
+            // Store data
+            tableData[tableId] = rows;
+            document.getElementById('hidden_data_' + tableId).value = JSON.stringify(rows);
+
+            // Build table preview
             const tbody = document.getElementById('table_body_' + tableId);
-            if (tbody) {
-                tbody.innerHTML = '';
-                rows.forEach((row, index) => {
-                    const tr = document.createElement('tr');
-                    tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50';
-                    
-                    // Ambil maksimal 4 kolom sesuai header
-                    for (let i = 0; i < 4; i++) {
-                        const td = document.createElement('td');
-                        td.className = 'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700';
-                        td.textContent = row[i] || '';
-                        tr.appendChild(td);
-                    }
-                    tbody.appendChild(tr);
+            tbody.innerHTML = '';
+
+            rows.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50';
+
+                // Ensure we have 4 columns
+                while (row.length < 4) {
+                    row.push('');
+                }
+
+                row.slice(0, 4).forEach(cell => {
+                    const td = document.createElement('td');
+                    td.className =
+                        'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700';
+                    td.textContent = cell.trim();
+                    tr.appendChild(td);
                 });
 
-                // Toggle visibility
-                document.getElementById('paste_instructions_' + tableId).classList.add('hidden');
-                document.getElementById('table_preview_' + tableId).classList.remove('hidden');
-            }
+                tbody.appendChild(tr);
+            });
+
+            // Show table preview, hide paste area
+            document.getElementById('paste_instructions_' + tableId).classList.add('hidden');
+            document.getElementById('table_preview_' + tableId).classList.remove('hidden');
+
+            // Clear textarea
+            document.getElementById('excel_paste_' + tableId).value = '';
         }
 
         function clearExcelTable(tableId) {
@@ -686,159 +656,6 @@
             // Show paste area, hide table preview
             document.getElementById('paste_instructions_' + tableId).classList.remove('hidden');
             document.getElementById('table_preview_' + tableId).classList.add('hidden');
-        }
-
-        function focusClipboardField(container) {
-            const textarea = container.querySelector('.clipboard-input-area');
-            if (textarea) {
-                textarea.focus();
-            }
-        }
-
-        async function triggerClipboardPaste(button) {
-            // Minta akses clipboard dari browser
-            if (!navigator.clipboard || !navigator.clipboard.read) {
-                alert('Browser Anda tidak mendukung akses clipboard otomatis. Silakan gunakan Ctrl+V langsung di area textarea.');
-                return;
-            }
-            try {
-                const clipboardItems = await navigator.clipboard.read();
-                const tableItem = button.closest('.mixing-table-item');
-                if (!tableItem) return;
-
-                for (const clipboardItem of clipboardItems) {
-                    // Cek apakah ada gambar di clipboard
-                    for (const type of clipboardItem.types) {
-                        if (type.startsWith('image/')) {
-                            const blob = await clipboardItem.getType(type);
-                            const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
-                            if (imageInput) {
-                                const transfer = new DataTransfer();
-                                transfer.items.add(new File([blob], 'pasted-image.png', { type: blob.type }));
-                                imageInput.files = transfer.files;
-                                previewImage(imageInput);
-                            }
-                            return;
-                        }
-                    }
-                    // Cek apakah ada teks/tabel di clipboard
-                    for (const type of clipboardItem.types) {
-                        if (type === 'text/plain') {
-                            const blob = await clipboardItem.getType(type);
-                            const text = await blob.text();
-                            if (text && text.includes('\t')) {
-                                const rows = text
-                                    .replace(/\r/g, '')
-                                    .split('\n')
-                                    .map(row => row.split('\t').map(cell => cell.trim()))
-                                    .filter(row => row.some(cell => cell !== ''));
-                                if (rows.length) {
-                                    const tableUid = getTableUidFromItem(tableItem);
-                                    const hiddenInput = tableUid ? tableItem.querySelector(
-                                        `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-                                    if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
-                                    renderPastedTablePreview(tableItem, rows);
-                                }
-                            }
-                            return;
-                        }
-                    }
-                }
-            } catch (err) {
-                // Fallback: fokuskan textarea agar user bisa paste manual
-                const textarea = button.closest('.mt-4')?.querySelector('.clipboard-input-area');
-                if (textarea) textarea.focus();
-                alert('Tidak bisa membaca clipboard otomatis. Silakan klik area teks di bawah tombol ini lalu tekan Ctrl+V.');
-            }
-        }
-
-        function handleClipboardFieldPaste(event, textarea) {
-            const clipboardData = event.clipboardData || event.originalEvent.clipboardData || window.clipboardData;
-            if (!clipboardData) return;
-
-            const items = clipboardData.items || [];
-            let foundImage = false;
-
-            for (let index in items) {
-                const item = items[index];
-                if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
-                    // Logika Handle Paste Gambar
-                    const blob = item.getAsFile();
-                    if (!blob) continue;
-
-                    event.preventDefault();
-                    foundImage = true;
-
-                    const tableItem = textarea.closest('.mixing-table-item');
-                    if (!tableItem) break;
-
-                    // Isi input[type="file"] via DataTransfer agar gambar ikut ter-submit saat export
-                    const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
-                    if (imageInput) {
-                        try {
-                            const transfer = new DataTransfer();
-                            transfer.items.add(blob);
-                            imageInput.files = transfer.files;
-                            // previewImage akan menampilkan gambar DAN menyembunyikan upload-grid
-                            previewImage(imageInput);
-                        } catch (e) {
-                            // Fallback: tampilkan preview via FileReader jika DataTransfer gagal
-                            const reader = new FileReader();
-                            reader.onload = function(ev) {
-                                const previewBox = tableItem.querySelector('.image-preview-box');
-                                const img = previewBox ? previewBox.querySelector('img') : null;
-                                const grid = tableItem.querySelector('.mixing-upload-grid');
-                                if (img && previewBox) {
-                                    img.src = ev.target.result;
-                                    previewBox.classList.remove('hidden');
-                                }
-                                if (grid) grid.classList.add('hidden');
-                            };
-                            reader.readAsDataURL(blob);
-                        }
-                    } else {
-                        // Tidak ada file input, tampilkan preview saja
-                        const reader = new FileReader();
-                        reader.onload = function(ev) {
-                            const previewBox = tableItem.querySelector('.image-preview-box');
-                            const img = previewBox ? previewBox.querySelector('img') : null;
-                            const grid = tableItem.querySelector('.mixing-upload-grid');
-                            if (img && previewBox) {
-                                img.src = ev.target.result;
-                                previewBox.classList.remove('hidden');
-                            }
-                            if (grid) grid.classList.add('hidden');
-                        };
-                        reader.readAsDataURL(blob);
-                    }
-                    break;
-                }
-            }
-
-            // Jika bukan gambar, cek apakah ada data tabel Excel (tab-separated)
-            if (!foundImage) {
-                const text = clipboardData.getData('text/plain') || clipboardData.getData('text');
-                if (text && text.includes('\t')) {
-                    // Ada data tabel dari Excel — proses sebagai tabel yang di-paste
-                    const tableItem = textarea.closest('.mixing-table-item');
-                    if (tableItem) {
-                        event.preventDefault();
-                        const rows = text
-                            .replace(/\r/g, '')
-                            .split('\n')
-                            .map(row => row.split('\t').map(cell => cell.trim()))
-                            .filter(row => row.some(cell => cell !== ''));
-
-                        if (rows.length) {
-                            const tableUid = getTableUidFromItem(tableItem);
-                            const hiddenInput = tableUid ? tableItem.querySelector(
-                                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-                            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
-                            renderPastedTablePreview(tableItem, rows);
-                        }
-                    }
-                }
-            }
         }
 
         function escapeNameForSelector(name) {
@@ -968,24 +785,15 @@
                     return;
                 }
 
-                // Prioritas 1: gambar dari existing (sudah di-upload ke server via Save Draft)
                 const existingImageInput = tableItem.querySelector(
                     `input[name="existing_mixing_image_file[${tableUid}]"]`);
                 if (existingImageInput && existingImageInput.value) {
-                    const previewImageEl = tableItem.querySelector('.image-preview-box img');
+                    const previewImage = tableItem.querySelector('.image-preview-box img');
                     storedFiles.mixing_image_file[tableUid] = {
                         path: existingImageInput.value,
-                        url: previewImageEl ? previewImageEl.src : '',
+                        url: previewImage ? previewImage.src : '',
                         name: '',
                     };
-                }
-
-                // Prioritas 2: gambar yang di-paste (base64, belum pernah di-save draft)
-                const base64Input = tableItem.querySelector(
-                    `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
-                if (base64Input && base64Input.value) {
-                    storedFiles.mixing_image_base64 = storedFiles.mixing_image_base64 || {};
-                    storedFiles.mixing_image_base64[tableUid] = base64Input.value;
                 }
             });
 
@@ -1096,8 +904,6 @@
             document.querySelectorAll('#bab22_dynamic_subab_container .bab22-subab').forEach(attachBab22DragEvents);
 
             const storedFiles = state.stored_files || {};
-
-            // Restore gambar yang sudah di-upload ke server (existing)
             const storedImages = storedFiles.mixing_image_file || {};
             Object.entries(storedImages).forEach(([tableUid, imageMeta]) => {
                 const mapInput = document.querySelector(
@@ -1105,30 +911,6 @@
                 if (mapInput) {
                     applyStoredImageToTable(mapInput.closest('.mixing-table-item'), imageMeta);
                 }
-            });
-
-            // Restore gambar base64 yang di-paste (belum pernah di-save ke server)
-            const storedBase64Images = storedFiles.mixing_image_base64 || {};
-            Object.entries(storedBase64Images).forEach(([tableUid, base64]) => {
-                if (!base64) return;
-                const mapInput = document.querySelector(
-                    `input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`);
-                if (!mapInput) return;
-                const tableItem = mapInput.closest('.mixing-table-item');
-                if (!tableItem) return;
-
-                const previewBox = tableItem.querySelector('.image-preview-box');
-                const gridContainer = tableItem.querySelector('.mixing-upload-grid');
-                const img = previewBox ? previewBox.querySelector('img') : null;
-                const base64Input = tableItem.querySelector(
-                    `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
-
-                if (img && previewBox) {
-                    img.src = base64;
-                    previewBox.classList.remove('hidden');
-                }
-                if (gridContainer) gridContainer.classList.add('hidden');
-                if (base64Input) base64Input.value = base64;
             });
 
             const counters = state.counters || {};
@@ -1218,21 +1000,9 @@
                     }
                 }
 
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: result.message || 'Draft berhasil disimpan.',
-                    icon: 'success',
-                    position: 'center',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+                alert(result.message || 'Draft berhasil disimpan.');
             } catch (error) {
-                Swal.fire({
-                    title: 'Gagal!',
-                    text: error.message || 'Gagal menyimpan draft.',
-                    icon: 'error',
-                    position: 'center'
-                });
+                alert(error.message || 'Gagal menyimpan draft.');
             } finally {
                 setSaveDraftLoading(false);
             }
@@ -1446,7 +1216,7 @@
             bab22TableUidCounter++;
             const tableUid = `table_${bab22TableUidCounter}`;
             return `
-            <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${tableUid}" onpaste="handleMixingPaste(event, this)">
+            <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${tableUid}">
                 <div class="absolute top-1 right-1 z-20 remove-table-btn">
                     <button type="button" onclick="toggleTableMenu(this)"
                         class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors"
@@ -1469,7 +1239,6 @@
                                 <span class="material-symbols-outlined text-3xl text-green-600 mb-2">table_view</span>
                                 <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Data Mentah (Excel)</p>
                                 <p class="text-xs text-slate-400 dark:text-slate-500">Hanya untuk arsip data</p>
-                                <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste tabel Excel (Ctrl+V)</p>
                             </div>
                             <div class="excel-upload-container">
                                 <input type="file" name="mixing_excel_file[${tableUid}]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
@@ -1484,7 +1253,6 @@
                                 <span class="material-symbols-outlined text-3xl text-red-600 mb-2">image</span>
                                 <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Screenshot Tabel</p>
                                 <p class="text-xs text-slate-400 dark:text-slate-500">Akan ditampilkan di laporan</p>
-                                <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste screenshot (Ctrl+V)</p>
                             </div>
                             <div class="image-upload-container">
                                 <input type="file" name="mixing_image_file[${tableUid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
@@ -1494,118 +1262,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70" onclick="focusClipboardField(this)">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa diketik / paste)</p>
-                            <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
-                                Tempel dari Clipboard
-                            </button>
-                        </div>
-                        <textarea rows="3" class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200" placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..." onpaste="handleClipboardFieldPaste(event, this)"></textarea>
-                    </div>
                     <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
                         <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
                         <button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar">
                             <span class="material-symbols-outlined text-[14px] block">close</span>
                         </button>
                     </div>
-                    <div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
-                        <div class="overflow-auto max-h-[420px]">
-                            <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
-                        </div>
-                        <button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste">
-                            <span class="material-symbols-outlined text-[14px] block">close</span>
-                        </button>
-                    </div>
                 </div>
                 <input type="hidden" name="bab22_table_subab_key[${tableUid}]" value="${subabKey}">
                 <input type="hidden" name="existing_mixing_image_file[${tableUid}]" value="">
-                <input type="hidden" name="mixing_pasted_table_json[${tableUid}]" value="">
-                <input type="hidden" name="mixing_image_base64[${tableUid}]" value="">
             </div>`;
-        }
-
-        function renderPastedTablePreview(tableItem, rows) {
-            const previewBox = tableItem.querySelector('.pasted-table-preview-box');
-            const previewTable = tableItem.querySelector('.pasted-table-preview-table');
-
-            if (!previewBox || !previewTable || !Array.isArray(rows) || rows.length === 0) return;
-
-            previewTable.innerHTML = '';
-            rows.forEach((row, rowIndex) => {
-                const tr = document.createElement('tr');
-                (row || []).forEach(cellValue => {
-                    const cell = document.createElement(rowIndex === 0 ? 'th' : 'td');
-                    cell.className = rowIndex === 0 ?
-                        'px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700' :
-                        'px-3 py-2 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700';
-                    cell.textContent = cellValue || '';
-                    tr.appendChild(cell);
-                });
-                previewTable.appendChild(tr);
-            });
-
-            previewBox.classList.remove('hidden');
-        }
-
-        function removePastedTable(button) {
-            const tableItem = button.closest('.mixing-table-item');
-            if (!tableItem) return;
-
-            const previewBox = tableItem.querySelector('.pasted-table-preview-box');
-            const previewTable = tableItem.querySelector('.pasted-table-preview-table');
-            const tableUid = getTableUidFromItem(tableItem);
-            const hiddenInput = tableUid ? tableItem.querySelector(
-                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-
-            if (previewTable) previewTable.innerHTML = '';
-            if (hiddenInput) hiddenInput.value = '';
-            if (previewBox) previewBox.classList.add('hidden');
-        }
-
-        function handleMixingPaste(event, tableItem) {
-            if (!tableItem) return;
-
-            const clipboardData = event.clipboardData || window.clipboardData;
-            if (!clipboardData) return;
-
-            const activeTag = document.activeElement?.tagName?.toLowerCase();
-            if (activeTag === 'input' || activeTag === 'textarea') return;
-
-            const items = clipboardData.items || [];
-            for (const item of items) {
-                if (item.type && item.type.startsWith('image/')) {
-                    const imageFile = item.getAsFile();
-                    if (!imageFile) continue;
-
-                    event.preventDefault();
-                    const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
-                    const transfer = new DataTransfer();
-                    transfer.items.add(imageFile);
-                    imageInput.files = transfer.files;
-                    previewImage(imageInput);
-                    return;
-                }
-            }
-
-            const pastedText = clipboardData.getData('text/plain');
-            if (!pastedText || !pastedText.includes('\t')) return;
-
-            event.preventDefault();
-            const rows = pastedText
-                .replace(/\r/g, '')
-                .split('\n')
-                .map(row => row.split('\t').map(cell => cell.trim()))
-                .filter(row => row.some(cell => cell !== ''));
-
-            if (!rows.length) return;
-
-            const tableUid = getTableUidFromItem(tableItem);
-            const hiddenInput = tableUid ? tableItem.querySelector(
-                `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
-
-            if (hiddenInput) hiddenInput.value = JSON.stringify(rows);
-            renderPastedTablePreview(tableItem, rows);
         }
 
         function previewImage(input) {
@@ -1617,18 +1283,9 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const base64 = e.target.result;
-                    img.src = base64;
+                    img.src = e.target.result;
                     gridContainer.classList.add('hidden');
                     previewBox.classList.remove('hidden');
-
-                    // Simpan base64 ke hidden input agar ikut ter-submit saat export
-                    const tableUid = getTableUidFromItem(tableItem);
-                    if (tableUid) {
-                        const base64Input = tableItem.querySelector(
-                            `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
-                        if (base64Input) base64Input.value = base64;
-                    }
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -1639,25 +1296,17 @@
             const tableItem = previewBox.closest('.mixing-table-item');
             const gridContainer = tableItem.querySelector('.mixing-upload-grid');
             const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
-            const imageEl = previewBox.querySelector('img');
             const tableUid = getTableUidFromItem(tableItem);
             const existingImageInput = tableUid ?
                 tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`) :
                 null;
-            const base64Input = tableUid ?
-                tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`) :
-                null;
 
-            if (imageEl && imageEl.dataset.blobUrl) {
-                URL.revokeObjectURL(imageEl.dataset.blobUrl);
-                delete imageEl.dataset.blobUrl;
+            if (imageInput) {
+                imageInput.value = '';
             }
-
-            if (imageInput) imageInput.value = '';
-            if (existingImageInput) existingImageInput.value = '';
-            if (base64Input) base64Input.value = '';
-            if (imageEl) imageEl.src = '';
-
+            if (existingImageInput) {
+                existingImageInput.value = '';
+            }
             previewBox.classList.add('hidden');
             gridContainer.classList.remove('hidden');
         }
@@ -2055,61 +1704,6 @@
                 const firstInput = document.querySelector(`.sync-input[data-sync="${syncKey}"]`);
                 if (firstInput && firstInput.value) {
                     syncLinkedFields(syncKey, firstInput.value);
-                }
-            });
-
-            // ===========================================
-            // FORM SUBMIT: Pastikan semua base64 & tabel
-            // ter-serialize ke hidden input sebelum export
-            // ===========================================
-            const sirupForm = document.getElementById('sirupTemplateForm');
-            if (sirupForm) {
-                sirupForm.addEventListener('submit', function() {
-                    // Pastikan setiap mixing-table-item sudah punya base64 di hidden input
-                    document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
-                        const tableUid = getTableUidFromItem(tableItem);
-                        if (!tableUid) return;
-
-                        // Sync base64 dari img.src ke hidden input (jaga-jaga jika belum ter-set)
-                        const previewBox = tableItem.querySelector('.image-preview-box');
-                        const img = previewBox ? previewBox.querySelector('img') : null;
-                        const base64Input = tableItem.querySelector(
-                            `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
-
-                        if (img && img.src && img.src.startsWith('data:image') && base64Input && !base64Input.value) {
-                            base64Input.value = img.src;
-                        }
-                    });
-                });
-            }
-
-            // Restore pasted table previews dari hidden input (setelah export/page load)
-            document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
-                const tableUid = getTableUidFromItem(tableItem);
-                if (!tableUid) return;
-
-                // Restore pasted table JSON preview
-                const pastedTableInput = tableItem.querySelector(
-                    `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`);
-                if (pastedTableInput && pastedTableInput.value) {
-                    try {
-                        const rows = JSON.parse(pastedTableInput.value);
-                        if (Array.isArray(rows) && rows.length) renderPastedTablePreview(tableItem, rows);
-                    } catch (e) { /* abaikan parse error */ }
-                }
-
-                // Restore base64 image preview (gambar yang di-paste, belum di-save ke server)
-                const base64Input = tableItem.querySelector(
-                    `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
-                if (base64Input && base64Input.value && base64Input.value.startsWith('data:image')) {
-                    const previewBox = tableItem.querySelector('.image-preview-box');
-                    const gridContainer = tableItem.querySelector('.mixing-upload-grid');
-                    const img = previewBox ? previewBox.querySelector('img') : null;
-                    if (img && previewBox) {
-                        img.src = base64Input.value;
-                        previewBox.classList.remove('hidden');
-                    }
-                    if (gridContainer) gridContainer.classList.add('hidden');
                 }
             });
         });

@@ -9,14 +9,14 @@ use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\ComplexType\TblWidth;
 use PhpOffice\PhpWord\IOFactory;
 
-class SirupExportService
+class TabletExportService
 {
     protected PhpWord $phpWord;
     protected Section $section;
     protected array $data;
 
     /**
-     * Export the Sirup template to Word document
+     * Export the Tablet template to Word document
      */
     public function export(array $data)
     {
@@ -119,9 +119,9 @@ class SirupExportService
         $this->section->addTextBreak(1);
 
         // Build title from form data - convert to uppercase
-        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'ANAKONIDIN OBH 30 ML');
+        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Paramex 500mg');
         $line = strtoupper($this->data['judul_line'] ?? '2');
-        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production (Pharmaceutical II) Gedung B');
+        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Natpro');
 
         $formula = $this->data['judul_formula'] ?? '';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
@@ -177,9 +177,9 @@ class SirupExportService
         $textRun11->addText('  Tujuan', ['size' => 11]);
 
         // Build tujuan text from form data
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 30 ml';
-        $line = $this->data['judul_line'] ?? '2';
-        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production (Pharmaceutical II) Gedung B';
+        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Paramex 500mg';
+        $line = $this->data['judul_line'] ?? '1';
+        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Natpro';
         $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
 
         $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .
@@ -480,7 +480,7 @@ class SirupExportService
         if (in_array('4', $enabledSections)) {
             $fillingAtribut = $this->data['kesimpulan_filling_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan';
             $fillingHasil = $this->data['kesimpulan_filling_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
+            $text = "Atribut yang diuji pada tahap filling-capping produk tablet ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
@@ -661,6 +661,7 @@ class SirupExportService
         $cell2->addTextBreak(2);
         $cell2->addText('Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+
         $cell3 = $footerTable->addCell($col3, [
             'borderSize' => 6,
             'borderLeftSize' => 0,
@@ -681,7 +682,7 @@ class SirupExportService
      */
     protected function saveAndDownload()
     {
-        $namaProduk = $this->data['judul_nama_produk'] ?? 'Sirup';
+        $namaProduk = $this->data['judul_nama_produk'] ?? 'Tablet';
         $fileName = 'Summary_Validasi_' . str_replace(' ', '_', $namaProduk) . '_' . date('Y-m-d') . '.docx';
 
         $tempFile = tempnam(sys_get_temp_dir(), 'PHPWord');
