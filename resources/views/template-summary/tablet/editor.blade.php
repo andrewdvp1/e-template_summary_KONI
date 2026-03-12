@@ -1000,9 +1000,21 @@
                     }
                 }
 
-                alert(result.message || 'Draft berhasil disimpan.');
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: result.message || 'Draft berhasil disimpan.',
+                    icon: 'success',
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             } catch (error) {
-                alert(error.message || 'Gagal menyimpan draft.');
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: error.message || 'Gagal menyimpan draft.',
+                    icon: 'error',
+                    position: 'center'
+                });
             } finally {
                 setSaveDraftLoading(false);
             }
