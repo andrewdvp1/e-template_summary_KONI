@@ -661,7 +661,6 @@ class SirupExportService
         $cell2->addTextBreak(2);
         $cell2->addText('Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-
         $cell3 = $footerTable->addCell($col3, [
             'borderSize' => 6,
             'borderLeftSize' => 0,
