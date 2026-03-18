@@ -120,7 +120,7 @@ class HeltiskinExportService
 
         // Build title from form data - convert to uppercase
         $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Heltiskin Cream');
-        $line = strtoupper($this->data['judul_line'] ?? '2');
+        $line = strtoupper($this->data['judul_line'] ?? '6');
         $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production Pharma III Gedung B');
 
         $formula = $this->data['judul_formula'] ?? '';
