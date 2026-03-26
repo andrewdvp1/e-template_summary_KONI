@@ -38,6 +38,7 @@ class TemplateSummaryController extends Controller
             ->where('draft_type', 'sirup')
             ->orWhere('draft_type', 'tablet')
             ->orWhere('draft_type', 'kapsul')
+            ->orWhere('draft_type', 'heltiskin')
             ->latest('updated_at')
             ->get();
 
@@ -55,7 +56,10 @@ class TemplateSummaryController extends Controller
      */
     public function deleteDraft(TemplateSummaryDraft $draft): JsonResponse
     {
-        if ($draft->draft_type !== 'sirup' && $draft->draft_type !== 'tablet' && $draft->draft_type !== 'kapsul') {
+        if ($draft->draft_type !== 'sirup' && $draft->draft_type 
+        !== 'tablet' && $draft->draft_type 
+        !== 'kapsul' && $draft->draft_type 
+        !== 'heltiskin') {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -82,6 +86,8 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.tablet', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'kapsul') {
             return redirect()->route('template-summary.kapsul', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'heltiskin') {
+            return redirect()->route('template-summary.heltiskin', ['draft' => $draft->id]);
         }
 
         abort(404, 'Draft tidak ditemukan.');
@@ -571,7 +577,7 @@ class TemplateSummaryController extends Controller
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'kapsul',
+                'draft_type' => 'heltiskin',
                 'title' => $this->resolveDraftTitle($decodedState),
                 'payload' => [],
                 'last_saved_at' => now(),
@@ -635,7 +641,7 @@ class TemplateSummaryController extends Controller
             'success' => true,
             'draft_id' => $draft->id,
             'message' => 'Draft berhasil disimpan.',
-            'redirect_url' => route('template-summary.kapsul', ['draft' => $draft->id]),
+            'redirect_url' => route('template-summary.heltiskin', ['draft' => $draft->id]),
             'stored_files' => $decodedState['stored_files'],
             'saved_at' => now()->format('Y-m-d H:i:s'),
         ]);
