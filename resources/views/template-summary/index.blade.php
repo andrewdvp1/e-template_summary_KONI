@@ -147,6 +147,11 @@
                                         $iconColor = 'text-green-600';
                                         $bgColor = 'bg-green-50 dark:bg-green-900/10';
                                         $borderColor = 'border-green-200 dark:border-green-900/30';
+                                    } elseif($draft->draft_type === 'heltiskin') {
+                                        $icon = 'spa';
+                                        $iconColor = 'text-pink-600';
+                                        $bgColor = 'bg-pink-50 dark:bg-pink-900/10';
+                                        $borderColor = 'border-pink-200 dark:border-pink-900/30';
                                     }
                                 @endphp
                                 <a href="{{ $route }}"
