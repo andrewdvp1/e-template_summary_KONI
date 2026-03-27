@@ -56,10 +56,10 @@ class TemplateSummaryController extends Controller
      */
     public function deleteDraft(TemplateSummaryDraft $draft): JsonResponse
     {
-        if ($draft->draft_type !== 'sirup' && $draft->draft_type 
-        !== 'tablet' && $draft->draft_type 
-        !== 'kapsul' && $draft->draft_type 
-        !== 'heltiskin') {
+        if ($draft->draft_type !== 'sirup' && 
+        $draft->draft_type !== 'tablet' && 
+        $draft->draft_type !== 'kapsul' && 
+        $draft->draft_type !== 'heltiskin') {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
