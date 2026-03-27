@@ -2085,6 +2085,7 @@
             const sirupForm = document.getElementById('sirupTemplateForm');
             if (sirupForm) {
                 sirupForm.addEventListener('submit', function() {
+                    showExportModal();
                     // Pastikan setiap mixing-table-item sudah punya base64 di hidden input
                     document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
                         const tableUid = getTableUidFromItem(tableItem);
@@ -2133,5 +2134,47 @@
                 }
             });
         });
+        function showExportModal() {
+            // Generate a unique token and inject it into the form
+            const token = 'exp_' + Date.now();
+            let tokenInput = document.getElementById('export_token_input');
+            if (!tokenInput) {
+                tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = 'export_token';
+                tokenInput.id = 'export_token_input';
+                document.getElementById('sirupTemplateForm').appendChild(tokenInput);
+            }
+            tokenInput.value = token;
+
+            // Clear any old cookie
+            document.cookie = 'export_done=; Max-Age=0; path=/';
+
+            document.getElementById('exportLoadingModal').classList.remove('hidden');
+
+            // Poll for the cookie the server sets when download is ready
+            const poll = setInterval(function () {
+                if (document.cookie.split(';').some(c => c.trim().startsWith('export_done=' + token))) {
+                    clearInterval(poll);
+                    document.cookie = 'export_done=; Max-Age=0; path=/';
+                    document.getElementById('exportLoadingModal').classList.add('hidden');
+                }
+            }, 500);
+        }
     </script>
+
+    {{-- Export Loading Modal --}}
+    <div id="exportLoadingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
+            <div class="w-16 h-16 rounded-full border-4 border-slate-600 border-t-red-500 animate-spin"></div>
+            <div class="text-center">
+                <p class="text-white font-bold text-lg">Memproses Export</p>
+                <p class="text-slate-400 text-sm mt-1">Mohon tunggu, dokumen sedang dibuat...</p>
+            </div>
+            <div class="w-full flex items-center gap-3 bg-slate-700/60 rounded-xl px-4 py-3">
+                <span class="material-symbols-outlined text-red-400 text-[22px]">description</span>
+                <span class="text-slate-300 text-sm">Menghasilkan dokumen Word</span>
+            </div>
+        </div>
+    </div>
 @endsection

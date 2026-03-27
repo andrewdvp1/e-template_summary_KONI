@@ -690,7 +690,13 @@ class SirupExportService
 
         $tempFile = tempnam(sys_get_temp_dir(), 'PHPWord');
         $objWriter = IOFactory::createWriter($this->phpWord, 'Word2007');
+
+        $token = request()->input('export_token', '');
         $objWriter->save($tempFile);
+
+        if ($token) {
+            setcookie('export_done', $token, ['expires' => time() + 60, 'path' => '/', 'httponly' => false, 'samesite' => 'Lax']);
+        }
 
         return response()->download($tempFile, $fileName, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

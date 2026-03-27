@@ -125,6 +125,39 @@
             </div>
         @endif
     </div>
+    {{-- Delete Confirmation Modal --}}
+    <div id="deleteModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200"
+        onclick="if(event.target===this) closeDeleteModal()">
+        <div id="deleteModalContent"
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 transform scale-95 transition-transform duration-200">
+            <div class="p-6">
+                {{-- Icon --}}
+                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-red-50 dark:bg-red-900/20 mx-auto mb-4">
+                    <span class="material-symbols-outlined text-red-600 text-[32px]">delete_forever</span>
+                </div>
+                {{-- Text --}}
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white text-center mb-2">Hapus Draft?</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 text-center mb-1">Anda akan menghapus draft:</p>
+                <p id="deleteModalTitle" class="text-sm font-semibold text-slate-800 dark:text-slate-200 text-center mb-5 px-4 line-clamp-2"></p>
+                <div class="flex items-start gap-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-xl px-4 py-3 mb-6">
+                    <span class="material-symbols-outlined text-amber-500 text-[20px] shrink-0 mt-0.5">warning</span>
+                    <p class="text-xs text-amber-700 dark:text-amber-400 text-left">Semua data pada draft ini akan <span class="font-semibold">dihapus permanen</span> dan tidak dapat dipulihkan kembali.</p>
+                </div>
+                {{-- Buttons --}}
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeDeleteModal()"
+                        class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="button" id="deleteConfirmBtn"
+                        class="flex-1 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm shadow-sm transition-colors cursor-pointer">
+                        Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -170,30 +203,45 @@
         });
 
         function deleteDraft(draftId, draftTitle) {
-            if (!confirm(`Apakah Anda yakin ingin menghapus draft "${draftTitle}"?`)) {
-                return;
-            }
+            document.getElementById('deleteModalTitle').textContent = draftTitle;
+            document.getElementById('deleteConfirmBtn').onclick = function () {
+                closeDeleteModal();
 
-            fetch(`/template-summary/drafts/${draftId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert('Gagal menghapus draft: ' + (data.message || 'Unknown error'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menghapus draft');
-                });
+                fetch(`/template-summary/drafts/${draftId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        } else {
+                            alert('Gagal menghapus draft: ' + (data.message || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menghapus draft');
+                    });
+            };
+
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            document.getElementById('deleteModalContent').classList.remove('scale-95');
+            document.getElementById('deleteModalContent').classList.add('scale-100');
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            document.getElementById('deleteModalContent').classList.add('scale-95');
+            document.getElementById('deleteModalContent').classList.remove('scale-100');
         }
     </script>
 @endpush
