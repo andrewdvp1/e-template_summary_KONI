@@ -271,81 +271,29 @@
                                         </div>
                                     </div>
 
-                                    {{-- Dual Upload Area --}}
+                                    {{-- Excel / Screenshot Paste Area --}}
                                     <div class="p-6">
-                                        {{-- Grid Container for Uploads --}}
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mixing-upload-grid">
-                                            {{-- COL 1: Excel Data (Visual Only for now) --}}
-                                            <div
-                                                class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-green-400 transition-colors bg-slate-50 dark:bg-slate-900/40">
-                                                <div class="mb-3">
-                                                    <span
-                                                        class="material-symbols-outlined text-3xl text-green-600 mb-2">table_view</span>
-                                                    <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Data
-                                                        Mentah (Excel)</p>
-                                                    <p class="text-xs text-slate-400 dark:text-slate-500">Hanya untuk arsip
-                                                        data</p>
-                                                    <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste
-                                                        tabel Excel (Ctrl+V)</p>
-                                                </div>
-
-                                                {{-- File Input Wrapper --}}
-                                                <div class="excel-upload-container">
-                                                    <input type="file" name="mixing_excel_file[table_1]"
-                                                        accept=".xlsx,.xls,.ods" class="hidden"
-                                                        onchange="updateFileName(this)">
-                                                    <button type="button" onclick="this.previousElementSibling.click()"
-                                                        class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
-                                                        Pilih File Excel
-                                                    </button>
-                                                    <p
-                                                        class="text-xs text-slate-600 dark:text-slate-400 mt-2 font-medium truncate px-4 file-name-display">
-                                                        Belum ada file dipilih</p>
-                                                </div>
-                                            </div>
-
-                                            {{-- COL 2: Table Screenshot (For Report) --}}
-                                            <div
-                                                class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-red-400 transition-colors bg-slate-50 dark:bg-slate-900/40 relative group">
-                                                <div class="mb-3">
-                                                    <span
-                                                        class="material-symbols-outlined text-3xl text-red-600 mb-2">image</span>
-                                                    <p class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                                        Screenshot Tabel</p>
-                                                    <p class="text-xs text-slate-400 dark:text-slate-500">Akan ditampilkan
-                                                        di laporan</p>
-                                                    <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste
-                                                        screenshot (Ctrl+V)</p>
-                                                </div>
-
-                                                {{-- Image Input Wrapper --}}
-                                                <div class="image-upload-container">
-                                                    <input type="file" name="mixing_image_file[table_1]"
-                                                        accept="image/png, image/jpeg, image/jpg" class="hidden"
-                                                        onchange="previewImage(this)">
-                                                    <button type="button" onclick="this.previousElementSibling.click()"
-                                                        class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
-                                                        Pilih Gambar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70"
-                                            onclick="focusClipboardField(this)">
-                                            <div class="flex items-center justify-between gap-2 mb-2">
-                                                <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa
-                                                    diketik / paste)</p>
+                                        {{-- Instructions & Drop Zone --}}
+                                        <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-8 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                                            <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
+                                            <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy data dari Excel atau Screenshot lalu paste di bawah (Ctrl+V)</p>
+                                            <div class="flex justify-center mb-4">
                                                 <button type="button" onclick="triggerClipboardPaste(this)"
-                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
+                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                                    <span class="material-symbols-outlined text-[16px]">content_paste_go</span>
                                                     Tempel dari Clipboard
                                                 </button>
                                             </div>
-                                            <textarea rows="3"
-                                                class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200"
-                                                placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..."
+                                            <textarea rows="4"
+                                                class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono"
+                                                placeholder="Paste screenshot / tabel Excel di sini, atau ketik catatan... (Ctrl+V)"
                                                 onpaste="handleClipboardFieldPaste(event, this)"></textarea>
                                         </div>
+
+                                        {{-- Hidden File Inputs untuk Backward Compatibility / Export --}}
+                                        <input type="file" name="mixing_image_file[table_1]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                                        <input type="file" name="mixing_excel_file[table_1]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
 
                                         {{-- Full Width Preview Container (Hidden by default) --}}
                                         <div
@@ -802,12 +750,12 @@
                         reader.onload = function(ev) {
                             const previewBox = tableItem.querySelector('.image-preview-box');
                             const img = previewBox ? previewBox.querySelector('img') : null;
-                            const grid = tableItem.querySelector('.mixing-upload-grid');
+                            const pasteInstructions = tableItem.querySelector('.paste-instructions');
                             if (img && previewBox) {
                                 img.src = ev.target.result;
                                 previewBox.classList.remove('hidden');
                             }
-                            if (grid) grid.classList.add('hidden');
+                            if (pasteInstructions) pasteInstructions.classList.add('hidden');
                         };
                         reader.readAsDataURL(blob);
                     }
@@ -919,12 +867,12 @@
             }
 
             const previewBox = tableItem.querySelector('.image-preview-box');
-            const gridContainer = tableItem.querySelector('.mixing-upload-grid');
+            const pasteInstructions = tableItem.querySelector('.paste-instructions');
             const img = previewBox ? previewBox.querySelector('img') : null;
-            if (img && previewBox && gridContainer) {
+            if (img && previewBox) {
                 img.src = imageMeta.url;
                 previewBox.classList.remove('hidden');
-                gridContainer.classList.add('hidden');
+                if (pasteInstructions) pasteInstructions.classList.add('hidden');
             }
 
             let hiddenExisting = tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`);
@@ -1483,46 +1431,20 @@
                 </div>
 
                 <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mixing-upload-grid">
-                        <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-green-400 transition-colors bg-slate-50 dark:bg-slate-900/40">
-                            <div class="mb-3">
-                                <span class="material-symbols-outlined text-3xl text-green-600 mb-2">table_view</span>
-                                <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Data Mentah (Excel)</p>
-                                <p class="text-xs text-slate-400 dark:text-slate-500">Hanya untuk arsip data</p>
-                                <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste tabel Excel (Ctrl+V)</p>
-                            </div>
-                            <div class="excel-upload-container">
-                                <input type="file" name="mixing_excel_file[${tableUid}]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
-                                <button type="button" onclick="this.previousElementSibling.click()" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
-                                    Pilih File Excel
-                                </button>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 font-medium truncate px-4 file-name-display">Belum ada file dipilih</p>
-                            </div>
-                        </div>
-                        <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center hover:border-red-400 transition-colors bg-slate-50 dark:bg-slate-900/40 relative group">
-                            <div class="mb-3">
-                                <span class="material-symbols-outlined text-3xl text-red-600 mb-2">image</span>
-                                <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Screenshot Tabel</p>
-                                <p class="text-xs text-slate-400 dark:text-slate-500">Akan ditampilkan di laporan</p>
-                                <p class="text-xs text-blue-500 dark:text-blue-400 mt-1">Bisa paste screenshot (Ctrl+V)</p>
-                            </div>
-                            <div class="image-upload-container">
-                                <input type="file" name="mixing_image_file[${tableUid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
-                                <button type="button" onclick="this.previousElementSibling.click()" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
-                                    Pilih Gambar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 border border-slate-200 dark:border-slate-700 rounded-lg p-3 bg-white dark:bg-slate-800/70" onclick="focusClipboardField(this)">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Area clipboard (bisa diketik / paste)</p>
-                            <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors">
+                    <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-8 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                        <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
+                        <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy data dari Excel atau Screenshot lalu paste di bawah (Ctrl+V)</p>
+                        <div class="flex justify-center mb-4">
+                            <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px]">content_paste_go</span>
                                 Tempel dari Clipboard
                             </button>
                         </div>
-                        <textarea rows="3" class="clipboard-input-area w-full rounded-md border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-sm p-2 text-slate-700 dark:text-slate-200" placeholder="Tempel screenshot / tabel Excel di sini, atau ketik catatan..." onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                        <textarea rows="4" class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono" placeholder="Paste screenshot / tabel Excel di sini, atau ketik catatan... (Ctrl+V)" onpaste="handleClipboardFieldPaste(event, this)"></textarea>
                     </div>
+                    <input type="file" name="mixing_image_file[${tableUid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                    <input type="file" name="mixing_excel_file[${tableUid}]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
                     <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
                         <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
                         <button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar">
@@ -1548,6 +1470,7 @@
         function renderPastedTablePreview(tableItem, rows) {
             const previewBox = tableItem.querySelector('.pasted-table-preview-box');
             const previewTable = tableItem.querySelector('.pasted-table-preview-table');
+            const pasteInstructions = tableItem.querySelector('.paste-instructions');
 
             if (!previewBox || !previewTable || !Array.isArray(rows) || rows.length === 0) return;
 
@@ -1566,6 +1489,7 @@
             });
 
             previewBox.classList.remove('hidden');
+            if (pasteInstructions) pasteInstructions.classList.add('hidden');
         }
 
         function removePastedTable(button) {
@@ -1574,6 +1498,7 @@
 
             const previewBox = tableItem.querySelector('.pasted-table-preview-box');
             const previewTable = tableItem.querySelector('.pasted-table-preview-table');
+            const pasteInstructions = tableItem.querySelector('.paste-instructions');
             const tableUid = getTableUidFromItem(tableItem);
             const hiddenInput = tableUid ? tableItem.querySelector(
                 `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`) : null;
@@ -1581,6 +1506,7 @@
             if (previewTable) previewTable.innerHTML = '';
             if (hiddenInput) hiddenInput.value = '';
             if (previewBox) previewBox.classList.add('hidden');
+            if (pasteInstructions) pasteInstructions.classList.remove('hidden');
         }
 
         function handleMixingPaste(event, tableItem) {
@@ -1630,7 +1556,7 @@
 
         function previewImage(input) {
             const tableItem = input.closest('.mixing-table-item');
-            const gridContainer = tableItem.querySelector('.mixing-upload-grid');
+            const pasteInstructions = tableItem.querySelector('.paste-instructions');
             const previewBox = tableItem.querySelector('.image-preview-box');
             const img = previewBox.querySelector('img');
 
@@ -1639,7 +1565,7 @@
                 reader.onload = function(e) {
                     const base64 = e.target.result;
                     img.src = base64;
-                    gridContainer.classList.add('hidden');
+                    if (pasteInstructions) pasteInstructions.classList.add('hidden');
                     previewBox.classList.remove('hidden');
 
                     // Simpan base64 ke hidden input agar ikut ter-submit saat export
@@ -1657,7 +1583,7 @@
         function removeImage(btn) {
             const previewBox = btn.closest('.image-preview-box');
             const tableItem = previewBox.closest('.mixing-table-item');
-            const gridContainer = tableItem.querySelector('.mixing-upload-grid');
+            const pasteInstructions = tableItem.querySelector('.paste-instructions');
             const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
             const imageEl = previewBox.querySelector('img');
             const tableUid = getTableUidFromItem(tableItem);
@@ -1679,7 +1605,7 @@
             if (imageEl) imageEl.src = '';
 
             previewBox.classList.add('hidden');
-            gridContainer.classList.remove('hidden');
+            if (pasteInstructions) pasteInstructions.classList.remove('hidden');
         }
 
         function addMixingTableToSubab(button) {
