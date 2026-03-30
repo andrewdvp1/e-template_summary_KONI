@@ -89,8 +89,7 @@
                             class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
                                 <span class="font-medium">1.1.1</span> Summary validasi ini bertujuan mendokumentasikan
-                                hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
-                                produk
+                                hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
                                     data-sync="nama_produk" placeholder="Heltiskin Cream">
                                 di Line
@@ -108,8 +107,8 @@
                                 dalam menghasilkan produk
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
                                     data-sync="nama_produk" placeholder="Heltiskin Cream">
-                                dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
-                                dan Spesifikasi Kemasan yang berlaku.
+                                dalam kemasan tube yang memenuhi persyaratan mutu yang tercantum dalam Standar Kualitas Produk
+                                yang berlaku.
                             </p>
                         </div>
                     </div>
@@ -122,19 +121,19 @@
                             <p>
                                 Studi validasi dilakukan terhadap
                                 <input type="text" name="batch_jumlah" class="template-input w-12"
-                                    placeholder="tiga">
+                                    placeholder="satu">
                                 batch produksi dengan besaran batch
                                 <input type="text" name="batch_besaran" class="template-input w-20"
-                                    placeholder="600 L">
+                                    placeholder="100 kg">
                                 =
                                 <input type="text" name="batch_jumlah_botol" class="template-input w-24"
                                     placeholder="20.000">
-                                botol @
+                                tube @
                                 <input type="text" name="batch_volume_per_botol" class="template-input w-16"
-                                    value="" placeholder="30 ml">,
+                                    value="" placeholder="5 gram">,
                                 yaitu
                                 <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="A26A01, A26A02, A26A03">:
+                                    data-sync="batch" placeholder="C24A01">:
                             </p>
                         </div>
 
@@ -219,7 +218,8 @@
                         <div
                             class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
-                                <span class="font-semibold">2.1.</span> Semua tahap dalam penimbangan bahan baku, mixing,
+                                <span class="font-semibold">2.1.</span> Semua tahap dalam 
+                                penimbangan bahan baku, mixing,
                                 dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.
                             </p>
                         </div>
