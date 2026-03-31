@@ -391,7 +391,7 @@
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-48" data-sync="batch"
-                                    placeholder="A26A01, A26A02, A26A03">
+                                    placeholder="C24A01">
                                 yang digunakan sebagai batch validasi proses.
                             </p>
                         </div>
@@ -405,84 +405,31 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
-                                Atribut yang diuji pada tahap mixing (<input type="text"
-                                    name="kesimpulan_mixing_atribut" class="template-input w-115"
-                                    value = "bentuk, warna, aroma, kejernihan, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
-                                    placeholder="bentuk, warna, aroma, kejernihan, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba">)
-                                sudah memberikan hasil yang
+                                Atribut yang diuji pada tahap <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                    value="mixing, dan pengemasan primer (tube)"
+                                    placeholder="mixing, dan pengemasan primer (tube)">
+                                produk sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
                                     value="" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk yang berlaku.
+                                persyaratan menurut Standar Kualitas Produk yang berlaku.
                             </p>
                         </div>
                     </div>
 
-                    {{-- 3.3 Awal Filling-Capping --}}
-                    <div class="kesimpulan-section" data-section-id="3">
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p class="pl-8 -indent-8">
-                                <span
-                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
-                                Atribut yang diuji pada tahap awal filling-capping (<input type="text"
-                                    name="kesimpulan_fillingawal_atribut" class="template-input w-115"
-                                    value="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba">)
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_fillingawal_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk yang berlaku.
-                            </p>
-                        </div>
-                    </div>
 
-                    {{-- 3.4 Filling-Capping --}}
-                    <div class="kesimpulan-section" data-section-id="4">
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p class="pl-8 -indent-8">
-                                <span
-                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
-                                Atribut yang diuji pada tahap filling-capping produk suspensi ke dalam kemasan botol (<input
-                                    type="text" name="kesimpulan_filling_atribut" class="template-input w-full"
-                                    value = "bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan">)
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 3.5 Final Conclusion --}}
+                    {{-- 3.3 Final Conclusion --}}
                     <div class="kesimpulan-section" data-section-id="5">
                         <div
                             class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                             <p class="pl-8 -indent-8">
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.5</span>
-                                Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses
-                                produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
-                                    value="mixing, awal filling-capping, selama filling-capping"
-                                    placeholder="mixing, awal filling-capping, selama filling-capping">
-                                yang memenuhi persyaratan, maka proses
-                                pengolahan dan pengemasan produk
+                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
+                                Proses pengolahan dan pengemasan produk terbukti dapat menghasilkan produk jadi
                                 <input type="text" name="kesimpulan_final_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
                                     placeholder="Heltiskin Cream">
-                                menggunakan
-                                <input type="text" name="kesimpulan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060"
-                                    placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
-                                dengan formula zat aktif
-                                (<input type="text" name="kesimpulan_formula" class="template-input sync-input w-96"
-                                    data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">)
+                                yang memenuhi spesifikasi dalam Standar Kualitas Produk yang berlaku, sehingga
                                 dinyatakan
                                 <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
                                     placeholder="validated">.
