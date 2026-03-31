@@ -305,8 +305,9 @@ class HeltiskinExportService
         ]);
         $textRun21->addText('2.1', ['bold' => false, 'size' => 11]);
         $metode = $this->data['rangkuman_metode'] ?? '';
-        $rangkuman_text = "Semua tahap dalam {$metode} telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.";
-        $textRun21->addText($rangkuman_text, ['size' => 11]);
+        $rangkuman_text = " Semua tahap dalam {$metode} telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.";
+        $textRun21->addText(' ' . $rangkuman_text, ['size' => 11]);
+
         
         // 2.2 Subheading 
         $textRun22 = $this->section->addTextRun([
