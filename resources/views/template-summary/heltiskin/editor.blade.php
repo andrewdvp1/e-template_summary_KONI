@@ -222,8 +222,8 @@
                             
                             <input type="text" name="rangkuman_metode" class="template-input sync-input w-full"
                                     data-sync="rangkuman"
-                                    value="penimbangan bahan baku, mixing, dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan"
-                                    placeholder="penimbangan bahan baku, mixing, dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan">
+                                    value="penimbangan bahan baku, mixing, dan pengemasan primer (tube)"
+                                    placeholder="penimbangan bahan baku, mixing, dan pengemasan primer (tube)">
                             yang berlaku.</p>
                         </div>
                     </div>
