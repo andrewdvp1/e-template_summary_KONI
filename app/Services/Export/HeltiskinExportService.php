@@ -185,8 +185,8 @@ class HeltiskinExportService
         $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .
             "dan reprodusibilitas proses pengolahan produk {$namaProduk} di Line {$line} Bagian {$bagian} yang " .
             "diproduksi dengan {$mesin} " .
-            "dalam menghasilkan produk {$namaProduk} dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk " .
-            "dan Spesifikasi Kemasan yang berlaku.";
+            "dalam menghasilkan produk {$namaProduk} dalam kemasan tube yang memenuhi persyaratan mutu yang tercantum " .
+            "dalam Standar Kualitas yang berlaku.";
 
         $textRun111 = $this->section->addTextRun([
             'alignment' => 'both',
@@ -206,13 +206,13 @@ class HeltiskinExportService
         $textRun12->addText('  Batch Validasi', ['size' => 11]);
 
         // Build batch text from form data
-        $jumlahBatch = $this->data['batch_jumlah'] ?? 'tiga';
-        $besaran = $this->data['batch_besaran'] ?? '600 L';
+        $jumlahBatch = $this->data['batch_jumlah'] ?? 'satu';
+        $besaran = $this->data['batch_besaran'] ?? '100 kg';
         $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '20.000';
-        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '30 ml';
-        $kodeList = $this->data['batch_kode_list'] ?? 'A26A01, A26A02, A26A03';
+        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '5 gram';
+        $kodeList = $this->data['batch_kode_list'] ?? 'C24A01';
 
-        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} = {$jumlahBotol} botol @ {$volumePerBotol}, yaitu {$kodeList} :";
+        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} = {$jumlahBotol} tube @ {$volumePerBotol}, yaitu {$kodeList} :";
 
         $this->section->addText($batchText, [], [
             'alignment' => 'both',
@@ -304,8 +304,10 @@ class HeltiskinExportService
             'contextualSpacing' => true,
         ]);
         $textRun21->addText('2.1', ['bold' => false, 'size' => 11]);
-        $textRun21->addText(' Semua tahap dalam penimbangan bahan baku, mixing, dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
-
+        $metode = $this->data['rangkuman_metode'] ?? '';
+        $rangkuman_text = " Semua tahap dalam {$metode} yang berlaku.";
+        $textRun21->addText($rangkuman_text, ['size' => 11]);
+        
         // 2.2 Subheading 
         $textRun22 = $this->section->addTextRun([
             'alignment' => 'both',
@@ -452,7 +454,7 @@ class HeltiskinExportService
         // Section 1: Produksi
         if (in_array('1', $enabledSections)) {
             $namaProduk = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Heltiskin Cream';
-            $batchCodes = $this->data['kesimpulan_batch_codes'] ?? 'A26A01, A26A02, A26A03';
+            $batchCodes = $this->data['kesimpulan_batch_codes'] ?? 'C24A01';
             $text = "Telah dilakukan proses produksi terhadap produk {$namaProduk}, yakni pada batch {$batchCodes} yang digunakan sebagai batch validasi proses.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;

@@ -218,10 +218,13 @@
                         <div
                             class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
-                                <span class="font-semibold">2.1.</span> Semua tahap dalam 
-                                penimbangan bahan baku, mixing,
-                                dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.
-                            </p>
+                                <span class="font-semibold">2.1.</span> Semua tahap dalam
+                            
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-full"
+                                    data-sync="rangkuman"
+                                    value="penimbangan bahan baku, mixing, dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan"
+                                    placeholder="penimbangan bahan baku, mixing, dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan">
+                            yang berlaku.</p>
                         </div>
                     </div>
 
