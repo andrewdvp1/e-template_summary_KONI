@@ -28,4 +28,7 @@ Route::post('template-summary/kapsul/export', [TemplateSummaryController::class,
 Route::get('template-summary/heltiskin', [TemplateSummaryController::class, 'heltiskinEditor'])->name('template-summary.heltiskin');
 Route::post('template-summary/heltiskin/draft', [TemplateSummaryController::class, 'saveHeltiskinDraft'])->name('template-summary.heltiskin.draft');
 Route::post('template-summary/heltiskin/export', [TemplateSummaryController::class, 'exportHeltiskin'])->name('template-summary.heltiskin.export');
+Route::get('template-summary/konvermex', [TemplateSummaryController::class, 'konvermexEditor'])->name('template-summary.konvermex');
+Route::post('template-summary/konvermex/draft', [TemplateSummaryController::class, 'saveKonvermexDraft'])->name('template-summary.konvermex.draft');
+Route::post('template-summary/konvermex/export', [TemplateSummaryController::class, 'exportKonvermex'])->name('template-summary.konvermex.export');
 Route::get('/template-summary/continue/{draft}', [TemplateSummaryController::class, 'continueDraft'])->name('template-summary.continue');

@@ -39,6 +39,7 @@ class TemplateSummaryController extends Controller
             ->orWhere('draft_type', 'tablet')
             ->orWhere('draft_type', 'kapsul')
             ->orWhere('draft_type', 'heltiskin')
+            ->orwhere('draft_type', 'konvermex')
             ->latest('updated_at')
             ->get();
 
@@ -59,7 +60,8 @@ class TemplateSummaryController extends Controller
         if ($draft->draft_type !== 'sirup' && 
         $draft->draft_type !== 'tablet' && 
         $draft->draft_type !== 'kapsul' && 
-        $draft->draft_type !== 'heltiskin') {
+        $draft->draft_type !== 'heltiskin' &&
+        $draft->draft_type !== 'konvermex') {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -88,6 +90,8 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.kapsul', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'heltiskin') {
             return redirect()->route('template-summary.heltiskin', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'konvermex') {
+            return redirect()->route('template-summary.konvermex', ['draft' => $draft->id]);
         }
 
         abort(404, 'Draft tidak ditemukan.');
@@ -642,6 +646,145 @@ class TemplateSummaryController extends Controller
             'draft_id' => $draft->id,
             'message' => 'Draft berhasil disimpan.',
             'redirect_url' => route('template-summary.heltiskin', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at' => now()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
+    //Konvermex Editor
+    public function konvermexEditor(Request $request)
+    {
+        $draft = null;
+        $from = 'new';
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'konvermex')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = [
+            'Summary' => route('template-summary.index'),
+        ];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Konvermex'] = null;
+
+        return view('template-summary.konvermex.editor', [
+            'title' => 'Template Konvermex',
+            'breadcrumb' => $breadcrumb,
+            'draft' => $draft,
+            'initialDraftState' => $draft?->payload,
+        ]);
+    }
+
+    /**
+     * Export Konvermex template to Word
+     */
+    public function exportKonvermex(Request $request)
+    {
+        // Will be implemented later with KonvermexExportService
+        $exportService = new \App\Services\Export\KonvermexExportService();
+        return $exportService->export($request->all());
+    }
+
+    public function saveKonvermexDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id' => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Format draft_state tidak valid.',
+            ], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'konvermex')
+                ->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type' => 'konvermex',
+                'title' => $this->resolveDraftTitle($decodedState),
+                'payload' => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) {
+            $storedFiles = [];
+        }
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
+            $request,
+            $draft->id,
+            'mixing_image_file',
+            'images'
+        );
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
+            $request,
+            $draft->id,
+            'mixing_excel_file',
+            'excel'
+        );
+
+        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
+        if (!is_array($mergedStoredImages)) {
+            $mergedStoredImages = [];
+        }
+        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
+
+        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
+        if (!is_array($mergedStoredExcel)) {
+            $mergedStoredExcel = [];
+        }
+        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = $decodedState['form_values'] ?? [];
+        if (!is_array($formValues)) {
+            $formValues = [];
+        }
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title' => $this->resolveDraftTitle($decodedState),
+            'payload' => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'draft_id' => $draft->id,
+            'message' => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.konvermex', ['draft' => $draft->id]),
             'stored_files' => $decodedState['stored_files'],
             'saved_at' => now()->format('Y-m-d H:i:s'),
         ]);
