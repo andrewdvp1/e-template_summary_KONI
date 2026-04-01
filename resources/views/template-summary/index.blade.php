@@ -157,6 +157,11 @@
                                         $iconColor = 'text-red-600';
                                         $bgColor = 'bg-magenta-50 dark:bg-magenta-900/10';
                                         $borderColor = 'border-magenta-200 dark:border-magenta-900/30';
+                                    } elseif($draft->draft_type === 'nutracare') {
+                                        $icon = 'health_and_safety';
+                                        $iconColor = 'text-emerald-600';
+                                        $bgColor = 'bg-emerald-50 dark:bg-emerald-900/10';
+                                        $borderColor = 'border-emerald-200 dark:border-emerald-900/30';
                                     }
                                 @endphp
                                 <a href="{{ $route }}"
@@ -274,6 +279,7 @@
             tablet: "{{ route('template-summary.tablet') }}",
             heltiskin: "{{ route('template-summary.heltiskin') }}",
             konvermex: "{{ route('template-summary.konvermex') }}",
+            nutracare: "{{ route('template-summary.nutracare') }}",
         };
 
         // ── Menu Data Config ─────────────────────────────────────────
@@ -283,9 +289,9 @@
                 lines: [
                     {
                         name: 'Line Soft Capsule',
-                        route: 'kapsul',
+                        route: 'kapsul, nutracare',
                         templates: [
-                            { label: 'Template 1', route: 'kapsul' },
+                            { label: 'Template Nutracare EPO 500 Soft Capsule', route: 'nutracare' },
                             { label: 'Template 2', route: 'kapsul' },
                             { label: 'Template 3', route: 'kapsul' },
                         ]
