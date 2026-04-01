@@ -152,6 +152,11 @@
                                         $iconColor = 'text-pink-600';
                                         $bgColor = 'bg-pink-50 dark:bg-pink-900/10';
                                         $borderColor = 'border-pink-200 dark:border-pink-900/30';
+                                    } elseif($draft->draft_type === 'konvermex') {
+                                        $icon = 'science';
+                                        $iconColor = 'text-red-600';
+                                        $bgColor = 'bg-magenta-50 dark:bg-magenta-900/10';
+                                        $borderColor = 'border-magenta-200 dark:border-magenta-900/30';
                                     }
                                 @endphp
                                 <a href="{{ $route }}"
@@ -268,6 +273,7 @@
             kapsul: "{{ route('template-summary.kapsul') }}",
             tablet: "{{ route('template-summary.tablet') }}",
             heltiskin: "{{ route('template-summary.heltiskin') }}",
+            konvermex: "{{ route('template-summary.konvermex') }}",
         };
 
         // ── Menu Data Config ─────────────────────────────────────────
@@ -359,9 +365,9 @@
                     },
                     {
                         name: 'Line 4',
-                        route: 'sirup',
+                        route: 'sirup, konvermex',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
+                            { label: 'Template Konvermex 125 Suspensi', route: 'konvermex' },
                             { label: 'Template 2', route: 'sirup' },
                             { label: 'Template 3', route: 'sirup' },
                         ]
