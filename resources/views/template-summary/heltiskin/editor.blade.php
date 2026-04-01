@@ -222,8 +222,8 @@
                             
                             <input type="text" name="rangkuman_metode" class="template-input sync-input w-full"
                                     data-sync="rangkuman"
-                                    value="penimbangan bahan baku, mixing, dan pengemasan primer (tube)"
-                                    placeholder="penimbangan bahan baku, mixing, dan pengemasan primer (tube)">
+                                    value="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)"
+                                    placeholder="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)">
                             yang berlaku.</p>
                         </div>
                     </div>
@@ -405,9 +405,10 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
-                                Atribut yang diuji pada tahap <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
-                                    value="mixing, dan pengemasan primer (tube)"
-                                    placeholder="mixing, dan pengemasan primer (tube)">
+                                Atribut yang diuji pada tahap 
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                    value="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)"
+                                    placeholder="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)">
                                 produk sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
                                     value="" placeholder="memenuhi">
@@ -418,7 +419,7 @@
 
 
                     {{-- 3.3 Final Conclusion --}}
-                    <div class="kesimpulan-section" data-section-id="5">
+                    <div class="kesimpulan-section" data-section-id="3">
                         <div
                             class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                             <p class="pl-8 -indent-8">

@@ -304,7 +304,7 @@ class HeltiskinExportService
             'contextualSpacing' => true,
         ]);
         $textRun21->addText('2.1', ['bold' => false, 'size' => 11]);
-        $metode = $this->data['rangkuman_metode'] ?? '';
+        $metode = $this->data['rangkuman_metode'] ?? $this->data['kesimpulan_tahap_proses'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
         $rangkuman_text = " Semua tahap dalam {$metode} telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.";
         $textRun21->addText(' ' . $rangkuman_text, ['size' => 11]);
 
@@ -462,45 +462,53 @@ class HeltiskinExportService
         }
 
         // Section 2: Mixing
+        //if (in_array('2', $enabledSections)) {
+            //$mixingAtribut = $this->data['kesimpulan_mixing_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
+            //$mixingHasil = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
+            //$text = "Atribut yang diuji pada tahap ({$mixingAtribut}) produk sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
+            //$this->addKesimpulanItem("3.{$sectionNumber}", $text);
+            //$/sectionNumber++;
+        //}
+
+        // Section 2: Hasil Mixing
         if (in_array('2', $enabledSections)) {
-            $mixingAtribut = $this->data['kesimpulan_mixing_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
+            $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
             $mixingHasil = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap mixing ({$mixingAtribut}) sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
+            $text = "Hasil pemeriksaan atribut kualitas produk pada tahap {$tahapProses} sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
 
         // Section 3: Awal Filling-Capping
-        if (in_array('3', $enabledSections)) {
-            $fillingAwalAtribut = $this->data['kesimpulan_fillingawal_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
-            $fillingAwalHasil = $this->data['kesimpulan_fillingawal_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap awal filling-capping ({$fillingAwalAtribut}) sudah memberikan hasil yang {$fillingAwalHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
-            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            $sectionNumber++;
-        }
+        //if (in_array('3', $enabledSections)) {
+            //$fillingAwalAtribut = $this->data['kesimpulan_fillingawal_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
+            //$fillingAwalHasil = $this->data['kesimpulan_fillingawal_hasil'] ?? 'memenuhi';
+            //$text = "Atribut yang diuji pada tahap awal filling-capping ({$fillingAwalAtribut}) sudah memberikan hasil yang {$fillingAwalHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
+            //$this->addKesimpulanItem("3.{$sectionNumber}", $text);
+            //$/sectionNumber++;
+        //}
 
         // Section 4: Filling-Capping
-        if (in_array('4', $enabledSections)) {
-            $fillingAtribut = $this->data['kesimpulan_filling_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan';
-            $fillingHasil = $this->data['kesimpulan_filling_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap filling-capping produk Heltiskin ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
-            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            $sectionNumber++;
-        }
+        //if (in_array('4', $enabledSections)) {
+            //$fillingAtribut = $this->data['kesimpulan_filling_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan';
+            //$fillingHasil = $this->data['kesimpulan_filling_hasil'] ?? 'memenuhi';
+            //$text = "Atribut yang diuji pada tahap filling-capping produk Heltiskin ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
+            //$this->addKesimpulanItem("3.{$sectionNumber}", $text);
+            //$/sectionNumber++;
+        //}
 
         // Section 5: Final Conclusion (with italic status)
-        if (in_array('5', $enabledSections)) {
+        if (in_array('3', $enabledSections)) {
             $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Heltskin Cream';
             $status = $this->data['kesimpulan_status'] ?? 'validated';
-            $formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
-            $mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
-            $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'mixing, awal filling-capping, selama filling-capping';
-            $formulaText = $formula ? " dengan formula zat aktif {$formula}" : "";
+            //$formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
+            //$mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
+            //$tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
+            //$formulaText = $formula ? " dengan formula zat aktif {$formula}" : "";
 
-            $text = "Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter " .
-                "proses dan hasil pemeriksaan atribut kualitas produk pada tahap {$tahapProses} yang memenuhi " .
-                "persyaratan, maka proses pengolahan dan pengemasan produk {$finalProduk} menggunakan {$mesin}" .
-                "{$formulaText} dinyatakan ";
+            $text = "Proses pengolahan dan pengemasan produk terbukti dapat menghasilkan produk jadi {$finalProduk} " .
+                "yang memenuhi spesifikasi dalam Standar Kualitas Produk yang berlaku, " .
+                "Sehingga dinyatakan ";
 
             $textRun = $this->section->addTextRun([
                 'alignment' => 'both',
