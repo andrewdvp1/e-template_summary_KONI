@@ -1249,7 +1249,7 @@
         // ===========================================
 
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
-        const SAVE_DRAFT_URL = "{{ route('template-summary.heltiskin.draft', [], false) }}";
+        const SAVE_DRAFT_URL = "{{ route('template-summary.konvermex.draft', [], false) }}";
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INITIAL_DRAFT_STATE = @json($initialDraftState ?? null);
 
