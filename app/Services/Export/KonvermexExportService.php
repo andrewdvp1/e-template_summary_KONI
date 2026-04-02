@@ -16,7 +16,7 @@ class KonvermexExportService
     protected array $data;
 
     /**
-     * Export the Heltiskin template to Word document
+     * Export the Konvermex template to Word document
      */
     public function export(array $data)
     {
@@ -119,9 +119,9 @@ class KonvermexExportService
         $this->section->addTextBreak(1);
 
         // Build title from form data - convert to uppercase
-        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Heltiskin Cream');
-        $line = strtoupper($this->data['judul_line'] ?? '6');
-        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production Pharma III Gedung B');
+        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Konvermex 125 Suspensi');
+        $line = strtoupper($this->data['judul_line'] ?? '4');
+        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production (Pharmaceutical II) Gedung B');
 
         $formula = $this->data['judul_formula'] ?? '';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
@@ -177,16 +177,19 @@ class KonvermexExportService
         $textRun11->addText('  Tujuan', ['size' => 11]);
 
         // Build tujuan text from form data
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Heltiskin Cream';
-        $line = $this->data['judul_line'] ?? '6';
-        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production Pharma III Gedung B';
-        $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Vacuum homogenizer mixer Koruma dan Mesin filling tube IWK FP10';
+        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Konvermex 125 Suspensi';
+        $line = $this->data['judul_line'] ?? '4';
+        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production (Pharmaceutical II) Gedung B';
+        $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King';
+        $proses = $this->data['tujuan_proses'] ?? $this->data['kesimpulan_tahap_proses'] ?? 'pembuatan campuran A dan proses pembuatan campuran B';
+        $kemasan = $this->data['kemasan_produk'] ?? 'kemasan botol 10 ml';
+        $varian = $this->data['varian_produk'] ?? 'kemasan botol';
 
-        $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .
-            "dan reprodusibilitas proses pengolahan produk {$namaProduk} di Line {$line} Bagian {$bagian} yang " .
-            "diproduksi dengan {$mesin} " .
-            "dalam menghasilkan produk {$namaProduk} dalam kemasan tube yang memenuhi persyaratan mutu yang tercantum " .
-            "dalam Standar Kualitas yang berlaku.";
+        $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap " .
+        "kualitas dan reprodusibilitas proses pengolahan produk {$namaProduk} {$kemasan} di " .
+        "Line {$line} Bagian {$bagian} yang diproduksi dengan {$mesin} dengan " .
+        "perubahan proses {$proses} dalam menghasilkan produk {$namaProduk} dalam {$varian} yang memenuhi " .
+        "persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
 
         $textRun111 = $this->section->addTextRun([
             'alignment' => 'both',
@@ -206,13 +209,13 @@ class KonvermexExportService
         $textRun12->addText('  Batch Validasi', ['size' => 11]);
 
         // Build batch text from form data
-        $jumlahBatch = $this->data['batch_jumlah'] ?? 'satu';
-        $besaran = $this->data['batch_besaran'] ?? '100 kg';
-        $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '20.000';
-        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '5 gram';
-        $kodeList = $this->data['batch_kode_list'] ?? 'C24A01';
+        $jumlahBatch = $this->data['batch_jumlah'] ?? 'tiga';
+        $besaran = $this->data['batch_besaran'] ?? '140';
+        $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '14.000';
+        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '10';
+        $kodeList = $this->data['batch_kode_list'] ?? 'A26A02, A26A03, A26A04';
 
-        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} = {$jumlahBotol} tube @ {$volumePerBotol}, yaitu {$kodeList} :";
+        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} Liter = {$jumlahBotol} botol @ {$volumePerBotol} mL, yaitu {$kodeList} :";
 
         $this->section->addText($batchText, [], [
             'alignment' => 'both',
@@ -304,7 +307,7 @@ class KonvermexExportService
             'contextualSpacing' => true,
         ]);
         $textRun21->addText('2.1', ['bold' => false, 'size' => 11]);
-        $metode = $this->data['rangkuman_metode'] ?? $this->data['kesimpulan_tahap_proses'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
+        $metode = $this->data['rangkuman_metode'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
         $rangkuman_text = " Semua tahap dalam {$metode} telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.";
         $textRun21->addText(' ' . $rangkuman_text, ['size' => 11]);
 
@@ -454,61 +457,52 @@ class KonvermexExportService
 
         // Section 1: Produksi
         if (in_array('1', $enabledSections)) {
-            $namaProduk = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Heltiskin Cream';
-            $batchCodes = $this->data['kesimpulan_batch_codes'] ?? 'C24A01';
+            $namaProduk = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konvermex 125 Suspensi';
+            $batchCodes = $this->data['kesimpulan_batch_codes'] ?? 'A26A02, A26A03, A26A04';
             $text = "Telah dilakukan proses produksi terhadap produk {$namaProduk}, yakni pada batch {$batchCodes} yang digunakan sebagai batch validasi proses.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
 
         // Section 2: Mixing
-        //if (in_array('2', $enabledSections)) {
-            //$mixingAtribut = $this->data['kesimpulan_mixing_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
-            //$mixingHasil = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
-            //$text = "Atribut yang diuji pada tahap ({$mixingAtribut}) produk sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
-            //$this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            //$/sectionNumber++;
-        //}
-
-        // Section 2: Hasil Mixing
         if (in_array('2', $enabledSections)) {
-            $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
+            $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? '(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)';
             $mixingHasil = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
-            $text = "Hasil pemeriksaan atribut kualitas produk pada tahap {$tahapProses} sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
+            $text = "Atribut yang diuji pada tahap {$tahapProses} produk sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
 
         // Section 3: Awal Filling-Capping
-        //if (in_array('3', $enabledSections)) {
-            //$fillingAwalAtribut = $this->data['kesimpulan_fillingawal_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
-            //$fillingAwalHasil = $this->data['kesimpulan_fillingawal_hasil'] ?? 'memenuhi';
-            //$text = "Atribut yang diuji pada tahap awal filling-capping ({$fillingAwalAtribut}) sudah memberikan hasil yang {$fillingAwalHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
-            //$this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            //$/sectionNumber++;
-        //}
+        if (in_array('3', $enabledSections)) {
+            $kadar = $this->data['kesimpulan_kadar'] ?? 'kadar zat aktif, kadar pengawet';
+            $text = "Atribut yang diuji pada tahap awal filling-capping ({$kadar}) sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.";
+            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
+            $sectionNumber++;
+        }
 
         // Section 4: Filling-Capping
-        //if (in_array('4', $enabledSections)) {
-            //$fillingAtribut = $this->data['kesimpulan_filling_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan';
-            //$fillingHasil = $this->data['kesimpulan_filling_hasil'] ?? 'memenuhi';
-            //$text = "Atribut yang diuji pada tahap filling-capping produk Heltiskin ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
-            //$this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            //$/sectionNumber++;
-        //}
+        if (in_array('4', $enabledSections)) {
+            $zat_aktif = $this->data['kesimpulan_zat_aktif'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate';
+            $text = "Atribut yang diuji pada tahap filling-capping ({$zat_aktif}) sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
+            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
+            $sectionNumber++;
+        }
 
         // Section 5: Final Conclusion (with italic status)
-        if (in_array('3', $enabledSections)) {
-            $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Heltskin Cream';
+        if (in_array('5', $enabledSections)) {
+            $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konvermex 125 Suspensi';
             $status = $this->data['kesimpulan_status'] ?? 'validated';
-            //$formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
-            //$mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
-            //$tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)';
-            //$formulaText = $formula ? " dengan formula zat aktif {$formula}" : "";
+            $formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
+            $mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King';
+            $tahapMixing = $this->data['kesimpulan_tahap_mixing'] ?? 'mixing, tahap awal filling-capping, selama filling-capping';
+            $formulaText = $formula ? " dengan formula zat aktif {$formula}" : "";
 
-            $text = "Proses pengolahan dan pengemasan produk terbukti dapat menghasilkan produk jadi {$finalProduk} " .
-                "yang memenuhi spesifikasi dalam Standar Kualitas Produk yang berlaku, " .
-                "Sehingga dinyatakan ";
+            $text = "Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, " .
+            "parameter proses dan hasil pemeriksaan atribut kualitas produk " . 
+            "pada tahap {$tahapMixing} yang memenuhi persyaratan, maka proses pengolahan dan " .
+            "pengemasan produk {$finalProduk} kemasan botol menggunakan {$mesin} " .
+            "{$formulaText} dinyatakan";
 
             $textRun = $this->section->addTextRun([
                 'alignment' => 'both',
@@ -697,7 +691,7 @@ class KonvermexExportService
      */
     protected function saveAndDownload()
     {
-        $namaProduk = $this->data['judul_nama_produk'] ?? 'Heltiskin';
+        $namaProduk = $this->data['judul_nama_produk'] ?? 'Konvermex';
         $fileName = 'Summary_Validasi_' . str_replace(' ', '_', $namaProduk) . '_' . date('Y-m-d') . '.docx';
 
         $tempFile = tempnam(sys_get_temp_dir(), 'PHPWord');
