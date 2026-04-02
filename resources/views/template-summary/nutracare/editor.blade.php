@@ -88,35 +88,16 @@
                         <div
                             class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
-                                <span class="font-medium">1.1.1</span> Summary validasi ini bertujuan mendokumentasikan
-                                hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan produk
+                                <span class="font-medium">1.1.1</span> Summary laporan validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian 
+                                terhadap kualitas proses pengolahan produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> batch
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="kemasan botol 10 ml">:
-                                di Line
+                                    data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                                dengan besar bets
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
-                                    data-sync="line" placeholder="4">
-                                Bagian
-                                <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
-                                    placeholder="Production (Pharmaceutical II) Gedung B">
-                                yang diproduksi dengan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King"
-                                    placeholder="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King">
-                                dengan perubahan proses
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="pembuatan campuran A dan proses pembuatan campuran B"
-                                    placeholder="pembuatan campuran A dan proses pembuatan campuran B">
-                                <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
-                                dalam 
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="kemasan botol">:
-                                yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
+                                    data-sync="line" placeholder="30,015">
+                                Kg, di bagian Production Farmasi I Line Soft Capsule Gedung A, 
+                                dalam menghasilkan produk yang memenuhi persyaratan mutu internal Konimex, pemerintah dan persyaratan kapabilitas 
+                                proses yang sudah ditentukan secara konsisten.
                             </p>
                         </div>
                     </div>
@@ -129,19 +110,20 @@
                             <p>
                                 Studi validasi dilakukan terhadap
                                 <input type="text" name="batch_jumlah" class="template-input w-12"
-                                    placeholder="tiga">
-                                batch produksi dengan besaran batch
-                                <input type="text" name="batch_besaran" class="template-input w-20"
-                                    placeholder="140">   
-                                Liter =
-                                <input type="text" name="batch_jumlah_botol" class="template-input w-24"
-                                    placeholder="14.000">
-                                botol @
-                                <input type="text" name="batch_besaran" class="template-input w-20"
-                                    placeholder="10">
-                                mL, yaitu
+                                    placeholder="dua">
+                                bets produksi yaitu batch
                                 <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="A26A02, A26A03, A26A04">:
+                                    data-sync="batch" placeholder="JAN26A01 dan JAN26A02">:,
+                                dengan besaran batch 
+                                <input type="text" name="batch_besaran" class="template-input w-20"
+                                    placeholder="30,015 Kg">   
+                                =
+                                <input type="text" name="batch_jumlah_botol" class="template-input w-24"
+                                    placeholder="60.000">
+                                Soft Capsule @
+                                <input type="text" name="batch_besaran" class="template-input w-20"
+                                    placeholder="500,25 mg">
+                                (bobot isi).
                             </p>
                         </div>
 
@@ -395,15 +377,42 @@
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Konvermex 125 Suspensi">,
-                                yakni pada batch
+                                    placeholder="Nutracare EPO 500 Soft Capsule">,
+                                bets
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-48" data-sync="batch"
-                                    placeholder="A26A02, A26A03, A26A04">
+                                    placeholder="JAN26A01 dan JAN26A02">
                                 yang digunakan sebagai batch validasi proses.
                             </p>
                         </div>
                     </div>
+
+
+                    {{-- 3.2--}}
+                    <div>
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.2 Batch Validasi</h3>
+                        <div
+                            class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify mb-4">
+                            <p>
+                                3.2. Proses terbukti pada
+                                <input type="text" name="batch_jumlah" class="template-input w-12"
+                                    placeholder="dua">
+                                bets pemeriksaan, dapat menghasilkan produk jadi
+                                <input type="text" name="kesimpulan_nama_produk"
+                                    class="template-input sync-input w-48" data-sync="nama_produk"
+                                    placeholder="Nutracare EPO 500 Soft Capsule">,
+                                yang memenuhi spesifikasi dalam Spesifikasi Produk dan Spesifikasi Kemasan
+                                <input type="text" name="kesimpulan_nama_produk"
+                                    class="template-input sync-input w-48" data-sync="nama_produk"
+                                    placeholder="Nutracare EPO 500 Soft Capsule">,
+                                <input type="text" name="batch_besaran" class="template-input w-20"
+                                    placeholder="140">
+                                sehingga dinyatakan
+                                <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
+                                    placeholder="validated">.
+                            </p>
+                        </div>
+
 
                     {{-- 3.2 --}}
                     <div class="kesimpulan-section" data-section-id="2">
@@ -513,6 +522,36 @@
                 </div>
             </div>
         </div>
+
+            {{-- BAB 4: SARAN --}}
+            <div
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                    <h2 class="font-bold text-slate-900 dark:text-white">4. SARAN</h2>
+                </div>
+                <div class="p-6 flex flex-col gap-6">
+                    {{-- 4.1 --}}
+                    <div>
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">4.1</h3>
+                        <div
+                            class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
+                            <p class="pl-8 -indent-8">
+                                <span class="font-medium">4.1</span> Apabila dikemudian hari dilakukan perubahan pada proses produksi produk
+                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
+                                    data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                                , maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan 
+                                mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
+                            </p>
+                        </div>
+                    </div>
+
+                            {{-- Hidden input to store table data --}}
+                            <input type="hidden" name="tabel_bahan_aktif" id="hidden_data_bahan_aktif">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         {{-- Fixed Footer Actions --}}
         <div class="fixed flex justify-end bottom-0 right-0 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-40 transition-[left] duration-300 ease-in-out"
