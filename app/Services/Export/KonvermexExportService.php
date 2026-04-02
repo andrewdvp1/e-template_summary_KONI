@@ -123,7 +123,7 @@ class KonvermexExportService
         $line = strtoupper($this->data['judul_line'] ?? '4');
         $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production (Pharmaceutical II) Gedung B');
 
-        $formula = $this->data['judul_formula'] ?? '';
+        $formula = $this->data['judul_formula'] ?? 'P024 ex IPC (OPTIMASI PROSES)';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
 
         $title = "SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK {$namaProduk}{$formulaStr} DI LINE {$line} BAGIAN {$bagian}";
