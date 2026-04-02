@@ -502,7 +502,7 @@ class KonvermexExportService
             "parameter proses dan hasil pemeriksaan atribut kualitas produk " . 
             "pada tahap {$tahapMixing} yang memenuhi persyaratan, maka proses pengolahan dan " .
             "pengemasan produk {$finalProduk} kemasan botol menggunakan {$mesin} " .
-            "{$formulaText} dinyatakan";
+            "{$formulaText} dinyatakan ";
 
             $textRun = $this->section->addTextRun([
                 'alignment' => 'both',
