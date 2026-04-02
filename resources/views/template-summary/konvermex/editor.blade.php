@@ -26,11 +26,11 @@
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
                                 data-sync="formula" placeholder="(P024 ex IPC) (OPTIMASI PROSES)">) DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="6">
+                                placeholder="4">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production Pharma III Gedung B"
-                                placeholder="Production Pharma III Gedung B">
+                                data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
+                                placeholder="Production (Pharmaceutical II) Gedung B">
                         </p>
                     </div>
 
@@ -92,30 +92,30 @@
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
                                     data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="kemasan botol 10 ml">:
+                                <input type="text" name="kemasan_produk" class="template-input sync-input w-64"
+                                    data-sync="kemasan" placeholder="kemasan botol 10 ml">:
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
                                     data-sync="line" placeholder="4">
                                 Bagian
-                                <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
+                                <input type="text" name="tujuan_bagian" class="template-input sync-input w-86"
                                     data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
                                     placeholder="Production (Pharmaceutical II) Gedung B">
                                 yang diproduksi dengan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
+                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-142"
                                     data-sync="mesin"
                                     value="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King"
                                     placeholder="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King">
                                 dengan perubahan proses
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
+                                <input type="text" name="tujuan_proses" class="template-input sync-input w-132"
+                                    data-sync="proses"
                                     value="pembuatan campuran A dan proses pembuatan campuran B"
                                     placeholder="pembuatan campuran A dan proses pembuatan campuran B">
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
                                     data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
-                                dalam 
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="kemasan botol">:
+                                dalam menghasilkan produk
+                                <input type="text" name="varian_produk" class="template-input sync-input w-48"
+                                    data-sync="varian" placeholder="kemasan botol">:
                                 yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
                         </div>
@@ -228,7 +228,7 @@
                             <p class="pl-8 -indent-8">
                                 <span class="font-semibold">2.1.</span> Semua tahap dalam Penimbangan 
                             
-                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-full"
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-84"
                                     data-sync="rangkuman"
                                     value="bahan baku, Mixing, dan filling-capping"
                                     placeholder="Penimbangan bahan baku, Mixing, dan filling-capping">
@@ -352,8 +352,6 @@
                                     <input type="text" name="mixing_hasil" class="template-input w-32" value=""
                                         placeholder="memenuhi">
                                     persyaratan menurut Spesifikasi Produk yang berlaku
-                                    <input type="text" name="mixing_hasil_catatan" class="template-input w-64"
-                                        value="" placeholder="">
                                     .
                                 </p>
                             </div>
@@ -394,11 +392,11 @@
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.1</span>
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
-                                    class="template-input sync-input w-48" data-sync="nama_produk"
+                                    class="template-input sync-input w-52" data-sync="nama_produk"
                                     placeholder="Konvermex 125 Suspensi">,
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
-                                    class="template-input sync-input w-48" data-sync="batch"
+                                    class="template-input sync-input w-52" data-sync="batch"
                                     placeholder="A26A02, A26A03, A26A04">
                                 yang digunakan sebagai batch validasi proses.
                             </p>
@@ -414,7 +412,7 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
                                 Atribut yang diuji pada tahap mixing
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-180"
                                     value="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)"
                                     placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)">
                                 sudah memberikan hasil yang
@@ -435,13 +433,10 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
                                 Atribut yang diuji pada tahap awal filling-capping
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
-                                    value="(kadar zat aktif, kadar pengawet)"
-                                    placeholder="(kadar zat aktif, kadar pengawet)">
+                                (<input type="text" name="kesimpulan_kadar" class="template-input w-68"
+                                    value="kadar zat aktif, kadar pengawet"
+                                    placeholder="kadar zat aktif, kadar pengawet">)
                                 sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.
-                                <!--<input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.>-->
                             </p>
                         </div>
                     </div>
@@ -456,13 +451,10 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
                                 Atribut yang diuji pada tahap filling-capping
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
-                                    value="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate)"
-                                    placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate)">
+                                (<input type="text" name="kesimpulan_zat_aktif" class="template-input w-full"
+                                    value="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate"
+                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate">)
                                 sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
-                                <!--<input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.>-->
                             </p>
                         </div>
                     </div>
@@ -477,7 +469,7 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.5</span>
                                 Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
-                                    <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                    <input type="text" name="kesimpulan_tahap_mixing" class="template-input w-128"
                                     value="mixing, tahap awal filling-capping, selama filling-capping"
                                     placeholder="mixing, tahap awal filling-capping, selama filling-capping">
                                 yang memenuhi persyaratan, maka proses pengolahan dan pengemasan produk
@@ -485,11 +477,11 @@
                                     class="template-input sync-input w-48" data-sync="nama_produk"
                                     placeholder="Konvermex 125 Suspensi">
                                 kemasan botol menggunakan
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-154"
                                     value="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King"
                                     placeholder="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King">
                                 dengan
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-64"
                                     value="formula zat aktif P024 ex IPC"
                                     placeholder="formula zat aktif P024 ex IPC">
                                 dinyatakan

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{ route('template-summary.kapsul.export') }}" method="POST" id="kapsulTemplateForm"
+    <form action="{{ route('template-summary.tablet.export') }}" method="POST" id="tabletTemplateForm"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="draft_id" id="draft_id" value="{{ $draft->id ?? '' }}">
@@ -818,7 +818,7 @@
         function collectFormValues() {
             const values = {};
             document.querySelectorAll(
-                    '#kapsulTemplateForm input[name]:not([type="file"]), #kapsulTemplateForm textarea[name], #kapsulTemplateForm select[name]'
+                    '#tabletTemplateForm input[name]:not([type="file"]), #tabletTemplateForm textarea[name], #tabletTemplateForm select[name]'
                 )
                 .forEach(input => {
                     if (input.name === 'draft_id' || input.name === '_token') {
@@ -882,7 +882,7 @@
         function collectDraftState() {
             const disabledFieldNames = [];
             document.querySelectorAll(
-                    '#kapsulTemplateForm input[name], #kapsulTemplateForm textarea[name], #kapsulTemplateForm select[name]')
+                    '#tabletTemplateForm input[name], #tabletTemplateForm textarea[name], #tabletTemplateForm select[name]')
                 .forEach(field => {
                     if (field.disabled) {
                         disabledFieldNames.push(field.name);
@@ -1105,7 +1105,7 @@
             setSaveDraftLoading(true);
 
             try {
-                const form = document.getElementById('kapsulTemplateForm');
+                const form = document.getElementById('tabletTemplateForm');
                 const formData = new FormData(form);
                 formData.delete('_token');
                 formData.append('_token', CSRF_TOKEN);
@@ -1298,7 +1298,7 @@
         // ===========================================
 
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
-        const SAVE_DRAFT_URL = "{{ route('template-summary.kapsul.draft', [], false) }}";
+        const SAVE_DRAFT_URL = "{{ route('template-summary.tablet.draft', [], false) }}";
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INITIAL_DRAFT_STATE = @json($initialDraftState ?? null);
 
@@ -2000,7 +2000,7 @@
             // FORM SUBMIT: Pastikan semua base64 & tabel
             // ter-serialize ke hidden input sebelum export
             // ===========================================
-            const tabletForm = document.getElementById('kapsulTemplateForm');
+            const tabletForm = document.getElementById('tabletTemplateForm');
             if (tabletForm) {
                 tabletForm.addEventListener('submit', function() {
                     showExportModal();
@@ -2056,7 +2056,7 @@
                 tokenInput.type = 'hidden';
                 tokenInput.name = 'export_token';
                 tokenInput.id = 'export_token_input';
-                document.getElementById('kapsulTemplateForm').appendChild(tokenInput);
+                document.getElementById('tabletTemplateForm').appendChild(tokenInput);
             }
             tokenInput.value = token;
 
