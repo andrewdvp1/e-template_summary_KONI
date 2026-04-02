@@ -533,7 +533,6 @@
                 <div class="p-6 flex flex-col gap-6">
                     {{-- 4.1 --}}
                     <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">4.1</h3>
                         <div
                             class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
