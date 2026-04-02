@@ -507,22 +507,7 @@
                             </p>
                         </div>
                     </div>
-
-                    {{-- Custom sections container --}}
-                    <div id="custom_kesimpulan_container"></div>
-
-                    {{-- Add section button --}}
-                    <div class="flex justify-center">
-                        <button type="button" onclick="addCustomKesimpulan()"
-                            class="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-dashed border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 hover:border-red-400 hover:bg-red-50/40 dark:hover:bg-red-900/20 transition-colors">
-                            <span class="material-symbols-outlined text-[20px]">add</span>
-                            <span class="text-sm font-medium">Tambah Poin Kesimpulan</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+            
             {{-- BAB 4: SARAN --}}
             <div
                 class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
@@ -545,6 +530,22 @@
                         </div>
                     </div>
 
+                    {{-- Custom sections container --}}
+                    <div id="custom_kesimpulan_container"></div>
+
+                    {{-- Add section button --}}
+                    <div class="flex justify-center">
+                        <button type="button" onclick="addCustomKesimpulan()"
+                            class="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-dashed border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 hover:border-red-400 hover:bg-red-50/40 dark:hover:bg-red-900/20 transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">add</span>
+                            <span class="text-sm font-medium">Tambah Poin Kesimpulan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            
                             {{-- Hidden input to store table data --}}
                             <input type="hidden" name="tabel_bahan_aktif" id="hidden_data_bahan_aktif">
                         </div>
