@@ -477,11 +477,11 @@
                                     class="template-input sync-input w-48" data-sync="nama_produk"
                                     placeholder="Konvermex 125 Suspensi">
                                 kemasan botol menggunakan
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-154"
+                                <input type="text" name="kesimpulan_mesin" class="template-input w-154"
                                     value="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King"
                                     placeholder="Vacuum Mixer Homogenizer Olsa Maces 300 PH/B, Mesin filling CE-King">
                                 dengan
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-64"
+                                <input type="text" name="kesimpulan_formula" class="template-input w-64"
                                     value="formula zat aktif P024 ex IPC"
                                     placeholder="formula zat aktif P024 ex IPC">
                                 dinyatakan
