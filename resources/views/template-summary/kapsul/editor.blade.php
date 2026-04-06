@@ -19,18 +19,19 @@
                     <div class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text">
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
-                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
-                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
+                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-64 uppercase"
+                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 Soft Capsule">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
-                            (<input type="text" name="judul_formula" class="template-input sync-input w-96"
-                                data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">) DI LINE
+                            (<input type="text" name="judul_formula" class="template-input sync-input w-48"
+                                data-sync="formula" placeholder="O921 ex HPI" value="O921 ex HPI">) 
+                                <!--DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
                                 placeholder="2">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
                                 data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
-                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
+                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">-->
                         </p>
                     </div>
 
@@ -88,28 +89,21 @@
                         <div
                             class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
-                                <span class="font-medium">1.1.1</span> Summary validasi ini bertujuan mendokumentasikan
-                                hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
+                                <span class="font-medium">1.1.1</span> Summary laporan validasi ini bertujuan mendokumentasikan
+                                hasil studi validasi/pembuktian terhadap kualitas proses pengolahan
                                 produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
-                                di Line
-                                <input type="text" name="tujuan_line" class="template-input sync-input w-8"
-                                    data-sync="line" placeholder="2">
-                                Bagian
+                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48"
+                                    data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                dengan besar bets produksi
+                                <input type="text" name="tujuan_besar_bets" class="template-input w-18"
+                                    placeholder="34 kg"> = 
+                                <input type="text" name="tujuan_banyak_bets" class="template-input w-32"
+                                    placeholder="68.000"> Kapsul Lunak
+                                , di bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
                                     data-sync="bagian" value="Produksi Farmasi I Line Soft Capsule Gedung A"
-                                    placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
-                                yang diproduksi dengan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060"
-                                    placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
-                                dalam menghasilkan produk
-                                <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
-                                dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
-                                dan Spesifikasi Kemasan yang berlaku.
+                                    placeholder="Produksi Farmasi I Line Soft Capsule Gedung A">
+                                , dalam menghasilkan produk yang memenuhi persyaratan mutu internal Konimex, pemerintah dan persyaratan kapabilitas proses yang sudah ditentukan secara konsisten.
                             </p>
                         </div>
                     </div>
@@ -119,22 +113,32 @@
                         <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.2 Batch Validasi</h3>
                         <div
                             class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify mb-4">
-                            <p>
+                            <p class="pl-10 -indent-10">
+                                <span class="font-medium">1.2.1</span>
                                 Studi validasi dilakukan terhadap
                                 <input type="text" name="batch_jumlah" class="template-input w-12"
                                     placeholder="tiga">
-                                batch produksi dengan besaran batch
+                                bets produksi dengan besaran batch
                                 <input type="text" name="batch_besaran" class="template-input w-20"
-                                    placeholder="600 L">
+                                    placeholder="34 kg">
                                 =
-                                <input type="text" name="batch_jumlah_botol" class="template-input w-24"
-                                    placeholder="20.000">
-                                botol @
-                                <input type="text" name="batch_volume_per_botol" class="template-input w-16"
-                                    value="" placeholder="30 ml">,
-                                yaitu
+                                <input type="text" name="batch_jumlah_botol" class="template-input w-28"
+                                    placeholder="68.000">
+                                Kapsul Lunak @
+                                <input type="text" name="batch_volume_per_botol" class="template-input w-20"
+                                    value="" placeholder="500 mg (bobot isi)">,
+                                yaitu batch
                                 <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="A26A01, A26A02, A26A03">:
+                                    data-sync="batch" placeholder="AUG25A01, AUG25A02, AUG25A03">
+                                yang diproduksi di Bagian
+                                <input type="text" name="batch_bagian_produksi" class="template-input sync-input w-96"
+                                    data-sync="bagian" value="Produksi Farmasi I Line Soft Capsule Gedung A"
+                                    placeholder="Produksi Farmasi I Line Soft Capsule Gedung A">
+                                dilakukan dengan menggunakan
+                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
+                                    data-sync="mesin"
+                                    value="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling"
+                                    placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling">.
                             </p>
                         </div>
 
@@ -162,8 +166,8 @@
                                         class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
                                     <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste dari
                                         Excel</p>
-                                    <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy data dari Excel (4
-                                        kolom: Bahan aktif, Kode Bahan Baku, Nama Supplier, Negara) lalu paste di bawah</p>
+                                    <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy data dari Excel (5
+                                        kolom: BB Zat Aktif, Kode BB, Supplier, Asal Negara, Kode Supplier) lalu paste di bawah</p>
                                     <textarea id="excel_paste_bahan_aktif" rows="4"
                                         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none font-mono"
                                         placeholder="Paste data Excel disini (Ctrl+V)..." onpaste="handleExcelPaste(event, 'bahan_aktif')"></textarea>
@@ -178,16 +182,19 @@
                                             <tr class="bg-slate-100 dark:bg-slate-700">
                                                 <th
                                                     class="px-4 py-2 text-left font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-300 dark:border-slate-600">
-                                                    Bahan aktif</th>
+                                                    BB Zat Aktif</th>
                                                 <th
                                                     class="px-4 py-2 text-left font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-300 dark:border-slate-600">
-                                                    Kode Bahan Baku</th>
+                                                    Kode BB</th>
                                                 <th
                                                     class="px-4 py-2 text-left font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-300 dark:border-slate-600">
-                                                    Nama Supplier</th>
+                                                    Supplier</th>
                                                 <th
                                                     class="px-4 py-2 text-left font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-300 dark:border-slate-600">
-                                                    Negara</th>
+                                                    Asal Negara</th>
+                                                <th
+                                                    class="px-4 py-2 text-left font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-300 dark:border-slate-600">
+                                                    Kode Supplier</th>
                                             </tr>
                                         </thead>
                                         <tbody id="table_body_bahan_aktif">
@@ -219,8 +226,7 @@
                         <div
                             class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
-                                <span class="font-semibold">2.1.</span> Semua tahap dalam penimbangan bahan baku, mixing,
-                                dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.
+                                <span class="font-semibold">2.1.</span> Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.
                             </p>
                         </div>
                     </div>
@@ -231,9 +237,9 @@
                         <input type="hidden" name="bab22_enabled_subab_keys" id="bab22_enabled_subab_keys"
                             value="">
 
-                        {{-- 2.2.1 Mixing --}}
+                        {{-- 2.2.1 Enkapsulasi --}}
                         <div class="bab22-subab" id="bab22_subab_mixing" draggable="true" data-subab-type="default"
-                            data-subab-id="1" data-subab-key="mixing" data-subab-title="Mixing"
+                            data-subab-id="1" data-subab-key="mixing" data-subab-title="Enkapsulasi (Sebelum pengeringan)"
                             data-closing-kind="template" data-template-stage="mixing">
                             <h4
                                 class="font-medium text-slate-700 dark:text-slate-300 mb-4 flex items-center justify-between">
@@ -241,7 +247,7 @@
                                     <span
                                         class="bab22-number bab22-toggle-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                         onclick="toggleBab22Subab(this)" title="Klik untuk disable/enable">2.2.1</span>
-                                    <span class="bab22-title">Mixing</span>
+                                    <span class="bab22-title">Enkapsulasi (Sebelum pengeringan)</span>
                                 </span>
                                 <span
                                     class="material-symbols-outlined text-[18px] text-slate-400 cursor-grab select-none">drag_indicator</span>
@@ -337,10 +343,16 @@
                             <div
                                 class="mt-6 text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
                                 <p>
-                                    Atribut yang diuji pada tahap mixing sudah memberikan hasil yang
+                                    Seluruh hasil pemeriksaan bobot sampel tahap enkapsulasi (sebelum pengeringan) produk
+                                    <input type="text" name="mixing_nama_produk" class="template-input sync-input w-48"
+                                        data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                    bets
+                                    <input type="text" name="mixing_batch_list" class="template-input sync-input w-64"
+                                        data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                    sudah memberikan hasil yang
                                     <input type="text" name="mixing_hasil" class="template-input w-32" value=""
                                         placeholder="memenuhi">
-                                    persyaratan menurut Spesifikasi Produk yang berlaku
+                                    spesifikasi produk yang ditetapkan
                                     <input type="text" name="mixing_hasil_catatan" class="template-input w-64"
                                         value="" placeholder="">
                                     .
@@ -370,13 +382,13 @@
                 </div>
                 <div class="p-6 flex flex-col gap-6">
 
-                    {{-- 2.3.1 Pelaksanaan Proses Produksi (static) --}}
+                    {{-- 2.3.1 Enkapsulasi (Sebelum pengeringan) (static) --}}
                     <div class="bab23-subab" id="bab23_subab_pelaksanaan" data-subab-key="pelaksanaan">
                         <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3 flex items-center justify-between">
                             <span>
                                 <span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.1</span>
-                                Pelaksanaan Proses Produksi
+                                Enkapsulasi (Sebelum pengeringan)
                             </span>
                         </h3>
 
@@ -388,29 +400,28 @@
                                     <p class="pl-10 -indent-10">
                                         <span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                             onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.1</span>
-                                        Studi validasi dilakukan terhadap
-                                        <input type="text" name="pelaksanaan_jumlah_bets" class="template-input w-8" placeholder="3">
-                                        bets produksi yaitu batch
-                                        <input type="text" name="pelaksanaan_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
-                                        dengan besaran batch
-                                        <input type="text" name="pelaksanaan_besaran_batch" class="template-input w-32" placeholder="34 kg = 68.000">
-                                        Kapsul Lunak.
+                                        Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas
+                                        <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-32" placeholder="500 ± 50 mg">.
                                     </p>
                                 </div>
                             </div>
 
-                            {{-- 2.3.1.2 table --}}
+                            {{-- 2.3.1.2 static text --}}
                             <div class="bab23-subsubab" data-subsubab-key="pelaksanaan_2">
                                 <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
                                     <p class="pl-10 -indent-10">
                                         <span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                             onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.2</span>
-                                        Tanggal pelaksanaan proses produksi:
+                                        Dilakukan sampling pemeriksaan bobot pada
+                                        <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3">
+                                        lokasi (awal, tengah, akhir) dengan jumlah
+                                        <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-8" placeholder="20">
+                                        butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:
                                     </p>
                                 </div>
                                 {{-- Paste table --}}
                                 <div class="ml-10">
-                                    <div class="bab23-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="bab23_pelaksanaan_tabel" onpaste="handleMixingPaste(event, this)">
+                                    <div class="bab23-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="bab23_enkapsulasi_tabel" onpaste="handleMixingPaste(event, this)">
                                         <div class="absolute top-1 right-1 z-20">
                                             <button type="button" onclick="toggleTableMenu(this)" class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi">
                                                 <span class="material-symbols-outlined text-[20px] block">more_vert</span>
@@ -433,7 +444,7 @@
                                                 </div>
                                                 <textarea rows="3" class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono" placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)" onpaste="handleClipboardFieldPaste(event, this)"></textarea>
                                             </div>
-                                            <input type="file" name="mixing_image_file[bab23_pelaksanaan_tabel]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                                            <input type="file" name="mixing_image_file[bab23_enkapsulasi_tabel]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
                                             <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
                                                 <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
                                                 <button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar">
@@ -449,11 +460,28 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="bab22_table_subab_key[bab23_pelaksanaan_tabel]" value="pelaksanaan">
-                                        <input type="hidden" name="existing_mixing_image_file[bab23_pelaksanaan_tabel]" value="">
-                                        <input type="hidden" name="mixing_pasted_table_json[bab23_pelaksanaan_tabel]" value="">
-                                        <input type="hidden" name="mixing_image_base64[bab23_pelaksanaan_tabel]" value="">
+                                        <input type="hidden" name="bab22_table_subab_key[bab23_enkapsulasi_tabel]" value="bab23">
+                                        <input type="hidden" name="existing_mixing_image_file[bab23_enkapsulasi_tabel]" value="">
+                                        <input type="hidden" name="mixing_pasted_table_json[bab23_enkapsulasi_tabel]" value="">
+                                        <input type="hidden" name="mixing_image_base64[bab23_enkapsulasi_tabel]" value="">
                                     </div>
+                                </div>
+                            </div>
+
+                            {{-- 2.3.1.3 static text --}}
+                            <div class="bab23-subsubab" data-subsubab-key="pelaksanaan_3">
+                                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                    <p class="pl-10 -indent-10">
+                                        <span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                            onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.3</span>
+                                        Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk
+                                        <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48"
+                                            data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                        bets
+                                        <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-64"
+                                            data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                        memenuhi spesifikasi produk yang ditetapkan.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -493,7 +521,7 @@
                 <div class="p-6 flex flex-col gap-6" id="bab3_container">
                     {{-- Hidden input to track enabled sections --}}
                     <input type="hidden" name="kesimpulan_enabled_sections" id="kesimpulan_enabled_sections"
-                        value="1,2,3,4,5">
+                        value="1,2">
 
                     {{-- 3.1 --}}
                     <div class="kesimpulan-section" data-section-id="1">
@@ -505,13 +533,22 @@
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.1</span>
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
-                                    class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="KONILIFE OMEGA 3 500 mg">,
-                                yakni pada batch
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">
+                                bets
                                 <input type="text" name="kesimpulan_batch_codes"
-                                    class="template-input sync-input w-48" data-sync="batch"
-                                    placeholder="A26A01, A26A02, A26A03">
-                                yang digunakan sebagai batch validasi proses.
+                                    class="template-input sync-input w-56" data-sync="batch"
+                                    placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                yang digunakan sebagai batch validasi proses, sekaligus menjadi tinjauan status validasi proses produk
+                                <input type="text" name="kesimpulan_nama_produk_2"
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">
+                                terhadap Permintaan Perubahan no
+                                <input type="text" name="kesimpulan_pp_no" class="template-input w-40"
+                                    placeholder="PP-EA-092-00">
+                                tanggal
+                                <input type="text" name="kesimpulan_pp_tanggal" class="template-input w-32"
+                                    placeholder="23-08-2024">.
                             </p>
                         </div>
                     </div>
@@ -524,85 +561,15 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
-                                Atribut yang diuji pada tahap mixing (<input type="text"
-                                    name="kesimpulan_mixing_atribut" class="template-input w-115"
-                                    value = "bentuk, warna, aroma, kejernihan, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
-                                    placeholder="bentuk, warna, aroma, kejernihan, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba">)
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk yang berlaku.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 3.3 Awal Filling-Capping --}}
-                    <div class="kesimpulan-section" data-section-id="3">
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p class="pl-8 -indent-8">
-                                <span
-                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
-                                Atribut yang diuji pada tahap awal filling-capping (<input type="text"
-                                    name="kesimpulan_fillingawal_atribut" class="template-input w-115"
-                                    value="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba">)
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_fillingawal_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk yang berlaku.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 3.4 Filling-Capping --}}
-                    <div class="kesimpulan-section" data-section-id="4">
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p class="pl-8 -indent-8">
-                                <span
-                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
-                                Atribut yang diuji pada tahap filling-capping produk suspensi ke dalam kemasan botol (<input
-                                    type="text" name="kesimpulan_filling_atribut" class="template-input w-full"
-                                    value = "bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan">)
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- 3.5 Final Conclusion --}}
-                    <div class="kesimpulan-section" data-section-id="5">
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p class="pl-8 -indent-8">
-                                <span
-                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.5</span>
-                                Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses
-                                produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
-                                    value="mixing, awal filling-capping, selama filling-capping"
-                                    placeholder="mixing, awal filling-capping, selama filling-capping">
-                                yang memenuhi persyaratan, maka proses
-                                pengolahan dan pengemasan produk
+                                Proses terbukti dapat menghasilkan produk jadi
                                 <input type="text" name="kesimpulan_final_produk"
-                                    class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="KONILIFE OMEGA 3 500 mg">
-                                menggunakan
-                                <input type="text" name="kesimpulan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060"
-                                    placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
-                                dengan formula zat aktif
-                                (<input type="text" name="kesimpulan_formula" class="template-input sync-input w-96"
-                                    data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">)
-                                dinyatakan
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">
+                                yang memenuhi spesifikasi dalam Spesifikasi Produk dan Spesifikasi Kemasan
+                                <input type="text" name="kesimpulan_nama_produk_3"
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">
+                                sehingga dinyatakan
                                 <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
                                     placeholder="validated">.
                             </p>
@@ -625,17 +592,40 @@
 
             {{-- BAB 4: SARAN --}}
             <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                     <h2 class="font-bold text-slate-900 dark:text-white">4. SARAN</h2>
+                    <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
-                <div class="p-6">
-                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                        <p class="pl-8 -indent-8">
-                            <span class="font-semibold">4.1</span>
-                            <textarea name="saran_text" rows="3"
-                                class="template-input w-full resize-y mt-1 px-2 py-1 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm"
-                                placeholder="Apabila dikemudian hari dilakukan perubahan pada proses produksi produk [nama produk], maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku."></textarea>
-                        </p>
+                <div class="p-6 flex flex-col gap-6" id="bab4_container">
+                    <input type="hidden" name="saran_enabled_sections" id="saran_enabled_sections" value="1">
+
+                    {{-- 4.1 --}}
+                    <div class="saran-section" data-section-id="1">
+                        <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <p class="pl-8 -indent-8">
+                                <span
+                                    class="saran-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleSaranSection(this)" title="Klik untuk disable/enable">4.1</span>
+                                Apabila dikemudian hari dilakukan perubahan pada proses produksi produk 
+                                <input type="text" name="saran_nama_produk_4"
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">, 
+                                maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
+                            </p>
+                        </div>
+                    </div>
+
+                    {{-- Custom saran container --}}
+                    <div id="custom_saran_container"></div>
+
+                    {{-- Add saran button --}}
+                    <div class="flex justify-center">
+                        <button type="button" onclick="addCustomSaran()"
+                            class="flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-dashed border-red-200 dark:border-red-800
+                            text-red-600 dark:text-red-400 hover:border-red-400 hover:bg-red-50/40 dark:hover:bg-red-900/20 transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">add</span>
+                            <span class="text-sm font-medium">Tambah Poin Saran</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1406,6 +1396,84 @@
             const sectionDiv = btn.closest('.kesimpulan-section');
             sectionDiv.remove();
             renumberKesimpulanSections();
+        }
+
+        // ===========================================
+        // BAB 4 SARAN FUNCTIONS
+        // ===========================================
+        let customSaranCount = 0;
+
+        function toggleSaranSection(numberEl) {
+            const sectionDiv = numberEl.closest('.saran-section');
+            const isDisabled = sectionDiv.classList.toggle('section-disabled');
+            const contentDiv = sectionDiv.querySelector('div');
+            if (isDisabled) {
+                contentDiv.style.opacity = '0.35';
+                contentDiv.style.textDecoration = 'line-through';
+                numberEl.classList.add('bg-red-100', 'dark:bg-red-900/30', 'text-red-500', 'line-through');
+                sectionDiv.querySelectorAll('input, textarea').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                contentDiv.style.opacity = '1';
+                contentDiv.style.textDecoration = 'none';
+                numberEl.classList.remove('bg-red-100', 'dark:bg-red-900/30', 'text-red-500', 'line-through');
+                sectionDiv.querySelectorAll('input, textarea').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberSaranSections();
+        }
+
+        function addCustomSaran() {
+            customSaranCount++;
+            const container = document.getElementById('custom_saran_container');
+            const sectionHtml = `
+            <div class="saran-section" data-section-id="c${customSaranCount}" data-custom="true">
+                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                    <div class="flex items-start gap-2">
+                        <p class="pl-8 -indent-8 flex-1">
+                            <span class="saran-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSaranSection(this)" title="Klik untuk disable/enable">4.X</span>
+                        </p>
+                        <textarea name="saran_custom_${customSaranCount}" rows="3" class="w-full mt-1 resize-y px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm" style="vertical-align: top;"></textarea>
+                        <button type="button" onclick="removeCustomSaran(this)" class="mt-1 p-1 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0" title="Hapus poin ini">
+                            <span class="material-symbols-outlined text-[20px]">close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+            container.insertAdjacentHTML('beforeend', sectionHtml);
+            renumberSaranSections();
+            const newTextarea = container.lastElementChild.querySelector('textarea');
+            if (newTextarea) newTextarea.focus();
+        }
+
+        function removeCustomSaran(btn) {
+            const sectionDiv = btn.closest('.saran-section');
+            sectionDiv.remove();
+            renumberSaranSections();
+        }
+
+        function renumberSaranSections() {
+            const allSections = document.querySelectorAll('.saran-section');
+            let activeIndex = 1;
+            const enabledIds = [];
+            allSections.forEach(section => {
+                const numberEl = section.querySelector('.saran-number');
+                const isDisabled = section.classList.contains('section-disabled');
+                if (!isDisabled) {
+                    if (numberEl) numberEl.textContent = '4.' + activeIndex;
+                    enabledIds.push(section.dataset.sectionId);
+                    activeIndex++;
+                } else {
+                    const originalId = section.dataset.sectionId;
+                    if (numberEl) numberEl.textContent = '4.' + originalId;
+                }
+            });
+            const hiddenInput = document.getElementById('saran_enabled_sections');
+            if (hiddenInput) hiddenInput.value = enabledIds.join(',');
         }
 
         function renumberKesimpulanSections() {

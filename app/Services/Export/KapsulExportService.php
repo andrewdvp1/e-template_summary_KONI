@@ -120,14 +120,16 @@ class KapsulExportService
         $this->section->addTextBreak(1);
 
         // Build title from form data - convert to uppercase
-        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Paramex 500mg');
-        $line = strtoupper($this->data['judul_line'] ?? '2');
-        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Natpro');
+        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule');
+        //$line = strtoupper($this->data['judul_line'] ?? '2');
+        //$bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Natpro');
 
         $formula = $this->data['judul_formula'] ?? '';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
 
-        $title = "SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK {$namaProduk}{$formulaStr} DI LINE {$line} BAGIAN {$bagian}";
+        $title = "SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN" .
+        "PRODUK {$namaProduk}" .
+        "{$formulaStr} ";
 
         $this->section->addText($title, ['bold' => true, 'size' => 12], ['alignment' => 'center', 'spaceAfter' => 0]);
     }
@@ -178,16 +180,15 @@ class KapsulExportService
         $textRun11->addText('  Tujuan', ['size' => 11]);
 
         // Build tujuan text from form data
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Paramex 500mg';
-        $line = $this->data['judul_line'] ?? '1';
-        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Natpro';
-        $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
+        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+        $besarBets  = $this->data['tujuan_besar_bets'] ?? '34 kg';
+        $banyakBets = $this->data['tujuan_banyak_bets'] ?? '68.000';
+        $bagian     = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Produksi Farmasi I Line Soft Capsule Gedung A';
 
-        $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .
-            "dan reprodusibilitas proses pengolahan produk {$namaProduk} di Line {$line} Bagian {$bagian} yang " .
-            "diproduksi dengan {$mesin} " .
-            "dalam menghasilkan produk {$namaProduk} dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk " .
-            "dan Spesifikasi Kemasan yang berlaku.";
+        $tujuanText = "Summary laporan validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap " .
+            "kualitas proses pengolahan produk {$namaProduk} dengan besar bets produksi {$besarBets} = {$banyakBets} Kapsul Lunak, " .
+            "di bagian {$bagian}, dalam menghasilkan produk yang memenuhi persyaratan mutu internal Konimex, " .
+            "pemerintah dan persyaratan kapabilitas proses yang sudah ditentukan secara konsisten.";
 
         $textRun111 = $this->section->addTextRun([
             'alignment' => 'both',
@@ -197,7 +198,7 @@ class KapsulExportService
         $textRun111->addText('1.1.1', ['bold' => false, 'size' => 11]);
         $textRun111->addText(' ' . $tujuanText, ['size' => 11]);
 
-        // 1.2 Batch Validasi - only 1.2 is bold
+        // 1.2 Batch Validasi
         $textRun12 = $this->section->addTextRun([
             'alignment' => 'both',
             'indentation' => ['left' => 300],
@@ -207,19 +208,23 @@ class KapsulExportService
         $textRun12->addText('  Batch Validasi', ['size' => 11]);
 
         // Build batch text from form data
-        $jumlahBatch = $this->data['batch_jumlah'] ?? 'tiga';
-        $besaran = $this->data['batch_besaran'] ?? '600 L';
-        $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '20.000';
-        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '30 ml';
-        $kodeList = $this->data['batch_kode_list'] ?? 'A26A01, A26A02, A26A03';
+        $jumlahBatch    = $this->data['batch_jumlah'] ?? 'tiga';
+        $besaran        = $this->data['batch_besaran'] ?? '34 kg';
+        $jumlahKapsul   = $this->data['batch_jumlah_botol'] ?? '68.000';
+        $bobotIsi       = $this->data['batch_volume_per_botol'] ?? '500 mg (bobot isi)';
+        $kodeList       = $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, AUG25A03';
+        $bagianProduksi = $this->data['batch_bagian_produksi'] ?? $this->data['tujuan_bagian'] ?? 'Produksi Farmasi I Line Soft Capsule Gedung A';
+        $mesin          = $this->data['tujuan_mesin'] ?? 'mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling';
 
-        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} = {$jumlahBotol} botol @ {$volumePerBotol}, yaitu {$kodeList} :";
+        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} bets produksi dengan besaran batch {$besaran} = {$jumlahKapsul} Kapsul Lunak @ {$bobotIsi}, yaitu batch {$kodeList} yang diproduksi di Bagian {$bagianProduksi} dilakukan dengan menggunakan {$mesin}.";
 
-        $this->section->addText($batchText, [], [
+        $textRun121 = $this->section->addTextRun([
             'alignment' => 'both',
-            'indentation' => ['left' => 740],
+            'indentation' => ['left' => 1350, 'hanging' => 610],
             'contextualSpacing' => true,
         ]);
+        $textRun121->addText('1.2.1', ['bold' => false, 'size' => 11]);
+        $textRun121->addText(' ' . $batchText, ['size' => 11]);
 
         // Add Bahan Aktif table if present
         $this->addBahanAktifTable();
@@ -261,19 +266,21 @@ class KapsulExportService
         $cellParagraph = ['alignment' => 'left', 'spaceAfter' => 0];
 
         // Column widths
-        $col1 = 3000; // Bahan Aktif
-        $col2 = 2300; // Kode Bahan Baku
-        $col3 = 3700; // Nama Supplier
-        $col4 = 1200; // Negara
+        $col1 = 2400; // BB Zat Aktif
+        $col2 = 1500; // Kode BB
+        $col3 = 3000; // Supplier
+        $col4 = 1500; // Asal Negara
+        $col5 = 1800; // Kode Supplier
 
         $table = $this->section->addTable($tableStyle);
 
         // Header row
         $table->addRow(100);
-        $table->addCell($col1, $headerCellStyle)->addText('Bahan Aktif', $headerFontStyle, $headerCellParagraph);
-        $table->addCell($col2, $headerCellStyle)->addText('Kode Bahan Baku', $headerFontStyle, $headerCellParagraph);
-        $table->addCell($col3, $headerCellStyle)->addText('Nama Supplier', $headerFontStyle, $headerCellParagraph);
-        $table->addCell($col4, $headerCellStyle)->addText('Negara', $headerFontStyle, $headerCellParagraph);
+        $table->addCell($col1, $headerCellStyle)->addText('BB Zat Aktif', $headerFontStyle, $headerCellParagraph);
+        $table->addCell($col2, $headerCellStyle)->addText('Kode BB', $headerFontStyle, $headerCellParagraph);
+        $table->addCell($col3, $headerCellStyle)->addText('Supplier', $headerFontStyle, $headerCellParagraph);
+        $table->addCell($col4, $headerCellStyle)->addText('Asal Negara', $headerFontStyle, $headerCellParagraph);
+        $table->addCell($col5, $headerCellStyle)->addText('Kode Supplier', $headerFontStyle, $headerCellParagraph);
 
         // Data rows from pasted Excel
         foreach ($tableData as $row) {
@@ -282,6 +289,7 @@ class KapsulExportService
             $table->addCell($col2, $cellStyle)->addText($row[1] ?? '-', $cellFontStyle, $cellParagraph);
             $table->addCell($col3, $cellStyle)->addText($row[2] ?? '-', $cellFontStyle, $cellParagraph);
             $table->addCell($col4, $cellStyle)->addText($row[3] ?? '-', $cellFontStyle, $headerCellParagraph);
+            $table->addCell($col5, $cellStyle)->addText($row[4] ?? '-', $cellFontStyle, $headerCellParagraph);
         }
     }
 
@@ -298,14 +306,14 @@ class KapsulExportService
             'spaceAfter' => 0,
         ]);
 
-        // 2.1 Tujuan
+        // 2.1
         $textRun21 = $this->section->addTextRun([
             'alignment' => 'both',
             'indentation' => ['left' => 740, 'hanging' => 440],
             'contextualSpacing' => true,
         ]);
         $textRun21->addText('2.1', ['bold' => false, 'size' => 11]);
-        $textRun21->addText(' Semua tahap dalam penimbangan bahan baku, mixing, dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
+        $textRun21->addText(' Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
 
         // 2.2 Subheading 
         $textRun22 = $this->section->addTextRun([
@@ -395,36 +403,31 @@ class KapsulExportService
         $textRun23->addText('  Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut:', ['size' => 11]);
 
         // --- 2.3.1 static subab ---
-        $subab1Title = trim((string) ($this->data['bab23_subab_1_title'] ?? 'Enkapsulasi (Sebelum pengeringan)'));
-        $this->addBab23SubabHeading('2.3.1', $subab1Title);
+        $this->addBab23SubabHeading('2.3.1', 'Enkapsulasi (Sebelum pengeringan)');
 
         // 2.3.1.1
-        $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? ''));
-        if ($bobotSyarat !== '') {
-            $this->addBab23SubSubabText('2.3.1.1',
-                "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
-        }
+        $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '500 ± 50 mg'));
+        $this->addBab23SubSubabText('2.3.1.1',
+            "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
 
         // 2.3.1.2 — text + tables
         $samplingLokasi = trim((string) ($this->data['enkapsulasi_sampling_lokasi'] ?? '3'));
         $samplingJumlah = trim((string) ($this->data['enkapsulasi_sampling_jumlah'] ?? '20'));
         $this->addBab23SubSubabText('2.3.1.2',
-            "Dilakukan sampling pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
+            "Dilakukan sampling pemeriksaan bobot pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
 
-        // Render tables belonging to 2.3.1.2 (uid: bab23_enkapsulasi_2_tbl*)
+        // Render table for 2.3.1.2
         foreach ($bab23TableUids as $uid) {
-            if (str_starts_with($uid, 'bab23_enkapsulasi_2_')) {
+            if (str_starts_with($uid, 'bab23_enkapsulasi')) {
                 $this->renderBab23Image($uid, $imageMap, $existingImageMap);
             }
         }
 
         // 2.3.1.3
-        $namaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? ''));
-        $batchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $this->data['batch_kode_list'] ?? ''));
-        if ($namaProduk !== '' || $batchList !== '') {
-            $this->addBab23SubSubabText('2.3.1.3',
-                "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$namaProduk} bets {$batchList} memenuhi spesifikasi produk yang ditetapkan.");
-        }
+        $namaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule'));
+        $batchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03'));
+        $this->addBab23SubSubabText('2.3.1.3',
+            "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$namaProduk} bets {$batchList} memenuhi spesifikasi produk yang ditetapkan.");
 
         // Dynamic sub-subabs added to static subab 1 (key: enkapsulasi_sub_*)
         $this->renderDynamicSubSubabs('enkapsulasi', '2.3.1', $bab23TableUids, $imageMap, $existingImageMap, 4);
@@ -570,9 +573,9 @@ class KapsulExportService
     protected function getBab22SubabTitle(string $subabKey): string
     {
         $title = match ($subabKey) {
-            'mixing' => 'Mixing',
-            'filling_awal' => 'Awal filling-capping',
-            'filling_capping' => 'Filling-capping',
+            'mixing' => 'Enkapsulasi (Sebelum pengeringan)',
+            'filling_awal' => 'Tahap Pengeringan',
+            'filling_capping' => 'Tahap Kemas Primer',
             default => trim((string) ($this->data["{$subabKey}_title"] ?? 'Subab')),
         };
 
@@ -584,18 +587,24 @@ class KapsulExportService
      */
     protected function getBab22SubabClosingText(string $subabKey): string
     {
+        $namaProduk = $this->data['mixing_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+        $batchList  = $this->data['mixing_batch_list'] ?? $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03';
+
         return match ($subabKey) {
-            'mixing' => 'Atribut yang diuji pada tahap mixing sudah memberikan hasil yang ' .
+            'mixing' => 'Seluruh hasil pemeriksaan bobot sampel tahap enkapsulasi (sebelum pengeringan) produk ' .
+                $namaProduk . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
                 ($this->data['mixing_hasil'] ?? 'memenuhi') .
-                ' persyaratan menurut Spesifikasi Produk yang berlaku' .
+                ' spesifikasi produk yang ditetapkan' .
                 $this->resolveBab22ClosingTail('mixing_hasil_catatan') . '.',
-            'filling_awal' => 'Atribut yang diuji pada tahap awal filling-capping sudah memberikan hasil yang ' .
+            'filling_awal' => 'Seluruh hasil pemeriksaan sampel pengeringan produk ' .
+                $namaProduk . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
                 ($this->data['filling_awal_hasil'] ?? 'memenuhi') .
-                ' persyaratan menurut Spesifikasi Produk yang berlaku' .
+                ' spesifikasi produk yang ditetapkan' .
                 $this->resolveBab22ClosingTail('filling_awal_hasil_catatan') . '.',
-            'filling_capping' => 'Atribut yang diuji pada tahap filling-capping sudah memberikan hasil yang ' .
+            'filling_capping' => 'Seluruh hasil pemeriksaan sampel tahap kemas primer produk ' .
+                $namaProduk . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
                 ($this->data['filling_capping_hasil'] ?? 'memenuhi') .
-                ' persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku' .
+                ' spesifikasi kemasan yang ditetapkan' .
                 $this->resolveBab22ClosingTail('filling_capping_hasil_catatan') . '.',
             default => trim((string) ($this->data["{$subabKey}_notes"] ?? '')),
         };
@@ -614,67 +623,36 @@ class KapsulExportService
     {
         $this->section->addTextBreak(1);
 
-        // BAB 3 Title
         $this->section->addText('3. KESIMPULAN', ['bold' => true, 'size' => 11], [
             'alignment' => 'both',
             'spaceAfter' => 0,
         ]);
 
-        // Determine which sections are enabled (default: all)
-        $enabledStr = $this->data['kesimpulan_enabled_sections'] ?? '1,2,3,4,5';
+        $enabledStr = $this->data['kesimpulan_enabled_sections'] ?? '1,2';
         $enabledSections = array_map('trim', explode(',', $enabledStr));
 
         $sectionNumber = 1;
 
-        // Section 1: Produksi
+        // Section 1: Produksi + tinjauan perubahan
         if (in_array('1', $enabledSections)) {
-            $namaProduk = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 30 ml';
-            $batchCodes = $this->data['kesimpulan_batch_codes'] ?? 'A26A01, A26A02, A26A03';
-            $text = "Telah dilakukan proses produksi terhadap produk {$namaProduk}, yakni pada batch {$batchCodes} yang digunakan sebagai batch validasi proses.";
+            $namaProduk  = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+            $batchCodes  = $this->data['kesimpulan_batch_codes'] ?? $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03';
+            $namaProduk2 = $this->data['kesimpulan_nama_produk_2'] ?? $namaProduk;
+            $ppNo        = $this->data['kesimpulan_pp_no'] ?? 'PP-EA-092-00';
+            $ppTanggal   = $this->data['kesimpulan_pp_tanggal'] ?? '23-08-2024';
+
+            $text = "Telah dilakukan proses produksi terhadap produk {$namaProduk} bets {$batchCodes} yang digunakan sebagai batch validasi proses, sekaligus menjadi tinjauan status validasi proses produk {$namaProduk2} terhadap Permintaan Perubahan no {$ppNo} tanggal {$ppTanggal}.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
 
-        // Section 2: Mixing
+        // Section 2: Final conclusion (validated)
         if (in_array('2', $enabledSections)) {
-            $mixingAtribut = $this->data['kesimpulan_mixing_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
-            $mixingHasil = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap mixing ({$mixingAtribut}) sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
-            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            $sectionNumber++;
-        }
+            $finalProduk  = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+            $namaProduk3  = $this->data['kesimpulan_nama_produk_3'] ?? $finalProduk;
+            $status       = $this->data['kesimpulan_status'] ?? 'validated';
 
-        // Section 3: Awal Filling-Capping
-        if (in_array('3', $enabledSections)) {
-            $fillingAwalAtribut = $this->data['kesimpulan_fillingawal_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
-            $fillingAwalHasil = $this->data['kesimpulan_fillingawal_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap awal filling-capping ({$fillingAwalAtribut}) sudah memberikan hasil yang {$fillingAwalHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
-            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            $sectionNumber++;
-        }
-
-        // Section 4: Filling-Capping
-        if (in_array('4', $enabledSections)) {
-            $fillingAtribut = $this->data['kesimpulan_filling_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan';
-            $fillingHasil = $this->data['kesimpulan_filling_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap filling-capping produk kapsul ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
-            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            $sectionNumber++;
-        }
-
-        // Section 5: Final Conclusion (with italic status)
-        if (in_array('5', $enabledSections)) {
-            $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 30 ml';
-            $status = $this->data['kesimpulan_status'] ?? 'validated';
-            $formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
-            $mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
-            $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'mixing, awal filling-capping, selama filling-capping';
-            $formulaText = $formula ? " dengan formula zat aktif {$formula}" : "";
-
-            $text = "Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter " .
-                "proses dan hasil pemeriksaan atribut kualitas produk pada tahap {$tahapProses} yang memenuhi " .
-                "persyaratan, maka proses pengolahan dan pengemasan produk {$finalProduk} menggunakan {$mesin}" .
-                "{$formulaText} dinyatakan ";
+            $text = "Proses terbukti dapat menghasilkan produk jadi {$finalProduk} yang memenuhi spesifikasi dalam Spesifikasi Produk dan Spesifikasi Kemasan {$namaProduk3} sehingga dinyatakan ";
 
             $textRun = $this->section->addTextRun([
                 'alignment' => 'both',
@@ -691,7 +669,7 @@ class KapsulExportService
         // Custom sections (c1, c2, c3, ...)
         foreach ($enabledSections as $sectionId) {
             if (str_starts_with($sectionId, 'c')) {
-                $customNum = substr($sectionId, 1); // e.g. "1" from "c1"
+                $customNum  = substr($sectionId, 1);
                 $customText = $this->data["kesimpulan_custom_{$customNum}"] ?? '';
                 if (!empty(trim($customText))) {
                     $this->addKesimpulanItem("3.{$sectionNumber}", trim($customText));
@@ -794,20 +772,47 @@ class KapsulExportService
             'spaceAfter' => 0,
         ]);
 
-        $namaProduk = $this->data['judul_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'produk';
+        $namaProduk = $this->data['saran_nama_produk_4'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
         $defaultSaran = "Apabila dikemudian hari dilakukan perubahan pada proses produksi produk {$namaProduk}, maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.";
-        $saranText = trim((string) ($this->data['saran_text'] ?? ''));
-        if ($saranText === '') {
-            $saranText = $defaultSaran;
+
+        $enabledStr = $this->data['saran_enabled_sections'] ?? '1';
+        $enabledSections = array_map('trim', explode(',', $enabledStr));
+
+        $sectionNumber = 1;
+
+        // Section 1: main saran
+        if (in_array('1', $enabledSections)) {
+            $saranText = trim((string) ($this->data['saran_text'] ?? ''));
+            if ($saranText === '') {
+                $saranText = $defaultSaran;
+            }
+            $textRun = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 740, 'hanging' => 440],
+                'contextualSpacing' => true,
+            ]);
+            $textRun->addText("4.{$sectionNumber}", ['bold' => false, 'size' => 11]);
+            $textRun->addText('  ' . $saranText, ['size' => 11]);
+            $sectionNumber++;
         }
 
-        $textRun = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 740, 'hanging' => 440],
-            'contextualSpacing' => true,
-        ]);
-        $textRun->addText('4.1', ['bold' => false, 'size' => 11]);
-        $textRun->addText('  ' . $saranText, ['size' => 11]);
+        // Custom saran sections (c1, c2, ...)
+        foreach ($enabledSections as $sectionId) {
+            if (str_starts_with($sectionId, 'c')) {
+                $customNum  = substr($sectionId, 1);
+                $customText = trim((string) ($this->data["saran_custom_{$customNum}"] ?? ''));
+                if ($customText !== '') {
+                    $textRun = $this->section->addTextRun([
+                        'alignment' => 'both',
+                        'indentation' => ['left' => 740, 'hanging' => 440],
+                        'contextualSpacing' => true,
+                    ]);
+                    $textRun->addText("4.{$sectionNumber}", ['bold' => false, 'size' => 11]);
+                    $textRun->addText('  ' . $customText, ['size' => 11]);
+                    $sectionNumber++;
+                }
+            }
+        }
     }
 
     /**
