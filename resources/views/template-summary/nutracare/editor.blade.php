@@ -350,10 +350,139 @@
                             </button>
                         </div>
                     </div>
+
+                    {{-- 2.3 Hasil pemeriksaan sampel --}}
+                    <div>
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                            <span>
+                                <span class="font-semibold">2.3.</span>
+                                Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut:
+                            </span>
+                            <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
+                        </h3>
+
+                        {{-- 2.3.1 static subab --}}
+                        <div class="bab23-subab mt-4" id="bab23_subab_1" data-subab-key="enkapsulasi">
+                            <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-3 flex items-center justify-between">
+                                <span>
+                                    <span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                        onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.1</span>
+                                    <input type="text" name="bab23_subab_1_title" class="template-input w-72" value="Enkapsulasi (Sebelum pengeringan)" placeholder="Judul subab">
+                                </span>
+                            </h4>
+
+                            <div class="bab23-subsubab-container ml-4 flex flex-col gap-4">
+                                {{-- 2.3.1.1 --}}
+                                <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_1">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-10 -indent-10">
+                                            <span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                                onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.1</span>
+                                            Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas
+                                            <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-48" placeholder="500,25 ± 37,52 mg">.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {{-- 2.3.1.2 --}}
+                                <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_2">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
+                                        <p class="pl-10 -indent-10">
+                                            <span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                                onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.2</span>
+                                            Dilakukan sampling pada
+                                            <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3">
+                                            lokasi (awal, tengah, akhir) dengan jumlah
+                                            <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-8" placeholder="20">
+                                            butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:
+                                        </p>
+                                    </div>
+                                    <div class="ml-10">
+                                        <div class="bab23-tables-container flex flex-col gap-3">
+                                            <div class="bab23-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="bab23_enkapsulasi_2_tbl1" onpaste="handleMixingPaste(event, this)">
+                                                <div class="absolute top-1 right-1 z-20">
+                                                    <button type="button" onclick="toggleTableMenu(this)" class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi">
+                                                        <span class="material-symbols-outlined text-[20px] block">more_vert</span>
+                                                    </button>
+                                                    <div class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30">
+                                                        <button type="button" onclick="removeBab23Table(this)" class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+                                                            <span class="material-symbols-outlined text-[18px]">delete</span>Hapus Tabel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="p-6">
+                                                    <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                                                        <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
+                                                        <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                                                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy dari Excel atau Screenshot lalu paste (Ctrl+V)</p>
+                                                        <div class="flex justify-center mb-4">
+                                                            <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                                                <span class="material-symbols-outlined text-[16px]">content_paste_go</span>Tempel dari Clipboard
+                                                            </button>
+                                                        </div>
+                                                        <textarea rows="3" class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono" placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)" onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                                                    </div>
+                                                    <input type="file" name="mixing_image_file[bab23_enkapsulasi_2_tbl1]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                                                    <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
+                                                        <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
+                                                        <button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar"><span class="material-symbols-outlined text-[14px] block">close</span></button>
+                                                    </div>
+                                                    <div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
+                                                        <div class="overflow-auto max-h-[420px]"><table class="w-full text-sm border-collapse pasted-table-preview-table"></table></div>
+                                                        <button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste"><span class="material-symbols-outlined text-[14px] block">close</span></button>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="bab22_table_subab_key[bab23_enkapsulasi_2_tbl1]" value="bab23">
+                                                <input type="hidden" name="existing_mixing_image_file[bab23_enkapsulasi_2_tbl1]" value="">
+                                                <input type="hidden" name="mixing_pasted_table_json[bab23_enkapsulasi_2_tbl1]" value="">
+                                                <input type="hidden" name="mixing_image_base64[bab23_enkapsulasi_2_tbl1]" value="">
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="addBab23Table(this)"
+                                            class="mt-2 w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm">
+                                            <span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>Tambah Tabel / Screenshot
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {{-- 2.3.1.3 --}}
+                                <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_3">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-10 -indent-10">
+                                            <span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                                onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.3</span>
+                                            Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk
+                                            <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                                            bets
+                                            <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02">
+                                            memenuhi spesifikasi produk yang ditetapkan.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ml-4 mt-3">
+                                <button type="button" onclick="addBab23SubSubab(this)"
+                                    class="w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm">
+                                    <span class="material-symbols-outlined text-[18px]">add</span>Tambah Sub-subab
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- Dynamic 2.3.x subabs --}}
+                        <div id="bab23_dynamic_subab_container" class="flex flex-col gap-6 mt-4"></div>
+
+                        {{-- Add 2.3.x button --}}
+                        <div class="mt-3">
+                            <button type="button" onclick="addBab23Subab()"
+                                class="w-full py-3 border-2 border-dashed border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:border-red-400 hover:bg-red-50/40 dark:hover:bg-red-900/20 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">add</span>
+                                <span class="text-sm font-medium">Tambah Subab (2.3.x)</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            {{-- BAB 3: KESIMPULAN --}}
             <div
                 class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                 <div
@@ -389,12 +518,14 @@
 
 
                     {{-- 3.2--}}
-                    <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.2 Batch Validasi</h3>
+                    <div class="kesimpulan-section" data-section-id="2">
                         <div
-                            class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify mb-4">
-                            <p>
-                                3.2. Proses terbukti pada
+                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <p class="pl-8 -indent-8">
+                            <span
+                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
+                                Proses terbukti pada
                                 <input type="text" name="batch_jumlah" class="template-input w-12"
                                     placeholder="dua">
                                 bets pemeriksaan, dapat menghasilkan produk jadi
@@ -410,26 +541,6 @@
                                 sehingga dinyatakan
                                 <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
                                     placeholder="validated">.
-                            </p>
-                        </div>
-
-
-                    {{-- 3.2 --}}
-                    <div class="kesimpulan-section" data-section-id="2">
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p class="pl-8 -indent-8">
-                                <span
-                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
-                                Atribut yang diuji pada tahap mixing
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
-                                    value="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)"
-                                    placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)">
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
-                                memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.
                             </p>
                         </div>
                     </div>
@@ -525,36 +636,22 @@
         </div>
 
         {{-- BAB 4: SARAN --}}
-            <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
                     <h2 class="font-bold text-slate-900 dark:text-white">4. SARAN</h2>
                 </div>
-                <div class="p-6 flex flex-col gap-6">
-                    {{-- 4.1 --}}
-                    <div>
-                        <div
-                            class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
-                            <p class="pl-8 -indent-8">
-                                <span class="font-medium">4.1</span> Apabila dikemudian hari dilakukan perubahan pada proses produksi produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
-                                , maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan 
-                                mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
-                            </p>
-                        </div>
+                <div class="p-6">
+                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                        <p class="pl-8 -indent-8">
+                            <span class="font-semibold">4.1</span>
+                            <textarea name="saran_text" rows="3"
+                                class="template-input w-full resize-y mt-1 px-2 py-1 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm"
+                                placeholder="Apabila dikemudian hari dilakukan perubahan pada proses produksi produk [nama produk], maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku."></textarea>
+                        </p>
                     </div>
                 </div>
             </div>
-
-            
-                            {{-- Hidden input to store table data --}}
-                            <input type="hidden" name="tabel_bahan_aktif" id="hidden_data_bahan_aktif">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        </div>
 
         {{-- Fixed Footer Actions --}}
         <div class="fixed flex justify-end bottom-0 right-0 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-40 transition-[left] duration-300 ease-in-out"
@@ -2102,6 +2199,201 @@
                 }
             });
         });
+
+        // =============================================
+        // BAB 2.3 — Hierarchical Sub-section System
+        // =============================================
+
+        let bab23SubabCounter = 1; // starts at 1 since static subab is 2.3.1
+        let bab23SubSubabCounter = 100; // offset to avoid uid collisions
+
+        function getBab23TableTemplate(uid) {
+            return `
+                <div class="bab23-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${uid}" onpaste="handleMixingPaste(event, this)">
+                    <div class="absolute top-1 right-1 z-20">
+                        <button type="button" onclick="toggleTableMenu(this)" class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi">
+                            <span class="material-symbols-outlined text-[20px] block">more_vert</span>
+                        </button>
+                        <div class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30">
+                            <button type="button" onclick="removeBab23Table(this)" class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>Hapus Tabel
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                            <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
+                            <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy dari Excel atau Screenshot lalu paste (Ctrl+V)</p>
+                            <div class="flex justify-center mb-4">
+                                <button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">content_paste_go</span>Tempel dari Clipboard
+                                </button>
+                            </div>
+                            <textarea rows="3" class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono" placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)" onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                        </div>
+                        <input type="file" name="mixing_image_file[${uid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                        <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
+                            <img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm">
+                            <button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar">
+                                <span class="material-symbols-outlined text-[14px] block">close</span>
+                            </button>
+                        </div>
+                        <div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
+                            <div class="overflow-auto max-h-[420px]">
+                                <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
+                            </div>
+                            <button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste">
+                                <span class="material-symbols-outlined text-[14px] block">close</span>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="bab22_table_subab_key[${uid}]" value="bab23">
+                    <input type="hidden" name="existing_mixing_image_file[${uid}]" value="">
+                    <input type="hidden" name="mixing_pasted_table_json[${uid}]" value="">
+                    <input type="hidden" name="mixing_image_base64[${uid}]" value="">
+                </div>`;
+        }
+
+        function addBab23Table(button) {
+            bab23SubSubabCounter++;
+            const uid = `bab23_tbl_${bab23SubSubabCounter}`;
+            const subsubab = button.closest('.bab23-subsubab') || button.closest('.ml-10');
+            let container = button.previousElementSibling;
+            if (!container || !container.classList.contains('bab23-tables-container')) {
+                container = document.createElement('div');
+                container.className = 'bab23-tables-container flex flex-col gap-3 mb-2';
+                button.insertAdjacentElement('beforebegin', container);
+            }
+            container.insertAdjacentHTML('beforeend', getBab23TableTemplate(uid));
+        }
+
+        function removeBab23Table(button) {
+            const tableItem = button.closest('.bab23-table-item');
+            if (tableItem) tableItem.remove();
+        }
+
+        function addBab23SubSubab(button) {
+            bab23SubSubabCounter++;
+            const subab = button.closest('.bab23-subab');
+            const container = subab.querySelector('.bab23-subsubab-container');
+            const subabKey = subab.dataset.subabKey || `bab23_${bab23SubabCounter}`;
+            const key = `${subabKey}_sub_${bab23SubSubabCounter}`;
+
+            const el = document.createElement('div');
+            el.className = 'bab23-subsubab';
+            el.dataset.subsubabKey = key;
+            el.innerHTML = `
+                <div class="flex items-start gap-2 mb-2">
+                    <span class="bab23-subsubab-number font-medium text-slate-700 dark:text-slate-300 cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap mt-0.5"
+                        onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.X.X</span>
+                    <input type="text" name="${key}_title" class="template-input flex-1" placeholder="Judul sub-subab (opsional)">
+                    <button type="button" onclick="removeBab23SubSubab(this)" class="text-slate-400 hover:text-red-600 transition-colors mt-1" title="Hapus">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                </div>
+                <div class="ml-10">
+                    <textarea name="${key}_text" rows="3" class="w-full resize-y px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm mb-2" placeholder="Isi teks sub-subab ini..."></textarea>
+                    <div class="bab23-tables-container flex flex-col gap-3"></div>
+                    <button type="button" onclick="addBab23Table(this)"
+                        class="mt-2 w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm">
+                        <span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>Tambah Tabel / Screenshot
+                    </button>
+                </div>
+            `;
+            container.appendChild(el);
+            renumberBab23();
+        }
+
+        function removeBab23SubSubab(button) {
+            const subsubab = button.closest('.bab23-subsubab');
+            if (subsubab) { subsubab.remove(); renumberBab23(); }
+        }
+
+        function addBab23Subab() {
+            bab23SubabCounter++;
+            const key = `bab23_subab_dyn_${bab23SubabCounter}`;
+            const container = document.getElementById('bab23_dynamic_subab_container');
+            const el = document.createElement('div');
+            el.className = 'bab23-subab';
+            el.dataset.subabKey = key;
+            el.innerHTML = `
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap"
+                        onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.X</span>
+                    <input type="text" name="${key}_title" class="template-input flex-1 font-semibold" placeholder="Judul subab (contoh: Tahap Pengeringan)">
+                    <button type="button" onclick="removeBab23Subab(this)" class="text-slate-400 hover:text-red-600 transition-colors" title="Hapus subab">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                </div>
+                <div class="bab23-subsubab-container ml-4 flex flex-col gap-4"></div>
+                <div class="ml-4 mt-3">
+                    <button type="button" onclick="addBab23SubSubab(this)"
+                        class="w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm">
+                        <span class="material-symbols-outlined text-[18px]">add</span>Tambah Sub-subab
+                    </button>
+                </div>
+            `;
+            container.appendChild(el);
+            renumberBab23();
+            el.querySelector(`input[name="${key}_title"]`).focus();
+        }
+
+        function removeBab23Subab(button) {
+            const subab = button.closest('.bab23-subab');
+            if (subab) { subab.remove(); renumberBab23(); }
+        }
+
+        function toggleBab23Subab(numberEl) {
+            const subab = numberEl.closest('.bab23-subab');
+            const isDisabled = subab.classList.toggle('subab-disabled');
+            subab.style.opacity = isDisabled ? '0.35' : '1';
+            numberEl.classList.toggle('line-through', isDisabled);
+            numberEl.classList.toggle('text-red-500', isDisabled);
+            subab.querySelectorAll('input, textarea, button, select').forEach(el => {
+                isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled');
+            });
+            renumberBab23();
+        }
+
+        function toggleBab23SubSubab(numberEl) {
+            const subsubab = numberEl.closest('.bab23-subsubab');
+            const isDisabled = subsubab.classList.toggle('subsubab-disabled');
+            subsubab.style.opacity = isDisabled ? '0.35' : '1';
+            numberEl.classList.toggle('line-through', isDisabled);
+            numberEl.classList.toggle('text-red-500', isDisabled);
+            subsubab.querySelectorAll('input, textarea, button, select').forEach(el => {
+                isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled');
+            });
+            renumberBab23();
+        }
+
+        function renumberBab23() {
+            const staticSubab = document.getElementById('bab23_subab_1');
+            const dynamicSubabs = [...document.querySelectorAll('#bab23_dynamic_subab_container > .bab23-subab')];
+            const allSubabs = [staticSubab, ...dynamicSubabs].filter(Boolean);
+
+            let subabIdx = 1;
+            allSubabs.forEach(subab => {
+                const numEl = subab.querySelector('.bab23-number');
+                const isDisabled = subab.classList.contains('subab-disabled');
+                const currentNum = `2.3.${subabIdx}`;
+                if (numEl) numEl.textContent = currentNum;
+                if (!isDisabled) subabIdx++;
+
+                const subsubabs = subab.querySelectorAll(':scope .bab23-subsubab-container > .bab23-subsubab');
+                let ssIdx = 1;
+                subsubabs.forEach(ss => {
+                    const ssNumEl = ss.querySelector('.bab23-subsubab-number');
+                    const isSSDisabled = ss.classList.contains('subsubab-disabled');
+                    if (ssNumEl) ssNumEl.textContent = `${currentNum}.${ssIdx}`;
+                    if (!isSSDisabled) ssIdx++;
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() { renumberBab23(); });
+
         function showExportModal() {
             const token = 'exp_' + Date.now();
             let tokenInput = document.getElementById('export_token_input');

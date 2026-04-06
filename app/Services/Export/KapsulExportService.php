@@ -30,6 +30,7 @@ class KapsulExportService
         $this->exportBab1();
         $this->exportBab2();
         $this->exportBab3();
+        $this->exportBab4();
         $this->addFooter();
 
         return $this->saveAndDownload();
@@ -356,6 +357,182 @@ class KapsulExportService
             $subabNumber++;
             $this->section->addTextBreak(1);
         }
+
+        // 2.3 Hasil pemeriksaan sampel per tahapan
+        $this->exportBab23($tableSubabMap, $imageMap, $existingImageMap);
+    }
+
+    /**
+     * Export BAB 2.3: Hasil pemeriksaan sampel per tahapan
+     */
+    protected function exportBab23(array $tableSubabMap, array $imageMap, array $existingImageMap): void
+    {
+        // Collect all bab23 table UIDs in submission order
+        $bab23TableUids = [];
+        foreach ($tableSubabMap as $tableUid => $subabKey) {
+            if ((string) $subabKey === 'bab23') {
+                $bab23TableUids[] = (string) $tableUid;
+            }
+        }
+
+        // Check if there's any bab23 content at all
+        $hasBab23Content = !empty($bab23TableUids)
+            || !empty(trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '')))
+            || !empty(trim((string) ($this->data['enkapsulasi_batch_list'] ?? '')))
+            || !empty(trim((string) ($this->data['bab23_subab_1_title'] ?? '')));
+
+        if (!$hasBab23Content) {
+            return;
+        }
+
+        // 2.3 heading
+        $textRun23 = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 670, 'hanging' => 370],
+            'spaceAfter' => 60,
+        ]);
+        $textRun23->addText('2.3', ['bold' => false, 'size' => 11]);
+        $textRun23->addText('  Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut:', ['size' => 11]);
+
+        // --- 2.3.1 static subab ---
+        $subab1Title = trim((string) ($this->data['bab23_subab_1_title'] ?? 'Enkapsulasi (Sebelum pengeringan)'));
+        $this->addBab23SubabHeading('2.3.1', $subab1Title);
+
+        // 2.3.1.1
+        $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? ''));
+        if ($bobotSyarat !== '') {
+            $this->addBab23SubSubabText('2.3.1.1',
+                "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
+        }
+
+        // 2.3.1.2 — text + tables
+        $samplingLokasi = trim((string) ($this->data['enkapsulasi_sampling_lokasi'] ?? '3'));
+        $samplingJumlah = trim((string) ($this->data['enkapsulasi_sampling_jumlah'] ?? '20'));
+        $this->addBab23SubSubabText('2.3.1.2',
+            "Dilakukan sampling pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
+
+        // Render tables belonging to 2.3.1.2 (uid: bab23_enkapsulasi_2_tbl*)
+        foreach ($bab23TableUids as $uid) {
+            if (str_starts_with($uid, 'bab23_enkapsulasi_2_')) {
+                $this->renderBab23Image($uid, $imageMap, $existingImageMap);
+            }
+        }
+
+        // 2.3.1.3
+        $namaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? ''));
+        $batchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $this->data['batch_kode_list'] ?? ''));
+        if ($namaProduk !== '' || $batchList !== '') {
+            $this->addBab23SubSubabText('2.3.1.3',
+                "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$namaProduk} bets {$batchList} memenuhi spesifikasi produk yang ditetapkan.");
+        }
+
+        // Dynamic sub-subabs added to static subab 1 (key: enkapsulasi_sub_*)
+        $this->renderDynamicSubSubabs('enkapsulasi', '2.3.1', $bab23TableUids, $imageMap, $existingImageMap, 4);
+
+        // --- Dynamic 2.3.x subabs ---
+        $dynSubabIdx = 2;
+        $dynCounter = 1;
+        while (true) {
+            $key = "bab23_subab_dyn_{$dynCounter}";
+            $title = trim((string) ($this->data["{$key}_title"] ?? ''));
+            if ($title === '' && $dynCounter > 20) {
+                break;
+            }
+            if ($title !== '') {
+                $this->addBab23SubabHeading("2.3.{$dynSubabIdx}", $title);
+
+                // Dynamic sub-subabs for this subab
+                $this->renderDynamicSubSubabs($key, "2.3.{$dynSubabIdx}", $bab23TableUids, $imageMap, $existingImageMap, 1);
+
+                $dynSubabIdx++;
+            }
+            $dynCounter++;
+            if ($dynCounter > 50) break;
+        }
+
+        // Render all dynamic tables (bab23_tbl_*) once at the end
+        foreach ($bab23TableUids as $uid) {
+            if (str_starts_with($uid, 'bab23_tbl_')) {
+                $this->renderBab23Image($uid, $imageMap, $existingImageMap);
+            }
+        }
+
+        $this->section->addTextBreak(1);
+    }
+
+    private function addBab23SubabHeading(string $number, string $title): void
+    {
+        $textRun = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 740, 'hanging' => 440],
+            'spaceAfter' => 60,
+        ]);
+        $textRun->addText($number, ['bold' => false, 'size' => 11]);
+        $textRun->addText("  {$title}", ['size' => 11]);
+    }
+
+    private function addBab23SubSubabText(string $number, string $text): void
+    {
+        $textRun = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 1080, 'hanging' => 580],
+            'contextualSpacing' => true,
+        ]);
+        $textRun->addText($number, ['bold' => false, 'size' => 11]);
+        $textRun->addText("  {$text}", ['size' => 11]);
+    }
+
+    private function renderBab23Image(string $uid, array $imageMap, array $existingImageMap): void
+    {
+        $imageFile = $imageMap[$uid] ?? null;
+        $base64 = trim((string) ($this->data["mixing_image_base64[{$uid}]"] ?? $this->data['mixing_image_base64'][$uid] ?? ''));
+        $resolvedPath = $this->resolveStoredImagePath($existingImageMap[$uid] ?? null);
+
+        if ($imageFile instanceof UploadedFile && $imageFile->isValid()) {
+            try {
+                $this->section->addImage($imageFile->getPathname(), ['width' => 450, 'align' => 'center', 'marginTop' => 6, 'marginBottom' => 6]);
+            } catch (\Exception $e) {
+                $this->section->addText("[Error gambar: {$e->getMessage()}]", ['color' => 'FF0000']);
+            }
+        } elseif ($resolvedPath) {
+            try {
+                $this->section->addImage($resolvedPath, ['width' => 450, 'align' => 'center', 'marginTop' => 6, 'marginBottom' => 6]);
+            } catch (\Exception $e) {
+                $this->section->addText("[Error gambar draft: {$e->getMessage()}]", ['color' => 'FF0000']);
+            }
+        } elseif ($base64 !== '' && str_starts_with($base64, 'data:image')) {
+            try {
+                $commaPos = strpos($base64, ',');
+                $imageData = base64_decode(substr($base64, $commaPos + 1));
+                $tmpFile = tempnam(sys_get_temp_dir(), 'bab23img');
+                file_put_contents($tmpFile, $imageData);
+                $this->section->addImage($tmpFile, ['width' => 450, 'align' => 'center', 'marginTop' => 6, 'marginBottom' => 6]);
+                @unlink($tmpFile);
+            } catch (\Exception $e) {
+                $this->section->addText("[Error gambar base64]", ['color' => 'FF0000']);
+            }
+        }
+    }
+
+    private function renderDynamicSubSubabs(string $subabKey, string $parentNum, array $bab23TableUids, array $imageMap, array $existingImageMap, int $startIdx): void
+    {
+        $ssIdx = $startIdx;
+        $ssCounter = 1;
+        while (true) {
+            $ssKey = "{$subabKey}_sub_{$ssCounter}";
+            $ssTitle = trim((string) ($this->data["{$ssKey}_title"] ?? ''));
+            $ssText  = trim((string) ($this->data["{$ssKey}_text"] ?? ''));
+            if ($ssTitle === '' && $ssText === '' && $ssCounter > 20) {
+                break;
+            }
+            if ($ssTitle !== '' || $ssText !== '') {
+                $content = $ssTitle !== '' ? $ssTitle . ($ssText !== '' ? ": {$ssText}" : '') : $ssText;
+                $this->addBab23SubSubabText("{$parentNum}.{$ssIdx}", $content);
+                $ssIdx++;
+            }
+            $ssCounter++;
+            if ($ssCounter > 100) break;
+        }
     }
 
     /**
@@ -603,6 +780,34 @@ class KapsulExportService
         }
 
         return null;
+    }
+
+    /**
+     * Export BAB 4: SARAN
+     */
+    protected function exportBab4(): void
+    {
+        $this->section->addTextBreak(1);
+
+        $this->section->addText('4. SARAN', ['bold' => true, 'size' => 11], [
+            'alignment' => 'both',
+            'spaceAfter' => 0,
+        ]);
+
+        $namaProduk = $this->data['judul_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'produk';
+        $defaultSaran = "Apabila dikemudian hari dilakukan perubahan pada proses produksi produk {$namaProduk}, maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.";
+        $saranText = trim((string) ($this->data['saran_text'] ?? ''));
+        if ($saranText === '') {
+            $saranText = $defaultSaran;
+        }
+
+        $textRun = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 740, 'hanging' => 440],
+            'contextualSpacing' => true,
+        ]);
+        $textRun->addText('4.1', ['bold' => false, 'size' => 11]);
+        $textRun->addText('  ' . $saranText, ['size' => 11]);
     }
 
     /**
