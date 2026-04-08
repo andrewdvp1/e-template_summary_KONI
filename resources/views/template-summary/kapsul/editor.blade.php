@@ -142,7 +142,7 @@
                                     data-sync="bagian" value="Produksi Farmasi I lini Soft Capsule"
                                     placeholder="Produksi Farmasi I lini Soft Capsule">
                                 dilakukan dengan menggunakan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
+                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-178"
                                     data-sync="mesin"
                                     value="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling"
                                     placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling">, mengacu MBR Pengolahan
