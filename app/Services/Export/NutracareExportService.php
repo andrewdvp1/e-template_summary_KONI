@@ -987,7 +987,7 @@ class NutracareExportService
      */
     protected function saveAndDownload()
     {
-        $namaProduk = $this->data['judul_nama_produk'] ?? 'Heltiskin';
+        $namaProduk = $this->data['judul_nama_produk'] ?? 'Nutracare EPO 500 Soft Capsule';
         $fileName = 'Summary_Validasi_' . str_replace(' ', '_', $namaProduk) . '_' . date('Y-m-d') . '.docx';
 
         $tempFile = tempnam(sys_get_temp_dir(), 'PHPWord');

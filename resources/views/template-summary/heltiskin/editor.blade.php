@@ -100,7 +100,7 @@
                                     data-sync="bagian" value="Production Pharma III Gedung B"
                                     placeholder="Production Pharma III Gedung B">
                                 yang diproduksi dengan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
+                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-150"
                                     data-sync="mesin"
                                     value="Vacuum homogenizer mixer Koruma dan Mesin filling tube IWK FP10"
                                     placeholder="Vacuum homogenizer mixer Koruma dan Mesin filling tube IWK FP10">
@@ -220,7 +220,7 @@
                             <p class="pl-8 -indent-8">
                                 <span class="font-semibold">2.1.</span> Semua tahap dalam
                             
-                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-full"
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-132"
                                     data-sync="rangkuman"
                                     value="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)"
                                     placeholder="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)">
@@ -406,7 +406,7 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
                                 Atribut yang diuji pada tahap 
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-132"
                                     value="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)"
                                     placeholder="Penimbangan bahan baku, Mixing, dan Pengemasan Primer (Tube)">
                                 produk sudah memberikan hasil yang
