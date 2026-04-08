@@ -124,14 +124,16 @@ class KapsulExportService
         //$line = strtoupper($this->data['judul_line'] ?? '2');
         //$bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Natpro');
 
-        $formula = $this->data['judul_formula'] ?? '';
-        $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
+        $formula = trim((string) ($this->data['judul_formula'] ?? ''));
 
-        $title = "SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN" .
-        "PRODUK {$namaProduk}" .
-        "{$formulaStr} ";
+        $titleStyle = ['bold' => true, 'size' => 12];
+        $titlePara = ['alignment' => 'center', 'spaceAfter' => 0];
 
-        $this->section->addText($title, ['bold' => true, 'size' => 12], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $this->section->addText('SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN', $titleStyle, $titlePara);
+        $this->section->addText("PRODUK {$namaProduk}", $titleStyle, $titlePara);
+        if ($formula !== '') {
+            $this->section->addText('(' . strtoupper($formula) . ')', $titleStyle, $titlePara);
+        }
     }
 
     /**
@@ -170,6 +172,11 @@ class KapsulExportService
             'contextualSpacing' => true,
         ]);
 
+        $enabledBab1Points = array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) ($this->data['bab1_enabled_points'] ?? '1.1.1,1.2.1,1.2.2,1.2.3,1.2.4'))
+        )));
+
         // 1.1 Tujuan
         $textRun11 = $this->section->addTextRun([
             'alignment' => 'both',
@@ -190,13 +197,15 @@ class KapsulExportService
             "di bagian {$bagian}, dalam menghasilkan produk yang memenuhi persyaratan mutu internal Konimex, " .
             "pemerintah dan persyaratan kapabilitas proses yang sudah ditentukan secara konsisten.";
 
-        $textRun111 = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 1350, 'hanging' => 610],
-            'contextualSpacing' => true,
-        ]);
-        $textRun111->addText('1.1.1', ['bold' => false, 'size' => 11]);
-        $textRun111->addText(' ' . $tujuanText, ['size' => 11]);
+        if (in_array('1.1.1', $enabledBab1Points, true)) {
+            $textRun111 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun111->addText('1.1.1', ['bold' => false, 'size' => 11]);
+            $textRun111->addText(' ' . $tujuanText, ['size' => 11]);
+        }
 
         // 1.2 Batch Validasi
         $textRun12 = $this->section->addTextRun([
@@ -208,23 +217,80 @@ class KapsulExportService
         $textRun12->addText('  Batch Validasi', ['size' => 11]);
 
         // Build batch text from form data
-        $jumlahBatch    = $this->data['batch_jumlah'] ?? 'tiga';
+        $jumlahBatch    = $this->data['batch_jumlah'] ?? '3';
         $besaran        = $this->data['batch_besaran'] ?? '34 kg';
         $jumlahKapsul   = $this->data['batch_jumlah_botol'] ?? '68.000';
         $bobotIsi       = $this->data['batch_volume_per_botol'] ?? '500 mg (bobot isi)';
-        $kodeList       = $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, AUG25A03';
-        $bagianProduksi = $this->data['batch_bagian_produksi'] ?? $this->data['tujuan_bagian'] ?? 'Produksi Farmasi I Line Soft Capsule Gedung A';
+        $kodeList       = $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03';
+        $bagianProduksi = $this->data['batch_bagian_produksi'] ?? $this->data['tujuan_bagian'] ?? 'Produksi Farmasi I lini Soft Capsule';
         $mesin          = $this->data['tujuan_mesin'] ?? 'mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling';
 
-        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} bets produksi dengan besaran batch {$besaran} = {$jumlahKapsul} Kapsul Lunak @ {$bobotIsi}, yaitu batch {$kodeList} yang diproduksi di Bagian {$bagianProduksi} dilakukan dengan menggunakan {$mesin}.";
+        $mbrProduk = $this->data['batch_mbr_pengolahan_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+        $mbrDesc   = $this->data['batch_mbr_multisource_desc'] ?? 'Multisource Omega 3 Fatty Acid Kode Bahan O921-02-CR-HPI';
+        $mbrNo     = $this->data['batch_mbr_no'] ?? 'CC-00077-08-PC';
+        $mbrMsCode = $this->data['batch_mbr_ms_code'] ?? 'MS O921-02-CR-HPI';
+        $mbrTgl    = $this->data['batch_mbr_tanggal'] ?? '04-08-2025';
 
-        $textRun121 = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 1350, 'hanging' => 610],
-            'contextualSpacing' => true,
-        ]);
-        $textRun121->addText('1.2.1', ['bold' => false, 'size' => 11]);
-        $textRun121->addText(' ' . $batchText, ['size' => 11]);
+        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} bets produksi yaitu batch {$kodeList} dengan besaran batch {$besaran} = {$jumlahKapsul} Kapsul Lunak @ {$bobotIsi}, yang diproduksi di Bagian {$bagianProduksi} dilakukan dengan menggunakan {$mesin}, mengacu MBR Pengolahan {$mbrProduk} ({$mbrDesc}) no {$mbrNo} ({$mbrMsCode}) tanggal {$mbrTgl}.";
+
+        if (in_array('1.2.1', $enabledBab1Points, true)) {
+            $textRun121 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun121->addText('1.2.1', ['bold' => false, 'size' => 11]);
+            $textRun121->addText(' ' . $batchText, ['size' => 11]);
+        }
+
+        $ppNo = $this->data['batch_pp_no'] ?? 'PP-EA-092-00';
+        $ppTanggal = $this->data['batch_pp_tanggal'] ?? '23-08-2024';
+        $ppRincian = $this->data['batch_perubahan_rincian'] ?? 'merevisi FBB dan MBR pengolahan Konilife Omega 3 (menghapus kode V204-01-KR-PBE, T021-02-CR-FBO, T021-03-CR-BAS dan menambahkan kode O921-02-R-HPI), serta menyesuaikan SP Konilife Omega 3, SBB Omega 3, dan Fish Oil Ethyl dengan Surat Persetujuan Variasi Kepala BPOM RI no. PN.04.01.42.421.07.25.1443.';
+        $batchText122 = trim((string) ($this->data['batch_122_text'] ?? ''));
+        if ($batchText122 === '') {
+            $batchText122 = "Dokumen ini juga menjadi tindak lanjut dari Permintaan Perubahan no {$ppNo} tanggal {$ppTanggal}, dengan perubahan: {$ppRincian}";
+        }
+        if (in_array('1.2.2', $enabledBab1Points, true)) {
+            $textRun122 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun122->addText('1.2.2', ['bold' => false, 'size' => 11]);
+            $textRun122->addText(' ' . $batchText122, ['size' => 11]);
+        }
+
+        $protokolProduk = $this->data['batch_protokol_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+        $protokolNo = $this->data['batch_protokol_no'] ?? 'AF-D-3-00702-01';
+        $protokolTanggal = $this->data['batch_protokol_tanggal'] ?? '24-01-2023';
+        $protokolBagian = $this->data['batch_protokol_bagian'] ?? $this->data['batch_bagian_produksi'] ?? 'Produksi Farmasi I Line Soft Capsule Gedung A';
+        $fbbNo = $this->data['batch_fbb_no'] ?? 'BB-0914-0-ID-00-ALL-04';
+        $fbbTanggal = $this->data['batch_fbb_tanggal'] ?? '05-08-2025';
+        $spProduk = $this->data['batch_sp_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
+        $spNo = $this->data['batch_sp_no'] ?? 'EA-F03-3-00158-01';
+        $spTanggal = $this->data['batch_sp_tanggal'] ?? '06-08-2025';
+        $batchText123 = "Tinjauan status validasi proses pembuatan karena perubahan ini, dilakukan berdasar pada Protokol Validasi Proses Pembuatan Produk {$protokolProduk}, no. {$protokolNo}, tanggal {$protokolTanggal} pada Bagian {$protokolBagian}, dengan pembaruan dokumen Formula Bahan Baku (FBB) no {$fbbNo} tanggal {$fbbTanggal} dan dokumen Spesifikasi Produk {$spProduk} no {$spNo} tanggal {$spTanggal}.";
+
+        if (in_array('1.2.3', $enabledBab1Points, true)) {
+            $textRun123 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun123->addText('1.2.3', ['bold' => false, 'size' => 11]);
+            $textRun123->addText(' ' . $batchText123, ['size' => 11]);
+        }
+
+        $batchText124 = 'Validasi proses dilakukan untuk variasi multisource bahan baku aktif sebagai berikut:';
+        if (in_array('1.2.4', $enabledBab1Points, true)) {
+            $textRun124 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun124->addText('1.2.4', ['bold' => false, 'size' => 11]);
+            $textRun124->addText(' ' . $batchText124, ['size' => 11]);
+        }
 
         // Add Bahan Aktif table if present
         $this->addBahanAktifTable();
@@ -294,14 +360,14 @@ class KapsulExportService
     }
 
     /**
-     * Export BAB 2: RANGKUMAN HASIL
+     * Export BAB 2: HASIL DAN EVALUASI VALIDASI PROSES
      */
     protected function exportBab2(): void
     {
         $this->section->addTextBreak(1);
 
         // BAB 2 Title
-        $this->section->addText('2. RANGKUMAN HASIL', ['bold' => true, 'size' => 11], [
+        $this->section->addText('2. HASIL DAN EVALUASI VALIDASI PROSES', ['bold' => true, 'size' => 11], [
             'alignment' => 'both',
             'spaceAfter' => 0,
         ]);
@@ -548,7 +614,7 @@ class KapsulExportService
             return array_values(array_filter(array_map('trim', explode(',', $enabledStr))));
         }
 
-        $fallbackOrder = ['mixing', 'filling_awal', 'filling_capping'];
+        $fallbackOrder = ['mixing', 'tahap_pengeringan', 'tahap_kemas_primer'];
         $tableSubabMap = $this->data['bab22_table_subab_key'] ?? [];
 
         if (is_array($tableSubabMap) && !empty($tableSubabMap)) {
@@ -574,8 +640,8 @@ class KapsulExportService
     {
         $title = match ($subabKey) {
             'mixing' => 'Enkapsulasi (Sebelum pengeringan)',
-            'filling_awal' => 'Tahap Pengeringan',
-            'filling_capping' => 'Tahap Kemas Primer',
+            'tahap_pengeringan' => 'Tahap Pengeringan',
+            'tahap_kemas_primer' => 'Tahap Kemas Primer',
             default => trim((string) ($this->data["{$subabKey}_title"] ?? 'Subab')),
         };
 
@@ -589,23 +655,21 @@ class KapsulExportService
     {
         $namaProduk = $this->data['mixing_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule';
         $batchList  = $this->data['mixing_batch_list'] ?? $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03';
+        $formula = trim((string) ($this->data['judul_formula'] ?? ''));
+        $produkLabel = $formula !== '' ? ($namaProduk . ' (' . $formula . ')') : $namaProduk;
 
         return match ($subabKey) {
             'mixing' => 'Seluruh hasil pemeriksaan bobot sampel tahap enkapsulasi (sebelum pengeringan) produk ' .
-                $namaProduk . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
+                $produkLabel . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
                 ($this->data['mixing_hasil'] ?? 'memenuhi') .
                 ' spesifikasi produk yang ditetapkan' .
                 $this->resolveBab22ClosingTail('mixing_hasil_catatan') . '.',
-            'filling_awal' => 'Seluruh hasil pemeriksaan sampel pengeringan produk ' .
-                $namaProduk . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
-                ($this->data['filling_awal_hasil'] ?? 'memenuhi') .
-                ' spesifikasi produk yang ditetapkan' .
-                $this->resolveBab22ClosingTail('filling_awal_hasil_catatan') . '.',
-            'filling_capping' => 'Seluruh hasil pemeriksaan sampel tahap kemas primer produk ' .
-                $namaProduk . ' bets ' . $batchList . ' sudah memberikan hasil yang ' .
-                ($this->data['filling_capping_hasil'] ?? 'memenuhi') .
-                ' spesifikasi kemasan yang ditetapkan' .
-                $this->resolveBab22ClosingTail('filling_capping_hasil_catatan') . '.',
+            'tahap_pengeringan' => 'Seluruh hasil pemeriksaan sampel pengeringan produk ' .
+                $produkLabel . ' bets ' . $batchList . ' memenuhi spesifikasi produk yang ditetapkan' .
+                $this->resolveBab22ClosingTail('tahap_pengeringan_hasil_catatan') . '.',
+            'tahap_kemas_primer' => 'Seluruh hasil pemeriksaan sampel tahap kemas primer ' .
+                $produkLabel . ' bets ' . $batchList . ' telah memenuhi spesifikasi kemasan yang ditetapkan' .
+                $this->resolveBab22ClosingTail('tahap_kemas_primer_hasil_catatan') . '.',
             default => trim((string) ($this->data["{$subabKey}_notes"] ?? '')),
         };
     }

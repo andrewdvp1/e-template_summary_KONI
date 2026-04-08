@@ -17,14 +17,17 @@
                 <div class="p-6">
                     {{-- Main Title with blanks --}}
                     <div class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text">
-                        <p class="font-bold text-center text-base mb-2">
-                            SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
-                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-64 uppercase"
-                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 Soft Capsule">
+                        <p class="font-bold text-center text-base mb-1">
+                            SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN
+                        </p>
+                        <p class="font-bold text-center text-base mb-1">
+                            PRODUK
+                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-72 uppercase"
+                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 SOFT CAPSULE">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
                             (<input type="text" name="judul_formula" class="template-input sync-input w-48"
-                                data-sync="formula" placeholder="O921 ex HPI" value="O921 ex HPI">) 
+                                data-sync="formula" placeholder="O921 ex HPI" value="O921 ex HPI">)
                                 <!--DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
                                 placeholder="2">
@@ -83,13 +86,17 @@
                     <h2 class="font-bold text-slate-900 dark:text-white">1. PENDAHULUAN</h2>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
+                    <input type="hidden" name="bab1_enabled_points" id="bab1_enabled_points" value="1.1.1,1.2.1,1.2.2,1.2.3,1.2.4">
                     {{-- 1.1 Tujuan --}}
                     <div>
                         <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.1 Tujuan</h3>
+                        <div class="bab1-point"
+                            data-point-id="1.1.1">
                         <div
                             class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p class="pl-8 -indent-8">
-                                <span class="font-medium">1.1.1</span> Summary laporan validasi ini bertujuan mendokumentasikan
+                                <span class="font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.1</span> Summary laporan validasi ini bertujuan mendokumentasikan
                                 hasil studi validasi/pembuktian terhadap kualitas proses pengolahan
                                 produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48"
@@ -106,6 +113,7 @@
                                 , dalam menghasilkan produk yang memenuhi persyaratan mutu internal Konimex, pemerintah dan persyaratan kapabilitas proses yang sudah ditentukan secara konsisten.
                             </p>
                         </div>
+                        </div>
                     </div>
 
                     {{-- 1.2 Batch Validasi --}}
@@ -113,32 +121,90 @@
                         <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.2 Batch Validasi</h3>
                         <div
                             class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify mb-4">
-                            <p class="pl-10 -indent-10">
-                                <span class="font-medium">1.2.1</span>
+                            <p class="pl-10 -indent-10 bab1-point" data-point-id="1.2.1">
+                                <span class="font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.1</span>
                                 Studi validasi dilakukan terhadap
-                                <input type="text" name="batch_jumlah" class="template-input w-12"
-                                    placeholder="tiga">
-                                bets produksi dengan besaran batch
-                                <input type="text" name="batch_besaran" class="template-input w-20"
-                                    placeholder="34 kg">
+                                <input type="text" name="batch_jumlah" class="template-input w-12">
+                                bets produksi yaitu batch
+                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
+                                    data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                dengan besaran batch
+                                <input type="text" name="batch_besaran" class="template-input w-20">
                                 =
                                 <input type="text" name="batch_jumlah_botol" class="template-input w-28"
                                     placeholder="68.000">
                                 Kapsul Lunak @
                                 <input type="text" name="batch_volume_per_botol" class="template-input w-20"
                                     value="" placeholder="500 mg (bobot isi)">,
-                                yaitu batch
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
-                                    data-sync="batch" placeholder="AUG25A01, AUG25A02, AUG25A03">
                                 yang diproduksi di Bagian
                                 <input type="text" name="batch_bagian_produksi" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Produksi Farmasi I Line Soft Capsule Gedung A"
-                                    placeholder="Produksi Farmasi I Line Soft Capsule Gedung A">
+                                    data-sync="bagian" value="Produksi Farmasi I lini Soft Capsule"
+                                    placeholder="Produksi Farmasi I lini Soft Capsule">
                                 dilakukan dengan menggunakan
                                 <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
                                     value="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling"
-                                    placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling">.
+                                    placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling">, mengacu MBR Pengolahan
+                                <input type="text" name="batch_mbr_pengolahan_produk"
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">
+                                (
+                                <input type="text" name="batch_mbr_multisource_desc" class="template-input w-96"
+                                    placeholder="Multisource Omega 3 Fatty Acid Kode Bahan O921-02-CR-HPI">
+                                ) no
+                                <input type="text" name="batch_mbr_no" class="template-input w-40"
+                                    placeholder="CC-00077-08-PC">
+                                (
+                                <input type="text" name="batch_mbr_ms_code" class="template-input w-40"
+                                    placeholder="MS O921-02-CR-HPI">
+                                ) tanggal
+                                <input type="text" name="batch_mbr_tanggal" class="template-input w-32"
+                                    placeholder="04-08-2025">.
+                            </p>
+                            <div class="pl-10 -indent-10 mt-3 bab1-point" data-point-id="1.2.2">
+                                <p>
+                                    <span class="font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                        onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.2</span>
+                                </p>
+                                <textarea name="batch_122_text" rows="3"
+                                    class="mt-2 w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                                    placeholder="Dokumen ini juga menjadi tindak lanjut dari Permintaan Perubahan no PP-EA-092-00 tanggal 23-08-2024, dengan perubahan: merevisi FBB dan MBR pengolahan Konilife Omega 3 (menghapus kode V204-01-KR-PBE, T021-02-CR-FBO, T021-03-CR-BAS dan menambahkan kode O921-02-R-HPI), serta menyesuaikan SP Konilife Omega 3, SBB Omega 3, dan Fish Oil Ethyl dengan Surat Persetujuan Variasi Kepala BPOM RI no. PN.04.01.42.421.07.25.1443."></textarea>
+                            </div>
+                            <p class="pl-10 -indent-10 mt-3 bab1-point" data-point-id="1.2.3">
+                                <span class="font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.3</span>
+                                Tinjauan status validasi proses pembuatan karena perubahan ini, dilakukan berdasar pada Protokol Validasi Proses Pembuatan Produk
+                                <input type="text" name="batch_protokol_produk"
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule">, no.
+                                <input type="text" name="batch_protokol_no" class="template-input w-40"
+                                    placeholder="AF-D-3-00702-01">, tanggal
+                                <input type="text" name="batch_protokol_tanggal" class="template-input w-32"
+                                    placeholder="24-01-2023">
+                                pada Bagian
+                                <input type="text" name="batch_protokol_bagian"
+                                    class="template-input sync-input w-96" data-sync="bagian"
+                                    placeholder="Produksi Farmasi I Line Soft Capsule Gedung A">, dengan pembaruan dokumen Formula Bahan Baku (FBB) no
+                                <input type="text" name="batch_fbb_no" class="template-input w-56"
+                                    placeholder="BB-0914-0-ID-00-ALL-04">
+                                tanggal
+                                <input type="text" name="batch_fbb_tanggal" class="template-input w-32"
+                                    placeholder="05-08-2025">
+                                dan dokumen Spesifikasi Produk
+                                <input type="text" name="batch_sp_produk"
+                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    placeholder="Konilife Omega 3 Soft Capsule"> no
+                                <input type="text" name="batch_sp_no" class="template-input w-56"
+                                    placeholder="EA-F03-3-00158-01">
+                                tanggal
+                                <input type="text" name="batch_sp_tanggal" class="template-input w-32"
+                                    placeholder="06-08-2025">.
+                            </p>
+                            <p class="pl-10 -indent-10 mt-3 bab1-point" data-point-id="1.2.4">
+                                <span class="font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.4</span>
+                                Validasi proses dilakukan untuk variasi multisource bahan baku aktif sebagai berikut:
                             </p>
                         </div>
 
@@ -211,12 +277,12 @@
                 </div>
             </div>
 
-            {{-- BAB 2: RANGKUMAN HASIL --}}
+            {{-- BAB 2: HASIL DAN EVALUASI VALIDASI PROSES --}}
             <div
                 class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">2. RANGKUMAN HASIL</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">2. HASIL DAN EVALUASI VALIDASI PROSES</h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
@@ -1329,6 +1395,47 @@
         }
 
         // ===========================================
+        // BAB 1 TOGGLE SYSTEM
+        // ===========================================
+        function toggleBab1Point(numberEl) {
+            const pointEl = numberEl.closest('.bab1-point');
+            if (!pointEl) return;
+
+            const isDisabled = pointEl.classList.toggle('section-disabled');
+            pointEl.style.opacity = isDisabled ? '0.35' : '1';
+            pointEl.style.textDecoration = isDisabled ? 'line-through' : 'none';
+            numberEl.classList.toggle('bg-red-100', isDisabled);
+            numberEl.classList.toggle('dark:bg-red-900/30', isDisabled);
+            numberEl.classList.toggle('text-red-500', isDisabled);
+            numberEl.classList.toggle('line-through', isDisabled);
+
+            pointEl.querySelectorAll('input, textarea').forEach(el => {
+                if (isDisabled) {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                } else {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                }
+            });
+
+            updateBab1EnabledPoints();
+        }
+
+        function updateBab1EnabledPoints() {
+            const enabled = [];
+            document.querySelectorAll('.bab1-point').forEach(pointEl => {
+                const pointId = pointEl.dataset.pointId;
+                if (pointId && !pointEl.classList.contains('section-disabled')) {
+                    enabled.push(pointId);
+                }
+            });
+
+            const hidden = document.getElementById('bab1_enabled_points');
+            if (hidden) hidden.value = enabled.join(',');
+        }
+
+        // ===========================================
         // BAB 3 KESIMPULAN TOGGLE SYSTEM
         // ===========================================
 
@@ -2097,23 +2204,24 @@
                 }
 
                 addBab22DefaultSubab(
-                    'Awal filling-capping',
-                    'filling_awal',
-                    'awal filling-capping',
-                    'filling_awal_hasil',
+                    'Tahap Pengeringan',
+                    'tahap_pengeringan',
+                    'tahap pengeringan',
+                    'tahap_pengeringan_hasil',
                     'Spesifikasi Produk'
                 );
                 addBab22DefaultSubab(
-                    'Filling-capping',
-                    'filling_capping',
-                    'filling-capping',
-                    'filling_capping_hasil',
-                    'Spesifikasi Produk dan Spesifikasi Kemasan'
+                    'Tahap Kemas Primer',
+                    'tahap_kemas_primer',
+                    'tahap kemas primer',
+                    'tahap_kemas_primer_hasil',
+                    'Spesifikasi Kemasan'
                 );
             }
             initBab22DragDrop();
             renumberBab22Subab();
             renumberBab23();
+            updateBab1EnabledPoints();
 
             // Input Synchronization Logic
             const syncInputs = document.querySelectorAll('.sync-input');
