@@ -380,16 +380,12 @@ class NutracareExportService
 
         $hasBab23Content = !empty($bab23TableUids)
             || !empty(trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '')))
-            || !empty(trim((string) ($this->data['enkapsulasi_batch_list'] ?? '')));
+            || !empty(trim((string) ($this->data['enkapsulasi_batch_list'] ?? '')))
+            || !empty(trim((string) ($this->data['bab23_subab_1_title'] ?? '')));
 
         if (!$hasBab23Content) {
             return;
         }
-
-        // Helper: render image for a specific named UID
-        $renderUid = function (string $uid) use ($imageMap, $existingImageMap): void {
-            $this->renderBab23Image($uid, $imageMap, $existingImageMap);
-        };
 
         // 2.3 heading
         $textRun23 = $this->section->addTextRun([
@@ -400,123 +396,49 @@ class NutracareExportService
         $textRun23->addText('2.3', ['bold' => false, 'size' => 11]);
         $textRun23->addText('  Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut:', ['size' => 11]);
 
-        // --- 2.3.1 Enkapsulasi ---
-        $this->addBab23SubabHeading('2.3.1', 'Enkapsulasi (Sebelum pengeringan)');
+        // --- 2.3.1 static subab ---
+        $subab1Title = trim((string) ($this->data['bab23_subab_1_title'] ?? 'Enkapsulasi (Sebelum pengeringan)'));
+        $this->addBab23SubabHeading('2.3.1', $subab1Title);
 
+        // 2.3.1.1
         $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? ''));
         if ($bobotSyarat !== '') {
             $this->addBab23SubSubabText('2.3.1.1',
                 "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
         }
 
+        // 2.3.1.2 — text + tables
         $samplingLokasi = trim((string) ($this->data['enkapsulasi_sampling_lokasi'] ?? '3'));
         $samplingJumlah = trim((string) ($this->data['enkapsulasi_sampling_jumlah'] ?? '20'));
         $this->addBab23SubSubabText('2.3.1.2',
             "Dilakukan sampling pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
-        $renderUid('tbl_enkapsulasi_212');
 
+        foreach ($bab23TableUids as $uid) {
+            if (str_starts_with($uid, 'bab23_enkapsulasi_2_')) {
+                $this->renderBab23Image($uid, $imageMap, $existingImageMap);
+            }
+        }
+
+        // 2.3.1.3
         $namaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? ''));
-        $besarBets  = trim((string) ($this->data['enkapsulasi_besar_bets'] ?? ''));
         $batchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $this->data['batch_kode_list'] ?? ''));
-        $besarBetsStr = $besarBets !== '' ? " dengan besar bets {$besarBets}," : '';
-        $this->addBab23SubSubabText('2.3.1.3',
-            "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$namaProduk}{$besarBetsStr} bets {$batchList} memenuhi spesifikasi produk yang ditetapkan.");
+        if ($namaProduk !== '' || $batchList !== '') {
+            $this->addBab23SubSubabText('2.3.1.3',
+                "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$namaProduk} bets {$batchList} memenuhi spesifikasi produk yang ditetapkan.");
+        }
 
-        // --- 2.3.2 Tahap Pengeringan ---
-        $this->addBab23SubabHeading('2.3.2', 'Tahap Pengeringan');
+        // Dynamic sub-subabs added to static subab 1
+        $this->renderDynamicSubSubabs('enkapsulasi', '2.3.1', $bab23TableUids, $imageMap, $existingImageMap, 4);
 
-        $spesNo  = trim((string) ($this->data['pengeringan_spesifikasi_no'] ?? ''));
-        $spesTgl = trim((string) ($this->data['pengeringan_spesifikasi_tanggal'] ?? ''));
-        $this->addBab23SubSubabText('2.3.2.1',
-            "Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk {$spesNo} tanggal {$spesTgl}, sebagai berikut:");
-        $renderUid('tbl_spesifikasi_pengeringan');
-
-        // Keterangan & Referensi after 2.3.2.1 table
-        $keterangan = trim((string) ($this->data['pengeringan_keterangan'] ?? 'R = Release, S = Stabilitas.'));
-        $ref1 = trim((string) ($this->data['pengeringan_referensi_1'] ?? 'Standar internal Konimex'));
-        $ref2 = trim((string) ($this->data['pengeringan_referensi_2'] ?? 'Peraturan BPOM Nomor 29 Tahun 2023 tentang Persyaratan Keamanan dan Mutu Obat Bahan Alam.'));
-        $ref3 = trim((string) ($this->data['pengeringan_referensi_3'] ?? 'USP 43, halaman 4980, Evening Primrose Oil Capsules'));
-
-        $this->section->addText("Keterangan:", ['bold' => true, 'size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        $this->section->addText($keterangan, ['size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        $this->section->addText("Referensi:", ['bold' => true, 'size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        if ($ref1 !== '') $this->section->addText("(1)   : {$ref1}", ['size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        if ($ref2 !== '') $this->section->addText("(2)   : {$ref2}", ['size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        if ($ref3 !== '') $this->section->addText("(3)   : {$ref3}", ['size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 60]);
-
-        $jumlahTray = trim((string) ($this->data['pengeringan_jumlah_tray'] ?? '10'));
-        $samplingTray = trim((string) ($this->data['pengeringan_sampling_per_tray'] ?? '30'));
-        $this->addBab23SubSubabText('2.3.2.2',
-            "Hasil enkapsulasi setelah tahap pengeringan, berupa soft capsule yang telah dikeringkan pada tumbler dryer, secara urut ditampung dalam tray-tray dan dikeringkan di ruang pengering, sehingga menjadi soft capsule kering. Tray dibagi menjadi {$jumlahTray} kelompok dan dilakukan sampling sebanyak {$samplingTray} soft capsule per kelompok untuk semua pemeriksaan atribut di atas, dengan kondisi aktual pengeringan sebagai berikut:");
-        $renderUid('tbl_kondisi_pengeringan');
-
-        $this->addBab23SubSubabText('2.3.2.3', 'Hasil pemeriksaan sampel untuk pemeriksaan atribut sebagai berikut:');
-
-        $this->section->addText('2.3.2.3.1  Pemeriksaan keseragaman bobot', ['size' => 11], ['indentation' => ['left' => 1350], 'spaceAfter' => 60]);
-        $renderUid('tbl_keseragaman_bobot');
-
-        $this->section->addText('2.3.2.3.2  Pemeriksaan Fisik', ['size' => 11], ['indentation' => ['left' => 1350], 'spaceAfter' => 60]);
-        $renderUid('tbl_pemeriksaan_fisik');
-
-        $this->section->addText('2.3.2.3.3  Pemeriksaan Identifikasi Fatty Acid Profile, positif teridentifikasi asam lemak dengan komposisi:', ['size' => 11], ['indentation' => ['left' => 1350], 'spaceAfter' => 60]);
-        $renderUid('tbl_fatty_acid');
-
-        $this->section->addText('2.3.2.3.4  Pemeriksaan Aflatoksin Total', ['size' => 11], ['indentation' => ['left' => 1350], 'spaceAfter' => 60]);
-        $renderUid('tbl_aflatoksin');
-
-        $this->section->addText('2.3.2.3.5  Pemeriksaan Cemaran Logam Berat', ['size' => 11], ['indentation' => ['left' => 1350], 'spaceAfter' => 60]);
-        $renderUid('tbl_logam_berat');
-
-        $this->section->addText('2.3.2.3.6  Pemeriksaan Mikrobiologi', ['size' => 11], ['indentation' => ['left' => 1350], 'spaceAfter' => 60]);
-        $renderUid('tbl_mikrobiologi');
-
-        $namaProduk2 = trim((string) ($this->data['pengeringan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? ''));
-        $besarBets2  = trim((string) ($this->data['pengeringan_besar_bets'] ?? ''));
-        $batchList2  = trim((string) ($this->data['pengeringan_batch_list'] ?? $this->data['batch_kode_list'] ?? ''));
-        $besarBetsStr2 = $besarBets2 !== '' ? " dengan besar bets {$besarBets2}," : '';
-        $this->addBab23SubSubabText('2.3.2.4',
-            "Seluruh hasil pemeriksaan sampel pengeringan produk {$namaProduk2}{$besarBetsStr2} bets {$batchList2} memenuhi spesifikasi produk yang ditetapkan.");
-
-        // --- 2.3.3 Tahap Kemas Primer ---
-        $this->addBab23SubabHeading('2.3.3', 'Tahap Kemas Primer');
-
-        $kemasanNama = trim((string) ($this->data['kemasan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? ''));
-        $kemasanNo   = trim((string) ($this->data['kemasan_spesifikasi_no'] ?? ''));
-        $kemasanTgl  = trim((string) ($this->data['kemasan_spesifikasi_tanggal'] ?? ''));
-        $this->addBab23SubSubabText('2.3.3.1',
-            "Spesifikasi kemasan {$kemasanNama} untuk kemasan botol mengacu Spesifikasi Kemasan {$kemasanNo} tanggal {$kemasanTgl}, sebagai berikut:");
-        $renderUid('tbl_spesifikasi_kemasan');
-
-        // Keterangan kemasan
-        $ketKemasan = trim((string) ($this->data['kemasan_keterangan'] ?? 'R = Release,'));
-        $refKemasan1 = trim((string) ($this->data['kemasan_referensi_1'] ?? 'Standar internal Konimex'));
-        $this->section->addText("Keterangan:", ['bold' => true, 'size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        $this->section->addText($ketKemasan, ['size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        $this->section->addText("Referensi:", ['bold' => true, 'size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 0]);
-        if ($refKemasan1 !== '') $this->section->addText("(1)   : {$refKemasan1}", ['size' => 10], ['indentation' => ['left' => 1080], 'spaceAfter' => 60]);
-
-        $samplingLokasi2 = trim((string) ($this->data['kemasan_sampling_lokasi'] ?? '10'));
-        $samplingJumlah2 = trim((string) ($this->data['kemasan_sampling_jumlah'] ?? '1'));
-        $this->addBab23SubSubabText('2.3.3.2',
-            "Sampling dilakukan pada {$samplingLokasi2} lokasi untuk 1 bets. Sampel diambil sebanyak {$samplingJumlah2} botol tiap kali sampling. Kemudian dilakukan pengujian dengan pengecekan jumlah soft capsule dan desipack per botol dan pemeriksaan elegansi dan kondisi aluseal.");
-
-        $this->addBab23SubSubabText('2.3.3.3', 'Hasil pemeriksaan sampel sebagai berikut:');
-        $renderUid('tbl_hasil_kemasan');
-
-        $kemasanNama2 = trim((string) ($this->data['kemasan_nama_produk_2'] ?? $this->data['tujuan_nama_produk'] ?? ''));
-        $besarBets3   = trim((string) ($this->data['kemasan_besar_bets'] ?? ''));
-        $batchList3   = trim((string) ($this->data['kemasan_batch_list'] ?? $this->data['batch_kode_list'] ?? ''));
-        $besarBetsStr3 = $besarBets3 !== '' ? " dengan besar bets {$besarBets3}," : '';
-        $this->addBab23SubSubabText('2.3.3.4',
-            "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemasanNama2}{$besarBetsStr3} bets {$batchList3} telah memenuhi spesifikasi yang ditetapkan.");
-
-        // Dynamic 2.3.x subabs
-        $dynSubabIdx = 4;
+        // --- Dynamic 2.3.x subabs ---
+        $dynSubabIdx = 2;
         $dynCounter = 1;
         while (true) {
             $key = "bab23_subab_dyn_{$dynCounter}";
             $title = trim((string) ($this->data["{$key}_title"] ?? ''));
-            if ($title === '' && $dynCounter > 20) break;
+            if ($title === '' && $dynCounter > 20) {
+                break;
+            }
             if ($title !== '') {
                 $this->addBab23SubabHeading("2.3.{$dynSubabIdx}", $title);
                 $this->renderDynamicSubSubabs($key, "2.3.{$dynSubabIdx}", $bab23TableUids, $imageMap, $existingImageMap, 1);
@@ -526,7 +448,7 @@ class NutracareExportService
             if ($dynCounter > 50) break;
         }
 
-        // Render any remaining dynamic tables (bab23_tbl_*)
+        // Render all dynamic tables (bab23_tbl_*) once at the end
         foreach ($bab23TableUids as $uid) {
             if (str_starts_with($uid, 'bab23_tbl_')) {
                 $this->renderBab23Image($uid, $imageMap, $existingImageMap);
