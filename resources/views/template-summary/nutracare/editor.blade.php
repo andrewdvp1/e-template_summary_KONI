@@ -170,13 +170,6 @@
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_spesifikasi_pengeringan'])
                                     </div>
-                                    <div class="mt-3 ml-10 p-3 bg-slate-50 dark:bg-slate-900/30 rounded-lg text-sm text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                                        <p class="font-semibold">Keterangan:</p><p>R = Release, S = Stabilitas.</p>
-                                        <p class="font-semibold mt-2">Referensi:</p>
-                                        <p>(1)&nbsp;&nbsp;&nbsp;: Standar internal Konimex</p>
-                                        <p>(2)&nbsp;&nbsp;&nbsp;: Peraturan BPOM Nomor 29 Tahun 2023 tentang Persyaratan Keamanan dan Mutu Obat Bahan Alam.</p>
-                                        <p>(3)&nbsp;&nbsp;&nbsp;: <input type="text" name="pengeringan_referensi_3" class="template-input w-full text-left" value="USP 43, halaman 4980, Evening Primrose Oil Capsules" placeholder="USP 43, halaman 4980, Evening Primrose Oil Capsules"></p>
-                                    </div>
                                 </div>
                                 <div>
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
@@ -235,11 +228,6 @@
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_spesifikasi_kemasan'])
-                                    </div>
-                                    <div class="mt-3 ml-10 p-3 bg-slate-50 dark:bg-slate-900/30 rounded-lg text-sm text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                                        <p class="font-semibold">Keterangan:</p><p>R = Release,</p>
-                                        <p class="font-semibold mt-2">Referensi:</p>
-                                        <p>(1)&nbsp;&nbsp;&nbsp;: Standar internal Konimex</p>
                                     </div>
                                 </div>
                                 <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
