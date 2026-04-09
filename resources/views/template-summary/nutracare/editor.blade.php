@@ -48,8 +48,11 @@
                     <h2 class="font-bold text-slate-900 dark:text-white">1. PENDAHULUAN</h2>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
-                    <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.1. Tujuan</h3>
+                    <div class="sub-section" data-sub-id="1.1">
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">
+                            <span class="sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">1.1.</span>
+                            Tujuan
+                        </h3>
                         <div class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p>Summary laporan validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas proses pengolahan produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
@@ -59,8 +62,11 @@
                             </p>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.2. Batch Validasi</h3>
+                    <div class="sub-section" data-sub-id="1.2">
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">
+                            <span class="sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">1.2.</span>
+                            Batch Validasi
+                        </h3>
                         <div class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify mb-4">
                             <p>Studi validasi dilakukan terhadap
                                 <input type="text" name="batch_jumlah" class="template-input w-12" placeholder="2">
@@ -112,9 +118,9 @@
                     <input type="hidden" name="bab22_enabled_subab_keys" id="bab22_enabled_subab_keys" value="">
 
                     {{-- 2.1 Pelaksanaan Proses Produksi --}}
-                    <div>
+                    <div class="sub-section" data-sub-id="2.1">
                         <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                            <p class="pl-8 -indent-8"><span class="font-semibold">2.1.</span> Pelaksanaan Proses Produksi:</p>
+                            <p class="pl-8 -indent-8"><span class="sub-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">2.1.</span> Pelaksanaan Proses Produksi:</p>
                         </div>
                         <div class="ml-4">
                             @include('template-summary.nutracare._table', ['uid' => 'tbl_pelaksanaan'])
@@ -122,70 +128,76 @@
                     </div>
 
                     {{-- 2.2 --}}
-                    <div>
+                    <div class="sub-section" data-sub-id="2.2">
                         <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                            <p class="pl-8 -indent-8"><span class="font-semibold">2.2.</span> Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.</p>
+                            <p class="pl-8 -indent-8"><span class="sub-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">2.2.</span> Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.</p>
                         </div>
                     </div>
 
                     {{-- 2.3 Hasil pemeriksaan sampel --}}
-                    <div>
+                    <div class="sub-section" data-sub-id="2.3">
                         <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                            <p class="pl-8 -indent-8"><span class="font-semibold">2.3.</span> Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut:</p>
+                            <p class="pl-8 -indent-8"><span class="sub-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">2.3.</span> Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut:</p>
                         </div>
 
                         {{-- 2.3.1 Enkapsulasi --}}
-                        <div class="ml-4 mt-2">
-                            <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                <p class="pl-10 -indent-10"><span class="font-semibold">2.3.1.</span> Enkapsulasi (Sebelum pengeringan)</p>
-                            </div>
-                            <div class="ml-6 flex flex-col gap-4">
-                                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                    <p class="pl-12 -indent-12"><span class="font-medium">2.3.1.1.</span>&nbsp; Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-48" placeholder="500,25 ± 37,52 mg">.</p>
+                        <div class="bab23-subab ml-4 mt-2" id="bab23_subab_enkapsulasi" data-subab-key="enkapsulasi">
+                            <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-3">
+                                <span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.1.</span>
+                                Enkapsulasi (Sebelum pengeringan)
+                            </h4>
+                            <div class="bab23-subsubab-container ml-6 flex flex-col gap-4">
+                                <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_1">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.1.</span>&nbsp; Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-48" placeholder="500,25 ± 37,52 mg">.</p>
+                                    </div>
                                 </div>
-                                <div>
+                                <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_2">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="font-medium">2.3.1.2.</span>&nbsp; Dilakukan sampling pada <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3"> lokasi (awal, tengah, akhir) dengan jumlah <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-8" placeholder="20"> butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.2.</span>&nbsp; Dilakukan sampling pada <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3"> lokasi (awal, tengah, akhir) dengan jumlah <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-8" placeholder="20"> butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_enkapsulasi_212'])
                                     </div>
                                 </div>
-                                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                    <p class="pl-12 -indent-12"><span class="font-medium">2.3.1.3.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="enkapsulasi_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
+                                <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_3">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.3.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="enkapsulasi_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         {{-- 2.3.2 Tahap Pengeringan --}}
-                        <div class="ml-4 mt-6">
-                            <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                <p class="pl-10 -indent-10"><span class="font-semibold">2.3.2.</span> Tahap Pengeringan</p>
-                            </div>
-                            <div class="ml-6 flex flex-col gap-4">
-                                <div>
+                        <div class="bab23-subab ml-4 mt-6" id="bab23_subab_pengeringan" data-subab-key="pengeringan">
+                            <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-3">
+                                <span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.2.</span>
+                                Tahap Pengeringan
+                            </h4>
+                            <div class="bab23-subsubab-container ml-6 flex flex-col gap-4">
+                                <div class="bab23-subsubab" data-subsubab-key="pengeringan_1">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="font-medium">2.3.2.1.</span>&nbsp; Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk <input type="text" name="pengeringan_spesifikasi_no" class="template-input w-64" placeholder="Nutracare EPO 500 Soft Capsule no AI-F03-3-A0014-02"> tanggal <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-28" placeholder="22-11-2025">, sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.1.</span>&nbsp; Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk <input type="text" name="pengeringan_spesifikasi_no" class="template-input w-64" placeholder="Nutracare EPO 500 Soft Capsule no AI-F03-3-A0014-02"> tanggal <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-28" placeholder="22-11-2025">, sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_spesifikasi_pengeringan'])
                                     </div>
                                 </div>
-                                <div>
+                                <div class="bab23-subsubab" data-subsubab-key="pengeringan_2">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="font-medium">2.3.2.2.</span>&nbsp; Hasil enkapsulasi setelah tahap pengeringan, berupa soft capsule yang telah dikeringkan pada tumbler dryer, secara urut ditampung dalam tray-tray dan dikeringkan di ruang pengering, sehingga menjadi soft capsule kering. Tray dibagi menjadi <input type="text" name="pengeringan_jumlah_tray" class="template-input w-8" placeholder="10"> kelompok dan dilakukan sampling sebanyak <input type="text" name="pengeringan_sampling_per_tray" class="template-input w-8" placeholder="30"> soft capsule per kelompok untuk semua pemeriksaan atribut di atas, dengan kondisi aktual pengeringan sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.2.</span>&nbsp; Hasil enkapsulasi setelah tahap pengeringan, berupa soft capsule yang telah dikeringkan pada tumbler dryer, secara urut ditampung dalam tray-tray dan dikeringkan di ruang pengering, sehingga menjadi soft capsule kering. Tray dibagi menjadi <input type="text" name="pengeringan_jumlah_tray" class="template-input w-8" placeholder="10"> kelompok dan dilakukan sampling sebanyak <input type="text" name="pengeringan_sampling_per_tray" class="template-input w-8" placeholder="30"> soft capsule per kelompok untuk semua pemeriksaan atribut di atas, dengan kondisi aktual pengeringan sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_kondisi_pengeringan'])
                                     </div>
                                 </div>
-                                <div>
+                                <div class="bab23-subsubab" data-subsubab-key="pengeringan_3">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="font-medium">2.3.2.3.</span>&nbsp; Hasil pemeriksaan sampel untuk pemeriksaan atribut sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.</span>&nbsp; Hasil pemeriksaan sampel untuk pemeriksaan atribut sebagai berikut:</p>
                                     </div>
                                     <div class="ml-6 flex flex-col gap-4">
-                                        <div>
-                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="font-medium">2.3.2.3.1</span>&nbsp; Pemeriksaan keseragaman bobot</p>
+                                        <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_1">
+                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.1</span>&nbsp; Pemeriksaan keseragaman bobot</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_keseragaman_bobot'])</div>
                                         </div>
                                         <div>
@@ -210,39 +222,46 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                    <p class="pl-12 -indent-12"><span class="font-medium">2.3.2.4.</span>&nbsp; Seluruh hasil pemeriksaan sampel pengeringan produk <input type="text" name="pengeringan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="pengeringan_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="pengeringan_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
+                                <div class="bab23-subsubab" data-subsubab-key="pengeringan_4">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.4.</span>&nbsp; Seluruh hasil pemeriksaan sampel pengeringan produk <input type="text" name="pengeringan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="pengeringan_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="pengeringan_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         {{-- 2.3.3 Tahap Kemas Primer --}}
-                        <div class="ml-4 mt-6">
-                            <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                <p class="pl-10 -indent-10"><span class="font-semibold">2.3.3.</span> Tahap Kemas Primer</p>
-                            </div>
-                            <div class="ml-6 flex flex-col gap-4">
-                                <div>
+                        <div class="bab23-subab ml-4 mt-6" id="bab23_subab_kemasan" data-subab-key="kemasan">
+                            <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-3">
+                                <span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.3.</span>
+                                Tahap Kemas Primer
+                            </h4>
+                            <div class="bab23-subsubab-container ml-6 flex flex-col gap-4">
+                                <div class="bab23-subsubab" data-subsubab-key="kemasan_1">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="font-medium">2.3.3.1.</span>&nbsp; Spesifikasi kemasan <input type="text" name="kemasan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> untuk kemasan botol mengacu Spesifikasi Kemasan <input type="text" name="kemasan_spesifikasi_no" class="template-input w-64" placeholder="Nutracare EPO 500 Soft Capsule no. AI-F04-3-A0007-02"> tanggal <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-28" placeholder="06-01-2026">, sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.1.</span>&nbsp; Spesifikasi kemasan <input type="text" name="kemasan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> untuk kemasan botol mengacu Spesifikasi Kemasan <input type="text" name="kemasan_spesifikasi_no" class="template-input w-64" placeholder="Nutracare EPO 500 Soft Capsule no. AI-F04-3-A0007-02"> tanggal <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-28" placeholder="06-01-2026">, sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_spesifikasi_kemasan'])
                                     </div>
                                 </div>
-                                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                    <p class="pl-12 -indent-12"><span class="font-medium">2.3.3.2.</span>&nbsp; Sampling dilakukan pada <input type="text" name="kemasan_sampling_lokasi" class="template-input w-8" placeholder="10"> lokasi untuk 1 bets. Sampel diambil sebanyak <input type="text" name="kemasan_sampling_jumlah" class="template-input w-8" placeholder="1"> botol tiap kali sampling. Kemudian dilakukan pengujian dengan pengecekan jumlah soft capsule dan desipack per botol dan pemeriksaan elegansi dan kondisi aluseal.</p>
+                                <div class="bab23-subsubab" data-subsubab-key="kemasan_2">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.2.</span>&nbsp; Sampling dilakukan pada <input type="text" name="kemasan_sampling_lokasi" class="template-input w-8" placeholder="10"> lokasi untuk 1 bets. Sampel diambil sebanyak <input type="text" name="kemasan_sampling_jumlah" class="template-input w-8" placeholder="1"> botol tiap kali sampling. Kemudian dilakukan pengujian dengan pengecekan jumlah soft capsule dan desipack per botol dan pemeriksaan elegansi dan kondisi aluseal.</p>
+                                    </div>
                                 </div>
-                                <div>
+                                <div class="bab23-subsubab" data-subsubab-key="kemasan_3">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="font-medium">2.3.3.3.</span>&nbsp; Hasil pemeriksaan sampel sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.3.</span>&nbsp; Hasil pemeriksaan sampel sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_hasil_kemasan'])
                                     </div>
                                 </div>
-                                <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                    <p class="pl-12 -indent-12"><span class="font-medium">2.3.3.4.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap kemas primer <input type="text" name="kemasan_nama_produk_2" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="kemasan_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="kemasan_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> telah memenuhi spesifikasi yang ditetapkan.</p>
+                                <div class="bab23-subsubab" data-subsubab-key="kemasan_4">
+                                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.4.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap kemas primer <input type="text" name="kemasan_nama_produk_2" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="kemasan_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="kemasan_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> telah memenuhi spesifikasi yang ditetapkan.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -304,18 +323,24 @@
             </div>
 
             {{-- BAB 4: SARAN --}}
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
-                    <h2 class="font-bold text-slate-900 dark:text-white">4. SARAN</h2>
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab4_card">
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab4_card')" title="Klik untuk disable/enable">4.</span>
+                        SARAN
+                    </h2>
+                    <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6">
-                    <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                        <p class="pl-8 -indent-8">
-                            <span class="font-semibold">4.1.</span>&nbsp;
-                            Apabila dikemudian hari dilakukan perubahan pada proses produksi produk
-                            <input type="text" name="saran_nama_produk" class="template-input sync-input w-56" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">,
-                            maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
-                        </p>
+                    <div class="sub-section" data-sub-id="4.1">
+                        <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                            <p class="pl-8 -indent-8">
+                                <span class="sub-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">4.1.</span>&nbsp;
+                                Apabila dikemudian hari dilakukan perubahan pada proses produksi produk
+                                <input type="text" name="saran_nama_produk" class="template-input sync-input w-56" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">,
+                                maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -366,8 +391,8 @@
         function collectFormValues() { const values = {}; document.querySelectorAll('#nutracareTemplateForm input[name]:not([type="file"]), #nutracareTemplateForm textarea[name], #nutracareTemplateForm select[name]').forEach(input => { if (input.name === 'draft_id' || input.name === '_token') return; values[input.name] = getInputValue(input); }); return values; }
         function restoreFormValues(values) { if (!values || typeof values !== 'object') return; Object.entries(values).forEach(([name, value]) => { if (name === 'draft_id' || name === '_token') return; const selector = `[name="${escapeNameForSelector(name)}"]`; document.querySelectorAll(selector).forEach(field => { if (field.type === 'checkbox' || field.type === 'radio') { field.checked = String(value) === '1'; return; } field.value = value ?? ''; }); }); }
         function applyStoredImageToTable(tableItem, imageMeta) { if (!tableItem || !imageMeta || !imageMeta.url || !imageMeta.path) return; const tableUid = getTableUidFromItem(tableItem); if (!tableUid) return; const previewBox = tableItem.querySelector('.image-preview-box'); const pasteInstructions = tableItem.querySelector('.paste-instructions'); const img = previewBox ? previewBox.querySelector('img') : null; if (img && previewBox) { img.src = imageMeta.url; previewBox.classList.remove('hidden'); if (pasteInstructions) pasteInstructions.classList.add('hidden'); } let hiddenExisting = tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`); if (!hiddenExisting) { hiddenExisting = document.createElement('input'); hiddenExisting.type = 'hidden'; hiddenExisting.name = `existing_mixing_image_file[${tableUid}]`; tableItem.appendChild(hiddenExisting); } hiddenExisting.value = imageMeta.path; }
-        function collectDraftState() { const disabledFieldNames = []; document.querySelectorAll('#nutracareTemplateForm input[name], #nutracareTemplateForm textarea[name], #nutracareTemplateForm select[name]').forEach(field => { if (field.disabled) disabledFieldNames.push(field.name); }); const kesimpulanDisabledSectionIds = []; document.querySelectorAll('#bab3_container .kesimpulan-section.section-disabled').forEach(section => { if (section.dataset.sectionId) kesimpulanDisabledSectionIds.push(section.dataset.sectionId); }); const customKesimpulanContainer = document.getElementById('custom_kesimpulan_container'); const storedFiles = { mixing_image_file: {} }; document.querySelectorAll('.mixing-table-item').forEach(tableItem => { const tableUid = getTableUidFromItem(tableItem); if (!tableUid) return; const existingImageInput = tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`); if (existingImageInput && existingImageInput.value) { const previewImageEl = tableItem.querySelector('.image-preview-box img'); storedFiles.mixing_image_file[tableUid] = { path: existingImageInput.value, url: previewImageEl ? previewImageEl.src : '', name: '' }; } const base64Input = tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`); if (base64Input && base64Input.value) { storedFiles.mixing_image_base64 = storedFiles.mixing_image_base64 || {}; storedFiles.mixing_image_base64[tableUid] = base64Input.value; } }); return { counters: { customKesimpulanCount, bab22CustomSubabCounter: 0, bab22SubabIdCounter: 1, bab22TableUidCounter: 1 }, form_values: collectFormValues(), disabled_field_names: disabledFieldNames, kesimpulan_disabled_sections: kesimpulanDisabledSectionIds, bab22_container_html: '', custom_kesimpulan_html: customKesimpulanContainer ? customKesimpulanContainer.innerHTML : '', table_data: tableData, stored_files: storedFiles }; }
-        function restoreDraftState(state) { if (!state || typeof state !== 'object') return; const customKesimpulanContainer = document.getElementById('custom_kesimpulan_container'); if (customKesimpulanContainer && typeof state.custom_kesimpulan_html === 'string') customKesimpulanContainer.innerHTML = state.custom_kesimpulan_html; Object.keys(tableData).forEach(key => delete tableData[key]); if (state.table_data && typeof state.table_data === 'object') Object.entries(state.table_data).forEach(([key, value]) => { tableData[key] = value; }); Object.entries(tableData).forEach(([tableId, rows]) => { const hiddenInput = document.getElementById('hidden_data_' + tableId); if (hiddenInput) hiddenInput.value = Array.isArray(rows) ? JSON.stringify(rows) : ''; if (tableId === 'bahan_aktif' && Array.isArray(rows) && rows.length > 0) { const tbody = document.getElementById('table_body_bahan_aktif'); if (tbody) { tbody.innerHTML = ''; rows.forEach((row, index) => { const tr = document.createElement('tr'); tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50'; while (row.length < 4) row.push(''); row.slice(0, 4).forEach(cellValue => { const td = document.createElement('td'); td.className = 'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700'; td.textContent = (cellValue || '').trim(); tr.appendChild(td); }); tbody.appendChild(tr); }); } const pasteBox = document.getElementById('paste_instructions_bahan_aktif'); const previewBox = document.getElementById('table_preview_bahan_aktif'); if (pasteBox && previewBox) { pasteBox.classList.add('hidden'); previewBox.classList.remove('hidden'); } } }); restoreFormValues(state.form_values || {}); (state.disabled_field_names || []).forEach(name => { const selector = `[name="${escapeNameForSelector(name)}"]`; document.querySelectorAll(selector).forEach(field => { field.setAttribute('disabled', 'disabled'); field.classList.add('opacity-50'); }); }); const disabledSectionIds = new Set(state.kesimpulan_disabled_sections || []); document.querySelectorAll('#bab3_container .kesimpulan-section').forEach(section => { const sectionId = section.dataset.sectionId || ''; if (disabledSectionIds.has(sectionId) && !section.classList.contains('section-disabled')) { const numberEl = section.querySelector('.kesimpulan-number'); if (numberEl) toggleKesimpulanSection(numberEl); } }); const storedFiles = state.stored_files || {}; const storedImages = storedFiles.mixing_image_file || {}; Object.entries(storedImages).forEach(([tableUid, imageMeta]) => { const mapInput = document.querySelector(`input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`); if (mapInput) applyStoredImageToTable(mapInput.closest('.mixing-table-item'), imageMeta); }); const storedBase64Images = storedFiles.mixing_image_base64 || {}; Object.entries(storedBase64Images).forEach(([tableUid, base64]) => { if (!base64) return; const mapInput = document.querySelector(`input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`); if (!mapInput) return; const tableItem = mapInput.closest('.mixing-table-item'); if (!tableItem) return; const previewBox = tableItem.querySelector('.image-preview-box'); const img = previewBox ? previewBox.querySelector('img') : null; const base64Input = tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`); if (img && previewBox) { img.src = base64; previewBox.classList.remove('hidden'); } if (base64Input) base64Input.value = base64; }); const counters = state.counters || {}; customKesimpulanCount = Number(counters.customKesimpulanCount || 0); renumberKesimpulanSections(); }
+        function collectDraftState() { const disabledFieldNames = []; document.querySelectorAll('#nutracareTemplateForm input[name], #nutracareTemplateForm textarea[name], #nutracareTemplateForm select[name]').forEach(field => { if (field.disabled) disabledFieldNames.push(field.name); }); const kesimpulanDisabledSectionIds = []; document.querySelectorAll('#bab3_container .kesimpulan-section.section-disabled').forEach(section => { if (section.dataset.sectionId) kesimpulanDisabledSectionIds.push(section.dataset.sectionId); }); const disabledSubsubabKeys = []; document.querySelectorAll('.bab23-subsubab.subsubab-disabled').forEach(el => { if (el.dataset.subsubabKey) disabledSubsubabKeys.push(el.dataset.subsubabKey); }); const customKesimpulanContainer = document.getElementById('custom_kesimpulan_container'); const storedFiles = { mixing_image_file: {} }; document.querySelectorAll('.mixing-table-item').forEach(tableItem => { const tableUid = getTableUidFromItem(tableItem); if (!tableUid) return; const existingImageInput = tableItem.querySelector(`input[name="existing_mixing_image_file[${tableUid}]"]`); if (existingImageInput && existingImageInput.value) { const previewImageEl = tableItem.querySelector('.image-preview-box img'); storedFiles.mixing_image_file[tableUid] = { path: existingImageInput.value, url: previewImageEl ? previewImageEl.src : '', name: '' }; } const base64Input = tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`); if (base64Input && base64Input.value) { storedFiles.mixing_image_base64 = storedFiles.mixing_image_base64 || {}; storedFiles.mixing_image_base64[tableUid] = base64Input.value; } }); return { counters: { customKesimpulanCount, bab22CustomSubabCounter: 0, bab22SubabIdCounter: 1, bab22TableUidCounter: 1 }, form_values: collectFormValues(), disabled_field_names: disabledFieldNames, kesimpulan_disabled_sections: kesimpulanDisabledSectionIds, disabled_subsubab_keys: disabledSubsubabKeys, bab22_container_html: '', custom_kesimpulan_html: customKesimpulanContainer ? customKesimpulanContainer.innerHTML : '', table_data: tableData, stored_files: storedFiles }; }
+        function restoreDraftState(state) { if (!state || typeof state !== 'object') return; const customKesimpulanContainer = document.getElementById('custom_kesimpulan_container'); if (customKesimpulanContainer && typeof state.custom_kesimpulan_html === 'string') customKesimpulanContainer.innerHTML = state.custom_kesimpulan_html; Object.keys(tableData).forEach(key => delete tableData[key]); if (state.table_data && typeof state.table_data === 'object') Object.entries(state.table_data).forEach(([key, value]) => { tableData[key] = value; }); Object.entries(tableData).forEach(([tableId, rows]) => { const hiddenInput = document.getElementById('hidden_data_' + tableId); if (hiddenInput) hiddenInput.value = Array.isArray(rows) ? JSON.stringify(rows) : ''; if (tableId === 'bahan_aktif' && Array.isArray(rows) && rows.length > 0) { const tbody = document.getElementById('table_body_bahan_aktif'); if (tbody) { tbody.innerHTML = ''; rows.forEach((row, index) => { const tr = document.createElement('tr'); tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50'; while (row.length < 4) row.push(''); row.slice(0, 4).forEach(cellValue => { const td = document.createElement('td'); td.className = 'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700'; td.textContent = (cellValue || '').trim(); tr.appendChild(td); }); tbody.appendChild(tr); }); } const pasteBox = document.getElementById('paste_instructions_bahan_aktif'); const previewBox = document.getElementById('table_preview_bahan_aktif'); if (pasteBox && previewBox) { pasteBox.classList.add('hidden'); previewBox.classList.remove('hidden'); } } }); restoreFormValues(state.form_values || {}); (state.disabled_field_names || []).forEach(name => { const selector = `[name="${escapeNameForSelector(name)}"]`; document.querySelectorAll(selector).forEach(field => { field.setAttribute('disabled', 'disabled'); field.classList.add('opacity-50'); }); }); const disabledSectionIds = new Set(state.kesimpulan_disabled_sections || []); document.querySelectorAll('#bab3_container .kesimpulan-section').forEach(section => { const sectionId = section.dataset.sectionId || ''; if (disabledSectionIds.has(sectionId) && !section.classList.contains('section-disabled')) { const numberEl = section.querySelector('.kesimpulan-number'); if (numberEl) toggleKesimpulanSection(numberEl); } }); const disabledSubsubabKeys = new Set(state.disabled_subsubab_keys || []); if (disabledSubsubabKeys.size > 0) { document.querySelectorAll('.bab23-subsubab').forEach(el => { if (el.dataset.subsubabKey && disabledSubsubabKeys.has(el.dataset.subsubabKey) && !el.classList.contains('subsubab-disabled')) { const numberEl = el.querySelector('.bab23-subsubab-number'); if (numberEl) toggleBab23SubSubab(numberEl); } }); } const storedFiles = state.stored_files || {}; const storedImages = storedFiles.mixing_image_file || {}; Object.entries(storedImages).forEach(([tableUid, imageMeta]) => { const mapInput = document.querySelector(`input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`); if (mapInput) applyStoredImageToTable(mapInput.closest('.mixing-table-item'), imageMeta); }); const storedBase64Images = storedFiles.mixing_image_base64 || {}; Object.entries(storedBase64Images).forEach(([tableUid, base64]) => { if (!base64) return; const mapInput = document.querySelector(`input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`); if (!mapInput) return; const tableItem = mapInput.closest('.mixing-table-item'); if (!tableItem) return; const previewBox = tableItem.querySelector('.image-preview-box'); const img = previewBox ? previewBox.querySelector('img') : null; const base64Input = tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`); if (img && previewBox) { img.src = base64; previewBox.classList.remove('hidden'); } if (base64Input) base64Input.value = base64; }); const counters = state.counters || {}; customKesimpulanCount = Number(counters.customKesimpulanCount || 0); renumberKesimpulanSections(); }
 
         function setSaveDraftLoading(isLoading) { const btn = document.getElementById('saveDraftBtn'); const textEl = document.getElementById('saveDraftText'); if (!btn || !textEl) return; if (isLoading) { btn.setAttribute('disabled', 'disabled'); btn.classList.add('opacity-70', 'cursor-wait'); textEl.textContent = 'Menyimpan...'; } else { btn.removeAttribute('disabled'); btn.classList.remove('opacity-70', 'cursor-wait'); textEl.textContent = 'Simpan Draft'; } }
         async function saveDraft() { setSaveDraftLoading(true); try { const form = document.getElementById('nutracareTemplateForm'); const formData = new FormData(form); formData.delete('_token'); formData.append('_token', CSRF_TOKEN); const state = collectDraftState(); const product = (state.form_values.judul_nama_produk || '').trim() || 'Nutracare EPO 500 Soft Capsule'; const formula = (state.form_values.judul_formula || '').trim(); const line = (state.form_values.judul_line || '').trim() || '6'; const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() || 'Production Pharma III Gedung B'; const formulaSegment = formula ? ` (${formula})` : ''; const titleFallback = `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`; formData.append('draft_id', document.getElementById('draft_id').value || ''); formData.append('draft_title', titleFallback); formData.append('draft_state', JSON.stringify(state)); const response = await fetch(SAVE_DRAFT_URL, { method: 'POST', headers: { 'X-CSRF-TOKEN': CSRF_TOKEN }, body: formData }); const result = await response.json(); if (!response.ok || !result.success) throw new Error(result.message || 'Gagal menyimpan draft'); if (result.draft_id) document.getElementById('draft_id').value = result.draft_id; const storedFiles = result.stored_files || {}; const imageMap = storedFiles.mixing_image_file || {}; Object.entries(imageMap).forEach(([tableUid, imageMeta]) => { const mapInput = document.querySelector(`input[name="bab22_table_subab_key[${escapeNameForSelector(tableUid)}]"]`); if (mapInput) applyStoredImageToTable(mapInput.closest('.mixing-table-item'), imageMeta); }); if (result.redirect_url) { const currentUrl = new URL(window.location.href); const targetUrl = new URL(result.redirect_url, window.location.origin); if (currentUrl.search !== targetUrl.search) window.history.replaceState({}, '', targetUrl.toString()); } Swal.fire({ title: '<span class="text-slate-800 dark:text-white sm:text-2xl">Berhasil!</span>', html: `<p class="text-slate-600 dark:text-slate-300">${result.message || 'Draft berhasil disimpan.'}</p>`, icon: 'success', iconColor: '#10b981', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff', position: 'center', showConfirmButton: false, timer: 2000, timerProgressBar: true, customClass: { popup: 'rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700' }, showClass: { popup: 'animate__animated animate__fadeInUp animate__faster' }, hideClass: { popup: 'animate__animated animate__fadeOutDown animate__faster' } }); } catch (error) { Swal.fire({ title: '<span class="text-slate-800 dark:text-white sm:text-xl">Gagal!</span>', html: `<p class="text-slate-600 dark:text-slate-300">${error.message || 'Gagal menyimpan draft.'}</p>`, icon: 'error', iconColor: '#ef4444', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff', position: 'center', showConfirmButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'OK', customClass: { popup: 'rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700' } }); } finally { setSaveDraftLoading(false); } }
@@ -383,6 +408,51 @@
         function updateRemoveButtonVisibility() { document.querySelectorAll('.mixing-table-item').forEach(table => { const removeBtn = table.querySelector('.remove-table-btn'); if (removeBtn) removeBtn.classList.remove('hidden'); }); }
         function updateFileName(input) { }
         let customKesimpulanCount = 0;
+        function toggleSubSection(numberEl) {
+            const section = numberEl.closest('.sub-section');
+            if (!section) return;
+            const isDisabled = section.classList.toggle('sub-disabled');
+            if (isDisabled) {
+                section.style.opacity = '0.35';
+                numberEl.classList.add('line-through', 'text-red-500');
+                section.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                section.style.opacity = '1';
+                numberEl.classList.remove('line-through', 'text-red-500');
+                section.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+        }
+
+        function toggleBabSection(cardId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            const isDisabled = card.classList.toggle('bab-disabled');
+            const content = card.querySelector('.p-6, .p-4');
+            const numberEl = card.querySelector('.bab-section-number');
+            if (isDisabled) {
+                card.style.opacity = '0.4';
+                if (numberEl) numberEl.classList.add('line-through', 'text-red-500');
+                card.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    if (!el.closest('.px-6.py-4')) {
+                        el.setAttribute('disabled', 'disabled');
+                        el.classList.add('opacity-50');
+                    }
+                });
+            } else {
+                card.style.opacity = '1';
+                if (numberEl) numberEl.classList.remove('line-through', 'text-red-500');
+                card.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+        }
         function toggleKesimpulanSection(numberEl) { const section = numberEl.closest('.kesimpulan-section'); const isDisabled = section.classList.toggle('section-disabled'); if (isDisabled) { section.style.opacity = '0.35'; numberEl.classList.add('line-through', 'text-red-500'); section.querySelectorAll('input, textarea, button, select').forEach(el => { el.setAttribute('disabled', 'disabled'); el.classList.add('opacity-50'); }); } else { section.style.opacity = '1'; numberEl.classList.remove('line-through', 'text-red-500'); section.querySelectorAll('input, textarea, button, select').forEach(el => { el.removeAttribute('disabled'); el.classList.remove('opacity-50'); }); } renumberKesimpulanSections(); }
         function renumberKesimpulanSections() { const sections = document.querySelectorAll('#bab3_container .kesimpulan-section'); let activeIndex = 1; const enabledIds = []; sections.forEach((section, index) => { const numberEl = section.querySelector('.kesimpulan-number'); if (!numberEl) return; const isDisabled = section.classList.contains('section-disabled'); if (!isDisabled) { numberEl.textContent = `3.${activeIndex}`; activeIndex++; enabledIds.push(section.dataset.sectionId || String(index + 1)); } else { numberEl.textContent = `3.${section.dataset.sectionId || String(index + 1)}`; } }); const enabledInput = document.getElementById('kesimpulan_enabled_sections'); if (enabledInput) enabledInput.value = enabledIds.join(','); }
         function addCustomKesimpulan() { customKesimpulanCount++; const customId = 'c' + customKesimpulanCount; const container = document.getElementById('custom_kesimpulan_container'); const div = document.createElement('div'); div.className = 'kesimpulan-section'; div.dataset.sectionId = customId; div.innerHTML = `<div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200 flex items-start gap-2"><span class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap mt-0.5" onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.X</span><textarea name="kesimpulan_custom_${customKesimpulanCount}" rows="2" class="flex-1 resize-y px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm" placeholder="Isi poin kesimpulan..."></textarea><button type="button" onclick="this.closest('.kesimpulan-section').remove(); renumberKesimpulanSections();" class="text-slate-400 hover:text-red-600 transition-colors mt-1" title="Hapus"><span class="material-symbols-outlined text-[18px]">delete</span></button></div>`; container.appendChild(div); renumberKesimpulanSections(); }
@@ -391,10 +461,41 @@
         function getBab23TableTemplate(uid) { return `<div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${uid}" onpaste="handleMixingPaste(event, this)"><div class="absolute top-1 right-1 z-20 remove-table-btn"><button type="button" onclick="toggleTableMenu(this)" class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi"><span class="material-symbols-outlined text-[20px] block">more_vert</span></button><div class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30"><button type="button" onclick="removeMixingTable(this)" class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span>Hapus Tabel</button></div></div><div class="p-6"><div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)"><span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span><p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p><p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy dari Excel atau Screenshot lalu paste (Ctrl+V)</p><div class="flex justify-center mb-4"><button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">content_paste_go</span>Tempel dari Clipboard</button></div><textarea rows="4" class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono" placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)" onpaste="handleClipboardFieldPaste(event, this)"></textarea></div><input type="file" name="mixing_image_file[${uid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)"><div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1"><img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm"><button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar"><span class="material-symbols-outlined text-[14px] block">close</span></button></div><div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3"><div class="overflow-auto max-h-[420px]"><table class="w-full text-sm border-collapse pasted-table-preview-table"></table></div><button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste"><span class="material-symbols-outlined text-[14px] block">close</span></button></div></div><input type="hidden" name="bab22_table_subab_key[${uid}]" value="bab23"><input type="hidden" name="existing_mixing_image_file[${uid}]" value=""><input type="hidden" name="mixing_pasted_table_json[${uid}]" value=""><input type="hidden" name="mixing_image_base64[${uid}]" value=""></div>`; }
         function addBab23Subab() { bab23SubabCounter++; const key = `bab23_subab_dyn_${bab23SubabCounter}`; const container = document.getElementById('bab23_dynamic_subab_container'); const el = document.createElement('div'); el.className = 'bab23-subab'; el.dataset.subabKey = key; el.innerHTML = `<div class="flex items-center gap-2 mb-3"><span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap" onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.X</span><input type="text" name="${key}_title" class="template-input flex-1 font-semibold" placeholder="Judul subab"><button type="button" onclick="removeBab23Subab(this)" class="text-slate-400 hover:text-red-600 transition-colors" title="Hapus subab"><span class="material-symbols-outlined text-[18px]">delete</span></button></div><div class="bab23-subsubab-container ml-4 flex flex-col gap-4"></div><div class="ml-4 mt-3"><button type="button" onclick="addBab23SubSubab(this)" class="w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"><span class="material-symbols-outlined text-[18px]">add</span>Tambah Sub-subab</button></div>`; container.appendChild(el); el.querySelector(`input[name="${key}_title"]`).focus(); }
         function removeBab23Subab(button) { const subab = button.closest('.bab23-subab'); if (subab) subab.remove(); }
-        function toggleBab23Subab(numberEl) { const subab = numberEl.closest('.bab23-subab'); const isDisabled = subab.classList.toggle('subab-disabled'); subab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); }
+        function toggleBab23Subab(numberEl) { const subab = numberEl.closest('.bab23-subab'); const isDisabled = subab.classList.toggle('subab-disabled'); subab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); renumberBab23(); }
         function addBab23SubSubab(button) { bab23SubSubabCounter++; const subab = button.closest('.bab23-subab'); const container = subab.querySelector('.bab23-subsubab-container'); const subabKey = subab.dataset.subabKey || `bab23_${bab23SubabCounter}`; const key = `${subabKey}_sub_${bab23SubSubabCounter}`; const el = document.createElement('div'); el.className = 'bab23-subsubab'; el.dataset.subsubabKey = key; el.innerHTML = `<div class="flex items-start gap-2 mb-2"><span class="bab23-subsubab-number font-medium text-slate-700 dark:text-slate-300 cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap mt-0.5" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.X.X</span><input type="text" name="${key}_title" class="template-input flex-1" placeholder="Judul sub-subab (opsional)"><button type="button" onclick="removeBab23SubSubab(this)" class="text-slate-400 hover:text-red-600 transition-colors mt-1" title="Hapus"><span class="material-symbols-outlined text-[18px]">delete</span></button></div><div class="ml-10"><textarea name="${key}_text" rows="3" class="w-full resize-y px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm mb-2" placeholder="Isi teks sub-subab ini..."></textarea><div class="bab23-tables-container flex flex-col gap-3"></div><button type="button" onclick="addBab23Table(this)" class="mt-2 w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"><span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>Tambah Tabel / Screenshot</button></div>`; container.appendChild(el); }
         function removeBab23SubSubab(button) { const subsubab = button.closest('.bab23-subsubab'); if (subsubab) subsubab.remove(); }
-        function toggleBab23SubSubab(numberEl) { const subsubab = numberEl.closest('.bab23-subsubab'); const isDisabled = subsubab.classList.toggle('subsubab-disabled'); subsubab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subsubab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); }
+        function toggleBab23SubSubab(numberEl) { const subsubab = numberEl.closest('.bab23-subsubab'); const isDisabled = subsubab.classList.toggle('subsubab-disabled'); subsubab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subsubab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); renumberBab23(); }
+        function renumberBab23() {
+            const dynSubabs = Array.from(document.querySelectorAll('#bab23_dynamic_subab_container > .bab23-subab'));
+            const allSubabs = [
+                document.getElementById('bab23_subab_enkapsulasi'),
+                document.getElementById('bab23_subab_pengeringan'),
+                document.getElementById('bab23_subab_kemasan'),
+                ...dynSubabs
+            ].filter(Boolean);
+            let subabIdx = 1;
+            allSubabs.forEach(subab => {
+                const numEl = subab.querySelector('.bab23-number');
+                const isSubabDisabled = subab.classList.contains('subab-disabled');
+                const currentSubabNum = `2.3.${subabIdx}`;
+                if (numEl) numEl.textContent = currentSubabNum + '.';
+                if (!isSubabDisabled) subabIdx++;
+                // renumber sub-subabs within this subab
+                const container = subab.querySelector('.bab23-subsubab-container');
+                if (!container) return;
+                const subsubabs = Array.from(container.querySelectorAll(':scope > .bab23-subsubab'));
+                let ssIdx = 1;
+                subsubabs.forEach(ss => {
+                    const ssNumEl = ss.querySelector('.bab23-subsubab-number');
+                    const isSSDisabled = ss.classList.contains('subsubab-disabled');
+                    if (ssNumEl) {
+                        const hasDot = ssNumEl.textContent.trim().endsWith('.');
+                        ssNumEl.textContent = `${currentSubabNum}.${ssIdx}` + (hasDot ? '.' : '');
+                    }
+                    if (!isSSDisabled) ssIdx++;
+                });
+            });
+        }
         function addBab23Table(button) { bab23SubSubabCounter++; const uid = `bab23_tbl_${bab23SubSubabCounter}`; let container = button.previousElementSibling; if (!container || !container.classList.contains('bab23-tables-container')) { container = document.createElement('div'); container.className = 'bab23-tables-container flex flex-col gap-3 mb-2'; button.insertAdjacentElement('beforebegin', container); } container.insertAdjacentHTML('beforeend', getBab23TableTemplate(uid)); }
         document.addEventListener('click', function(event) { if (!event.target.closest('.remove-table-btn')) document.querySelectorAll('.table-dropdown-menu').forEach(menu => menu.classList.add('hidden')); });
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
