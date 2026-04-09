@@ -28,13 +28,6 @@
                         <p class="font-bold text-center text-base mb-4">
                             (<input type="text" name="judul_formula" class="template-input sync-input w-48"
                                 data-sync="formula" placeholder="O921 ex HPI" value="O921 ex HPI">)
-                                <!--DI LINE
-                            <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="2">
-                            BAGIAN
-                            <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
-                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">-->
                         </p>
                     </div>
 
