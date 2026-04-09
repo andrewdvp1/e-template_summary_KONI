@@ -125,12 +125,13 @@
                                 <span class="font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.1</span>
                                 Studi validasi dilakukan terhadap
-                                <input type="text" name="batch_jumlah" class="template-input w-12">
+                                <input type="text" name="batch_jumlah" class="template-input w-12"
+                                placeholder="3">
                                 bets produksi yaitu batch
                                 <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
                                     data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                 dengan besaran batch
-                                <input type="text" name="batch_besaran" class="template-input w-20">
+                                <input type="text" name="batch_besaran" class="template-input w-20" placeholder="34 kg">
                                 =
                                 <input type="text" name="batch_jumlah_botol" class="template-input w-28"
                                     placeholder="68.000">
