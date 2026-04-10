@@ -19,7 +19,7 @@
                     <div class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text">
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
-                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
+                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-72 uppercase"
                                 data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
@@ -78,22 +78,27 @@
             {{-- BAB 1: PENDAHULUAN --}}
             <div
                 class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                     <h2 class="font-bold text-slate-900 dark:text-white">1. PENDAHULUAN</h2>
+                    <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
+                <input type="hidden" name="bab1_enabled_sections" id="bab1_enabled_sections" value="1,2">
                 <div class="p-6 flex flex-col gap-6">
                     {{-- 1.1 Tujuan --}}
-                    <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.1 Tujuan</h3>
-                        <div
-                            class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
-                            <p class="pl-8 -indent-8">
-                                <span class="font-medium">1.1.1</span> Summary validasi ini bertujuan mendokumentasikan
+                    <div class="bab1-section" data-section-id="1">
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">
+                            <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">1.1</span>
+                            Tujuan
+                        </h3>
+                        <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <p>
+                                Summary validasi ini bertujuan mendokumentasikan
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
+                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
                                     data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
                                 <input type="text" name="kemasan_produk" class="template-input sync-input w-64"
-                                    data-sync="kemasan" placeholder="kemasan botol 10 ml">:
+                                    data-sync="kemasan" placeholder="kemasan botol 10 ml">
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
                                     data-sync="line" placeholder="4">
@@ -111,19 +116,24 @@
                                     data-sync="proses"
                                     value="pembuatan campuran A dan proses pembuatan campuran B"
                                     placeholder="pembuatan campuran A dan proses pembuatan campuran B">
-                                <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
                                 dalam menghasilkan produk
+                                <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-55"
+                                    data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
                                 <input type="text" name="varian_produk" class="template-input sync-input w-48"
-                                    data-sync="varian" placeholder="kemasan botol">:
+                                    data-sync="varian" placeholder="kemasan botol">
                                 yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
                         </div>
                     </div>
 
                     {{-- 1.2 Batch Validasi --}}
-                    <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">1.2 Batch Validasi</h3>
+                    <div class="bab1-section" data-section-id="2">
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">
+                            <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">1.2</span>
+                            Batch Validasi
+                        </h3>
+                        <div class="bab1-section-content transition-opacity duration-200">
                         <div
                             class="text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify mb-4">
                             <p>
@@ -207,7 +217,8 @@
                             {{-- Hidden input to store table data --}}
                             <input type="hidden" name="tabel_bahan_aktif" id="hidden_data_bahan_aktif">
                         </div>
-                    </div>
+                        </div>{{-- end bab1-section-content --}}
+                    </div>{{-- end bab1-section 1.2 --}}
                 </div>
             </div>
 
@@ -220,13 +231,14 @@
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
+                    <input type="hidden" name="bab2_enabled_sections" id="bab2_enabled_sections" value="1,2">
+
                     {{-- 2.1 --}}
-                    <div>
-                        <!-- <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">2.1</h3> -->
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                    <div class="bab2-section" data-section-id="1">
+                        <div class="bab2-section-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                             <p class="pl-8 -indent-8">
-                                <span class="font-semibold">2.1.</span> Semua tahap dalam Penimbangan 
+                                <span class="bab2-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.1.</span> Semua tahap dalam Penimbangan 
                             
                             <input type="text" name="rangkuman_metode" class="template-input sync-input w-84"
                                     data-sync="rangkuman"
@@ -237,8 +249,13 @@
                     </div>
 
                     {{-- 2.2 Hasil pemeriksaan sampel --}}
-                    <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">2.2 Hasil pemeriksaan sampel</h3>
+                    <div class="bab2-section" data-section-id="2">
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">
+                            <span class="bab2-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.2</span>
+                            Hasil pemeriksaan sampel
+                        </h3>
+                        <div class="bab2-section-content transition-opacity duration-200">
                         <input type="hidden" name="bab22_enabled_subab_keys" id="bab22_enabled_subab_keys"
                             value="">
 
@@ -365,7 +382,8 @@
                                 <span class="text-sm font-medium">Tambah Subab/Proses</span>
                             </button>
                         </div>
-                    </div>
+                        </div>{{-- end bab2-section-content --}}
+                    </div>{{-- end bab2-section 2.2 --}}
                 </div>
             </div>
 
@@ -451,9 +469,15 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
                                 Atribut yang diuji pada tahap filling-capping
-                                (<input type="text" name="kesimpulan_zat_aktif" class="template-input w-full"
-                                    value="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate">)
+                            </p>
+                            <div class="flex items-start gap-1 mt-1 ml-8">
+                                <span>(</span>
+                                <textarea name="kesimpulan_zat_aktif" rows="3"
+                                    class="template-input w-full resize-y text-base"
+                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate">bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas cemaran Etilen Glikol, batas cemaran Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan/isi dalam satu botol, keseragaman sediaan (keragaman bobot Pyrantel Pamoate</textarea>
+                                <span>)</span>
+                            </div>
+                            <p class="ml-8 mt-1">
                                 sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
                         </div>
@@ -474,7 +498,7 @@
                                     placeholder="mixing, tahap awal filling-capping, selama filling-capping">
                                 yang memenuhi persyaratan, maka proses pengolahan dan pengemasan produk
                                 <input type="text" name="kesimpulan_final_produk"
-                                    class="template-input sync-input w-48" data-sync="nama_produk"
+                                    class="template-input sync-input w-52data-sync="nama_produk"
                                     placeholder="Konvermex 125 Suspensi">
                                 kemasan botol menggunakan
                                 <input type="text" name="kesimpulan_mesin" class="template-input w-154"
@@ -900,6 +924,20 @@
                 }
             });
 
+            const bab1DisabledSectionIds = [];
+            document.querySelectorAll('.bab1-section.section-disabled').forEach(section => {
+                if (section.dataset.sectionId) {
+                    bab1DisabledSectionIds.push(section.dataset.sectionId);
+                }
+            });
+
+            const bab2DisabledSectionIds = [];
+            document.querySelectorAll('.bab2-section.section-disabled').forEach(section => {
+                if (section.dataset.sectionId) {
+                    bab2DisabledSectionIds.push(section.dataset.sectionId);
+                }
+            });
+
             const bab22Container = document.getElementById('bab22_dynamic_subab_container');
             const customKesimpulanContainer = document.getElementById('custom_kesimpulan_container');
 
@@ -944,6 +982,8 @@
                 form_values: collectFormValues(),
                 disabled_field_names: disabledFieldNames,
                 kesimpulan_disabled_sections: kesimpulanDisabledSectionIds,
+                bab1_disabled_sections: bab1DisabledSectionIds,
+                bab2_disabled_sections: bab2DisabledSectionIds,
                 bab22_container_html: bab22Container ? bab22Container.innerHTML : '',
                 custom_kesimpulan_html: customKesimpulanContainer ? customKesimpulanContainer.innerHTML : '',
                 table_data: tableData,
@@ -1035,6 +1075,24 @@
                     if (numberEl) {
                         toggleKesimpulanSection(numberEl);
                     }
+                }
+            });
+
+            const bab1DisabledIds = new Set(state.bab1_disabled_sections || []);
+            document.querySelectorAll('.bab1-section').forEach(section => {
+                const sectionId = section.dataset.sectionId || '';
+                if (bab1DisabledIds.has(sectionId) && !section.classList.contains('section-disabled')) {
+                    const numberEl = section.querySelector('.bab1-number');
+                    if (numberEl) toggleBab1Section(numberEl);
+                }
+            });
+
+            const bab2DisabledIds = new Set(state.bab2_disabled_sections || []);
+            document.querySelectorAll('.bab2-section').forEach(section => {
+                const sectionId = section.dataset.sectionId || '';
+                if (bab2DisabledIds.has(sectionId) && !section.classList.contains('section-disabled')) {
+                    const numberEl = section.querySelector('.bab2-number');
+                    if (numberEl) toggleBab2Section(numberEl);
                 }
             });
 
@@ -1208,6 +1266,101 @@
         // ===========================================
 
         let customKesimpulanCount = 0;
+
+        function toggleBab2Section(numberEl) {
+            const sectionDiv = numberEl.closest('.bab2-section');
+            const isDisabled = sectionDiv.classList.toggle('section-disabled');
+            const contentDiv = sectionDiv.querySelector('.bab2-section-content');
+            const titleEl = sectionDiv.querySelector('h3');
+
+            if (isDisabled) {
+                if (contentDiv) { contentDiv.style.opacity = '0.35'; contentDiv.style.textDecoration = 'line-through'; }
+                if (titleEl) titleEl.style.textDecoration = 'line-through';
+                numberEl.classList.add('bg-red-100', 'text-red-500', 'line-through');
+                sectionDiv.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                if (contentDiv) { contentDiv.style.opacity = '1'; contentDiv.style.textDecoration = 'none'; }
+                if (titleEl) titleEl.style.textDecoration = 'none';
+                numberEl.classList.remove('bg-red-100', 'text-red-500', 'line-through');
+                sectionDiv.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberBab2Sections();
+        }
+
+        function renumberBab2Sections() {
+            const allSections = document.querySelectorAll('.bab2-section');
+            let activeIndex = 1;
+            const enabledIds = [];
+
+            allSections.forEach(section => {
+                const numberEl = section.querySelector('.bab2-number');
+                const isDisabled = section.classList.contains('section-disabled');
+                if (!isDisabled) {
+                    // section 1 = 2.1., section 2 = 2.2
+                    numberEl.textContent = section.dataset.sectionId === '1' ? '2.' + activeIndex + '.' : '2.' + activeIndex;
+                    enabledIds.push(section.dataset.sectionId);
+                    activeIndex++;
+                } else {
+                    numberEl.textContent = section.dataset.sectionId === '1' ? '2.' + section.dataset.sectionId + '.' : '2.' + section.dataset.sectionId;
+                }
+            });
+
+            const hiddenInput = document.getElementById('bab2_enabled_sections');
+            if (hiddenInput) hiddenInput.value = enabledIds.join(',');
+        }
+
+        function toggleBab1Section(numberEl) {
+            const sectionDiv = numberEl.closest('.bab1-section');
+            const isDisabled = sectionDiv.classList.toggle('section-disabled');
+            const contentDiv = sectionDiv.querySelector('.bab1-section-content');
+            const titleEl = sectionDiv.querySelector('h3');
+
+            if (isDisabled) {
+                if (contentDiv) { contentDiv.style.opacity = '0.35'; contentDiv.style.textDecoration = 'line-through'; }
+                if (titleEl) titleEl.style.textDecoration = 'line-through';
+                numberEl.classList.add('bg-red-100', 'text-red-500', 'line-through');
+                sectionDiv.querySelectorAll('input, textarea').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                if (contentDiv) { contentDiv.style.opacity = '1'; contentDiv.style.textDecoration = 'none'; }
+                if (titleEl) titleEl.style.textDecoration = 'none';
+                numberEl.classList.remove('bg-red-100', 'text-red-500', 'line-through');
+                sectionDiv.querySelectorAll('input, textarea').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberBab1Sections();
+        }
+
+        function renumberBab1Sections() {
+            const allSections = document.querySelectorAll('.bab1-section');
+            let activeIndex = 1;
+            const enabledIds = [];
+
+            allSections.forEach(section => {
+                const numberEl = section.querySelector('.bab1-number');
+                const isDisabled = section.classList.contains('section-disabled');
+                if (!isDisabled) {
+                    numberEl.textContent = '1.' + activeIndex;
+                    enabledIds.push(section.dataset.sectionId);
+                    activeIndex++;
+                } else {
+                    numberEl.textContent = '1.' + section.dataset.sectionId;
+                }
+            });
+
+            const hiddenInput = document.getElementById('bab1_enabled_sections');
+            if (hiddenInput) hiddenInput.value = enabledIds.join(',');
+        }
 
         function toggleKesimpulanSection(numberEl) {
             const sectionDiv = numberEl.closest('.kesimpulan-section');
@@ -1647,9 +1800,7 @@
                     <p>
                         Atribut yang diuji pada tahap ${stageText} sudah memberikan hasil yang
                         <input type="text" name="${fieldName}" class="template-input w-32" placeholder="memenuhi">
-                        persyaratan menurut ${specText} yang berlaku
-                        <input type="text" name="${fieldName}_catatan" class="template-input w-64" placeholder="">
-                        .
+                        persyaratan menurut ${specText} yang berlaku.
                     </p>
                 </div>`;
         }
