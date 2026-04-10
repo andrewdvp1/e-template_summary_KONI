@@ -287,8 +287,6 @@
             </div>
 
             {{-- BAB 2: HASIL DAN EVALUASI VALIDASI PROSES --}}
-            <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
             <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab2_card">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
@@ -298,13 +296,15 @@
                     </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
-                <div class="p-6 flex flex-col gap-6">
+                <div class="p-6">
                     <input type="hidden" name="bab22_enabled_subab_keys" id="bab22_enabled_subab_keys" value="">
+                    <input type="hidden" name="bab2_static_enabled" id="bab2_static_enabled" value="2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.3">
+                    <div class="flex flex-col" style="gap: 1.5rem;">
 
                     {{-- 2.1 Pelaksanaan Proses Produksi --}}
-                    <div>
-                        <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                            <p class="pl-8 -indent-8"><span class="font-semibold">2.1.</span> Pelaksanaan Proses Produksi:</p>
+                    <div class="bab2-static-section" style="display:flex; flex-direction:column; gap:1rem;" data-num="2.1">
+                        <div class="bab2-static-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <p class="pl-8 -indent-8"><span class="bab2-static-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.1.</span> Pelaksanaan Proses Produksi:</p>
                         </div>
                         <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative ml-4" data-table-uid="tbl_pelaksanaan" onpaste="handleMixingPaste(event, this)">
                             <div class="absolute top-1 right-1 z-20 remove-table-btn">
@@ -332,40 +332,45 @@
                             <input type="hidden" name="mixing_pasted_table_json[tbl_pelaksanaan]" value="">
                             <input type="hidden" name="mixing_image_base64[tbl_pelaksanaan]" value="">
                         </div>
-                    </div>
+                    </div>{{-- end 2.1 --}}
 
                     {{-- 2.2 --}}
-                    <div>
-                        <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                            <p class="pl-8 -indent-8"><span class="font-semibold">2.2.</span> Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.</p>
+                    <div class="bab2-static-section" data-num="2.2">
+                        <div class="bab2-static-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <p class="pl-8 -indent-8"><span class="bab2-static-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.2.</span> Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.</p>
                         </div>
-                    </div>
+                    </div>{{-- end 2.2 --}}
 
                     {{-- 2.3 Hasil pemeriksaan sampel --}}
-                    <div class="flex flex-col gap-6">
+                    <div class="bab2-static-section" data-num="2.3">
+                        <div class="bab2-static-content transition-opacity duration-200" style="display:flex; flex-direction:column; gap:1.5rem;">
                         <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                            <p class="pl-8 -indent-8"><span class="font-semibold">2.3.</span> Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :</p>
+                            <p class="pl-8 -indent-8"><span class="bab2-static-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.</span> Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :</p>
                         </div>
 
                         {{-- 2.3.1 Enkapsulasi (Sebelum pengeringan) --}}
-                        <div class="ml-4 flex flex-col gap-4">
+                        <div class="bab2-static-section ml-4" data-num="2.3.1">
+                            <div class="bab2-static-content transition-opacity duration-200" style="display:flex; flex-direction:column; gap:1rem;">
                             <h3 class="font-semibold text-slate-800 dark:text-slate-200">
-                                <span class="font-semibold">2.3.1</span> Enkapsulasi (Sebelum pengeringan)
+                                <span class="bab2-static-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.1</span> Enkapsulasi (Sebelum pengeringan)
                             </h3>
 
                             {{-- 2.3.1.1 --}}
-                            <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                            <div class="bab2-static-section" data-num="2.3.1.1">
+                                <div class="bab2-static-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                                 <p class="pl-10 -indent-10">
-                                    <span class="font-medium">2.3.1.1</span>
+                                    <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.1.1</span>
                                     Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas
                                     <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-32" placeholder="500 ± 50 mg">.
                                 </p>
-                            </div>
+                                </div>
+                            </div>{{-- end 2.3.1.1 --}}
 
                             {{-- 2.3.1.2 --}}
-                            <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                            <div class="bab2-static-section" data-num="2.3.1.2">
+                                <div class="bab2-static-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                                 <p class="pl-10 -indent-10 mb-3">
-                                    <span class="font-medium">2.3.1.2</span>
+                                    <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.1.2</span>
                                     Dilakukan sampling pemeriksaan bobot pada
                                     <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3">
                                     lokasi (awal, tengah, akhir) dengan jumlah
@@ -402,24 +407,29 @@
                                     <input type="hidden" name="mixing_image_base64[bab23_enkapsulasi_tabel]" value="">
                                 </div>
                             </div>
+                            </div>{{-- end 2.3.1.2 --}}
 
                             {{-- 2.3.1.3 --}}
-                            <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                            <div class="bab2-static-section" data-num="2.3.1.3">
+                                <div class="bab2-static-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                                 <p class="pl-10 -indent-10">
-                                    <span class="font-medium">2.3.1.3</span>
+                                    <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.1.3</span>
                                     Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk
                                     <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                     bets
                                     <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                     memenuhi spesifikasi produk yang ditetapkan.
                                 </p>
+                                </div>
+                            </div>{{-- end 2.3.1.3 --}}
                             </div>
-                        </div>
+                        </div>{{-- end 2.3.1 --}}
 
                         {{-- 2.3.2 Tahap Pengeringan --}}
-                        <div class="ml-4 flex flex-col gap-4">
+                        <div class="bab2-static-section ml-4" data-num="2.3.2">
+                            <div class="bab2-static-content transition-opacity duration-200" style="display:flex; flex-direction:column; gap:1rem;">
                             <h3 class="font-semibold text-slate-800 dark:text-slate-200">
-                                <span class="font-semibold">2.3.2</span> Tahap Pengeringan
+                                <span class="bab2-static-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.2</span> Tahap Pengeringan
                             </h3>
                             {{-- Tabel 2.3.2 --}}
                             <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="bab23_pengeringan_tabel" onpaste="handleMixingPaste(event, this)">
@@ -457,12 +467,14 @@
                                     memenuhi spesifikasi produk yang ditetapkan.
                                 </p>
                             </div>
-                        </div>
+                            </div>
+                        </div>{{-- end 2.3.2 --}}
 
                         {{-- 2.3.3 Tahap Kemas Primer --}}
-                        <div class="ml-4 flex flex-col gap-4">
+                        <div class="bab2-static-section ml-4" data-num="2.3.3">
+                            <div class="bab2-static-content transition-opacity duration-200" style="display:flex; flex-direction:column; gap:1rem;">
                             <h3 class="font-semibold text-slate-800 dark:text-slate-200">
-                                <span class="font-semibold">2.3.3</span> Tahap Kemas Primer
+                                <span class="bab2-static-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.3</span> Tahap Kemas Primer
                             </h3>
                             {{-- Tabel 2.3.3 --}}
                             <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="bab23_kemas_tabel" onpaste="handleMixingPaste(event, this)">
@@ -500,13 +512,15 @@
                                     telah memenuhi spesifikasi kemasan yang ditetapkan.
                                 </p>
                             </div>
-                        </div>
+                            </div>
+                        </div>{{-- end 2.3.3 --}}
 
                         {{-- Hidden inputs for export --}}
                         <input type="hidden" name="bab23_enabled_subab_keys" id="bab23_enabled_subab_keys" value="bab23_enkapsulasi,bab23_pengeringan,bab23_kemas_primer">
-                    </div>
+                        </div>
+                        </div>{{-- end 2.3 --}}
+                    </div>{{-- end flex gap-6 wrapper --}}
                 </div>
-            </div>
             </div>
 
             {{-- BAB 3: KESIMPULAN --}}
@@ -1346,6 +1360,78 @@
         // ===========================================
         // BAB 1 TOGGLE SYSTEM
         // ===========================================
+        // ===========================================
+        // BAB 2 STATIC SECTIONS TOGGLE SYSTEM
+        // ===========================================
+
+        function toggleBab2Static(numberEl) {
+            const section = numberEl.closest('.bab2-static-section');
+            if (!section) return;
+            const isDisabled = section.classList.toggle('section-disabled');
+            const contentDiv = section.querySelector(':scope > .bab2-static-content');
+            if (isDisabled) {
+                if (contentDiv) { contentDiv.style.opacity = '0.35'; contentDiv.style.textDecoration = 'line-through'; }
+                numberEl.classList.add('bg-red-100', 'text-red-500', 'line-through');
+                section.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                if (contentDiv) { contentDiv.style.opacity = '1'; contentDiv.style.textDecoration = 'none'; }
+                numberEl.classList.remove('bg-red-100', 'text-red-500', 'line-through');
+                section.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberBab2Static();
+        }
+
+        function renumberBab2Static() {
+            // Renumber top-level: 2.1, 2.2, 2.3
+            const topSections = document.querySelectorAll('.p-6 > .bab2-static-section');
+            let topIdx = 1;
+            topSections.forEach(sec => {
+                const numEl = sec.querySelector(':scope > .bab2-static-content .bab2-static-number, :scope > .bab2-static-content > p .bab2-static-number, :scope > .bab2-static-content > div > p .bab2-static-number');
+                const isDisabled = sec.classList.contains('section-disabled');
+                const origNum = sec.dataset.num;
+                const newNum = '2.' + topIdx + (origNum && origNum.split('.').length === 2 ? '.' : '');
+                if (numEl) numEl.textContent = newNum;
+                if (!isDisabled) topIdx++;
+
+                // Renumber 2.3.x children
+                const childSections = sec.querySelectorAll(':scope > .bab2-static-content > .bab2-static-section');
+                let childIdx = 1;
+                childSections.forEach(child => {
+                    const childNumEl = child.querySelector(':scope > .bab2-static-content .bab2-static-number, :scope > .bab2-static-content > h3 .bab2-static-number');
+                    const childDisabled = child.classList.contains('section-disabled');
+                    const parentNum = numEl ? numEl.textContent.replace(/\.$/, '') : '2.3';
+                    const childNewNum = parentNum + '.' + childIdx;
+                    if (childNumEl) childNumEl.textContent = childNewNum;
+                    if (!childDisabled) childIdx++;
+
+                    // Renumber 2.3.x.y sub-children
+                    const subChildren = child.querySelectorAll(':scope > .bab2-static-content > .bab2-static-section');
+                    let subIdx = 1;
+                    subChildren.forEach(sub => {
+                        const subNumEl = sub.querySelector(':scope > .bab2-static-content .bab2-static-number');
+                        const subDisabled = sub.classList.contains('section-disabled');
+                        const subNewNum = childNewNum + '.' + subIdx;
+                        if (subNumEl) subNumEl.textContent = subNewNum;
+                        if (!subDisabled) subIdx++;
+                    });
+                });
+            });
+
+            // Update hidden input
+            const enabled = [];
+            document.querySelectorAll('.bab2-static-section').forEach(sec => {
+                if (!sec.classList.contains('section-disabled')) enabled.push(sec.dataset.num);
+            });
+            const hidden = document.getElementById('bab2_static_enabled');
+            if (hidden) hidden.value = enabled.join(',');
+        }
+
         function toggleBab1Point(numberEl) {
             const pointEl = numberEl.closest('.bab1-point');
             if (!pointEl) return;
