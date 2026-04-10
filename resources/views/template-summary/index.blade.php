@@ -292,7 +292,7 @@
                         route: 'kapsul, nutracare',
                         templates: [
                             { label: 'Template Nutracare EPO 500 Soft Capsule', route: 'nutracare' },
-                            { label: 'Template 2', route: 'kapsul' },
+                            { label: 'Template Konilife Omega 3 Soft Capsule', route: 'kapsul' },
                             { label: 'Template 3', route: 'kapsul' },
                         ]
                     },
