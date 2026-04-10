@@ -372,161 +372,100 @@ class KapsulExportService
             'spaceAfter' => 0,
         ]);
 
-        // 2.1
+        $tableSubabMap = $this->data['bab22_table_subab_key'] ?? [];
+        $imageMap = $this->data['mixing_image_file'] ?? [];
+        $existingImageMap = $this->data['existing_mixing_image_file'] ?? [];
+
+        if (!is_array($tableSubabMap)) $tableSubabMap = [];
+        if (!is_array($imageMap)) $imageMap = [];
+        if (!is_array($existingImageMap)) $existingImageMap = [];
+
+        // 2.1 Pelaksanaan Proses Produksi
         $textRun21 = $this->section->addTextRun([
             'alignment' => 'both',
             'indentation' => ['left' => 740, 'hanging' => 440],
             'contextualSpacing' => true,
         ]);
         $textRun21->addText('2.1.', ['bold' => true, 'size' => 11]);
-        $textRun21->addText(' Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
+        $textRun21->addText(' Pelaksanaan Proses Produksi:', ['bold' => true, 'size' => 11]);
 
-        // 2.2 Subheading 
+        // Render tabel pelaksanaan (paste/screenshot)
+        $this->addBab22SubabTables('pelaksanaan', $tableSubabMap, $imageMap, $existingImageMap);
+
+        // 2.2 Teks statis
         $textRun22 = $this->section->addTextRun([
             'alignment' => 'both',
-            'indentation' => ['left' => 670, 'hanging' => 370],
-            'spaceAfter' => 60,
+            'indentation' => ['left' => 740, 'hanging' => 440],
+            'contextualSpacing' => true,
         ]);
-        $textRun22->addText('2.2', ['bold' => true, 'size' => 11]);
-        $textRun22->addText('  Hasil pemeriksaan sampel', ['bold' => true, 'size' => 11]);
+        $textRun22->addText('2.2.', ['bold' => true, 'size' => 11]);
+        $textRun22->addText(' Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
 
-        $enabledSubabKeys = $this->getEnabledBab22SubabKeys();
-        $tableSubabMap = $this->data['bab22_table_subab_key'] ?? [];
-        $imageMap = $this->data['mixing_image_file'] ?? [];
-        $existingImageMap = $this->data['existing_mixing_image_file'] ?? [];
+        // 2.3 Hasil pemeriksaan sampel
+        $textRun23 = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 740, 'hanging' => 440],
+            'contextualSpacing' => true,
+        ]);
+        $textRun23->addText('2.3.', ['bold' => true, 'size' => 11]);
+        $textRun23->addText(' Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :', ['size' => 11]);
 
-        if (!is_array($tableSubabMap)) {
-            $tableSubabMap = [];
-        }
-        if (!is_array($imageMap)) {
-            $imageMap = [];
-        }
-        if (!is_array($existingImageMap)) {
-            $existingImageMap = [];
-        }
-
-        $subabNumber = 1;
-        foreach ($enabledSubabKeys as $subabKey) {
-            $subabTitle = $this->getBab22SubabTitle($subabKey);
-
-            $textRun22x = $this->section->addTextRun([
-                'alignment' => 'both',
-                'indentation' => ['left' => 740],
-                'spaceAfter' => 120,
-            ]);
-            $textRun22x->addText("2.2.{$subabNumber}", ['bold' => true, 'size' => 11]);
-            $textRun22x->addText(" {$subabTitle}", ['bold' => true, 'size' => 11]);
-
-            $this->addBab22SubabTables($subabKey, $tableSubabMap, $imageMap, $existingImageMap);
-
-            $closingText = $this->getBab22SubabClosingText($subabKey);
-            if (!empty($closingText)) {
-                $this->section->addText($closingText, [], [
-                    'alignment' => 'both',
-                    'indentation' => ['left' => 740],
-                    'contextualSpacing' => true,
-                ]);
-            }
-
-            $subabNumber++;
-            $this->section->addTextBreak(1);
-        }
-
-        // 2.3 Hasil pemeriksaan sampel per tahapan
-        $this->exportBab23($tableSubabMap, $imageMap, $existingImageMap);
+        // 2.3.x dynamic subabs
+        $this->exportBab23SubabsDynamic($tableSubabMap, $imageMap, $existingImageMap);
     }
 
     /**
-     * Export BAB 2.3: Hasil pemeriksaan sampel per tahapan
+     * Export BAB 2.3.x: Static subabs (Enkapsulasi, Pengeringan, Kemas Primer)
      */
-    protected function exportBab23(array $tableSubabMap, array $imageMap, array $existingImageMap): void
+    protected function exportBab23SubabsDynamic(array $tableSubabMap, array $imageMap, array $existingImageMap): void
     {
-        // Collect all bab23 table UIDs in submission order
-        $bab23TableUids = [];
-        foreach ($tableSubabMap as $tableUid => $subabKey) {
-            if ((string) $subabKey === 'bab23') {
-                $bab23TableUids[] = (string) $tableUid;
-            }
-        }
+        $namaProduk = trim((string) ($this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule'));
+        $batchList  = trim((string) ($this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03'));
+        $formula    = trim((string) ($this->data['judul_formula'] ?? ''));
+        $produkLabel = $formula !== '' ? "{$namaProduk} ({$formula})" : $namaProduk;
 
-        // Check if there's any bab23 content at all
-        $hasBab23Content = !empty($bab23TableUids)
-            || !empty(trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '')))
-            || !empty(trim((string) ($this->data['enkapsulasi_batch_list'] ?? '')))
-            || !empty(trim((string) ($this->data['bab23_subab_1_title'] ?? '')));
-
-        if (!$hasBab23Content) {
-            return;
-        }
-
-        // 2.3 heading
-        $textRun23 = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 670, 'hanging' => 370],
-            'spaceAfter' => 60,
-        ]);
-        $textRun23->addText('2.3', ['bold' => true, 'size' => 11]);
-        $textRun23->addText('  Hasil dan Evaluasi Validasi Proses', ['bold' => true, 'size' => 11]);
-
-        // --- 2.3.1 static subab ---
+        // --- 2.3.1 Enkapsulasi (Sebelum pengeringan) ---
         $this->addBab23SubabHeading('2.3.1', 'Enkapsulasi (Sebelum pengeringan)');
 
-        // 2.3.1.1
         $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '500 ± 50 mg'));
         $this->addBab23SubSubabText('2.3.1.1',
             "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
 
-        // 2.3.1.2 — text + tables
         $samplingLokasi = trim((string) ($this->data['enkapsulasi_sampling_lokasi'] ?? '3'));
         $samplingJumlah = trim((string) ($this->data['enkapsulasi_sampling_jumlah'] ?? '20'));
         $this->addBab23SubSubabText('2.3.1.2',
             "Dilakukan sampling pemeriksaan bobot pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
 
-        // Render table for 2.3.1.2
-        foreach ($bab23TableUids as $uid) {
-            if (str_starts_with($uid, 'bab23_enkapsulasi')) {
-                $this->renderBab23Image($uid, $imageMap, $existingImageMap);
-            }
-        }
+        $this->renderBab23Image('bab23_enkapsulasi_tabel', $imageMap, $existingImageMap);
 
-        // 2.3.1.3
-        $namaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule'));
-        $batchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03'));
+        $enkNamaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $namaProduk));
+        $enkBatchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $batchList));
         $this->addBab23SubSubabText('2.3.1.3',
-            "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$namaProduk} bets {$batchList} memenuhi spesifikasi produk yang ditetapkan.");
+            "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$enkNamaProduk} bets {$enkBatchList} memenuhi spesifikasi produk yang ditetapkan.");
 
-        // Dynamic sub-subabs added to static subab 1 (key: enkapsulasi_sub_*)
-        $this->renderDynamicSubSubabs('enkapsulasi', '2.3.1', $bab23TableUids, $imageMap, $existingImageMap, 4);
+        // --- 2.3.2 Tahap Pengeringan ---
+        $this->addBab23SubabHeading('2.3.2', 'Tahap Pengeringan');
+        $this->renderBab23Image('bab23_pengeringan_tabel', $imageMap, $existingImageMap);
 
-        // --- Dynamic 2.3.x subabs ---
-        $dynSubabIdx = 2;
-        $dynCounter = 1;
-        while (true) {
-            $key = "bab23_subab_dyn_{$dynCounter}";
-            $title = trim((string) ($this->data["{$key}_title"] ?? ''));
-            if ($title === '' && $dynCounter > 20) {
-                break;
-            }
-            if ($title !== '') {
-                $this->addBab23SubabHeading("2.3.{$dynSubabIdx}", $title);
+        $pengeringanNama  = trim((string) ($this->data['pengeringan_nama_produk'] ?? $namaProduk));
+        $pengeringanBatch = trim((string) ($this->data['pengeringan_batch_list'] ?? $batchList));
+        $this->section->addText(
+            "Seluruh hasil pemeriksaan sampel pengeringan produk {$pengeringanNama} bets {$pengeringanBatch} memenuhi spesifikasi produk yang ditetapkan.",
+            ['size' => 11],
+            ['alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true]
+        );
 
-                // Dynamic sub-subabs for this subab
-                $this->renderDynamicSubSubabs($key, "2.3.{$dynSubabIdx}", $bab23TableUids, $imageMap, $existingImageMap, 1);
+        // --- 2.3.3 Tahap Kemas Primer ---
+        $this->addBab23SubabHeading('2.3.3', 'Tahap Kemas Primer');
+        $this->renderBab23Image('bab23_kemas_tabel', $imageMap, $existingImageMap);
 
-                $dynSubabIdx++;
-            }
-            $dynCounter++;
-            if ($dynCounter > 50) break;
-        }
-
-        // Render all dynamic tables (bab23_tbl_*) once at the end
-        foreach ($bab23TableUids as $uid) {
-            if (str_starts_with($uid, 'bab23_tbl_')) {
-                $this->renderBab23Image($uid, $imageMap, $existingImageMap);
-            }
-        }
-
-        $this->section->addTextBreak(1);
+        $kemasNama  = trim((string) ($this->data['kemas_nama_produk'] ?? $namaProduk));
+        $kemasBatch = trim((string) ($this->data['kemas_batch_list'] ?? $batchList));
+        $this->section->addText(
+            "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemasNama} bets {$kemasBatch} telah memenuhi spesifikasi kemasan yang ditetapkan.",
+            ['size' => 11],
+            ['alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true]
+        );
     }
 
     private function addBab23SubabHeading(string $number, string $title): void
@@ -580,27 +519,15 @@ class KapsulExportService
             } catch (\Exception $e) {
                 $this->section->addText("[Error gambar base64]", ['color' => 'FF0000']);
             }
-        }
-    }
-
-    private function renderDynamicSubSubabs(string $subabKey, string $parentNum, array $bab23TableUids, array $imageMap, array $existingImageMap, int $startIdx): void
-    {
-        $ssIdx = $startIdx;
-        $ssCounter = 1;
-        while (true) {
-            $ssKey = "{$subabKey}_sub_{$ssCounter}";
-            $ssTitle = trim((string) ($this->data["{$ssKey}_title"] ?? ''));
-            $ssText  = trim((string) ($this->data["{$ssKey}_text"] ?? ''));
-            if ($ssTitle === '' && $ssText === '' && $ssCounter > 20) {
-                break;
+        } else {
+            // Try pasted table JSON
+            $pastedJson = trim((string) ($this->data['mixing_pasted_table_json'][$uid] ?? ''));
+            if ($pastedJson !== '') {
+                $rows = json_decode($pastedJson, true);
+                if (is_array($rows) && !empty($rows)) {
+                    $this->renderPastedTableToWord($rows);
+                }
             }
-            if ($ssTitle !== '' || $ssText !== '') {
-                $content = $ssTitle !== '' ? $ssTitle . ($ssText !== '' ? ": {$ssText}" : '') : $ssText;
-                $this->addBab23SubSubabText("{$parentNum}.{$ssIdx}", $content);
-                $ssIdx++;
-            }
-            $ssCounter++;
-            if ($ssCounter > 100) break;
         }
     }
 
@@ -777,18 +704,15 @@ class KapsulExportService
             return;
         }
 
-        foreach ($tableUids as $index => $tableUid) {
+        foreach ($tableUids as $tableUid) {
             $imageFile = $imageMap[$tableUid] ?? null;
             $resolvedImagePath = $this->resolveStoredImagePath($existingImageMap[$tableUid] ?? null);
+            $base64 = trim((string) ($this->data['mixing_image_base64'][$tableUid] ?? ''));
 
             if ($imageFile instanceof UploadedFile && $imageFile->isValid()) {
                 try {
                     $this->section->addImage($imageFile->getPathname(), [
-                        'width' => 450,
-                        'height' => null,
-                        'marginTop' => 10,
-                        'marginBottom' => 10,
-                        'align' => 'center',
+                        'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
                     ]);
                 } catch (\Exception $e) {
                     $this->section->addText("[Error memuat gambar: {$e->getMessage()}]", ['color' => 'FF0000']);
@@ -796,17 +720,33 @@ class KapsulExportService
             } elseif ($resolvedImagePath) {
                 try {
                     $this->section->addImage($resolvedImagePath, [
-                        'width' => 450,
-                        'height' => null,
-                        'marginTop' => 10,
-                        'marginBottom' => 10,
-                        'align' => 'center',
+                        'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
                     ]);
                 } catch (\Exception $e) {
                     $this->section->addText("[Error memuat gambar draft: {$e->getMessage()}]", ['color' => 'FF0000']);
                 }
+            } elseif ($base64 !== '' && str_starts_with($base64, 'data:image')) {
+                try {
+                    $commaPos = strpos($base64, ',');
+                    $imageData = base64_decode(substr($base64, $commaPos + 1));
+                    $tmpFile = tempnam(sys_get_temp_dir(), 'bab2img');
+                    file_put_contents($tmpFile, $imageData);
+                    $this->section->addImage($tmpFile, [
+                        'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
+                    ]);
+                    @unlink($tmpFile);
+                } catch (\Exception $e) {
+                    $this->section->addText("[Error gambar base64]", ['color' => 'FF0000']);
+                }
             } else {
-                $this->section->addText("[Gambar tabel tidak tersedia]", ['italic' => true, 'color' => '808080']);
+                // Try pasted table JSON
+                $pastedJson = trim((string) ($this->data['mixing_pasted_table_json'][$tableUid] ?? ''));
+                if ($pastedJson !== '') {
+                    $rows = json_decode($pastedJson, true);
+                    if (is_array($rows) && !empty($rows)) {
+                        $this->renderPastedTableToWord($rows);
+                    }
+                }
             }
         }
     }
@@ -822,6 +762,37 @@ class KapsulExportService
         }
 
         return null;
+    }
+
+    /**
+     * Render a pasted table (array of rows) into the Word document
+     */
+    private function renderPastedTableToWord(array $rows): void
+    {
+        if (empty($rows)) return;
+
+        $colCount = max(array_map('count', $rows));
+        $totalWidth = 9200;
+        $colWidth = (int) ($totalWidth / max($colCount, 1));
+
+        $tableStyle = [
+            'borderSize' => 6,
+            'borderColor' => '000000',
+            'cellMargin' => 80,
+            'width' => $totalWidth,
+            'unit' => 'dxa',
+        ];
+
+        $table = $this->section->addTable($tableStyle);
+
+        foreach ($rows as $rowIdx => $row) {
+            $table->addRow();
+            foreach ($row as $cell) {
+                $cellStyle = $rowIdx === 0 ? ['bgColor' => 'D9D9D9'] : [];
+                $fontStyle = $rowIdx === 0 ? ['bold' => true, 'size' => 11] : ['size' => 11];
+                $table->addCell($colWidth, $cellStyle)->addText((string) $cell, $fontStyle, ['spaceAfter' => 0, 'alignment' => 'center']);
+            }
+        }
     }
 
     /**
@@ -903,21 +874,14 @@ class KapsulExportService
         // Row 1: Headers
         $footerTable->addRow(0, ['exactHeight' => true]);
 
-        $footerTable->addCell($col1, [
-            'borderSize' => 6,
-            'valign' => 'center'
-        ])->addText('Dibuat oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0, 'spaceBefore' => 0]);
+        $footerTable->addCell($col1, ['borderSize' => 6, 'valign' => 'center'])
+            ->addText('Dibuat oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0, 'spaceBefore' => 0]);
 
-        $footerTable->addCell($col2 + $col3, [
-            'gridSpan' => 2,
-            'borderSize' => 6,
-            'valign' => 'center'
-        ])->addText('Diperiksa oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0, 'spaceBefore' => 0]);
+        $footerTable->addCell($col2, ['borderSize' => 6, 'valign' => 'center'])
+            ->addText('Diperiksa oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0, 'spaceBefore' => 0]);
 
-        $footerTable->addCell($col4, [
-            'borderSize' => 6,
-            'valign' => 'center'
-        ])->addText('Disetujui oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0, 'spaceBefore' => 0]);
+        $footerTable->addCell($col3 + $col4, ['gridSpan' => 2, 'borderSize' => 6, 'valign' => 'center'])
+            ->addText('Disetujui oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0, 'spaceBefore' => 0]);
 
         // Row 2: Signature blocks
         $footerTable->addRow(650);
@@ -927,22 +891,14 @@ class KapsulExportService
         $cell1->addText('Validation Officer (1)', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell1->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
 
-        $cell2 = $footerTable->addCell($col2, [
-            'borderSize' => 6,
-            'borderRightSize' => 0,
-            'valign' => 'bottom'
-        ]);
+        $cell2 = $footerTable->addCell($col2, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell2->addTextBreak(2);
         $cell2->addText('Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
 
-        $cell3 = $footerTable->addCell($col3, [
-            'borderSize' => 6,
-            'borderLeftSize' => 0,
-            'valign' => 'bottom'
-        ]);
+        $cell3 = $footerTable->addCell($col3, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell3->addTextBreak(2);
-        $cell3->addText('QA Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell3->addText('APJ IOBA', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell3->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
 
         $cell4 = $footerTable->addCell($col4, ['borderSize' => 6, 'valign' => 'bottom']);
