@@ -19,7 +19,7 @@
                             SUMMARY LAPORAN VALIDASI PROSES 
                             <br>
                             PEMBUATAN PRODUK
-                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                            <input type="text" name="judul_nama_produk" class="template-input sync-input w-82 uppercase" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
                             <br>
                         </p>
                     </div>
@@ -55,9 +55,9 @@
                         </h3>
                         <div class="ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify">
                             <p>Summary laporan validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas proses pengolahan produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
-                                dengan besar bets <input type="text" name="tujuan_besar_bets" class="template-input w-20" placeholder="30,015 Kg">,
-                                di bagian <input type="text" name="tujuan_bagian" class="template-input sync-input w-72" data-sync="bagian" value="Production Farmasi I Line Soft Capsule Gedung A" placeholder="Production Farmasi I Line Soft Capsule Gedung A">,
+                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-66" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                                dengan besar bets <input type="text" name="tujuan_besar_bets" class="template-input w-25" placeholder="30,015 Kg">,
+                                di bagian <input type="text" name="tujuan_bagian" class="template-input sync-input w-96" data-sync="bagian" value="Production Farmasi I Line Soft Capsule Gedung A" placeholder="Production Farmasi I Line Soft Capsule Gedung A">,
                                 dalam menghasilkan produk yang memenuhi persyaratan mutu internal Konimex, pemerintah dan persyaratan kapabilitas proses yang sudah ditentukan secara konsisten.
                             </p>
                         </div>
@@ -71,7 +71,7 @@
                             <p>Studi validasi dilakukan terhadap
                                 <input type="text" name="batch_jumlah" class="template-input w-12" placeholder="2">
                                 bets produksi yaitu batch
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64" data-sync="batch" placeholder="JAN26A01 dan JAN26A02">,
+                                <input type="text" name="batch_kode_list" class="template-input sync-input w-72" data-sync="batch" placeholder="JAN26A01 dan JAN26A02">,
                                 dengan besaran batch <input type="text" name="batch_besaran" class="template-input w-24" placeholder="30,015 Kg">
                                 = <input type="text" name="batch_jumlah_kapsul" class="template-input w-24" placeholder="60.000">
                                 Soft Capsule @ <input type="text" name="batch_bobot_isi" class="template-input w-24" placeholder="500,25 mg"> (bobot isi).
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_3">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.3.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="enkapsulasi_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.3.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-68" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="enkapsulasi_besar_bets" class="template-input w-28" placeholder="30,015 Kg">, bets <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +177,14 @@
                             <div class="bab23-subsubab-container ml-6 flex flex-col gap-4">
                                 <div class="bab23-subsubab" data-subsubab-key="pengeringan_1">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.1.</span>&nbsp; Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk <input type="text" name="pengeringan_spesifikasi_no" class="template-input w-64" placeholder="Nutracare EPO 500 Soft Capsule no AI-F03-3-A0014-02"> tanggal <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-28" placeholder="22-11-2025">, sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" 
+                                        onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.1.</span>&nbsp; Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk 
+                                        <input type="text" name="pengeringan_spesifikasi_no" class="template-input w-81" placeholder="Nutracare EPO 500 Soft Capsule">
+                                        no
+                                        <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-47" placeholder="no AI-F03-3-A0014-02">
+                                        tanggal 
+                                        <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-32" placeholder="22-11-2025">
+                                        , sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_spesifikasi_pengeringan'])
@@ -224,7 +231,11 @@
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="pengeringan_4">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.4.</span>&nbsp; Seluruh hasil pemeriksaan sampel pengeringan produk <input type="text" name="pengeringan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="pengeringan_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="pengeringan_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> memenuhi spesifikasi produk yang ditetapkan.</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.4.</span>
+                                        &nbsp; Seluruh hasil pemeriksaan sampel pengeringan produk <input type="text" name="pengeringan_nama_produk" class="template-input sync-input w-68" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> 
+                                        dengan besar bets <input type="text" name="pengeringan_besar_bets" class="template-input w-28" placeholder="30,015 Kg">
+                                        , bets <input type="text" name="pengeringan_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> 
+                                        memenuhi spesifikasi produk yang ditetapkan.</p>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +250,14 @@
                             <div class="bab23-subsubab-container ml-6 flex flex-col gap-4">
                                 <div class="bab23-subsubab" data-subsubab-key="kemasan_1">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.1.</span>&nbsp; Spesifikasi kemasan <input type="text" name="kemasan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> untuk kemasan botol mengacu Spesifikasi Kemasan <input type="text" name="kemasan_spesifikasi_no" class="template-input w-64" placeholder="Nutracare EPO 500 Soft Capsule no. AI-F04-3-A0007-02"> tanggal <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-28" placeholder="06-01-2026">, sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.1.</span>
+                                        &nbsp; Spesifikasi kemasan <input type="text" name="kemasan_nama_produk" class="template-input sync-input w-68" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> 
+                                        untuk kemasan botol mengacu Spesifikasi Kemasan <input type="text" name="kemasan_spesifikasi_no" class="template-input w-83" placeholder="Nutracare EPO 500 Soft Capsule"> 
+                                        no .
+                                        <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-47" placeholder="AI-F04-3-A0007-026">
+                                        tanggal 
+                                        <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-32" placeholder="06-01-2026">
+                                        , sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_spesifikasi_kemasan'])
@@ -260,7 +278,9 @@
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="kemasan_4">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.4.</span>&nbsp; Seluruh hasil pemeriksaan sampel tahap kemas primer <input type="text" name="kemasan_nama_produk_2" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> dengan besar bets <input type="text" name="kemasan_besar_bets" class="template-input w-24" placeholder="30,015 Kg">, bets <input type="text" name="kemasan_batch_list" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> telah memenuhi spesifikasi yang ditetapkan.</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.4.</span>
+                                        &nbsp; Seluruh hasil pemeriksaan sampel tahap kemas primer <input type="text" name="kemasan_nama_produk_2" class="template-input sync-input w-68" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> 
+                                        dengan besar bets <input type="text" name="kemasan_besar_bets" class="template-input w-28" placeholder="30,015 Kg">, bets <input type="text" name="kemasan_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="JAN26A01 dan JAN26A02"> telah memenuhi spesifikasi yang ditetapkan.</p>
                                     </div>
                                 </div>
                             </div>
@@ -291,8 +311,8 @@
                             <p class="pl-8 -indent-8">
                                 <span class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.1</span>
                                 Telah dilakukan proses produksi terhadap produk
-                                <input type="text" name="kesimpulan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">,
-                                bets <input type="text" name="kesimpulan_batch_codes" class="template-input sync-input w-48" data-sync="batch" placeholder="JAN26A01 dan JAN26A02">
+                                <input type="text" name="kesimpulan_nama_produk" class="template-input sync-input w-68" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">,
+                                bets <input type="text" name="kesimpulan_batch_codes" class="template-input sync-input w-64" data-sync="batch" placeholder="JAN26A01 dan JAN26A02">
                                 yang digunakan sebagai batch validasi proses.
                             </p>
                         </div>
@@ -304,9 +324,9 @@
                                 Proses terbukti pada
                                 <input type="text" name="kesimpulan_jumlah_bets" class="template-input w-12" placeholder="2">
                                 bets pemeriksaan, dapat menghasilkan produk jadi
-                                <input type="text" name="kesimpulan_nama_produk_2" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                                <input type="text" name="kesimpulan_nama_produk_2" class="template-input sync-input w-69" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
                                 yang memenuhi spesifikasi dalam Spesifikasi Produk dan Spesifikasi Kemasan
-                                <input type="text" name="kesimpulan_nama_produk_3" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
+                                <input type="text" name="kesimpulan_nama_produk_3" class="template-input sync-input w-69" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">
                                 sehingga dinyatakan <input type="text" name="kesimpulan_status" class="template-input w-32 italic" placeholder="validated">.
                             </p>
                         </div>
@@ -337,7 +357,7 @@
                             <p class="pl-8 -indent-8">
                                 <span class="sub-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleSubSection(this)" title="Klik untuk disable/enable">4.1.</span>&nbsp;
                                 Apabila dikemudian hari dilakukan perubahan pada proses produksi produk
-                                <input type="text" name="saran_nama_produk" class="template-input sync-input w-56" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">,
+                                <input type="text" name="saran_nama_produk" class="template-input sync-input w-69" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule">,
                                 maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
                             </p>
                         </div>
