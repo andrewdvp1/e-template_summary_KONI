@@ -525,10 +525,13 @@
 
             {{-- BAB 3: KESIMPULAN --}}
             <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab3_card" data-bab-label="KESIMPULAN">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">3. KESIMPULAN</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab3_card')" title="Klik untuk disable/enable">3.</span>
+                        KESIMPULAN
+                    </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6" id="bab3_container">
@@ -1388,40 +1391,33 @@
         }
 
         function renumberBab2Static() {
-            // Renumber top-level: 2.1, 2.2, 2.3
-            const topSections = document.querySelectorAll('.p-6 > .bab2-static-section');
-            let topIdx = 1;
-            topSections.forEach(sec => {
-                const numEl = sec.querySelector(':scope > .bab2-static-content .bab2-static-number, :scope > .bab2-static-content > p .bab2-static-number, :scope > .bab2-static-content > div > p .bab2-static-number');
-                const isDisabled = sec.classList.contains('section-disabled');
-                const origNum = sec.dataset.num;
-                const newNum = '2.' + topIdx + (origNum && origNum.split('.').length === 2 ? '.' : '');
-                if (numEl) numEl.textContent = newNum;
-                if (!isDisabled) topIdx++;
+            const babCard = document.getElementById('bab2_card');
+            const babNumEl = babCard ? babCard.querySelector('.bab-section-number') : null;
+            const babPrefix = babNumEl ? babNumEl.textContent.replace('.', '') : '2';
 
-                // Renumber 2.3.x children
-                const childSections = sec.querySelectorAll(':scope > .bab2-static-content > .bab2-static-section');
-                let childIdx = 1;
-                childSections.forEach(child => {
-                    const childNumEl = child.querySelector(':scope > .bab2-static-content .bab2-static-number, :scope > .bab2-static-content > h3 .bab2-static-number');
-                    const childDisabled = child.classList.contains('section-disabled');
-                    const parentNum = numEl ? numEl.textContent.replace(/\.$/, '') : '2.3';
-                    const childNewNum = parentNum + '.' + childIdx;
-                    if (childNumEl) childNumEl.textContent = childNewNum;
-                    if (!childDisabled) childIdx++;
+            // Recursive renumber helper — finds direct .bab2-static-section children
+            function renumberChildren(parentEl, parentNum) {
+                const children = Array.from(parentEl.children).filter(el => el.classList.contains('bab2-static-section'));
+                let idx = 1;
+                children.forEach(child => {
+                    const numEl = child.querySelector(':scope > .bab2-static-content .bab2-static-number');
+                    const isDisabled = child.classList.contains('section-disabled');
+                    const origNum = child.dataset.num || '';
+                    // Trailing dot only for 2nd-level sections (e.g. "2.1." display)
+                    const hasDot = origNum.split('.').length === 2;
+                    const newNum = parentNum + '.' + idx;
+                    if (numEl) numEl.textContent = newNum + (hasDot ? '.' : '');
+                    if (!isDisabled) idx++;
 
-                    // Renumber 2.3.x.y sub-children
-                    const subChildren = child.querySelectorAll(':scope > .bab2-static-content > .bab2-static-section');
-                    let subIdx = 1;
-                    subChildren.forEach(sub => {
-                        const subNumEl = sub.querySelector(':scope > .bab2-static-content .bab2-static-number');
-                        const subDisabled = sub.classList.contains('section-disabled');
-                        const subNewNum = childNewNum + '.' + subIdx;
-                        if (subNumEl) subNumEl.textContent = subNewNum;
-                        if (!subDisabled) subIdx++;
-                    });
+                    // Recurse into .bab2-static-content children
+                    const contentEl = child.querySelector(':scope > .bab2-static-content');
+                    if (contentEl) renumberChildren(contentEl, newNum);
                 });
-            });
+            }
+
+            // Top-level flex container inside bab2 .p-6
+            const flexContainer = babCard ? babCard.querySelector('.p-6 > .flex') : null;
+            if (flexContainer) renumberChildren(flexContainer, babPrefix);
 
             // Update hidden input
             const enabled = [];
@@ -1452,6 +1448,35 @@
                     el.removeAttribute('disabled');
                     el.classList.remove('opacity-50');
                 }
+            });
+
+            renumberBab1();
+        }
+
+        function renumberBab1() {
+            const babCard = document.getElementById('bab1_card');
+            const babNumEl = babCard ? babCard.querySelector('.bab-section-number') : null;
+            const babPrefix = babNumEl ? babNumEl.textContent.replace('.', '') : '1';
+
+            // Renumber sub-sections (1.1, 1.2, ...)
+            const subSections = document.querySelectorAll('#bab1_card .sub-section');
+            let subIdx = 1;
+            subSections.forEach(sub => {
+                const subDisabled = sub.classList.contains('sub-disabled');
+                const subNumEl = sub.querySelector(':scope > h3 .sub-number');
+                const newSubNum = babPrefix + '.' + subIdx;
+                if (subNumEl) subNumEl.textContent = newSubNum;
+                if (!subDisabled) subIdx++;
+
+                // Renumber points within this sub-section (1.x.1, 1.x.2, ...)
+                const points = sub.querySelectorAll('.bab1-point');
+                let pointIdx = 1;
+                points.forEach(point => {
+                    const pointDisabled = point.classList.contains('section-disabled');
+                    const pointNumEl = point.querySelector('[onclick="toggleBab1Point(this)"]');
+                    if (pointNumEl) pointNumEl.textContent = newSubNum + '.' + pointIdx;
+                    if (!pointDisabled) pointIdx++;
+                });
             });
 
             updateBab1EnabledPoints();
@@ -1495,6 +1520,7 @@
                     el.classList.remove('opacity-50');
                 });
             }
+            renumberBab1();
         }
 
         function toggleBabSection(cardId) {
@@ -1519,6 +1545,24 @@
                     el.classList.remove('opacity-50');
                 });
             }
+            renumberAllBabs();
+        }
+
+        function renumberAllBabs() {
+            const babCards = document.querySelectorAll('.bab-section');
+            let babIdx = 1;
+            babCards.forEach(card => {
+                const isDisabled = card.classList.contains('bab-disabled');
+                const numberEl = card.querySelector(':scope > div > h2 .bab-section-number');
+                if (numberEl) numberEl.textContent = babIdx + '.';
+                if (!isDisabled) babIdx++;
+            });
+
+            // After renumbering BABs, update all sub-section numbers
+            renumberBab1();
+            renumberBab2Static();
+            renumberKesimpulanSections();
+            renumberSaranSections();
         }
 
         function toggleKesimpulanSection(numberEl) {
@@ -1644,6 +1688,10 @@
         }
 
         function renumberSaranSections() {
+            const babCard = document.getElementById('bab4_card');
+            const babNumEl = babCard ? babCard.querySelector('.bab-section-number') : null;
+            const babPrefix = babNumEl ? babNumEl.textContent.replace('.', '') : '4';
+
             const allSections = document.querySelectorAll('.saran-section');
             let activeIndex = 1;
             const enabledIds = [];
@@ -1651,12 +1699,12 @@
                 const numberEl = section.querySelector('.saran-number');
                 const isDisabled = section.classList.contains('section-disabled');
                 if (!isDisabled) {
-                    if (numberEl) numberEl.textContent = '4.' + activeIndex;
+                    if (numberEl) numberEl.textContent = babPrefix + '.' + activeIndex;
                     enabledIds.push(section.dataset.sectionId);
                     activeIndex++;
                 } else {
                     const originalId = section.dataset.sectionId;
-                    if (numberEl) numberEl.textContent = '4.' + originalId;
+                    if (numberEl) numberEl.textContent = babPrefix + '.' + originalId;
                 }
             });
             const hiddenInput = document.getElementById('saran_enabled_sections');
@@ -1664,6 +1712,10 @@
         }
 
         function renumberKesimpulanSections() {
+            const babCard = document.getElementById('bab3_card');
+            const babNumEl = babCard ? babCard.querySelector('.bab-section-number') : null;
+            const babPrefix = babNumEl ? babNumEl.textContent.replace('.', '') : '3';
+
             const allSections = document.querySelectorAll('.kesimpulan-section');
             let activeIndex = 1;
             const enabledIds = [];
@@ -1673,13 +1725,12 @@
                 const isDisabled = section.classList.contains('section-disabled');
 
                 if (!isDisabled) {
-                    numberEl.textContent = '3.' + activeIndex;
+                    if (numberEl) numberEl.textContent = babPrefix + '.' + activeIndex;
                     enabledIds.push(section.dataset.sectionId);
                     activeIndex++;
                 } else {
-                    // Keep showing original id for context
                     const originalId = section.dataset.sectionId;
-                    numberEl.textContent = '3.' + originalId;
+                    if (numberEl) numberEl.textContent = babPrefix + '.' + originalId;
                 }
             });
 
