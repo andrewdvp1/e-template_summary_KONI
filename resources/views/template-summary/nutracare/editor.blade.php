@@ -43,9 +43,13 @@
             </div>
 
             {{-- BAB 1: PENDAHULUAN --}}
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
-                    <h2 class="font-bold text-slate-900 dark:text-white">1. PENDAHULUAN</h2>
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab1_card">
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab1_card')" title="Klik untuk disable/enable">1.</span>
+                        PENDAHULUAN
+                    </h2>
+                    <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
                     <div class="sub-section" data-sub-id="1.1">
@@ -110,9 +114,13 @@
             </div>
 
             {{-- BAB 2: HASIL DAN EVALUASI VALIDASI PROSES --}}
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
-                    <h2 class="font-bold text-slate-900 dark:text-white">2. HASIL DAN EVALUASI VALIDASI PROSES</h2>
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab2_card">
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab2_card')" title="Klik untuk disable/enable">2.</span>
+                        HASIL DAN EVALUASI VALIDASI PROSES
+                    </h2>
+                    <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
                     <input type="hidden" name="bab22_enabled_subab_keys" id="bab22_enabled_subab_keys" value="">
@@ -202,29 +210,29 @@
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
                                         <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.</span>&nbsp; Hasil pemeriksaan sampel untuk pemeriksaan atribut sebagai berikut:</p>
                                     </div>
-                                    <div class="ml-6 flex flex-col gap-4">
+                                    <div class="ml-6 flex flex-col gap-4 bab23-subsubab-container">
                                         <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_1">
                                             <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.1</span>&nbsp; Pemeriksaan keseragaman bobot</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_keseragaman_bobot'])</div>
                                         </div>
-                                        <div>
-                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="font-medium">2.3.2.3.2</span>&nbsp; Pemeriksaan Fisik</p>
+                                        <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_2">
+                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.2</span>&nbsp; Pemeriksaan Fisik</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_pemeriksaan_fisik'])</div>
                                         </div>
-                                        <div>
-                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="font-medium">2.3.2.3.3</span>&nbsp; Pemeriksaan Identifikasi Fatty Acid Profile, positif teridentifikasi asam lemak dengan komposisi:</p>
+                                        <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_3">
+                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.3</span>&nbsp; Pemeriksaan Identifikasi Fatty Acid Profile, positif teridentifikasi asam lemak dengan komposisi:</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_fatty_acid'])</div>
                                         </div>
-                                        <div>
-                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="font-medium">2.3.2.3.4</span>&nbsp; Pemeriksaan Aflatoksin Total</p>
+                                        <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_4">
+                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.4</span>&nbsp; Pemeriksaan Aflatoksin Total</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_aflatoksin'])</div>
                                         </div>
-                                        <div>
-                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="font-medium">2.3.2.3.5</span>&nbsp; Pemeriksaan Cemaran Logam Berat</p>
+                                        <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_5">
+                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.5</span>&nbsp; Pemeriksaan Cemaran Logam Berat</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_logam_berat'])</div>
                                         </div>
-                                        <div>
-                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="font-medium">2.3.2.3.6</span>&nbsp; Pemeriksaan Mikrobiologi</p>
+                                        <div class="bab23-subsubab" data-subsubab-key="pengeringan_3_6">
+                                            <p class="text-base text-slate-800 dark:text-slate-300 mb-2 ml-6"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.3.6</span>&nbsp; Pemeriksaan Mikrobiologi</p>
                                             <div class="ml-10">@include('template-summary.nutracare._table', ['uid' => 'tbl_mikrobiologi'])</div>
                                         </div>
                                     </div>
@@ -299,9 +307,12 @@
             </div>
 
             {{-- BAB 3: KESIMPULAN --}}
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab3_card">
                 <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">3. KESIMPULAN</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab3_card')" title="Klik untuk disable/enable">3.</span>
+                        KESIMPULAN
+                    </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6" id="bab3_container">
@@ -447,6 +458,7 @@
                     el.classList.remove('opacity-50');
                 });
             }
+            renumberAllBabs();
         }
 
         function toggleBabSection(cardId) {
@@ -472,20 +484,64 @@
                     el.classList.remove('opacity-50');
                 });
             }
+            renumberAllBabs();
+        }
+
+        function renumberAllBabs() {
+            const babCards = document.querySelectorAll('.bab-section');
+            let babIdx = 1;
+            babCards.forEach(card => {
+                const isDisabled = card.classList.contains('bab-disabled');
+                const numberEl = card.querySelector(':scope > div > h2 .bab-section-number');
+                if (numberEl) numberEl.textContent = babIdx + '.';
+                if (!isDisabled) babIdx++;
+            });
+            renumberSubSections();
+            renumberBab23();
+            renumberKesimpulanSections();
+        }
+
+        function renumberSubSections() {
+            // Renumber sub-sections per BAB card
+            const babCards = document.querySelectorAll('.bab-section');
+            babCards.forEach(card => {
+                const babNumEl = card.querySelector(':scope > div > h2 .bab-section-number');
+                const babPrefix = babNumEl ? babNumEl.textContent.replace('.', '') : '';
+                if (!babPrefix) return;
+                const subSections = card.querySelectorAll('.sub-section');
+                let idx = 1;
+                subSections.forEach(sub => {
+                    // Only direct sub-sections of this bab (not nested)
+                    if (sub.closest('.bab-section') !== card) return;
+                    const isDisabled = sub.classList.contains('sub-disabled');
+                    const numEl = sub.querySelector('.sub-number');
+                    if (numEl) numEl.textContent = babPrefix + '.' + idx + '.';
+                    if (!isDisabled) idx++;
+                });
+            });
         }
         function toggleKesimpulanSection(numberEl) { const section = numberEl.closest('.kesimpulan-section'); const isDisabled = section.classList.toggle('section-disabled'); if (isDisabled) { section.style.opacity = '0.35'; numberEl.classList.add('line-through', 'text-red-500'); section.querySelectorAll('input, textarea, button, select').forEach(el => { el.setAttribute('disabled', 'disabled'); el.classList.add('opacity-50'); }); } else { section.style.opacity = '1'; numberEl.classList.remove('line-through', 'text-red-500'); section.querySelectorAll('input, textarea, button, select').forEach(el => { el.removeAttribute('disabled'); el.classList.remove('opacity-50'); }); } renumberKesimpulanSections(); }
-        function renumberKesimpulanSections() { const sections = document.querySelectorAll('#bab3_container .kesimpulan-section'); let activeIndex = 1; const enabledIds = []; sections.forEach((section, index) => { const numberEl = section.querySelector('.kesimpulan-number'); if (!numberEl) return; const isDisabled = section.classList.contains('section-disabled'); if (!isDisabled) { numberEl.textContent = `3.${activeIndex}`; activeIndex++; enabledIds.push(section.dataset.sectionId || String(index + 1)); } else { numberEl.textContent = `3.${section.dataset.sectionId || String(index + 1)}`; } }); const enabledInput = document.getElementById('kesimpulan_enabled_sections'); if (enabledInput) enabledInput.value = enabledIds.join(','); }
+        function renumberKesimpulanSections() { const bab3Card = document.getElementById('bab3_card'); const bab3NumEl = bab3Card ? bab3Card.querySelector('.bab-section-number') : null; const bab3Prefix = bab3NumEl ? bab3NumEl.textContent.replace('.', '') : '3'; const sections = document.querySelectorAll('#bab3_container .kesimpulan-section'); let activeIndex = 1; const enabledIds = []; sections.forEach((section, index) => { const numberEl = section.querySelector('.kesimpulan-number'); if (!numberEl) return; const isDisabled = section.classList.contains('section-disabled'); if (!isDisabled) { numberEl.textContent = `${bab3Prefix}.${activeIndex}`; activeIndex++; enabledIds.push(section.dataset.sectionId || String(index + 1)); } else { numberEl.textContent = `${bab3Prefix}.${section.dataset.sectionId || String(index + 1)}`; } }); const enabledInput = document.getElementById('kesimpulan_enabled_sections'); if (enabledInput) enabledInput.value = enabledIds.join(','); }
         function addCustomKesimpulan() { customKesimpulanCount++; const customId = 'c' + customKesimpulanCount; const container = document.getElementById('custom_kesimpulan_container'); const div = document.createElement('div'); div.className = 'kesimpulan-section'; div.dataset.sectionId = customId; div.innerHTML = `<div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200 flex items-start gap-2"><span class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap mt-0.5" onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.X</span><textarea name="kesimpulan_custom_${customKesimpulanCount}" rows="2" class="flex-1 resize-y px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm" placeholder="Isi poin kesimpulan..."></textarea><button type="button" onclick="this.closest('.kesimpulan-section').remove(); renumberKesimpulanSections();" class="text-slate-400 hover:text-red-600 transition-colors mt-1" title="Hapus"><span class="material-symbols-outlined text-[18px]">delete</span></button></div>`; container.appendChild(div); renumberKesimpulanSections(); }
 
         let bab23SubabCounter = 1, bab23SubSubabCounter = 100;
         function getBab23TableTemplate(uid) { return `<div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative" data-table-uid="${uid}" onpaste="handleMixingPaste(event, this)"><div class="absolute top-1 right-1 z-20 remove-table-btn"><button type="button" onclick="toggleTableMenu(this)" class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi"><span class="material-symbols-outlined text-[20px] block">more_vert</span></button><div class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30"><button type="button" onclick="removeMixingTable(this)" class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span>Hapus Tabel</button></div></div><div class="p-6"><div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)"><span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span><p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p><p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy dari Excel atau Screenshot lalu paste (Ctrl+V)</p><div class="flex justify-center mb-4"><button type="button" onclick="triggerClipboardPaste(this)" class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">content_paste_go</span>Tempel dari Clipboard</button></div><textarea rows="4" class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono" placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)" onpaste="handleClipboardFieldPaste(event, this)"></textarea></div><input type="file" name="mixing_image_file[${uid}]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)"><div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1"><img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm"><button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar"><span class="material-symbols-outlined text-[14px] block">close</span></button></div><div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3"><div class="overflow-auto max-h-[420px]"><table class="w-full text-sm border-collapse pasted-table-preview-table"></table></div><button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste"><span class="material-symbols-outlined text-[14px] block">close</span></button></div></div><input type="hidden" name="bab22_table_subab_key[${uid}]" value="bab23"><input type="hidden" name="existing_mixing_image_file[${uid}]" value=""><input type="hidden" name="mixing_pasted_table_json[${uid}]" value=""><input type="hidden" name="mixing_image_base64[${uid}]" value=""></div>`; }
         function addBab23Subab() { bab23SubabCounter++; const key = `bab23_subab_dyn_${bab23SubabCounter}`; const container = document.getElementById('bab23_dynamic_subab_container'); const el = document.createElement('div'); el.className = 'bab23-subab'; el.dataset.subabKey = key; el.innerHTML = `<div class="flex items-center gap-2 mb-3"><span class="bab23-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap" onclick="toggleBab23Subab(this)" title="Klik untuk disable/enable">2.3.X</span><input type="text" name="${key}_title" class="template-input flex-1 font-semibold" placeholder="Judul subab"><button type="button" onclick="removeBab23Subab(this)" class="text-slate-400 hover:text-red-600 transition-colors" title="Hapus subab"><span class="material-symbols-outlined text-[18px]">delete</span></button></div><div class="bab23-subsubab-container ml-4 flex flex-col gap-4"></div><div class="ml-4 mt-3"><button type="button" onclick="addBab23SubSubab(this)" class="w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"><span class="material-symbols-outlined text-[18px]">add</span>Tambah Sub-subab</button></div>`; container.appendChild(el); el.querySelector(`input[name="${key}_title"]`).focus(); }
         function removeBab23Subab(button) { const subab = button.closest('.bab23-subab'); if (subab) subab.remove(); }
-        function toggleBab23Subab(numberEl) { const subab = numberEl.closest('.bab23-subab'); const isDisabled = subab.classList.toggle('subab-disabled'); subab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); renumberBab23(); }
+        function toggleBab23Subab(numberEl) { const subab = numberEl.closest('.bab23-subab'); const isDisabled = subab.classList.toggle('subab-disabled'); subab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); renumberAllBabs(); }
         function addBab23SubSubab(button) { bab23SubSubabCounter++; const subab = button.closest('.bab23-subab'); const container = subab.querySelector('.bab23-subsubab-container'); const subabKey = subab.dataset.subabKey || `bab23_${bab23SubabCounter}`; const key = `${subabKey}_sub_${bab23SubSubabCounter}`; const el = document.createElement('div'); el.className = 'bab23-subsubab'; el.dataset.subsubabKey = key; el.innerHTML = `<div class="flex items-start gap-2 mb-2"><span class="bab23-subsubab-number font-medium text-slate-700 dark:text-slate-300 cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors whitespace-nowrap mt-0.5" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.X.X</span><input type="text" name="${key}_title" class="template-input flex-1" placeholder="Judul sub-subab (opsional)"><button type="button" onclick="removeBab23SubSubab(this)" class="text-slate-400 hover:text-red-600 transition-colors mt-1" title="Hapus"><span class="material-symbols-outlined text-[18px]">delete</span></button></div><div class="ml-10"><textarea name="${key}_text" rows="3" class="w-full resize-y px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm mb-2" placeholder="Isi teks sub-subab ini..."></textarea><div class="bab23-tables-container flex flex-col gap-3"></div><button type="button" onclick="addBab23Table(this)" class="mt-2 w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"><span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>Tambah Tabel / Screenshot</button></div>`; container.appendChild(el); }
         function removeBab23SubSubab(button) { const subsubab = button.closest('.bab23-subsubab'); if (subsubab) subsubab.remove(); }
-        function toggleBab23SubSubab(numberEl) { const subsubab = numberEl.closest('.bab23-subsubab'); const isDisabled = subsubab.classList.toggle('subsubab-disabled'); subsubab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subsubab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); renumberBab23(); }
+        function toggleBab23SubSubab(numberEl) { const subsubab = numberEl.closest('.bab23-subsubab'); const isDisabled = subsubab.classList.toggle('subsubab-disabled'); subsubab.style.opacity = isDisabled ? '0.35' : '1'; numberEl.classList.toggle('line-through', isDisabled); numberEl.classList.toggle('text-red-500', isDisabled); subsubab.querySelectorAll('input, textarea, button, select').forEach(el => { isDisabled ? el.setAttribute('disabled', 'disabled') : el.removeAttribute('disabled'); }); renumberAllBabs(); }
         function renumberBab23() {
+            const bab2Card = document.getElementById('bab2_card');
+            const bab2NumEl = bab2Card ? bab2Card.querySelector('.bab-section-number') : null;
+            const bab2Prefix = bab2NumEl ? bab2NumEl.textContent.replace('.', '') : '2';
+
+            // Get the sub-section number for 2.3
+            const sub23 = bab2Card ? bab2Card.querySelector('.sub-section[data-sub-id="2.3"]') : null;
+            const sub23NumEl = sub23 ? sub23.querySelector('.sub-number') : null;
+            const sub23Prefix = sub23NumEl ? sub23NumEl.textContent.replace(/\.$/, '') : (bab2Prefix + '.3');
+
             const dynSubabs = Array.from(document.querySelectorAll('#bab23_dynamic_subab_container > .bab23-subab'));
             const allSubabs = [
                 document.getElementById('bab23_subab_enkapsulasi'),
@@ -493,27 +549,35 @@
                 document.getElementById('bab23_subab_kemasan'),
                 ...dynSubabs
             ].filter(Boolean);
+
             let subabIdx = 1;
             allSubabs.forEach(subab => {
                 const numEl = subab.querySelector('.bab23-number');
                 const isSubabDisabled = subab.classList.contains('subab-disabled');
-                const currentSubabNum = `2.3.${subabIdx}`;
+                const currentSubabNum = `${sub23Prefix}.${subabIdx}`;
                 if (numEl) numEl.textContent = currentSubabNum + '.';
                 if (!isSubabDisabled) subabIdx++;
-                // renumber sub-subabs within this subab
-                const container = subab.querySelector('.bab23-subsubab-container');
-                if (!container) return;
-                const subsubabs = Array.from(container.querySelectorAll(':scope > .bab23-subsubab'));
-                let ssIdx = 1;
-                subsubabs.forEach(ss => {
-                    const ssNumEl = ss.querySelector('.bab23-subsubab-number');
-                    const isSSDisabled = ss.classList.contains('subsubab-disabled');
-                    if (ssNumEl) {
-                        const hasDot = ssNumEl.textContent.trim().endsWith('.');
-                        ssNumEl.textContent = `${currentSubabNum}.${ssIdx}` + (hasDot ? '.' : '');
-                    }
-                    if (!isSSDisabled) ssIdx++;
-                });
+
+                // Recursively renumber subsubabs
+                renumberSubsubabContainer(subab.querySelector('.bab23-subsubab-container'), currentSubabNum);
+            });
+        }
+
+        function renumberSubsubabContainer(container, parentNum) {
+            if (!container) return;
+            const subsubabs = Array.from(container.querySelectorAll(':scope > .bab23-subsubab'));
+            let ssIdx = 1;
+            subsubabs.forEach(ss => {
+                const ssNumEl = ss.querySelector('.bab23-subsubab-number');
+                const isSSDisabled = ss.classList.contains('subsubab-disabled');
+                const hasDot = ssNumEl ? ssNumEl.textContent.trim().endsWith('.') : false;
+                const newNum = `${parentNum}.${ssIdx}`;
+                if (ssNumEl) ssNumEl.textContent = newNum + (hasDot ? '.' : '');
+                if (!isSSDisabled) ssIdx++;
+
+                // Recurse into nested bab23-subsubab-container
+                const nestedContainer = ss.querySelector(':scope > div > .bab23-subsubab-container, :scope > .bab23-subsubab-container');
+                if (nestedContainer) renumberSubsubabContainer(nestedContainer, newNum);
             });
         }
         function addBab23Table(button) { bab23SubSubabCounter++; const uid = `bab23_tbl_${bab23SubSubabCounter}`; let container = button.previousElementSibling; if (!container || !container.classList.contains('bab23-tables-container')) { container = document.createElement('div'); container.className = 'bab23-tables-container flex flex-col gap-3 mb-2'; button.insertAdjacentElement('beforebegin', container); } container.insertAdjacentHTML('beforeend', getBab23TableTemplate(uid)); }
