@@ -752,12 +752,12 @@
                 const tr = document.createElement('tr');
                 tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50';
 
-                // Ensure we have 4 columns
-                while (row.length < 4) {
+                // Ensure we have 5 columns
+                while (row.length < 5) {
                     row.push('');
                 }
 
-                row.slice(0, 4).forEach(cell => {
+                row.slice(0, 5).forEach(cell => {
                     const td = document.createElement('td');
                     td.className =
                         'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700';
@@ -1148,10 +1148,10 @@
                             const tr = document.createElement('tr');
                             tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' :
                                 'bg-slate-50 dark:bg-slate-900/50';
-                            while (row.length < 4) {
+                            while (row.length < 5) {
                                 row.push('');
                             }
-                            row.slice(0, 4).forEach(cellValue => {
+                            row.slice(0, 5).forEach(cellValue => {
                                 const td = document.createElement('td');
                                 td.className =
                                     'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700';
@@ -1272,7 +1272,7 @@
                 formData.append('_token', CSRF_TOKEN);
                 const state = collectDraftState();
 
-                const product = (state.form_values.judul_nama_produk || '').trim() || 'Konilife';
+                const product = (state.form_values.judul_nama_produk || '').trim() || 'Konilife Omega 3 Soft Capsule';
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
