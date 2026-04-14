@@ -177,7 +177,7 @@
                                         onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.2</span>
                                 </p>
                                 <textarea name="batch_122_text" rows="3"
-                                    class="mt-2 w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                                    class="mt-2 w-full h-28 px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
                                     placeholder="Dokumen ini juga menjadi tindak lanjut dari Permintaan Perubahan no PP-EA-092-00 tanggal 23-08-2024, dengan perubahan: merevisi FBB dan MBR pengolahan Konilife Omega 3 (menghapus kode V204-01-KR-PBE, T021-02-CR-FBO, T021-03-CR-BAS dan menambahkan kode O921-02-R-HPI), serta menyesuaikan SP Konilife Omega 3, SBB Omega 3, dan Fish Oil Ethyl dengan Surat Persetujuan Variasi Kepala BPOM RI no. PN.04.01.42.421.07.25.1443."></textarea>
                             </div>
                             <p class="pl-10 -indent-10 mt-3 bab1-point" data-point-id="1.2.3">
