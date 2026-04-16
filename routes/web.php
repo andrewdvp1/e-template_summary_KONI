@@ -34,5 +34,8 @@ Route::post('template-summary/konvermex/export', [TemplateSummaryController::cla
 Route::get('template-summary/nutracare', [TemplateSummaryController::class, 'nutracareEditor'])->name('template-summary.nutracare');
 Route::post('template-summary/nutracare/draft', [TemplateSummaryController::class, 'saveNutracareDraft'])->name('template-summary.nutracare.draft');
 Route::post('template-summary/nutracare/export', [TemplateSummaryController::class, 'exportNutracare'])->name('template-summary.nutracare.export');
+Route::get('template-summary/siladex', [TemplateSummaryController::class, 'siladexEditor'])->name('template-summary.siladex');
+Route::post('template-summary/siladex/draft', [TemplateSummaryController::class, 'saveSiladexDraft'])->name('template-summary.siladex.draft');
+Route::post('template-summary/siladex/export', [TemplateSummaryController::class, 'exportSiladex'])->name('template-summary.siladex.export');
 
 Route::get('/template-summary/continue/{draft}', [TemplateSummaryController::class, 'continueDraft'])->name('template-summary.continue');

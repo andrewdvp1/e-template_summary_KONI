@@ -280,6 +280,7 @@
             heltiskin: "{{ route('template-summary.heltiskin') }}",
             konvermex: "{{ route('template-summary.konvermex') }}",
             nutracare: "{{ route('template-summary.nutracare') }}",
+            siladex: "{{ route('template-summary.siladex') }}",
         };
 
         // ── Menu Data Config ─────────────────────────────────────────
@@ -364,7 +365,7 @@
                         name: 'Line 3',
                         route: 'sirup',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
+                            { label: 'Template Siladex Antitussive 60 ml', route: 'siladex' },
                             { label: 'Template 2', route: 'sirup' },
                             { label: 'Template 3', route: 'sirup' },
                         ]
