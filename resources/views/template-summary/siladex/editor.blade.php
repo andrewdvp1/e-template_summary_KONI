@@ -77,9 +77,12 @@
 
             {{-- BAB 1: PENDAHULUAN --}}
             <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab1_card">
                 <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">1. PENDAHULUAN</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab1_card')" title="Klik untuk disable/enable">1.</span>
+                        PENDAHULUAN
+                    </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <input type="hidden" name="bab1_enabled_sections" id="bab1_enabled_sections" value="1,2">
@@ -92,9 +95,10 @@
                             Tujuan
                         </h3>
                         {{--1.1.1--}}
+                        <div class="bab1-point" data-point-id="1.1.1">
                         <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                             <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">1.1.1</span>
+                             <span class="bab1-point-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.1</span>
                             <p>
                                 Summary validasi ini bertujuan mendokumentasikan
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan produk
@@ -120,17 +124,19 @@
                                 yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
                         </div>
-                    </div>
+                        </div>
                         {{--1.1.2--}}
+                        <div class="bab1-point" data-point-id="1.1.2">
                         <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">1.1.2</span>
-                            </h3>
+                            <span class="bab1-point-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.2</span>
                         <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                        <div contenteditable="true"
                      class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left">
                      Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.
                             </div>
+                        </div>
+                        </div>
                         </div>
                     </div>
                     {{-- 1.2 Batch Validasi --}}
@@ -231,10 +237,13 @@
 
                        {{-- BAB 2: RANGKUMAN HASIL --}}
             <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab2_card">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">2. RANGKUMAN HASIL</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab2_card')" title="Klik untuk disable/enable">2.</span>
+                        RANGKUMAN HASIL
+                    </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
@@ -494,15 +503,19 @@
                                 <span class="material-symbols-outlined text-[20px]">add</span>
                                 <span class="text-sm font-medium">Tambah Tabel</span>
                             </button>
-                </div>
-            </div>
+                </div>{{-- end bab22-subab 2.2.2.1 --}}
+                </div>{{-- end p-6 BAB 2 --}}
+            </div>{{-- end bab2_card --}}
 
             {{-- BAB 3: KESIMPULAN --}}
             <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab3_card">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">3. KESIMPULAN</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab3_card')" title="Klik untuk disable/enable">3.</span>
+                        KESIMPULAN
+                    </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6" id="bab3_container">
@@ -561,10 +574,12 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
                                 Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol
+                        </p>
                                 {{--3.3.1--}}
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.1">
                                 <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">3.3.1</span>
+                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.1</span>
                             <p>
                                 Seluruh atribut yang diuji sesuai Spesifikasi Produk
                                 <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
@@ -578,17 +593,21 @@
                                     value="" placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
+                            </div>
+                            </div>
                             {{--3.3.2--}}
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.2">
                                 <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">3.3.2</span>
+                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.2</span>
                             <p>
                                 Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
                                     value="" placeholder="memenuhi">
                                 persyaratan.
                             </p>
-                        </p>    
+                            </div>
+                            </div>
                         </div>
                     </div>
 
@@ -604,9 +623,10 @@
                                 Hasil evaluasi data proses, parameter kritis proses dan data mentah hasil pemeriksaan
                             </p>
                             {{--3.4.1--}}
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.1">
                                 <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">3.4.1</span>
+                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.1</span>
                             <p>
                                 Atribut yang diuji sesuai Spesifikasi Produk
                                 Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
@@ -632,16 +652,22 @@
                                 <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
                                     placeholder="validated">.
                             </p>
+                            </div>
+                            </div>
                             {{--3.4.2--}}
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.2">
                                 <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="bab1-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleBab1Section(this)" title="Klik untuk disable/enable">3.4.2</span>
+                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.2</span>
                             <p>
                                 Atribut tambahan yang diuji (partikel asing/endapan*)
                                 Hasil pemeriksaan atribut tambahan (partikel asing/endapan*) semua
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
                                     value="" placeholder="memenuhi">
                                 persyaratan dan kriteria penerimaan.
+                            </p>
+                            </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1399,6 +1425,46 @@
 
         let customKesimpulanCount = 0;
 
+        function toggleBabSection(cardId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            const isDisabled = card.classList.toggle('bab-disabled');
+            const numberEl = card.querySelector(':scope > div > h2 .bab-section-number');
+            if (isDisabled) {
+                card.style.opacity = '0.4';
+                if (numberEl) numberEl.classList.add('line-through', 'text-red-500');
+                card.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    if (!el.closest('.px-6.py-4')) {
+                        el.setAttribute('disabled', 'disabled');
+                        el.classList.add('opacity-50');
+                    }
+                });
+            } else {
+                card.style.opacity = '1';
+                if (numberEl) numberEl.classList.remove('line-through', 'text-red-500');
+                card.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberAllBabs();
+        }
+
+        function renumberAllBabs() {
+            const babCards = document.querySelectorAll('.bab-section');
+            let babIdx = 1;
+            babCards.forEach(card => {
+                const isDisabled = card.classList.contains('bab-disabled');
+                const numberEl = card.querySelector(':scope > div > h2 .bab-section-number');
+                if (numberEl) numberEl.textContent = babIdx + '.';
+                if (!isDisabled) babIdx++;
+            });
+            // Update sub-section numbers
+            renumberBab1Sections();
+            renumberBab2Sections();
+            renumberKesimpulanSections();
+        }
+
         function toggleBab2Section(numberEl) {
             const sectionDiv = numberEl.closest('.bab2-section');
             const isDisabled = sectionDiv.classList.toggle('section-disabled');
@@ -1426,6 +1492,10 @@
         }
 
         function renumberBab2Sections() {
+            const bab2Card = document.getElementById('bab2_card');
+            const bab2NumEl = bab2Card ? bab2Card.querySelector('.bab-section-number') : null;
+            const bab2Prefix = bab2NumEl ? bab2NumEl.textContent.replace('.', '') : '2';
+
             const allSections = document.querySelectorAll('.bab2-section');
             let activeIndex = 1;
             const enabledIds = [];
@@ -1434,12 +1504,11 @@
                 const numberEl = section.querySelector('.bab2-number');
                 const isDisabled = section.classList.contains('section-disabled');
                 if (!isDisabled) {
-                    // section 1 = 2.1., section 2 = 2.2
-                    numberEl.textContent = section.dataset.sectionId === '1' ? '2.' + activeIndex + '.' : '2.' + activeIndex;
+                    numberEl.textContent = section.dataset.sectionId === '1' ? bab2Prefix + '.' + activeIndex + '.' : bab2Prefix + '.' + activeIndex;
                     enabledIds.push(section.dataset.sectionId);
                     activeIndex++;
                 } else {
-                    numberEl.textContent = section.dataset.sectionId === '1' ? '2.' + section.dataset.sectionId + '.' : '2.' + section.dataset.sectionId;
+                    numberEl.textContent = section.dataset.sectionId === '1' ? bab2Prefix + '.' + section.dataset.sectionId + '.' : bab2Prefix + '.' + section.dataset.sectionId;
                 }
             });
 
@@ -1473,7 +1542,89 @@
             renumberBab1Sections();
         }
 
+        function toggleBab1Point(numberEl) {
+            const pointDiv = numberEl.closest('.bab1-point');
+            if (!pointDiv) return;
+            const isDisabled = pointDiv.classList.toggle('point-disabled');
+            const contentDiv = pointDiv.querySelector('.bab1-section-content');
+            if (isDisabled) {
+                if (contentDiv) { contentDiv.style.opacity = '0.35'; contentDiv.style.textDecoration = 'line-through'; }
+                numberEl.classList.add('bg-red-100', 'text-red-500', 'line-through');
+                pointDiv.querySelectorAll('input, textarea').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                if (contentDiv) { contentDiv.style.opacity = '1'; contentDiv.style.textDecoration = 'none'; }
+                numberEl.classList.remove('bg-red-100', 'text-red-500', 'line-through');
+                pointDiv.querySelectorAll('input, textarea').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberBab1Points();
+        }
+
+        function renumberBab1Points() {
+            // Renumber points within each bab1-section
+            document.querySelectorAll('.bab1-section').forEach(section => {
+                const sectionNumEl = section.querySelector(':scope > h3 .bab1-number');
+                const sectionNum = sectionNumEl ? sectionNumEl.textContent : '1.1';
+                const points = section.querySelectorAll('.bab1-point');
+                let idx = 1;
+                points.forEach(point => {
+                    const numEl = point.querySelector('.bab1-point-number');
+                    const isDisabled = point.classList.contains('point-disabled');
+                    if (numEl) numEl.textContent = sectionNum + '.' + idx;
+                    if (!isDisabled) idx++;
+                });
+            });
+        }
+
+        function toggleKesimpulanSubPoint(numberEl) {
+            const subPoint = numberEl.closest('.kesimpulan-sub-point');
+            if (!subPoint) return;
+            const isDisabled = subPoint.classList.toggle('sub-point-disabled');
+            const contentDiv = subPoint.querySelector('.bab1-section-content');
+            if (isDisabled) {
+                if (contentDiv) { contentDiv.style.opacity = '0.35'; contentDiv.style.textDecoration = 'line-through'; }
+                numberEl.classList.add('bg-red-100', 'text-red-500', 'line-through');
+                subPoint.querySelectorAll('input, textarea').forEach(el => {
+                    el.setAttribute('disabled', 'disabled');
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                if (contentDiv) { contentDiv.style.opacity = '1'; contentDiv.style.textDecoration = 'none'; }
+                numberEl.classList.remove('bg-red-100', 'text-red-500', 'line-through');
+                subPoint.querySelectorAll('input, textarea').forEach(el => {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-50');
+                });
+            }
+            renumberKesimpulanSubPoints();
+        }
+
+        function renumberKesimpulanSubPoints() {
+            // Renumber sub-points within each kesimpulan-section
+            document.querySelectorAll('.kesimpulan-section').forEach(section => {
+                const sectionNumEl = section.querySelector('.kesimpulan-number');
+                const sectionNum = sectionNumEl ? sectionNumEl.textContent : '';
+                const subPoints = section.querySelectorAll('.kesimpulan-sub-point');
+                let idx = 1;
+                subPoints.forEach(sp => {
+                    const numEl = sp.querySelector('.kesimpulan-sub-number');
+                    const isDisabled = sp.classList.contains('sub-point-disabled');
+                    if (numEl) numEl.textContent = sectionNum + '.' + idx;
+                    if (!isDisabled) idx++;
+                });
+            });
+        }
+
         function renumberBab1Sections() {
+            const bab1Card = document.getElementById('bab1_card');
+            const bab1NumEl = bab1Card ? bab1Card.querySelector('.bab-section-number') : null;
+            const bab1Prefix = bab1NumEl ? bab1NumEl.textContent.replace('.', '') : '1';
+
             const allSections = document.querySelectorAll('.bab1-section');
             let activeIndex = 1;
             const enabledIds = [];
@@ -1482,16 +1633,17 @@
                 const numberEl = section.querySelector('.bab1-number');
                 const isDisabled = section.classList.contains('section-disabled');
                 if (!isDisabled) {
-                    numberEl.textContent = '1.' + activeIndex;
+                    numberEl.textContent = bab1Prefix + '.' + activeIndex;
                     enabledIds.push(section.dataset.sectionId);
                     activeIndex++;
                 } else {
-                    numberEl.textContent = '1.' + section.dataset.sectionId;
+                    numberEl.textContent = bab1Prefix + '.' + section.dataset.sectionId;
                 }
             });
 
             const hiddenInput = document.getElementById('bab1_enabled_sections');
             if (hiddenInput) hiddenInput.value = enabledIds.join(',');
+            renumberBab1Points();
         }
 
         function toggleKesimpulanSection(numberEl) {
@@ -1559,6 +1711,10 @@
         }
 
         function renumberKesimpulanSections() {
+            const bab3Card = document.getElementById('bab3_card');
+            const bab3NumEl = bab3Card ? bab3Card.querySelector('.bab-section-number') : null;
+            const bab3Prefix = bab3NumEl ? bab3NumEl.textContent.replace('.', '') : '3';
+
             const allSections = document.querySelectorAll('.kesimpulan-section');
             let activeIndex = 1;
             const enabledIds = [];
@@ -1568,18 +1724,18 @@
                 const isDisabled = section.classList.contains('section-disabled');
 
                 if (!isDisabled) {
-                    numberEl.textContent = '3.' + activeIndex;
+                    numberEl.textContent = bab3Prefix + '.' + activeIndex;
                     enabledIds.push(section.dataset.sectionId);
                     activeIndex++;
                 } else {
-                    // Keep showing original id for context
                     const originalId = section.dataset.sectionId;
-                    numberEl.textContent = '3.' + originalId;
+                    numberEl.textContent = bab3Prefix + '.' + originalId;
                 }
             });
 
             // Update hidden input
             document.getElementById('kesimpulan_enabled_sections').value = enabledIds.join(',');
+            renumberKesimpulanSubPoints();
         }
 
         // ===========================================
