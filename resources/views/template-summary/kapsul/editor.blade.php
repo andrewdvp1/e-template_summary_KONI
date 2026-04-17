@@ -178,6 +178,8 @@
                                 </p>
                                 <textarea name="batch_122_text" rows="3"
                                     class="mt-2 w-full h-28 px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+                                    data-sync-placeholder="nama_produk"
+                                    data-placeholder-template="Dokumen ini juga menjadi tindak lanjut dari Permintaan Perubahan no PP-EA-092-00 tanggal 23-08-2024, dengan perubahan: merevisi FBB dan MBR pengolahan {nama_produk} (menghapus kode V204-01-KR-PBE, T021-02-CR-FBO, T021-03-CR-BAS dan menambahkan kode O921-02-R-HPI), serta menyesuaikan SP {nama_produk}, SBB Omega 3, dan Fish Oil Ethyl dengan Surat Persetujuan Variasi Kepala BPOM RI no. PN.04.01.42.421.07.25.1443."
                                     placeholder="Dokumen ini juga menjadi tindak lanjut dari Permintaan Perubahan no PP-EA-092-00 tanggal 23-08-2024, dengan perubahan: merevisi FBB dan MBR pengolahan Konilife Omega 3 (menghapus kode V204-01-KR-PBE, T021-02-CR-FBO, T021-03-CR-BAS dan menambahkan kode O921-02-R-HPI), serta menyesuaikan SP Konilife Omega 3, SBB Omega 3, dan Fish Oil Ethyl dengan Surat Persetujuan Variasi Kepala BPOM RI no. PN.04.01.42.421.07.25.1443."></textarea>
                             </div>
                             <p class="pl-10 -indent-10 mt-3 bab1-point" data-point-id="1.2.3">
@@ -660,7 +662,7 @@
                         <span class="material-symbols-outlined text-[18px]">save</span>
                         <span id="saveDraftText">Simpan Draft</span>
                     </button>
-                    <button type="submit"
+                    <button type="submit" onclick="showExportModal()"
                         class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold text-sm shadow-sm flex items-center gap-2 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">description</span>
                         Export ke Word
@@ -2175,6 +2177,7 @@
 
         function addBab22DefaultSubab(title, key, stageText, resultField, specText) {
             const container = document.getElementById('bab22_dynamic_subab_container');
+            if (!container) return;
             const subab = createBab22SubabElement({
                 type: 'default',
                 title,
@@ -2355,58 +2358,19 @@
             updateBab1EnabledPoints();
 
             // Input Synchronization Logic
-            const syncInputs = document.querySelectorAll('.sync-input');
-
-            // Group inputs by sync key
-            const syncGroups = {};
-            syncInputs.forEach(input => {
-                const key = input.dataset.sync;
-                if (!syncGroups[key]) {
-                    syncGroups[key] = [];
-                }
-                syncGroups[key].push(input);
-            });
-
-            // Add event listeners
-            Object.keys(syncGroups).forEach(key => {
-                const group = syncGroups[key];
-
-                group.forEach(input => {
-                    input.addEventListener('input', function() {
-                        const value = this.value;
-                        group.forEach(otherInput => {
-                            if (otherInput !== this) {
-                                otherInput.value = value;
-                            }
-                        });
-                    });
-                });
-            });
-
-            // ===========================================
-            // LINKED FIELDS SYNC SYSTEM
-            // ===========================================
-
-            /**
-             * Sync all fields with the same data-sync value
-             * Works for both inputs (sync-input) and displays (sync-display)
-             */
+            // Single unified sync system using syncLinkedFields
             function syncLinkedFields(syncKey, newValue) {
                 // Update all inputs with same sync key
-                const syncInputs = document.querySelectorAll(`.sync-input[data-sync="${syncKey}"]`);
-                syncInputs.forEach(input => {
+                document.querySelectorAll(`.sync-input[data-sync="${syncKey}"]`).forEach(function(input) {
                     if (input.value !== newValue) {
                         input.value = newValue;
                     }
                 });
 
                 // Update all display spans with same sync key
-                const syncDisplays = document.querySelectorAll(`.sync-display[data-sync="${syncKey}"]`);
-                syncDisplays.forEach(display => {
-                    const placeholder = display.getAttribute('data-placeholder') || `[${syncKey}]`;
-                    display.textContent = newValue.trim() || placeholder;
-
-                    // Visual styling: italicize placeholder, normal for actual value
+                document.querySelectorAll(`.sync-display[data-sync="${syncKey}"]`).forEach(function(display) {
+                    var ph = display.getAttribute('data-placeholder') || ('[' + syncKey + ']');
+                    display.textContent = newValue.trim() ? newValue : ph;
                     if (newValue.trim()) {
                         display.classList.remove('italic', 'text-slate-400');
                         display.classList.add('text-slate-900', 'dark:text-white');
@@ -2415,32 +2379,35 @@
                         display.classList.remove('text-slate-900', 'dark:text-white');
                     }
                 });
+
+                // Update textarea placeholders that use this sync key
+                document.querySelectorAll('[data-sync-placeholder="' + syncKey + '"]').forEach(function(el) {
+                    var template = el.getAttribute('data-placeholder-template') || '';
+                    if (template) {
+                        el.setAttribute('placeholder', template.replace(/\{nama_produk\}/g, newValue.trim() || 'Konilife Omega 3'));
+                    }
+                });
             }
 
             // Attach event listeners to all sync inputs
-            const allSyncInputs = document.querySelectorAll('.sync-input[data-sync]');
-            allSyncInputs.forEach(input => {
-                // Listen to both 'input' (real-time) and 'change' events
+            document.querySelectorAll('.sync-input[data-sync]').forEach(function(input) {
                 input.addEventListener('input', function() {
-                    const syncKey = this.getAttribute('data-sync');
-                    syncLinkedFields(syncKey, this.value);
+                    syncLinkedFields(this.getAttribute('data-sync'), this.value);
                 });
-
                 input.addEventListener('change', function() {
-                    const syncKey = this.getAttribute('data-sync');
-                    syncLinkedFields(syncKey, this.value);
+                    syncLinkedFields(this.getAttribute('data-sync'), this.value);
                 });
             });
 
-            // Initialize displays on page load (in case of pre-filled values)
-            const uniqueSyncKeys = [...new Set(
-                Array.from(allSyncInputs).map(input => input.getAttribute('data-sync'))
-            )];
-
-            uniqueSyncKeys.forEach(syncKey => {
-                const firstInput = document.querySelector(`.sync-input[data-sync="${syncKey}"]`);
-                if (firstInput && firstInput.value) {
-                    syncLinkedFields(syncKey, firstInput.value);
+            // Initialize on page load (for pre-filled values)
+            var seenKeys = {};
+            document.querySelectorAll('.sync-input[data-sync]').forEach(function(input) {
+                var key = input.getAttribute('data-sync');
+                if (!seenKeys[key]) {
+                    seenKeys[key] = true;
+                    if (input.value) {
+                        syncLinkedFields(key, input.value);
+                    }
                 }
             });
 
@@ -2451,7 +2418,6 @@
             const kapsulForm = document.getElementById('kapsulTemplateForm');
             if (kapsulForm) {
                 kapsulForm.addEventListener('submit', function() {
-                    showExportModal();
                     updateBab23EnabledKeys();
                     document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
                         const tableUid = getTableUidFromItem(tableItem);
@@ -2746,7 +2712,7 @@
     {{-- Export Loading Modal --}}
     <div id="exportLoadingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
         <div class="bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
-            <div class="w-16 h-16 rounded-full border-4 border-slate-600 border-t-red-500 animate-spin" style="animation: spin 1s linear infinite;"></div>
+            <div class="w-16 h-16 rounded-full border-4 border-slate-600 border-t-red-500 animate-spin"></div>
             <div class="text-center">
                 <p class="text-white font-bold text-lg">Memproses Export</p>
                 <p class="text-slate-400 text-sm mt-1">Mohon tunggu, dokumen sedang dibuat...</p>
