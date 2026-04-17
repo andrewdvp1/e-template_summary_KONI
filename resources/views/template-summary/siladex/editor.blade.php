@@ -131,10 +131,12 @@
                             <span class="bab1-point-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.2</span>
                         <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                       <div contenteditable="true"
-                     class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left">
+                       <div contenteditable="true" id="bab1_112_editor"
+                     class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left"
+                     oninput="document.getElementById('bab1_112_text').value = this.innerText.trim()">
                      Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.
                             </div>
+                            <input type="hidden" name="bab1_112_text" id="bab1_112_text" value="Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.">
                         </div>
                         </div>
                         </div>
@@ -521,7 +523,7 @@
                 <div class="p-6 flex flex-col gap-6" id="bab3_container">
                     {{-- Hidden input to track enabled sections --}}
                     <input type="hidden" name="kesimpulan_enabled_sections" id="kesimpulan_enabled_sections"
-                        value="1,2,3,4,5">
+                        value="1,2,3,4">
 
                     {{-- 3.1 --}}
                     <div class="kesimpulan-section" data-section-id="1">
@@ -558,7 +560,7 @@
                                     placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)">
                                 sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                    value="memenuhi" placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk yang berlaku.
                             </p>
                         </div>
@@ -583,14 +585,16 @@
                             <p>
                                 Seluruh atribut yang diuji sesuai Spesifikasi Produk
                                 <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <div contenteditable="true"
-                                class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left font-bold">
+                                <div contenteditable="true" id="kesimpulan_zat_aktif_editor"
+                                class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left font-bold"
+                                oninput="document.getElementById('kesimpulan_zat_aktif').value = this.innerText.trim()">
                                 (bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)
                             </div>
+                            <input type="hidden" name="kesimpulan_zat_aktif" id="kesimpulan_zat_aktif" value="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)">
                         </div>
                                 sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
+                                    value="memenuhi" placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
                             </div>
@@ -602,8 +606,8 @@
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.2</span>
                             <p>
                                 Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                <input type="text" name="kesimpulan_partikel_hasil" class="template-input w-32"
+                                    value="memenuhi" placeholder="memenuhi">
                                 persyaratan.
                             </p>
                             </div>
@@ -635,7 +639,7 @@
                                     placeholder="mixing, awal filling-capping, selama filling-capping">
                                 yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                    value="memenuhi" placeholder="memenuhi">
                                 persyaratan, maka proses pengolahan dan pengemasan produk
                                 <input type="text" name="judul_nama_produk" class="template-input sync-input w-72 uppercase"
                                 data-sync="nama_produk" placeholder="Siladex Antitussive 60 mL ">
@@ -662,8 +666,8 @@
                             <p>
                                 Atribut tambahan yang diuji (partikel asing/endapan*)
                                 Hasil pemeriksaan atribut tambahan (partikel asing/endapan*) semua
-                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                <input type="text" name="kesimpulan_partikel_akhir_hasil" class="template-input w-32"
+                                    value="memenuhi" placeholder="memenuhi">
                                 persyaratan dan kriteria penerimaan.
                             </p>
                             </div>
@@ -1034,6 +1038,16 @@
                     field.value = value ?? '';
                 });
             });
+
+            // Sync contenteditable fields from their hidden inputs
+            if (values['bab1_112_text']) {
+                const editor = document.getElementById('bab1_112_editor');
+                if (editor) editor.innerText = values['bab1_112_text'];
+            }
+            if (values['kesimpulan_zat_aktif']) {
+                const editor = document.getElementById('kesimpulan_zat_aktif_editor');
+                if (editor) editor.innerText = values['kesimpulan_zat_aktif'];
+            }
         }
 
         function applyStoredImageToTable(tableItem, imageMeta) {

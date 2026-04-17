@@ -176,17 +176,19 @@ class SiladexExportService
         $textRun11->addText('1.1', ['bold' => false, 'size' => 11]);
         $textRun11->addText('  Tujuan', ['size' => 11]);
 
-        // Build tujuan text from form data
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? ' Siladex Antitussive 60 mL';
-        $line = $this->data['judul_line'] ?? '3';
-        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production (Pharmaceutical II) Gedung B';
-        $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac';
-        $varian = $this->data['varian_produk'] ?? 'kemasan botol';
+        // 1.1.1 - Build tujuan text from form data
+        $namaProduk  = $this->data['tujuan_nama_produk'] ?? 'Siladex Antitussive 60 mL';
+        $namaProduk2 = $this->data['tujuan_nama_produk_2'] ?? $namaProduk;
+        $line        = $this->data['tujuan_line'] ?? $this->data['judul_line'] ?? '3';
+        $bagian      = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production (Pharmaceutical II) Gedung B';
+        $mesin       = $this->data['tujuan_mesin'] ?? 'Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac';
+        $varian      = $this->data['varian_produk'] ?? 'kemasan botol';
 
         $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap " .
-        "kualitas dan reprodusibilitas proses pengolahan produk {$namaProduk} di " .
-        "Line {$line} Bagian {$bagian} dalam menghasilkan produk {$namaProduk} dalam {$varian} yang memenuhi " .
-        "persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
+            "kualitas dan reprodusibilitas proses pengolahan produk {$namaProduk} di " .
+            "Line {$line} Bagian {$bagian} yang diproduksi dengan {$mesin} " .
+            "dalam menghasilkan produk {$namaProduk2} {$varian} yang memenuhi " .
+            "persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
 
         $textRun111 = $this->section->addTextRun([
             'alignment' => 'both',
@@ -196,7 +198,19 @@ class SiladexExportService
         $textRun111->addText('1.1.1', ['bold' => false, 'size' => 11]);
         $textRun111->addText(' ' . $tujuanText, ['size' => 11]);
 
-        // 1.2 Batch Validasi - only 1.2 is bold
+        // 1.1.2 - static text (contenteditable in editor, submitted via hidden input)
+        $text112 = $this->data['bab1_112_text'] ??
+            'Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.';
+
+        $textRun112 = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 1350, 'hanging' => 610],
+            'contextualSpacing' => true,
+        ]);
+        $textRun112->addText('1.1.2', ['bold' => false, 'size' => 11]);
+        $textRun112->addText(' ' . $text112, ['size' => 11]);
+
+        // 1.2 Batch Validasi
         $textRun12 = $this->section->addTextRun([
             'alignment' => 'both',
             'indentation' => ['left' => 300],
@@ -206,15 +220,17 @@ class SiladexExportService
         $textRun12->addText('  Batch Validasi', ['size' => 11]);
 
         // Build batch text from form data
-        $jumlahBatch = $this->data['batch_jumlah'] ?? 'tiga';
-        $besaran = $this->data['batch_besaran'] ?? '600';
-        $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '10.000';
-        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '60';
-        $kodeList = $this->data['batch_kode_list'] ?? ' L25A15, L25A16, L25A17';
+        // Note: editor has two fields named "batch_besaran" — first is Liter, second is mL per botol
+        // PHP will only submit the last value, so we use batch_besaran for mL and batch_liter for Liter
+        $jumlahBatch    = $this->data['batch_jumlah'] ?? 'tiga';
+        $besaranLiter   = $this->data['batch_besaran_liter'] ?? $this->data['batch_besaran'] ?? '600';
+        $jumlahBotol    = $this->data['batch_jumlah_botol'] ?? '10.000';
+        $volumePerBotol = $this->data['batch_besaran'] ?? '60';
+        $kodeList       = $this->data['batch_kode_list'] ?? 'L25A15, L25A16, L25A17';
 
-        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} Liter = {$jumlahBotol} botol @ {$volumePerBotol} mL, yaitu {$kodeList} :";
+        $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaranLiter} Liter = {$jumlahBotol} botol @ {$volumePerBotol} mL, yaitu {$kodeList} :";
 
-        $this->section->addText($batchText, [], [
+        $this->section->addText($batchText, ['size' => 11], [
             'alignment' => 'both',
             'indentation' => ['left' => 740],
             'contextualSpacing' => true,
@@ -446,8 +462,7 @@ class SiladexExportService
             'spaceAfter' => 0,
         ]);
 
-        // Determine which sections are enabled (default: all)
-        $enabledStr = $this->data['kesimpulan_enabled_sections'] ?? '1,2,3,4,5';
+        $enabledStr = $this->data['kesimpulan_enabled_sections'] ?? '1,2,3,4';
         $enabledSections = array_map('trim', explode(',', $enabledStr));
 
         $sectionNumber = 1;
@@ -465,50 +480,89 @@ class SiladexExportService
         if (in_array('2', $enabledSections)) {
             $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? '(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)';
             $mixingHasil = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap {$tahapProses} produk sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
+            $text = "Atribut yang diuji pada tahap mixing {$tahapProses} sudah memberikan hasil yang {$mixingHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
 
-        // Section 4: Filling-Capping
-        if (in_array('4', $enabledSections)) {
-            $zat_aktif = $this->data['kesimpulan_zat_aktif'] ?? '(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)';
-            $text = "Atribut yang diuji pada tahap filling-capping ({$zat_aktif}) sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
-            $this->addKesimpulanItem("3.{$sectionNumber}", $text);
-            $sectionNumber++;
-        }
+        // Section 3: Filling-capping (with sub-points 3.3.1 and 3.3.2)
+        if (in_array('3', $enabledSections)) {
+            // 3.x header
+            $this->addKesimpulanItem("3.{$sectionNumber}", "Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol");
 
-        // Section 5: Final Conclusion (with italic status)
-        if (in_array('5', $enabledSections)) {
-            $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Siladex Antitussive 60 ml';
-            $status = $this->data['kesimpulan_status'] ?? 'validated';
-            $formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
-            $mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac';
-            $tahapMixing = $this->data['kesimpulan_tahap_mixing'] ?? 'mixing, tahap awal filling-capping, selama filling-capping';
-            $formulaText = $formula ? " dengan formula zat aktif {$formula}" : "D004 ex DIV, C018 ex SLI";
-
-            $text = "Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, " .
-            "parameter proses dan hasil pemeriksaan atribut kualitas produk " . 
-            "pada tahap {$tahapMixing} yang memenuhi persyaratan, maka proses pengolahan dan " .
-            "pengemasan produk {$finalProduk} kemasan botol menggunakan {$mesin} " .
-            "{$formulaText} dinyatakan ";
-
-            $textRun = $this->section->addTextRun([
+            // 3.x.1
+            $zatAktif = $this->data['kesimpulan_zat_aktif'] ??
+                '(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)';
+            $hasil331 = $this->data['kesimpulan_filling_hasil'] ?? $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
+            $textRun331 = $this->section->addTextRun([
                 'alignment' => 'both',
-                'indentation' => ['left' => 740, 'hanging' => 440],
+                'indentation' => ['left' => 1350, 'hanging' => 610],
                 'contextualSpacing' => true,
             ]);
-            $textRun->addText("3.{$sectionNumber}", ['bold' => false, 'size' => 11]);
-            $textRun->addText(' ' . $text, ['size' => 11]);
-            $textRun->addText($status, ['italic' => true, 'size' => 11]);
-            $textRun->addText('.', ['size' => 11]);
+            $textRun331->addText("3.{$sectionNumber}.1", ['bold' => false, 'size' => 11]);
+            $textRun331->addText(" Seluruh atribut yang diuji sesuai Spesifikasi Produk ", ['size' => 11]);
+            $textRun331->addText($zatAktif, ['bold' => true, 'size' => 11]);
+            $textRun331->addText(" sudah memberikan hasil yang {$hasil331} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.", ['size' => 11]);
+
+            // 3.x.2
+            $hasil332 = $this->data['kesimpulan_partikel_hasil'] ?? $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
+            $textRun332 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun332->addText("3.{$sectionNumber}.2", ['bold' => false, 'size' => 11]);
+            $textRun332->addText(" Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang {$hasil332} persyaratan.", ['size' => 11]);
+
+            $sectionNumber++;
+        }
+
+        // Section 4: Final conclusion (with sub-points 3.4.1 and 3.4.2)
+        if (in_array('4', $enabledSections)) {
+            // 3.x header
+            $this->addKesimpulanItem("3.{$sectionNumber}", "Hasil evaluasi data proses, parameter kritis proses dan data mentah hasil pemeriksaan");
+
+            // 3.x.1 - final conclusion paragraph
+            $tahapMixing = $this->data['kesimpulan_tahap_mixing'] ?? 'mixing, awal filling-capping, selama filling-capping';
+            $hasilAkhir  = $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
+            $finalProduk = $this->data['judul_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Siladex Antitussive 60 mL';
+            $mesin       = $this->data['tujuan_mesin'] ?? 'Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac';
+            $formula     = $this->data['kesimpulan_formula'] ?? 'D004 ex DIV, C018 ex SLI';
+            $status      = $this->data['kesimpulan_status'] ?? 'validated';
+
+            $textRun341 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun341->addText("3.{$sectionNumber}.1", ['bold' => false, 'size' => 11]);
+            $textRun341->addText(
+                " Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, " .
+                "parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap {$tahapMixing} yang " .
+                "{$hasilAkhir} persyaratan, maka proses pengolahan dan pengemasan produk " .
+                strtoupper($finalProduk) . " menggunakan {$mesin} dengan formula zat aktif {$formula} dinyatakan ",
+                ['size' => 11]
+            );
+            $textRun341->addText($status, ['italic' => true, 'size' => 11]);
+            $textRun341->addText('.', ['size' => 11]);
+
+            // 3.x.2
+            $hasilPartikel = $this->data['kesimpulan_partikel_akhir_hasil'] ?? $this->data['kesimpulan_mixing_hasil'] ?? 'memenuhi';
+            $textRun342 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 1350, 'hanging' => 610],
+                'contextualSpacing' => true,
+            ]);
+            $textRun342->addText("3.{$sectionNumber}.2", ['bold' => false, 'size' => 11]);
+            $textRun342->addText(" Hasil pemeriksaan atribut tambahan (partikel asing/endapan*) semua {$hasilPartikel} persyaratan dan kriteria penerimaan.", ['size' => 11]);
+
             $sectionNumber++;
         }
 
         // Custom sections (c1, c2, c3, ...)
         foreach ($enabledSections as $sectionId) {
             if (str_starts_with($sectionId, 'c')) {
-                $customNum = substr($sectionId, 1); // e.g. "1" from "c1"
+                $customNum = substr($sectionId, 1);
                 $customText = $this->data["kesimpulan_custom_{$customNum}"] ?? '';
                 if (!empty(trim($customText))) {
                     $this->addKesimpulanItem("3.{$sectionNumber}", trim($customText));
@@ -552,18 +606,15 @@ class SiladexExportService
             return;
         }
 
-        foreach ($tableUids as $index => $tableUid) {
+        foreach ($tableUids as $tableUid) {
             $imageFile = $imageMap[$tableUid] ?? null;
             $resolvedImagePath = $this->resolveStoredImagePath($existingImageMap[$tableUid] ?? null);
+            $base64 = trim((string) ($this->data['mixing_image_base64'][$tableUid] ?? ''));
 
             if ($imageFile instanceof UploadedFile && $imageFile->isValid()) {
                 try {
                     $this->section->addImage($imageFile->getPathname(), [
-                        'width' => 450,
-                        'height' => null,
-                        'marginTop' => 10,
-                        'marginBottom' => 10,
-                        'align' => 'center',
+                        'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
                     ]);
                 } catch (\Exception $e) {
                     $this->section->addText("[Error memuat gambar: {$e->getMessage()}]", ['color' => 'FF0000']);
@@ -571,17 +622,70 @@ class SiladexExportService
             } elseif ($resolvedImagePath) {
                 try {
                     $this->section->addImage($resolvedImagePath, [
-                        'width' => 450,
-                        'height' => null,
-                        'marginTop' => 10,
-                        'marginBottom' => 10,
-                        'align' => 'center',
+                        'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
                     ]);
                 } catch (\Exception $e) {
                     $this->section->addText("[Error memuat gambar draft: {$e->getMessage()}]", ['color' => 'FF0000']);
                 }
+            } elseif ($base64 !== '' && str_starts_with($base64, 'data:image')) {
+                try {
+                    $commaPos = strpos($base64, ',');
+                    $imageData = base64_decode(substr($base64, $commaPos + 1));
+                    $tmpFile = tempnam(sys_get_temp_dir(), 'bab2img');
+                    file_put_contents($tmpFile, $imageData);
+                    $this->section->addImage($tmpFile, [
+                        'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
+                    ]);
+                    @unlink($tmpFile);
+                } catch (\Exception $e) {
+                    $this->section->addText("[Error gambar base64]", ['color' => 'FF0000']);
+                }
             } else {
-                $this->section->addText("[Gambar tabel tidak tersedia]", ['italic' => true, 'color' => '808080']);
+                // Try pasted table JSON
+                $pastedJson = trim((string) ($this->data['mixing_pasted_table_json'][$tableUid] ?? ''));
+                if ($pastedJson !== '') {
+                    $rows = json_decode($pastedJson, true);
+                    if (is_array($rows) && !empty($rows)) {
+                        $this->renderPastedTableToWord($rows);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Render a pasted table (array of rows) into the Word document.
+     */
+    protected function renderPastedTableToWord(array $rows): void
+    {
+        if (empty($rows)) {
+            return;
+        }
+
+        $colCount = max(array_map('count', $rows));
+        $totalWidth = 9000;
+        $colWidth = (int) ($totalWidth / max($colCount, 1));
+
+        $tableStyle = [
+            'borderSize' => 6,
+            'borderColor' => '000000',
+            'cellMargin' => 80,
+            'width' => $totalWidth,
+            'unit' => 'dxa',
+        ];
+
+        $table = $this->section->addTable($tableStyle);
+
+        foreach ($rows as $rowIndex => $row) {
+            $table->addRow(250);
+            foreach ($row as $cellValue) {
+                $isHeader = ($rowIndex === 0);
+                $table->addCell($colWidth, ['valign' => 'center'])
+                    ->addText(
+                        htmlspecialchars_decode((string) $cellValue),
+                        ['bold' => $isHeader, 'size' => 10],
+                        ['alignment' => 'left', 'spaceAfter' => 0]
+                    );
             }
         }
     }
