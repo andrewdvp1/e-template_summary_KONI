@@ -380,38 +380,47 @@ class KapsulExportService
         if (!is_array($imageMap)) $imageMap = [];
         if (!is_array($existingImageMap)) $existingImageMap = [];
 
-        // 2.1 Pelaksanaan Proses Produksi
-        $textRun21 = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 740, 'hanging' => 440],
-            'contextualSpacing' => true,
-        ]);
-        $textRun21->addText('2.1.', ['bold' => true, 'size' => 11]);
-        $textRun21->addText(' Pelaksanaan Proses Produksi:', ['bold' => true, 'size' => 11]);
+        $bab2StaticEnabled = array_map('trim', explode(',', (string) ($this->data['bab2_static_enabled'] ?? '2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.2.1,2.3.2.2,2.3.2.3,2.3.2.3.1,2.3.2.3.2,2.3.2.3.3,2.3.2.3.4,2.3.2.3.5,2.3.2.4,2.3.3')));
+        $isEnabled = fn(string $num): bool => in_array($num, $bab2StaticEnabled, true);
 
-        // Render tabel pelaksanaan (paste/screenshot)
-        $this->addBab22SubabTables('pelaksanaan', $tableSubabMap, $imageMap, $existingImageMap);
+        // 2.1 Pelaksanaan Proses Produksi
+        if ($isEnabled('2.1')) {
+            $textRun21 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 740, 'hanging' => 440],
+                'contextualSpacing' => true,
+            ]);
+            $textRun21->addText('2.1.', ['bold' => true, 'size' => 11]);
+            $textRun21->addText(' Pelaksanaan Proses Produksi:', ['bold' => true, 'size' => 11]);
+
+            // Render tabel pelaksanaan (paste/screenshot)
+            $this->addBab22SubabTables('pelaksanaan', $tableSubabMap, $imageMap, $existingImageMap);
+        }
 
         // 2.2 Teks statis
-        $textRun22 = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 740, 'hanging' => 440],
-            'contextualSpacing' => true,
-        ]);
-        $textRun22->addText('2.2.', ['bold' => true, 'size' => 11]);
-        $textRun22->addText(' Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
+        if ($isEnabled('2.2')) {
+            $textRun22 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 740, 'hanging' => 440],
+                'contextualSpacing' => true,
+            ]);
+            $textRun22->addText('2.2.', ['bold' => true, 'size' => 11]);
+            $textRun22->addText(' Seluruh tahapan pengolahan dan pengemasan primer telah dilakukan sesuai dengan prosedur pengolahan dan pengemasan yang berlaku.', ['size' => 11]);
+        }
 
         // 2.3 Hasil pemeriksaan sampel
-        $textRun23 = $this->section->addTextRun([
-            'alignment' => 'both',
-            'indentation' => ['left' => 740, 'hanging' => 440],
-            'contextualSpacing' => true,
-        ]);
-        $textRun23->addText('2.3.', ['bold' => true, 'size' => 11]);
-        $textRun23->addText(' Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :', ['size' => 11]);
+        if ($isEnabled('2.3')) {
+            $textRun23 = $this->section->addTextRun([
+                'alignment' => 'both',
+                'indentation' => ['left' => 740, 'hanging' => 440],
+                'contextualSpacing' => true,
+            ]);
+            $textRun23->addText('2.3.', ['bold' => true, 'size' => 11]);
+            $textRun23->addText(' Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :', ['size' => 11]);
 
-        // 2.3.x dynamic subabs
-        $this->exportBab23SubabsDynamic($tableSubabMap, $imageMap, $existingImageMap);
+            // 2.3.x dynamic subabs
+            $this->exportBab23SubabsDynamic($tableSubabMap, $imageMap, $existingImageMap);
+        }
     }
 
     /**
@@ -421,51 +430,126 @@ class KapsulExportService
     {
         $namaProduk = trim((string) ($this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule'));
         $batchList  = trim((string) ($this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03'));
-        $formula    = trim((string) ($this->data['judul_formula'] ?? ''));
-        $produkLabel = $formula !== '' ? "{$namaProduk} ({$formula})" : $namaProduk;
+
+        $bab2StaticEnabled = array_map('trim', explode(',', (string) ($this->data['bab2_static_enabled'] ?? '2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.2.1,2.3.2.2,2.3.2.3,2.3.2.3.1,2.3.2.3.2,2.3.2.3.3,2.3.2.3.4,2.3.2.3.5,2.3.2.4,2.3.3')));
+        $isEnabled = fn(string $num): bool => in_array($num, $bab2StaticEnabled, true);
 
         // --- 2.3.1 Enkapsulasi (Sebelum pengeringan) ---
-        $this->addBab23SubabHeading('2.3.1', 'Enkapsulasi (Sebelum pengeringan)');
+        if ($isEnabled('2.3.1')) {
+            $this->addBab23SubabHeading('2.3.1', 'Enkapsulasi (Sebelum pengeringan)');
 
-        $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '500 ± 50 mg'));
-        $this->addBab23SubSubabText('2.3.1.1',
-            "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
+            if ($isEnabled('2.3.1.1')) {
+                $bobotSyarat = trim((string) ($this->data['enkapsulasi_bobot_syarat'] ?? '500 ± 50 mg'));
+                $this->addBab23SubSubabText('2.3.1.1',
+                    "Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas {$bobotSyarat}.");
+            }
 
-        $samplingLokasi = trim((string) ($this->data['enkapsulasi_sampling_lokasi'] ?? '3'));
-        $samplingJumlah = trim((string) ($this->data['enkapsulasi_sampling_jumlah'] ?? '20'));
-        $this->addBab23SubSubabText('2.3.1.2',
-            "Dilakukan sampling pemeriksaan bobot pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
+            if ($isEnabled('2.3.1.2')) {
+                $samplingLokasi = trim((string) ($this->data['enkapsulasi_sampling_lokasi'] ?? '3'));
+                $samplingJumlah = trim((string) ($this->data['enkapsulasi_sampling_jumlah'] ?? '20'));
+                $this->addBab23SubSubabText('2.3.1.2',
+                    "Dilakukan sampling pemeriksaan bobot pada {$samplingLokasi} lokasi (awal, tengah, akhir) dengan jumlah {$samplingJumlah} butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:");
+                $this->renderBab23Image('bab23_enkapsulasi_tabel', $imageMap, $existingImageMap);
+            }
 
-        $this->renderBab23Image('bab23_enkapsulasi_tabel', $imageMap, $existingImageMap);
-
-        $enkNamaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $namaProduk));
-        $enkBatchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $batchList));
-        $this->addBab23SubSubabText('2.3.1.3',
-            "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$enkNamaProduk} bets {$enkBatchList} memenuhi spesifikasi produk yang ditetapkan.");
+            if ($isEnabled('2.3.1.3')) {
+                $enkNamaProduk = trim((string) ($this->data['enkapsulasi_nama_produk'] ?? $namaProduk));
+                $enkBatchList  = trim((string) ($this->data['enkapsulasi_batch_list'] ?? $batchList));
+                $this->addBab23SubSubabText('2.3.1.3',
+                    "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$enkNamaProduk} bets {$enkBatchList} memenuhi spesifikasi produk yang ditetapkan.");
+            }
+        }
 
         // --- 2.3.2 Tahap Pengeringan ---
-        $this->addBab23SubabHeading('2.3.2', 'Tahap Pengeringan');
-        $this->renderBab23Image('bab23_pengeringan_tabel', $imageMap, $existingImageMap);
+        if ($isEnabled('2.3.2')) {
+            $this->addBab23SubabHeading('2.3.2', 'Tahap Pengeringan');
 
-        $pengeringanNama  = trim((string) ($this->data['pengeringan_nama_produk'] ?? $namaProduk));
-        $pengeringanBatch = trim((string) ($this->data['pengeringan_batch_list'] ?? $batchList));
-        $this->section->addText(
-            "Seluruh hasil pemeriksaan sampel pengeringan produk {$pengeringanNama} bets {$pengeringanBatch} memenuhi spesifikasi produk yang ditetapkan.",
-            ['size' => 11],
-            ['alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true]
-        );
+            // 2.3.2.1
+            if ($isEnabled('2.3.2.1')) {
+                $spProduk  = trim((string) ($this->data['pengeringan_sp_produk'] ?? $namaProduk));
+                $spNo      = trim((string) ($this->data['pengeringan_sp_no'] ?? 'EA-F03-3-00158-01'));
+                $spTanggal = trim((string) ($this->data['pengeringan_sp_tanggal'] ?? '06-08-2025'));
+                $this->addBab23SubSubabText('2.3.2.1',
+                    "Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk {$spProduk} no {$spNo} tanggal {$spTanggal}, sebagai berikut:");
+                $this->renderBab23Image('bab232_spesifikasi_tabel', $imageMap, $existingImageMap);
+            }
+
+            // 2.3.2.2
+            if ($isEnabled('2.3.2.2')) {
+                $mesin          = trim((string) ($this->data['pengeringan_mesin'] ?? 'tumbler dryer'));
+                $jumlahTray     = trim((string) ($this->data['pengeringan_jumlah_tray'] ?? '10'));
+                $jumlahSampling = trim((string) ($this->data['pengeringan_jumlah_sampling'] ?? '30'));
+                $this->addBab23SubSubabText('2.3.2.2',
+                    "Hasil enkapsulasi setelah tahap pengeringan, berupa soft capsule yang telah dikeringkan pada {$mesin}, secara urut ditampung dalam tray-tray dan dikeringkan di ruang pengering, sehingga menjadi soft capsule kering. Tray dibagi menjadi {$jumlahTray} kelompok dan dilakukan sampling sebanyak {$jumlahSampling} soft capsule per kelompok untuk semua pemeriksaan atribut di atas, dengan kondisi aktual pengeringan sebagai berikut:");
+                $this->renderBab23Image('bab232_kondisi_tabel', $imageMap, $existingImageMap);
+            }
+
+            // 2.3.2.3
+            if ($isEnabled('2.3.2.3')) {
+                $this->addBab23SubSubabText('2.3.2.3',
+                    'Hasil pemeriksaan sampel untuk pemeriksaan atribut sebagai berikut:');
+
+                // 2.3.2.3.1
+                if ($isEnabled('2.3.2.3.1')) {
+                    $this->addBab23SubSubSubabText('2.3.2.3.1', 'Pemeriksaan keseragaman bobot');
+                    $this->renderBab23Image('bab232_bobot_tabel', $imageMap, $existingImageMap);
+                }
+
+                // 2.3.2.3.2
+                if ($isEnabled('2.3.2.3.2')) {
+                    $this->addBab23SubSubSubabText('2.3.2.3.2', 'Pemeriksaan Fisik');
+                    $this->renderBab23Image('bab232_fisik_tabel', $imageMap, $existingImageMap);
+                }
+
+                // 2.3.2.3.3
+                if ($isEnabled('2.3.2.3.3')) {
+                    $labName = trim((string) ($this->data['kadar_lab_name'] ?? 'PT SIG Laboratory'));
+                    $this->addBab23SubSubSubabText('2.3.2.3.3',
+                        "Pemeriksaan kadar zat aktif dilakukan oleh pihak ke-3 ({$labName}) dengan hasil pemeriksaan diterbitkan dalam bentuk sertifikat pengujian:");
+                    $this->renderBab23Image('bab232_sertifikat_tabel', $imageMap, $existingImageMap);
+                    $this->section->addText(
+                        'Dengan resume hasil pemeriksaan kadar zat aktif sebagai berikut:',
+                        ['size' => 11],
+                        ['alignment' => 'both', 'indentation' => ['left' => 1440], 'contextualSpacing' => true]
+                    );
+                    $this->renderBab23Image('bab232_kadar_tabel', $imageMap, $existingImageMap);
+                }
+
+                // 2.3.2.3.4
+                if ($isEnabled('2.3.2.3.4')) {
+                    $this->addBab23SubSubSubabText('2.3.2.3.4', 'Pemeriksaan Cemaran Logam Berat');
+                    $this->renderBab23Image('bab232_logam_tabel', $imageMap, $existingImageMap);
+                }
+
+                // 2.3.2.3.5
+                if ($isEnabled('2.3.2.3.5')) {
+                    $this->addBab23SubSubSubabText('2.3.2.3.5', 'Pemeriksaan Mikrobiologi');
+                    $this->renderBab23Image('bab232_mikro_tabel', $imageMap, $existingImageMap);
+                }
+            }
+
+            // 2.3.2.4
+            if ($isEnabled('2.3.2.4')) {
+                $pengeringanNama  = trim((string) ($this->data['pengeringan_nama_produk'] ?? $namaProduk));
+                $pengeringanBatch = trim((string) ($this->data['pengeringan_batch_list'] ?? $batchList));
+                $this->addBab23SubSubabText('2.3.2.4',
+                    "Seluruh hasil pemeriksaan sampel pengeringan produk {$pengeringanNama} bets {$pengeringanBatch} memenuhi spesifikasi produk yang ditetapkan.");
+            }
+        }
 
         // --- 2.3.3 Tahap Kemas Primer ---
-        $this->addBab23SubabHeading('2.3.3', 'Tahap Kemas Primer');
-        $this->renderBab23Image('bab23_kemas_tabel', $imageMap, $existingImageMap);
+        if ($isEnabled('2.3.3')) {
+            $this->addBab23SubabHeading('2.3.3', 'Tahap Kemas Primer');
+            $this->renderBab23Image('bab23_kemas_tabel', $imageMap, $existingImageMap);
 
-        $kemasNama  = trim((string) ($this->data['kemas_nama_produk'] ?? $namaProduk));
-        $kemasBatch = trim((string) ($this->data['kemas_batch_list'] ?? $batchList));
-        $this->section->addText(
-            "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemasNama} bets {$kemasBatch} telah memenuhi spesifikasi kemasan yang ditetapkan.",
-            ['size' => 11],
-            ['alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true]
-        );
+            $kemasNama  = trim((string) ($this->data['kemas_nama_produk'] ?? $namaProduk));
+            $kemasBatch = trim((string) ($this->data['kemas_batch_list'] ?? $batchList));
+            $this->section->addText(
+                "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemasNama} bets {$kemasBatch} telah memenuhi spesifikasi kemasan yang ditetapkan.",
+                ['size' => 11],
+                ['alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true]
+            );
+        }
     }
 
     private function addBab23SubabHeading(string $number, string $title): void
@@ -484,6 +568,17 @@ class KapsulExportService
         $textRun = $this->section->addTextRun([
             'alignment' => 'both',
             'indentation' => ['left' => 1080, 'hanging' => 580],
+            'contextualSpacing' => true,
+        ]);
+        $textRun->addText($number, ['bold' => true, 'size' => 11]);
+        $textRun->addText("  {$text}", ['size' => 11]);
+    }
+
+    private function addBab23SubSubSubabText(string $number, string $text): void
+    {
+        $textRun = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 1440, 'hanging' => 720],
             'contextualSpacing' => true,
         ]);
         $textRun->addText($number, ['bold' => true, 'size' => 11]);
