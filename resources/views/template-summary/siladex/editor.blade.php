@@ -408,119 +408,77 @@
                     </div>{{-- end bab2-section 2.2 --}}
                     
                  {{--2.2.2.1--}}
+                 <div class="bab22-subab" data-subab-key="partikel_asing" data-subab-id="2">
                     <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-start gap-2">
                         <span
-                            class="bab22-number bab22-toggle-number w-16 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                            onclick="toggleBab22Subab(this)">
-                            2.2.2.1
-                        </span>
-                         <span class="flex-1 text-justify">
+                            class="bab22-number bab22-toggle-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                            onclick="toggleBab22Subab(this)" title="Klik untuk disable/enable">2.2.2.1</span>
+                         <span class="flex-1 text-justify text-base">
                             Dikarenakan pada proses pengolahan juga dilakukan perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron, maka ditambahkan pemeriksaan Partikel asing/endapan*, yang diperiksa dengan menuang sirup pada wadah kaca, kemudian dilakukan pemeriksaan secara visual. Metode ini dipilih dikarenakan sirup berwarna hitam, dengan hasil sebagai berikut :
                         </span>
-                        <span class="material-symbols-outlined text-[18px] text-slate-400 cursor-grab select-none ml-auto">
-                            drag_indicator
-                        </span>
-                    </h4> 
-                       
-                            {{-- Dynamic Tables Container --}}
-                            <div class="mixing-tables-container flex flex-col gap-4">
-                                {{-- Initial Table (Table 1) --}}
-                                <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative"
-                                    data-table-index="0" data-table-uid="table_1"
-                                    onpaste="handleMixingPaste(event, this)">
-                                    {{-- Three Dot Menu --}}
-                                    <div class="absolute top-1 right-1 z-20 remove-table-btn">
-                                        <button type="button" onclick="toggleTableMenu(this)"
-                                            class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors"
-                                            title="Opsi">
-                                            <span class="material-symbols-outlined text-[20px] block">more_vert</span>
-                                        </button>
-                                        {{-- Dropdown Menu --}}
-                                        <div
-                                            class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30">
-                                            <button type="button" onclick="removeMixingTable(this)"
-                                                class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
-                                                <span class="material-symbols-outlined text-[18px]">delete</span>
-                                                Hapus Tabel
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {{-- Excel / Screenshot Paste Area --}}
-                                    <div class="p-6">
-                                        {{-- Instructions & Drop Zone --}}
-                                        <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-8 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
-                                            <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
-                                            <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
-                                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy data dari Excel atau Screenshot lalu paste di bawah (Ctrl+V)</p>
-                                            <div class="flex justify-center mb-4">
-                                                <button type="button" onclick="triggerClipboardPaste(this)"
-                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
-                                                    <span class="material-symbols-outlined text-[16px]">content_paste_go</span>
-                                                    Tempel dari Clipboard
-                                                </button>
-                                            </div>
-                                            <textarea rows="4"
-                                                class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono"
-                                                placeholder="Paste screenshot / tabel Excel di sini, atau ketik catatan... (Ctrl+V)"
-                                                onpaste="handleClipboardFieldPaste(event, this)"></textarea>
-                                        </div>
-
-                                        {{-- Hidden File Inputs untuk Backward Compatibility / Export --}}
-                                        <input type="file" name="mixing_image_file[table_1]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
-                                        <input type="file" name="mixing_excel_file[table_1]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
-
-                                        {{-- Full Width Preview Container (Hidden by default) --}}
-                                        <div
-                                            class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
-                                            <img src="" alt="Preview"
-                                                class="w-full h-auto rounded-md shadow-sm">
-                                            <button type="button" onclick="removeImage(this)"
-                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
-                                                title="Hapus Gambar">
-                                                <span class="material-symbols-outlined text-[14px] block">close</span>
-                                            </button>
-                                        </div>
-
-                                        <div
-                                            class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
-                                            <div class="overflow-auto max-h-[420px]">
-                                                <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
-                                            </div>
-                                            <button type="button" onclick="removePastedTable(this)"
-                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
-                                                title="Hapus Tabel Paste">
-                                                <span class="material-symbols-outlined text-[14px] block">close</span>
-                                            </button>
-                                        </div>
-                                    </div>
+                    </h4>
+                    <div class="mixing-tables-container flex flex-col gap-3 ml-4">
+                        <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative"
+                            data-table-uid="table_partikel" onpaste="handleMixingPaste(event, this)">
+                            <div class="absolute top-1 right-1 z-20 remove-table-btn">
+                                <button type="button" onclick="toggleTableMenu(this)"
+                                    class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi">
+                                    <span class="material-symbols-outlined text-[20px] block">more_vert</span>
+                                </button>
+                                <div class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30">
+                                    <button type="button" onclick="removeMixingTable(this)"
+                                        class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>Hapus Tabel
+                                    </button>
                                 </div>
                             </div>
-                            <input type="hidden" name="bab22_table_subab_key[table_1]" value="mixing">
-                            <input type="hidden" name="existing_mixing_image_file[table_1]" value="">
-                            <input type="hidden" name="mixing_pasted_table_json[table_1]" value="">
-                            <input type="hidden" name="mixing_image_base64[table_1]" value="">
-
-                            {{-- Add Table Button --}}
-                            <button type="button" onclick="addMixingTableToSubab(this)"
-                                class="mt-4 w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-500 dark:text-slate-400 hover:border-red-400 hover:text-red-600 transition-colors flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-[20px]">add</span>
-                                <span class="text-sm font-medium">Tambah Tabel</span>
-                            </button>
-                </div>{{-- end bab22-subab 2.2.2.1 --}}
+                            <div class="p-4">
+                                <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                                    <span class="material-symbols-outlined text-3xl text-slate-300 dark:text-slate-600 mb-1">content_paste</span>
+                                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                                    <div class="flex justify-center mb-2">
+                                        <button type="button" onclick="triggerClipboardPaste(this)"
+                                            class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-[16px]">content_paste_go</span>Tempel dari Clipboard
+                                        </button>
+                                    </div>
+                                    <textarea rows="3"
+                                        class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono"
+                                        placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)"
+                                        onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                                </div>
+                                <input type="file" name="mixing_image_file[table_partikel]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                                <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1"><img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm"><button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar"><span class="material-symbols-outlined text-[14px] block">close</span></button></div>
+                                <div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3"><div class="overflow-auto max-h-[420px]"><table class="w-full text-sm border-collapse pasted-table-preview-table"></table></div><button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste"><span class="material-symbols-outlined text-[14px] block">close</span></button></div>
+                            </div>
+                            <input type="hidden" name="bab22_table_subab_key[table_partikel]" value="partikel_asing">
+                            <input type="hidden" name="existing_mixing_image_file[table_partikel]" value="">
+                            <input type="hidden" name="mixing_pasted_table_json[table_partikel]" value="">
+                            <input type="hidden" name="mixing_image_base64[table_partikel]" value="">
+                        </div>
+                    </div>
+                    <button type="button" onclick="addMixingTableToSubab(this)"
+                        class="mt-3 w-full py-2 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-500 dark:text-slate-400 hover:border-red-400 hover:text-red-600 transition-colors flex items-center justify-center gap-2 text-sm">
+                        <span class="material-symbols-outlined text-[18px]">add</span>
+                        <span class="font-medium">Tambah Tabel</span>
+                    </button>
+                 </div>{{-- end bab22-subab 2.2.2.1 --}}
                 </div>{{-- end p-6 BAB 2 --}}
             </div>{{-- end bab2_card --}}
 
 
                     {{-- BAB 3: KESIMPULAN --}}
             <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab3_card">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">3. KESIMPULAN</h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">
+                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab3_card')" title="Klik untuk disable/enable">3.</span>
+                        KESIMPULAN
+                    </h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
-                <div class="p-8 flex flex-col gap-8" id="bab3_container">
+                <div class="p-6 flex flex-col gap-6" id="bab3_container">
                     {{-- Hidden input to track enabled sections --}}
                     <input type="hidden" name="kesimpulan_enabled_sections" id="kesimpulan_enabled_sections"
                         value="1,2,3,4,5">
@@ -577,10 +535,10 @@
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
                                 Atribut yang diuji pada tahap awal filling-capping produk sirup ke dalam kemasan botol
                             </p>
-                                <div class="bab3-point" data-point-id="3.3.1">
-                                    <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.1">
+                                    <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                                     <div class="flex items-start gap-2">
-                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.1</span> 
                                 <p style="text-align:left;">
                                 Seluruh atribut yang diuji sesuai Spesifikasi Produk
@@ -594,10 +552,10 @@
                                     </div>
                                 </div>
                         
-                                <div class="bab3-point" data-point-id="3.3.2">
-                                    <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.2">
+                                    <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                                         <div class="flex items-start gap-2">
-                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.2</span> 
                                 <p>Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
@@ -618,14 +576,14 @@
                             <p class="pl-8 -indent-8">
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4</span>
+                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
                                 Hasil evaluasi data proses, parameter kritis proses dan data mentah hasil pemeriksaan
                             </p>
 
-                            <div class="bab3-point" data-point-id="3.4.1">
-                                <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.1">
+                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                                     <div class="flex items-start gap-2">
-                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.1</span>
                                 
                                 <p> 
@@ -653,14 +611,14 @@
                                     <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
                                         placeholder="validated">.
                                 </p>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
                                 
-                                <div class="bab3-point" data-point-id="3.4.2">
-                                    <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                        <div class="flex items-start gap-2">
-                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                            <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.2">
+                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                    <div class="flex items-start gap-2">
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.2</span>
                                 <p>
                                     Atribut tambahan yang diuji (partikel asing/endapan*) <br>
@@ -669,9 +627,9 @@
                                         value="" placeholder="memenuhi">
                                    persyaratan dan kriteria penerimaan.
                                 </p>
-                                        </div>
                                     </div>
-                                </div>    
+                                </div>
+                            </div>
                         </div>
                     </div>
 
