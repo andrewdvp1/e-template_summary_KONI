@@ -365,11 +365,20 @@ class SiladexExportService
 
             $closingText = $this->getBab22SubabClosingText($subabKey);
             if (!empty($closingText)) {
-                $this->section->addText($closingText, [], [
+                $this->section->addText($closingText, ['size' => 11], [
                     'alignment' => 'both',
                     'indentation' => ['left' => 740],
                     'contextualSpacing' => true,
                 ]);
+            }
+
+            // If this is the last dynamic subab (not mixing), append the hardcoded 2.2.x.1 partikel_asing sub-point
+            $tableSubabMapValues = is_array($tableSubabMap) ? array_values($tableSubabMap) : [];
+            $hasPartikelData = in_array('partikel_asing', $tableSubabMapValues, true);
+            $isLastSubab = ($subabNumber === count($enabledSubabKeys));
+            $isNotMixing = ($subabKey !== 'mixing');
+            if ($hasPartikelData && $isLastSubab && $isNotMixing) {
+                $this->exportPartikelAsingSubPoint("2.2.{$subabNumber}.1", $tableSubabMap, $imageMap, $existingImageMap);
             }
 
             $subabNumber++;
@@ -378,23 +387,29 @@ class SiladexExportService
     }
 
     /**
-     * Resolve enabled BAB 2.2 subabs in editor order.
+     * Resolve enabled BAB 2.2 subabs in editor order (dynamic subabs only).
+     * 'partikel_asing' is NOT included here — it is a hardcoded sub-point (2.2.x.1)
+     * rendered under the last dynamic subab, not a sibling subab.
      */
     protected function getEnabledBab22SubabKeys(): array
     {
         $enabledStr = trim((string) ($this->data['bab22_enabled_subab_keys'] ?? ''));
         if ($enabledStr !== '') {
-            return array_values(array_filter(array_map('trim', explode(',', $enabledStr))));
+            // Strip partikel_asing if it somehow ended up in the list
+            return array_values(array_filter(
+                array_map('trim', explode(',', $enabledStr)),
+                fn($k) => $k !== '' && $k !== 'partikel_asing'
+            ));
         }
 
-        $fallbackOrder = ['mixing', 'filling_awal', 'filling_capping'];
         $tableSubabMap = $this->data['bab22_table_subab_key'] ?? [];
+        $fallbackOrder = ['mixing', 'filling_awal'];
 
         if (is_array($tableSubabMap) && !empty($tableSubabMap)) {
             $ordered = [];
             foreach ($tableSubabMap as $key) {
                 $key = trim((string) $key);
-                if ($key !== '' && !in_array($key, $ordered, true)) {
+                if ($key !== '' && $key !== 'partikel_asing' && !in_array($key, $ordered, true)) {
                     $ordered[] = $key;
                 }
             }
@@ -439,6 +454,7 @@ class SiladexExportService
                 ($this->data['filling_capping_hasil'] ?? 'memenuhi') .
                 ' persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku' .
                 $this->resolveBab22ClosingTail('filling_capping_hasil_catatan') . '.',
+            'partikel_asing' => '',  // No closing text; description is rendered as the subab header
             default => trim((string) ($this->data["{$subabKey}_notes"] ?? '')),
         };
     }
@@ -447,6 +463,26 @@ class SiladexExportService
     {
         $tail = trim((string) ($this->data[$fieldName] ?? ''));
         return $tail !== '' ? " {$tail}" : '';
+    }
+
+    /**
+     * Export the hardcoded 2.2.x.1 partikel_asing sub-point.
+     * This is a fixed sub-point under the last dynamic subab, not a sibling subab.
+     */
+    protected function exportPartikelAsingSubPoint(string $number, array $tableSubabMap, array $imageMap, array $existingImageMap): void
+    {
+        $textRun = $this->section->addTextRun([
+            'alignment' => 'both',
+            'indentation' => ['left' => 1350, 'hanging' => 610],
+            'spaceAfter' => 120,
+        ]);
+        $textRun->addText($number, ['bold' => false, 'size' => 11]);
+        $textRun->addText(
+            ' Dikarenakan pada proses pengolahan juga dilakukan perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron, maka ditambahkan pemeriksaan Partikel asing/endapan*, yang diperiksa dengan menuang sirup pada wadah kaca, kemudian dilakukan pemeriksaan secara visual. Metode ini dipilih dikarenakan sirup berwarna hitam, dengan hasil sebagai berikut :',
+            ['size' => 11]
+        );
+
+        $this->addBab22SubabTables('partikel_asing', $tableSubabMap, $imageMap, $existingImageMap);
     }
 
     /**
@@ -464,6 +500,8 @@ class SiladexExportService
 
         $enabledStr = $this->data['kesimpulan_enabled_sections'] ?? '1,2,3,4';
         $enabledSections = array_map('trim', explode(',', $enabledStr));
+        // Filter out section '5' if it appears (editor default was incorrectly '1,2,3,4,5')
+        $enabledSections = array_filter($enabledSections, fn($s) => $s !== '5' || str_starts_with($s, 'c'));
 
         $sectionNumber = 1;
 
@@ -485,10 +523,10 @@ class SiladexExportService
             $sectionNumber++;
         }
 
-        // Section 3: Filling-capping (with sub-points 3.3.1 and 3.3.2)
+        // Section 3: Awal filling-capping (with sub-points 3.x.1 and 3.x.2)
         if (in_array('3', $enabledSections)) {
             // 3.x header
-            $this->addKesimpulanItem("3.{$sectionNumber}", "Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol");
+            $this->addKesimpulanItem("3.{$sectionNumber}", "Atribut yang diuji pada tahap awal filling-capping produk sirup ke dalam kemasan botol");
 
             // 3.x.1
             $zatAktif = $this->data['kesimpulan_zat_aktif'] ??
