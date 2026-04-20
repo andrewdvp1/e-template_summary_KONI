@@ -481,7 +481,7 @@
                 <div class="p-6 flex flex-col gap-6" id="bab3_container">
                     {{-- Hidden input to track enabled sections --}}
                     <input type="hidden" name="kesimpulan_enabled_sections" id="kesimpulan_enabled_sections"
-                        value="1,2,3,4,5">
+                        value="1,2,3,4">
 
                     {{-- 3.1 --}}
                     <div class="kesimpulan-section" data-section-id="1">
