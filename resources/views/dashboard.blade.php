@@ -21,76 +21,101 @@
                 <span class="material-symbols-outlined text-[200px] text-red-600 absolute -right-10 -top-10">description</span>
             </div>
         </div>
-        <br>
         {{-- Statistics overview --}}
         <div>
             <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Statistik Draft Laporan Anda ({{ $draftCounts['total'] }} Total)</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                {{-- Sirup Stats --}}
-                <div class="group relative bg-white dark:bg-slate-800 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.15)] border border-slate-100 hover:border-blue-200 dark:border-slate-700 dark:hover:border-blue-800/50 overflow-hidden">
-                    {{-- Decorative Blur --}}
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -mr-16 -mt-16 transition-opacity group-hover:opacity-100 opacity-50"></div>
-                    
-                    <div class="flex items-start justify-between relative z-10 mb-6">
-                        <div>
-                            <p class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Draft Sirup</p>
-                            <h3 class="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['sirup'] }}</h3>
-                        </div>
-                        <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 group-hover:scale-110 transition-transform duration-300 ease-out">
-                            <span class="material-symbols-outlined text-[32px]">water_drop</span>
-                        </div>
-                    </div>
-                    
-                    <a href="{{ route('template-summary.drafts') }}" class="relative z-10 flex items-center justify-between mt-2 pt-4 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        <span>Kelola Draft</span>
-                        <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </a>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-                {{-- Tablet Stats --}}
-                <div class="group relative bg-white dark:bg-slate-800 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(16,185,129,0.15)] border border-slate-100 hover:border-emerald-200 dark:border-slate-700 dark:hover:border-emerald-800/50 overflow-hidden">
-                    {{-- Decorative Blur --}}
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl -mr-16 -mt-16 transition-opacity group-hover:opacity-100 opacity-50"></div>
-                    
-                    <div class="flex items-start justify-between relative z-10 mb-6">
+                {{-- Pharma I A --}}
+                <a href="{{ route('template-summary.index') }}"
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(220,38,38,0.15)] border border-slate-100 hover:border-red-200 dark:border-slate-700 dark:hover:border-red-800/50 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-red-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-start justify-between relative z-10 mb-4">
                         <div>
-                            <p class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Line Tablet</p>
-                            <h3 class="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['tablet'] }}</h3>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Pharma I A</p>
+                            <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['pharma1a'] }}</h3>
                         </div>
-                        <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 group-hover:scale-110 transition-transform duration-300 ease-out">
-                            <span class="material-symbols-outlined text-[32px]">medication</span>
+                        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[26px]">factory</span>
                         </div>
                     </div>
-                    
-                    <a href="{{ route('template-summary.drafts') }}" class="relative z-10 flex items-center justify-between mt-2 pt-4 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                        <span>Kelola Draft</span>
-                        <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </a>
-                </div>
+                    <div class="relative z-10">
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-2">Line Soft Capsule, Paramex, Steril</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                            <span>Kelola Draft</span>
+                            <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </a>
 
-                {{-- Kapsul Stats --}}
-                <div class="group relative bg-white dark:bg-slate-800 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(14,165,233,0.15)] border border-slate-100 hover:border-sky-200 dark:border-slate-700 dark:hover:border-sky-800/50 overflow-hidden">
-                    {{-- Decorative Blur --}}
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-3xl -mr-16 -mt-16 transition-opacity group-hover:opacity-100 opacity-50"></div>
-                    
-                    <div class="flex items-start justify-between relative z-10 mb-6">
+                {{-- Pharma I B --}}
+                <a href="{{ route('template-summary.index') }}"
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.15)] border border-slate-100 hover:border-blue-200 dark:border-slate-700 dark:hover:border-blue-800/50 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-blue-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-start justify-between relative z-10 mb-4">
                         <div>
-                            <p class="text-sm font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Soft Capsule</p>
-                            <h3 class="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['kapsul'] }}</h3>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Pharma I B</p>
+                            <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['pharma1b'] }}</h3>
                         </div>
-                        <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-50 dark:bg-sky-900/20 text-sky-500 group-hover:scale-110 transition-transform duration-300 ease-out">
-                            <span class="material-symbols-outlined text-[32px]">blender</span>
+                        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[26px]">factory</span>
                         </div>
                     </div>
-                    
-                    <a href="{{ route('template-summary.drafts') }}" class="relative z-10 flex items-center justify-between mt-2 pt-4 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
-                        <span>Kelola Draft</span>
-                        <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </a>
-                </div>
+                    <div class="relative z-10">
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-2">Line Tablet, Kapsul Keras</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            <span>Kelola Draft</span>
+                            <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Pharma II --}}
+                <a href="{{ route('template-summary.index') }}"
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(16,185,129,0.15)] border border-slate-100 hover:border-emerald-200 dark:border-slate-700 dark:hover:border-emerald-800/50 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-start justify-between relative z-10 mb-4">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Pharma II</p>
+                            <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['pharma2'] }}</h3>
+                        </div>
+                        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[26px]">precision_manufacturing</span>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-2">Line 1 – 6</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                            <span>Kelola Draft</span>
+                            <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Natural Product --}}
+                <a href="{{ route('template-summary.index') }}"
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(245,158,11,0.15)] border border-slate-100 hover:border-amber-200 dark:border-slate-700 dark:hover:border-amber-800/50 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-start justify-between relative z-10 mb-4">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Natural</p>
+                            <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['natural'] }}</h3>
+                        </div>
+                        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[26px]">eco</span>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-2">Obat Dalam, Obat Luar, Ekstraksi</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                            <span>Kelola Draft</span>
+                            <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </a>
+
             </div>
         </div>
-        <br>
         {{-- Recent Drafts Section --}}
         <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
             <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

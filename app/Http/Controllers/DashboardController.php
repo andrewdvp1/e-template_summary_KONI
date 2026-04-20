@@ -13,25 +13,28 @@ class DashboardController extends Controller
      */
     public function index(): View
     {
-        // Get counts for each type of draft
+        // Map draft types to production groups
+        $pharma1aTypes = ['kapsul', 'nutracare'];
+        $pharma1bTypes = ['tablet'];
+        $pharma2Types  = ['sirup', 'siladex', 'konvermex', 'heltiskin'];
+        $naturalTypes  = ['nutracare_natural']; // placeholder for future
+
         $draftCounts = [
-            'total' => TemplateSummaryDraft::count(),
-            'sirup' => TemplateSummaryDraft::where('draft_type', 'sirup')->count(),
-            'tablet' => TemplateSummaryDraft::where('draft_type', 'tablet')->count(),
-            'kapsul' => TemplateSummaryDraft::where('draft_type', 'kapsul')->count(),
+            'total'    => TemplateSummaryDraft::count(),
+            'pharma1a' => TemplateSummaryDraft::whereIn('draft_type', $pharma1aTypes)->count(),
+            'pharma1b' => TemplateSummaryDraft::whereIn('draft_type', $pharma1bTypes)->count(),
+            'pharma2'  => TemplateSummaryDraft::whereIn('draft_type', $pharma2Types)->count(),
+            'natural'  => TemplateSummaryDraft::whereIn('draft_type', $naturalTypes)->count(),
         ];
 
-        // Get 5 most recent drafts of any type for quick resume
         $recentDrafts = TemplateSummaryDraft::query()
             ->latest('updated_at')
             ->limit(5)
             ->get();
 
         return view('dashboard', [
-            'breadcrumb' => [
-                'Dashboard' => null,
-            ],
-            'title' => 'Dashboard',
+            'breadcrumb'  => ['Dashboard' => null],
+            'title'       => 'Dashboard',
             'draftCounts' => $draftCounts,
             'recentDrafts' => $recentDrafts,
         ]);
