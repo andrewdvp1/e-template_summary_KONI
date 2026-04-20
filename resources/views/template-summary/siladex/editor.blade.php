@@ -97,10 +97,11 @@
                         {{--1.1.1--}}
                         <div class="bab1-point" data-point-id="1.1.1">
                         <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                             <span class="bab1-point-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                             <div class="flex items-start gap-2">
+                            <span class="bab1-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.1</span>
                             <p>
-                                Summary validasi ini bertujuan mendokumentasikan
+                               Summary validasi ini bertujuan mendokumentasikan
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
                                     data-sync="nama_produk" placeholder="Siladex Antitussive 60 mL">
@@ -112,7 +113,7 @@
                                     data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
                                     placeholder="Production (Pharmaceutical II) Gedung B">
                                 yang diproduksi dengan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-142"
+                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-180"
                                     data-sync="mesin"
                                     value="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac"
                                     placeholder="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac">
@@ -123,22 +124,25 @@
                                     data-sync="varian" placeholder="kemasan botol">
                                 yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
+                             </div>
                         </div>
                         </div>
                         {{--1.1.2--}}
                         <div class="bab1-point" data-point-id="1.1.2">
-                        <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <span class="bab1-point-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                            <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                <div class="flex items-start gap-2">
+                            <span class="bab1-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.2</span>
-                        <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                       <div contenteditable="true" id="bab1_112_editor"
-                     class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left"
-                     oninput="document.getElementById('bab1_112_text').value = this.innerText.trim()">
-                     Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.
+                                    <div class="bab1-section-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                        <div contenteditable="true" id="bab1_112_editor"
+                            class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left"
+                            oninput="document.getElementById('bab1_112_text').value = this.innerText.trim()">
+                            Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.
                             </div>
                             <input type="hidden" name="bab1_112_text" id="bab1_112_text" value="Summary ini juga bertujuan dalam mendokumentasikan hasil verifikasi proses terhadap penerapan P2 No. PP-CF-121-00, tanggal 01-12-2025 yaitu perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron.">
-                        </div>
-                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {{-- 1.2 Batch Validasi --}}
@@ -404,22 +408,20 @@
                     </div>{{-- end bab2-section 2.2 --}}
                     
                  {{--2.2.2.1--}}
-                 <div class="bab22-subab" id="bab22_subab_mixing" draggable="true" data-subab-type="default"
-                            data-subab-id="1" data-subab-key="Filling-capping" data-subab-title="Filling-capping"
-                            data-closing-kind="template" data-template-stage="Filling-capping">
-                            <h4
-                                class="font-medium text-slate-700 dark:text-slate-300 mb-4 flex items-center justify-between">
-                                <span>
-                                    <span
-                                        class="bab22-number bab22-toggle-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                        onclick="toggleBab22Subab(this)" title="Klik untuk disable/enable">2.2.2.1</span>
-                                </span>
-                                <span
-                                    class="material-symbols-outlined text-[18px] text-slate-400 cursor-grab select-none">drag_indicator</span>
-                            </h4>
-                        <p>
-                           Dikarenakan pada proses pengolahan juga dilakukan perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron, maka ditambahkan pemeriksaan Partikel asing/endapan*, yang diperiksa dengan menuang sirup pada wadah kaca, kemudian dilakukan pemeriksaan secara visual. Metode ini dipilih dikarenakan sirup berwarna hitam, dengan hasil sebagai berikut :
-                        </p>
+                    <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-start gap-2">
+                        <span
+                            class="bab22-number bab22-toggle-number w-16 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                            onclick="toggleBab22Subab(this)">
+                            2.2.2.1
+                        </span>
+                         <span class="flex-1 text-justify">
+                            Dikarenakan pada proses pengolahan juga dilakukan perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron, maka ditambahkan pemeriksaan Partikel asing/endapan*, yang diperiksa dengan menuang sirup pada wadah kaca, kemudian dilakukan pemeriksaan secara visual. Metode ini dipilih dikarenakan sirup berwarna hitam, dengan hasil sebagai berikut :
+                        </span>
+                        <span class="material-symbols-outlined text-[18px] text-slate-400 cursor-grab select-none ml-auto">
+                            drag_indicator
+                        </span>
+                    </h4> 
+                       
                             {{-- Dynamic Tables Container --}}
                             <div class="mixing-tables-container flex flex-col gap-4">
                                 {{-- Initial Table (Table 1) --}}
@@ -509,21 +511,19 @@
                 </div>{{-- end p-6 BAB 2 --}}
             </div>{{-- end bab2_card --}}
 
-            {{-- BAB 3: KESIMPULAN --}}
+
+                    {{-- BAB 3: KESIMPULAN --}}
             <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden bab-section" id="bab3_card">
+                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                 <div
                     class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <h2 class="font-bold text-slate-900 dark:text-white">
-                        <span class="bab-section-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBabSection('bab3_card')" title="Klik untuk disable/enable">3.</span>
-                        KESIMPULAN
-                    </h2>
+                    <h2 class="font-bold text-slate-900 dark:text-white">3. KESIMPULAN</h2>
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
-                <div class="p-6 flex flex-col gap-6" id="bab3_container">
+                <div class="p-8 flex flex-col gap-8" id="bab3_container">
                     {{-- Hidden input to track enabled sections --}}
                     <input type="hidden" name="kesimpulan_enabled_sections" id="kesimpulan_enabled_sections"
-                        value="1,2,3,4">
+                        value="1,2,3,4,5">
 
                     {{-- 3.1 --}}
                     <div class="kesimpulan-section" data-section-id="1">
@@ -540,7 +540,7 @@
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-52" data-sync="batch"
-                                    placeholder="L25A15, L25A16, L25A17s">
+                                    placeholder="L25A15, L25A16, L25A17">
                                 yang digunakan sebagai batch validasi proses.
                             </p>
                         </div>
@@ -560,8 +560,8 @@
                                     placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)">
                                 sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="memenuhi" placeholder="memenuhi">
-                                persyaratan menurut Spesifikasi Produk yang berlaku.
+                                    value="" placeholder="memenuhi">
+                                memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.
                             </p>
                         </div>
                     </div>
@@ -575,43 +575,38 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
-                                Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol
-                        </p>
-                                {{--3.3.1--}}
-                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.1">
-                                <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.1</span>
-                            <p>
+                                Atribut yang diuji pada tahap awal filling-capping produk sirup ke dalam kemasan botol
+                            </p>
+                                <div class="bab3-point" data-point-id="3.3.1">
+                                    <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                    <div class="flex items-start gap-2">
+                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.1</span> 
+                                <p style="text-align:left;">
                                 Seluruh atribut yang diuji sesuai Spesifikasi Produk
-                                <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <div contenteditable="true" id="kesimpulan_zat_aktif_editor"
-                                class="w-full p-0 border-none outline-none focus:outline-none focus:ring-0 shadow-none bg-transparent leading-relaxed text-left font-bold"
-                                oninput="document.getElementById('kesimpulan_zat_aktif').value = this.innerText.trim()">
-                                (bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)
-                            </div>
-                            <input type="hidden" name="kesimpulan_zat_aktif" id="kesimpulan_zat_aktif" value="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)">
-                        </div>
-                                sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
-                                    value="memenuhi" placeholder="memenuhi">
+                                <textarea name="kesimpulan_zat_aktif" rows="3" class="template-input w-full resize-y text-base" placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)"></textarea>
+                                sudah memberikan hasil yang 
+                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                    value="" placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
-                            </p>
-                            </div>
-                            </div>
-                            {{--3.3.2--}}
-                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.2">
-                                <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.2</span>
-                            <p>
-                                Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang
-                                <input type="text" name="kesimpulan_partikel_hasil" class="template-input w-32"
-                                    value="memenuhi" placeholder="memenuhi">
+                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <div class="bab3-point" data-point-id="3.3.2">
+                                    <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                        <div class="flex items-start gap-2">
+                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.2</span> 
+                                <p>Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang
+                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                    value="" placeholder="memenuhi">
                                 persyaratan.
-                            </p>
-                            </div>
-                            </div>
+                                </p>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                     </div>
 
@@ -623,60 +618,64 @@
                             <p class="pl-8 -indent-8">
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
+                                    onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4</span>
                                 Hasil evaluasi data proses, parameter kritis proses dan data mentah hasil pemeriksaan
                             </p>
-                            {{--3.4.1--}}
-                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.1">
-                                <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+
+                            <div class="bab3-point" data-point-id="3.4.1">
+                                <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                    <div class="flex items-start gap-2">
+                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.1</span>
-                            <p>
-                                Atribut yang diuji sesuai Spesifikasi Produk
-                                Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
-                                <input type="text" name="kesimpulan_tahap_mixing" class="template-input w-128"
-                                    value="mixing, awal filling-capping, selama filling-capping"
-                                    placeholder="mixing, awal filling-capping, selama filling-capping">
-                                yang
-                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="memenuhi" placeholder="memenuhi">
-                                persyaratan, maka proses pengolahan dan pengemasan produk
-                                <input type="text" name="judul_nama_produk" class="template-input sync-input w-72 uppercase"
-                                data-sync="nama_produk" placeholder="Siladex Antitussive 60 mL ">
-                                menggunakan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-180"
-                                    data-sync="mesin"
-                                    value="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac"
-                                    placeholder="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac">
-                                dengan formula zat aktif
-                                <input type="text" name="kesimpulan_formula" class="template-input w-64"
-                                    value="D004 ex DIV, C018 ex SLI"
-                                    placeholder="D004 ex DIV, C018 ex SLI">
-                                dinyatakan
-                                <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
-                                    placeholder="validated">.
-                            </p>
-                            </div>
-                            </div>
-                            {{--3.4.2--}}
-                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.2">
-                                <div class="bab1-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                <span class="kesimpulan-sub-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                
+                                <p> 
+                                    Atribut yang diuji sesuai Spesifikasi Produk <br>
+                                    Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
+                                    <input type="text" name="kesimpulan_tahap_mixing" class="template-input w-128"
+                                        value="mixing, awal filling-capping, selama filling-capping"
+                                        placeholder="mixing, awal filling-capping, selama filling-capping">
+                                    yang 
+                                    <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                        value="" placeholder="memenuhi">
+                                    persyaratan, maka proses pengolahan dan pengemasan produk
+                                    <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
+                                        data-sync="nama_produk" placeholder="Siladex Antitussive 60 mL">
+                                    menggunakan 
+                                    <input type="text" name="tujuan_mesin" class="template-input sync-input w-180"
+                                        data-sync="mesin"
+                                        value="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac"
+                                        placeholder="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac">
+                                    dengan formula zat aktif 
+                                    <input type="text" name="kesimpulan_formula" class="template-input w-64"
+                                        value="D004 ex DIV, C018 ex SLI"
+                                        placeholder=" D004 ex DIV, C018 ex SLI">
+                                    dinyatakan
+                                    <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
+                                        placeholder="validated">.
+                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bab3-point" data-point-id="3.4.2">
+                                    <div class="bab3-section-content ml-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                        <div class="flex items-start gap-2">
+                                <span class="bab3-point-number w-14 font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.2</span>
-                            <p>
-                                Atribut tambahan yang diuji (partikel asing/endapan*)
-                                Hasil pemeriksaan atribut tambahan (partikel asing/endapan*) semua
-                                <input type="text" name="kesimpulan_partikel_akhir_hasil" class="template-input w-32"
-                                    value="memenuhi" placeholder="memenuhi">
-                                persyaratan dan kriteria penerimaan.
-                            </p>
-                            </div>
-                            </div>
+                                <p>
+                                    Atribut tambahan yang diuji (partikel asing/endapan*) <br>
+                                    Hasil pemeriksaan atribut tambahan (partikel asing/endapan*) semua
+                                    <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                        value="" placeholder="memenuhi">
+                                   persyaratan dan kriteria penerimaan.
+                                </p>
+                                        </div>
+                                    </div>
+                                </div>    
                         </div>
                     </div>
 
-
-
+                    
                     {{-- Custom sections container --}}
                     <div id="custom_kesimpulan_container"></div>
 
@@ -688,7 +687,7 @@
                             <span class="text-sm font-medium">Tambah Poin Kesimpulan</span>
                         </button>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
 
@@ -1469,9 +1468,15 @@
             let babIdx = 1;
             babCards.forEach(card => {
                 const isDisabled = card.classList.contains('bab-disabled');
-                const numberEl = card.querySelector(':scope > div > h2 .bab-section-number');
-                if (numberEl) numberEl.textContent = babIdx + '.';
-                if (!isDisabled) babIdx++;
+                const numberEl = card.querySelector(' .bab-section-number');
+                if (numberEl) return;
+                if (!isDisabled) {
+                    numberEl.textContent = babIdx + '.';
+                    babIdx++;
+                } else{
+                    numberEl.textContent = babIdx + '.';
+                }
+                    
             });
             // Update sub-section numbers
             renumberBab1Sections();
@@ -1599,7 +1604,7 @@
             const subPoint = numberEl.closest('.kesimpulan-sub-point');
             if (!subPoint) return;
             const isDisabled = subPoint.classList.toggle('sub-point-disabled');
-            const contentDiv = subPoint.querySelector('.bab1-section-content');
+            const contentDiv = subPoint.querySelector('.kesimpulan-content');
             if (isDisabled) {
                 if (contentDiv) { contentDiv.style.opacity = '0.35'; contentDiv.style.textDecoration = 'line-through'; }
                 numberEl.classList.add('bg-red-100', 'text-red-500', 'line-through');
@@ -2545,3 +2550,5 @@
         </div>
     </div>
 @endsection
+
+
