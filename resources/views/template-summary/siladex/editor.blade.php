@@ -260,12 +260,12 @@
                         <div class="bab2-section-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                             <p class="pl-8 -indent-8">
                                 <span class="bab2-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.1.</span> Semua tahap dalam Penimbangan 
+                                    onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.1.</span> Semua tahap dalam 
                             
-                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-84"
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-128"
                                     data-sync="rangkuman"
-                                    value="bahan baku, Mixing, dan filling-capping"
-                                    placeholder="Penimbangan bahan baku, Mixing, dan filling-capping">
+                                    value="penimbangan bahan baku, Mixing, dan filling-capping"
+                                    placeholder="penimbangan bahan baku, Mixing, dan filling-capping">
                             telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.</p>
                         </div>
                     </div>
@@ -542,7 +542,9 @@
                                 onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.1</span> 
                                 <p style="text-align:left;">
                                 Seluruh atribut yang diuji sesuai Spesifikasi Produk
-                                <textarea name="kesimpulan_zat_aktif" rows="3" class="template-input w-full resize-y text-base" placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)"></textarea>
+                                <textarea 
+                                name="kesimpulan_zat_aktif" rows="3" class="template-input w-full resize-y text-base font-bold" 
+                                placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)">(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)</textarea>
                                 sudah memberikan hasil yang 
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
                                     value="" placeholder="memenuhi">
