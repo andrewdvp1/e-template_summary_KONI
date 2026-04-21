@@ -191,13 +191,11 @@ class KonvermexExportService
         "perubahan proses {$proses} dalam menghasilkan produk {$namaProduk} dalam {$varian} yang memenuhi " .
         "persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
 
-        $textRun111 = $this->section->addTextRun([
+        $this->section->addText($tujuanText, [], [
             'alignment' => 'both',
-            'indentation' => ['left' => 1350, 'hanging' => 610],
+            'indentation' => ['left' => 740],
             'contextualSpacing' => true,
         ]);
-        $textRun111->addText('1.1.1', ['bold' => false, 'size' => 11]);
-        $textRun111->addText(' ' . $tujuanText, ['size' => 11]);
 
         // 1.2 Batch Validasi - only 1.2 is bold
         $textRun12 = $this->section->addTextRun([

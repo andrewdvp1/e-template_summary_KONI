@@ -119,6 +119,7 @@
                                 dalam menghasilkan produk
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-55"
                                     data-sync="nama_produk" placeholder="Konvermex 125 Suspensi">
+                                dalam
                                 <input type="text" name="varian_produk" class="template-input sync-input w-48"
                                     data-sync="varian" placeholder="kemasan botol">
                                 yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
