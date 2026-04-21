@@ -380,7 +380,7 @@ class KapsulExportService
         if (!is_array($imageMap)) $imageMap = [];
         if (!is_array($existingImageMap)) $existingImageMap = [];
 
-        $bab2StaticEnabled = array_map('trim', explode(',', (string) ($this->data['bab2_static_enabled'] ?? '2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.2.1,2.3.2.2,2.3.2.3,2.3.2.3.1,2.3.2.3.2,2.3.2.3.3,2.3.2.3.4,2.3.2.3.5,2.3.2.4,2.3.3')));
+        $bab2StaticEnabled = array_map('trim', explode(',', (string) ($this->data['bab2_static_enabled'] ?? '2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.2.1,2.3.2.2,2.3.2.3,2.3.2.3.1,2.3.2.3.2,2.3.2.3.3,2.3.2.3.4,2.3.2.3.5,2.3.2.4,2.3.3,2.3.3.1,2.3.3.2,2.3.3.3,2.3.3.4')));
         $isEnabled = fn(string $num): bool => in_array($num, $bab2StaticEnabled, true);
 
         // 2.1 Pelaksanaan Proses Produksi
@@ -431,7 +431,7 @@ class KapsulExportService
         $namaProduk = trim((string) ($this->data['tujuan_nama_produk'] ?? 'Konilife Omega 3 Soft Capsule'));
         $batchList  = trim((string) ($this->data['batch_kode_list'] ?? 'AUG25A01, AUG25A02, dan AUG25A03'));
 
-        $bab2StaticEnabled = array_map('trim', explode(',', (string) ($this->data['bab2_static_enabled'] ?? '2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.2.1,2.3.2.2,2.3.2.3,2.3.2.3.1,2.3.2.3.2,2.3.2.3.3,2.3.2.3.4,2.3.2.3.5,2.3.2.4,2.3.3')));
+        $bab2StaticEnabled = array_map('trim', explode(',', (string) ($this->data['bab2_static_enabled'] ?? '2.1,2.2,2.3,2.3.1,2.3.1.1,2.3.1.2,2.3.1.3,2.3.2,2.3.2.1,2.3.2.2,2.3.2.3,2.3.2.3.1,2.3.2.3.2,2.3.2.3.3,2.3.2.3.4,2.3.2.3.5,2.3.2.4,2.3.3,2.3.3.1,2.3.3.2,2.3.3.3,2.3.3.4')));
         $isEnabled = fn(string $num): bool => in_array($num, $bab2StaticEnabled, true);
 
         // --- 2.3.1 Enkapsulasi (Sebelum pengeringan) ---
@@ -540,15 +540,41 @@ class KapsulExportService
         // --- 2.3.3 Tahap Kemas Primer ---
         if ($isEnabled('2.3.3')) {
             $this->addBab23SubabHeading('2.3.3', 'Tahap Kemas Primer');
-            $this->renderBab23Image('bab23_kemas_tabel', $imageMap, $existingImageMap);
 
-            $kemasNama  = trim((string) ($this->data['kemas_nama_produk'] ?? $namaProduk));
-            $kemasBatch = trim((string) ($this->data['kemas_batch_list'] ?? $batchList));
-            $this->section->addText(
-                "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemasNama} bets {$kemasBatch} telah memenuhi spesifikasi kemasan yang ditetapkan.",
-                ['size' => 11],
-                ['alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true]
-            );
+            // 2.3.3.1 Spesifikasi Kemasan
+            if ($isEnabled('2.3.3.1')) {
+                $kemasSpekNama    = trim((string) ($this->data['kemas_spek_nama_produk'] ?? $namaProduk));
+                $kemasSpekFormula = trim((string) ($this->data['kemas_spek_formula'] ?? ($this->data['judul_formula'] ?? 'O921 ex HPI')));
+                $kemasSpekNama2   = trim((string) ($this->data['kemas_spek_nama_produk_2'] ?? $kemasSpekNama));
+                $kemasSpekNo      = trim((string) ($this->data['kemas_spek_no'] ?? 'EC-F-3-00336-00'));
+                $kemasSpekTanggal = trim((string) ($this->data['kemas_spek_tanggal'] ?? '03-12-2022'));
+                $this->addBab23SubSubabText('2.3.3.1',
+                    "Spesifikasi kemasan {$kemasSpekNama} ({$kemasSpekFormula}) untuk kemasan botol mengacu Spesifikasi {$kemasSpekNama2} no {$kemasSpekNo} tanggal {$kemasSpekTanggal}, sebagai berikut:");
+                $this->renderBab23Image('bab233_spek_tabel', $imageMap, $existingImageMap);
+            }
+
+            // 2.3.3.2 Sampling
+            if ($isEnabled('2.3.3.2')) {
+                $kemasLokasi = trim((string) ($this->data['kemas_sampling_lokasi'] ?? '10'));
+                $kemasJumlah = trim((string) ($this->data['kemas_sampling_jumlah'] ?? '1'));
+                $this->addBab23SubSubabText('2.3.3.2',
+                    "Sampling dilakukan pada {$kemasLokasi} lokasi untuk 1 bets. Sampel diambil sebanyak {$kemasJumlah} botol tiap kali sampling. Kemudian dilakukan pengujian dengan pengecekan jumlah soft capsule dan jumlah silica gel pillow pack.");
+            }
+
+            // 2.3.3.3 Hasil Pemeriksaan
+            if ($isEnabled('2.3.3.3')) {
+                $this->addBab23SubSubabText('2.3.3.3', 'Hasil pemeriksaan sampel sebagai berikut:');
+                $this->renderBab23Image('bab233_hasil_tabel', $imageMap, $existingImageMap);
+            }
+
+            // 2.3.3.4 Closing
+            if ($isEnabled('2.3.3.4')) {
+                $kemasNama    = trim((string) ($this->data['kemas_nama_produk'] ?? $namaProduk));
+                $kemasFormula = trim((string) ($this->data['kemas_formula'] ?? ($this->data['judul_formula'] ?? 'O921 ex HPI')));
+                $kemasBatch   = trim((string) ($this->data['kemas_batch_list'] ?? $batchList));
+                $this->addBab23SubSubabText('2.3.3.4',
+                    "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemasNama} ({$kemasFormula}) bets {$kemasBatch} telah memenuhi spesifikasi kemasan yang ditetapkan.");
+            }
         }
     }
 
@@ -983,23 +1009,27 @@ class KapsulExportService
 
         $cell1 = $footerTable->addCell($col1, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell1->addTextBreak(2);
+        $cell1->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell1->addText('Validation Officer (1)', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell1->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell1->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
         $cell2 = $footerTable->addCell($col2, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell2->addTextBreak(2);
+        $cell2->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell2->addText('Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
         $cell3 = $footerTable->addCell($col3, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell3->addTextBreak(2);
+        $cell3->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell3->addText('APJ IOBA', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell3->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell3->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
         $cell4 = $footerTable->addCell($col4, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell4->addTextBreak(2);
+        $cell4->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell4->addText('Quality Div. Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell4->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell4->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
     }
 
     /**
