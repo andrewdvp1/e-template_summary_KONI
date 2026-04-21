@@ -496,6 +496,8 @@ class NutracareExportService
     protected function addFooter(): void
     {
         $footer = $this->section->addFooter();
+
+        // 4 equal columns
         $col = 2729;
 
         $ft = $footer->addTable([
@@ -503,39 +505,49 @@ class NutracareExportService
             'unit'        => 'dxa',
             'borderSize'  => 6,
             'borderColor' => '000000',
-            'cellMargin'  => 50,
+            'cellMargin'  => 80,
             'indent'      => new TblWidth(-310, 'dxa'),
         ]);
 
-        $ft->addRow(0, ['exactHeight' => true]);
-        $ft->addCell($col, ['borderSize' => 6, 'valign' => 'center'])->addText('Dibuat oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $ft->addCell($col * 2, ['gridSpan' => 2, 'borderSize' => 6, 'valign' => 'center'])->addText('Diperiksa oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $ft->addCell($col, ['borderSize' => 6, 'valign' => 'center'])->addText('Disetujui oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        // Row 1: headers — Dibuat oleh | Diperiksa oleh (span 2) | Disetujui oleh
+        $ft->addRow(300);
+        $ft->addCell($col, ['borderSize' => 6, 'valign' => 'center'])
+            ->addText('Dibuat oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $ft->addCell($col * 2, ['gridSpan' => 2, 'borderSize' => 6, 'valign' => 'center'])
+            ->addText('Diperiksa oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $ft->addCell($col, ['borderSize' => 6, 'valign' => 'center'])
+            ->addText('Disetujui oleh', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
 
-        $ft->addRow(650);
+        // Row 2: signature blocks (tall)
+        $ft->addRow(1200);
+
+        // Col 1: Validation Officer (1)
         $c1 = $ft->addCell($col, ['borderSize' => 6, 'valign' => 'bottom']);
-        $c1->addTextBreak(2);
-        $c1->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c1->addText('Validation Officer (2)', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c1->addText('Tanggal:', ['size' => 11], ['spaceAfter' => 0]);
+        $c1->addTextBreak(3);
+        $c1->addText('______________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c1->addText('Validation Officer (1)', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c1->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
+        // Col 2: Validation Manager (left half of "Diperiksa oleh")
         $c2 = $ft->addCell($col, ['borderSize' => 6, 'borderRightSize' => 0, 'valign' => 'bottom']);
-        $c2->addTextBreak(2);
-        $c2->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c2->addText('Vy. Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c2->addText('Tanggal:', ['size' => 11], ['spaceAfter' => 0]);
+        $c2->addTextBreak(3);
+        $c2->addText('______________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c2->addText('Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c2->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
+        // Col 3: APJ IOBA (right half of "Diperiksa oleh")
         $c3 = $ft->addCell($col, ['borderSize' => 6, 'borderLeftSize' => 0, 'valign' => 'bottom']);
-        $c3->addTextBreak(2);
-        $c3->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c3->addText('QA Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c3->addText('Tanggal:', ['size' => 11], ['spaceAfter' => 0]);
+        $c3->addTextBreak(3);
+        $c3->addText('______________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c3->addText('APJ IOBA', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c3->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
+        // Col 4: Quality Div. Manager
         $c4 = $ft->addCell($col, ['borderSize' => 6, 'valign' => 'bottom']);
-        $c4->addTextBreak(2);
-        $c4->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $c4->addTextBreak(3);
+        $c4->addText('______________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $c4->addText('Quality Div. Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $c4->addText('Tanggal:', ['size' => 11], ['spaceAfter' => 0]);
+        $c4->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
     }
 
     protected function saveAndDownload()

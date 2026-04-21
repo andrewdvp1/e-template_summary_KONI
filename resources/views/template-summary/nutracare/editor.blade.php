@@ -162,7 +162,11 @@
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_2">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify mb-3">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.2.</span>&nbsp; Dilakukan sampling pada <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3"> lokasi (awal, tengah, akhir) dengan jumlah <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-8" placeholder="20"> butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.2.</span>&nbsp; Dilakukan sampling pada <input type="text" name="enkapsulasi_sampling_lokasi" class="template-input w-8" placeholder="3"> 
+                                        lokasi (
+                                        <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-40" placeholder="awal, tengah, akhir">    
+                                        ) dengan jumlah 
+                                        <input type="text" name="enkapsulasi_sampling_jumlah" class="template-input w-8" placeholder="20"> butir soft capsule pada setiap pengambilan sampel, dengan hasil sebagai berikut:</p>
                                     </div>
                                     <div class="ml-10">
                                         @include('template-summary.nutracare._table', ['uid' => 'tbl_enkapsulasi_212'])
@@ -189,7 +193,7 @@
                                         onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.2.1.</span>&nbsp; Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk 
                                         <input type="text" name="pengeringan_spesifikasi_no" class="template-input w-81" placeholder="Nutracare EPO 500 Soft Capsule">
                                         no
-                                        <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-47" placeholder="no AI-F03-3-A0014-02">
+                                        <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-47" placeholder="AI-F03-3-A0014-02">
                                         tanggal 
                                         <input type="text" name="pengeringan_spesifikasi_tanggal" class="template-input w-32" placeholder="22-11-2025">
                                         , sebagai berikut:</p>
@@ -262,7 +266,7 @@
                                         &nbsp; Spesifikasi kemasan <input type="text" name="kemasan_nama_produk" class="template-input sync-input w-68" data-sync="nama_produk" placeholder="Nutracare EPO 500 Soft Capsule"> 
                                         untuk kemasan botol mengacu Spesifikasi Kemasan <input type="text" name="kemasan_spesifikasi_no" class="template-input w-83" placeholder="Nutracare EPO 500 Soft Capsule"> 
                                         no .
-                                        <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-47" placeholder="AI-F04-3-A0007-026">
+                                        <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-47" placeholder="AI-F04-3-A0007-02">
                                         tanggal 
                                         <input type="text" name="kemasan_spesifikasi_tanggal" class="template-input w-32" placeholder="06-01-2026">
                                         , sebagai berikut:</p>
@@ -273,7 +277,11 @@
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="kemasan_2">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.2.</span>&nbsp; Sampling dilakukan pada <input type="text" name="kemasan_sampling_lokasi" class="template-input w-8" placeholder="10"> lokasi untuk 1 bets. Sampel diambil sebanyak <input type="text" name="kemasan_sampling_jumlah" class="template-input w-8" placeholder="1"> botol tiap kali sampling. Kemudian dilakukan pengujian dengan pengecekan jumlah soft capsule dan desipack per botol dan pemeriksaan elegansi dan kondisi aluseal.</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.3.2.</span>&nbsp; Sampling dilakukan pada 
+                                        <input type="text" name="kemasan_sampling_lokasi" class="template-input w-8" placeholder="10"> lokasi untuk 
+                                        <input type="text" name="kemasan_sampling_lokasi" class="template-input w-8" placeholder="1"> bets. Sampel diambil sebanyak 
+                                        <input type="text" name="kemasan_sampling_jumlah" class="template-input w-8" placeholder="1"> botol tiap kali sampling. Kemudian dilakukan pengujian dengan pengecekan jumlah soft capsule dan desipack per botol dan pemeriksaan 
+                                        <input type="text" name="kemasan_sampling_jumlah" class="template-input w-60" placeholder="elegansi dan kondisi aluseal">.</p>
                                     </div>
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="kemasan_3">
