@@ -239,11 +239,11 @@
                         <div class="bab2-section-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                             <p class="pl-8 -indent-8">
                                 <span class="bab2-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                    onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.1.</span> Semua tahap dalam Penimbangan 
+                                    onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.1.</span> Semua tahap dalam
                             
-                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-84"
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-115"
                                     data-sync="rangkuman"
-                                    value="bahan baku, Mixing, dan filling-capping"
+                                    value="Penimbangan bahan baku, Mixing, dan filling-capping"
                                     placeholder="Penimbangan bahan baku, Mixing, dan filling-capping">
                             telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.</p>
                         </div>
