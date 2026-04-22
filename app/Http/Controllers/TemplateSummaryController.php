@@ -15,17 +15,49 @@ class TemplateSummaryController extends Controller
      */
     public function index()
     {
-        $recentDrafts = TemplateSummaryDraft::query()
-            ->latest('updated_at')
-            ->limit(10)
-            ->get();
+        // Master production grouping — mirrors PRODUCTION_DATA in the JS modal
+        $productionGroups = [
+            'pharma1a' => [
+                'label' => 'Production Pharmaceutical I A',
+                'types' => ['nutracare', 'kapsul', 'sirup'],
+            ],
+            'pharma1b' => [
+                'label' => 'Production Pharmaceutical I B',
+                'types' => ['tablet', 'kapsul'],
+            ],
+            'pharma2' => [
+                'label' => 'Production Pharmaceutical II',
+                'types' => ['sirup', 'siladex', 'konvermex', 'heltiskin'],
+            ],
+            'natural' => [
+                'label' => 'Natural Product & Extraction',
+                'types' => ['sirup'],
+            ],
+        ];
+
+        $draftsByGroup = [];
+        foreach ($productionGroups as $groupKey => $group) {
+            $drafts = TemplateSummaryDraft::query()
+                ->whereIn('draft_type', $group['types'])
+                ->latest('updated_at')
+                ->limit(2)
+                ->get();
+
+            if ($drafts->isNotEmpty()) {
+                $draftsByGroup[$groupKey] = [
+                    'label'  => $group['label'],
+                    'types'  => $group['types'],
+                    'drafts' => $drafts,
+                ];
+            }
+        }
 
         return view('template-summary.index', [
             'breadcrumb' => [
                 'Summary' => null,
                 'Buat Baru' => route('template-summary.index'),
             ],
-            'recentDrafts' => $recentDrafts,
+            'draftsByGroup' => $draftsByGroup,
         ]);
     }
 

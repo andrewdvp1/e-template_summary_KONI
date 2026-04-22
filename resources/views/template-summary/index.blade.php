@@ -122,71 +122,78 @@
                         Lanjutkan pengerjaan laporan yang sudah disimpan sebelumnya.
                     </p>
 
-                    @if (!empty($recentDrafts) && $recentDrafts->count() > 0)
-                        <div class="space-y-3 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
-                            @foreach ($recentDrafts as $draft)
+                    @php
+                        $typeConfig = [
+                            'sirup'     => ['icon' => 'water_drop',       'color' => 'amber'],
+                            'tablet'    => ['icon' => 'medication',        'color' => 'blue'],
+                            'kapsul'    => ['icon' => 'blender',           'color' => 'green'],
+                            'heltiskin' => ['icon' => 'spa',               'color' => 'pink'],
+                            'konvermex' => ['icon' => 'science',           'color' => 'red'],
+                            'nutracare' => ['icon' => 'health_and_safety', 'color' => 'emerald'],
+                            'siladex'   => ['icon' => 'local_pharmacy',    'color' => 'violet'],
+                        ];
+                        $colorMap = [
+                            'amber'   => ['icon' => 'text-amber-600',   'bg' => 'bg-amber-50 dark:bg-amber-900/10',    'border' => 'border-amber-200 dark:border-amber-800/40'],
+                            'blue'    => ['icon' => 'text-blue-600',    'bg' => 'bg-blue-50 dark:bg-blue-900/10',      'border' => 'border-blue-200 dark:border-blue-800/40'],
+                            'green'   => ['icon' => 'text-green-600',   'bg' => 'bg-green-50 dark:bg-green-900/10',    'border' => 'border-green-200 dark:border-green-800/40'],
+                            'pink'    => ['icon' => 'text-pink-600',    'bg' => 'bg-pink-50 dark:bg-pink-900/10',      'border' => 'border-pink-200 dark:border-pink-800/40'],
+                            'red'     => ['icon' => 'text-red-600',     'bg' => 'bg-red-50 dark:bg-red-900/10',        'border' => 'border-red-200 dark:border-red-800/40'],
+                            'emerald' => ['icon' => 'text-emerald-600', 'bg' => 'bg-emerald-50 dark:bg-emerald-900/10','border' => 'border-emerald-200 dark:border-emerald-800/40'],
+                            'violet'  => ['icon' => 'text-violet-600',  'bg' => 'bg-violet-50 dark:bg-violet-900/10',  'border' => 'border-violet-200 dark:border-violet-800/40'],
+                        ];
+                        $groupIcon = [
+                            'pharma1a' => ['icon' => 'factory',                'color' => 'text-red-600',    'bg' => 'bg-red-50 dark:bg-red-900/20'],
+                            'pharma1b' => ['icon' => 'factory',                'color' => 'text-blue-600',   'bg' => 'bg-blue-50 dark:bg-blue-900/20'],
+                            'pharma2'  => ['icon' => 'precision_manufacturing','color' => 'text-emerald-600','bg' => 'bg-emerald-50 dark:bg-emerald-900/20'],
+                            'natural'  => ['icon' => 'eco',                    'color' => 'text-amber-600',  'bg' => 'bg-amber-50 dark:bg-amber-900/20'],
+                        ];
+                    @endphp
+
+                    @if (!empty($draftsByGroup) && count($draftsByGroup) > 0)
+                        <div class="space-y-4 max-h-[420px] overflow-y-auto pr-1 custom-scrollbar">
+                            @foreach ($draftsByGroup as $groupKey => $group)
                                 @php
-                                    $icon = 'description';
-                                    $iconColor = 'text-slate-400';
-                                    $bgColor = 'bg-slate-50 dark:bg-slate-900/20';
-                                    $borderColor = 'border-slate-200 dark:border-slate-700';
-                                    $route = route('template-summary.continue', ['draft' => $draft->id]);
-                                    
-                                    if($draft->draft_type === 'sirup') {
-                                        $icon = 'water_drop';
-                                        $iconColor = 'text-amber-600';
-                                        $bgColor = 'bg-amber-50 dark:bg-amber-900/10';
-                                        $borderColor = 'border-amber-200 dark:border-amber-900/30';
-                                    } elseif($draft->draft_type === 'tablet') {
-                                        $icon = 'medication';
-                                        $iconColor = 'text-blue-600';
-                                        $bgColor = 'bg-blue-50 dark:bg-blue-900/10';
-                                        $borderColor = 'border-blue-200 dark:border-blue-900/30';
-                                    } elseif($draft->draft_type === 'kapsul') {
-                                        $icon = 'blender';
-                                        $iconColor = 'text-green-600';
-                                        $bgColor = 'bg-green-50 dark:bg-green-900/10';
-                                        $borderColor = 'border-green-200 dark:border-green-900/30';
-                                    } elseif($draft->draft_type === 'heltiskin') {
-                                        $icon = 'spa';
-                                        $iconColor = 'text-pink-600';
-                                        $bgColor = 'bg-pink-50 dark:bg-pink-900/10';
-                                        $borderColor = 'border-pink-200 dark:border-pink-900/30';
-                                    } elseif($draft->draft_type === 'konvermex') {
-                                        $icon = 'science';
-                                        $iconColor = 'text-red-600';
-                                        $bgColor = 'bg-magenta-50 dark:bg-magenta-900/10';
-                                        $borderColor = 'border-magenta-200 dark:border-magenta-900/30';
-                                    } elseif($draft->draft_type === 'nutracare') {
-                                        $icon = 'health_and_safety';
-                                        $iconColor = 'text-emerald-600';
-                                        $bgColor = 'bg-emerald-50 dark:bg-emerald-900/10';
-                                        $borderColor = 'border-emerald-200 dark:border-emerald-900/30';
-                                    }
+                                    $gi = $groupIcon[$groupKey] ?? ['icon' => 'folder', 'color' => 'text-slate-500', 'bg' => 'bg-slate-100'];
                                 @endphp
-                                <a href="{{ $route }}"
-                                    class="group/draft flex items-start gap-4 p-4 rounded-xl border {{ $borderColor }} hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
-                                    <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ $bgColor }} shrink-0 mt-0.5">
-                                        <span class="material-symbols-outlined {{ $iconColor }} text-[20px]">{{ $icon }}</span>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-bold text-slate-900 dark:text-white truncate group-hover/draft:text-blue-600 dark:group-hover/draft:text-blue-400 transition-colors">
-                                            {{ $draft->title ?: 'Draft Laporan ' . ucfirst($draft->draft_type) }}
-                                        </p>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-                                                {{ ucfirst($draft->draft_type) }}
-                                            </span>
-                                            <span class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                                <span class="material-symbols-outlined text-[12px]">schedule</span>
-                                                {{ optional($draft->last_saved_at ?? $draft->updated_at)->diffForHumans() }}
-                                            </span>
+                                {{-- Group header --}}
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="flex items-center justify-center w-6 h-6 rounded-md {{ $gi['bg'] }}">
+                                            <span class="material-symbols-outlined {{ $gi['color'] }} text-[14px]">{{ $gi['icon'] }}</span>
                                         </div>
+                                        <span class="text-[11px] font-semibold {{ $gi['color'] }} uppercase tracking-wide leading-none">{{ $group['label'] }}</span>
+                                        <div class="flex-1 h-px bg-slate-100 dark:bg-slate-700"></div>
                                     </div>
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-900/30 group-hover/draft:bg-blue-50 dark:group-hover/draft:bg-blue-900/30 opacity-0 group-hover/draft:opacity-100 transition-all transform translate-x-2 group-hover/draft:translate-x-0">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-400 group-hover/draft:text-blue-600 dark:group-hover/draft:text-blue-400">arrow_forward</span>
+                                    <div class="space-y-2">
+                                        @foreach ($group['drafts'] as $draft)
+                                            @php
+                                                $tc  = $typeConfig[$draft->draft_type] ?? ['icon' => 'description', 'color' => 'blue'];
+                                                $clr = $colorMap[$tc['color']] ?? $colorMap['blue'];
+                                            @endphp
+                                            <a href="{{ route('template-summary.continue', ['draft' => $draft->id]) }}"
+                                                class="group/draft flex items-center gap-3 p-3 rounded-xl border {{ $clr['border'] }} hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                                                <div class="flex items-center justify-center w-9 h-9 rounded-lg {{ $clr['bg'] }} shrink-0">
+                                                    <span class="material-symbols-outlined {{ $clr['icon'] }} text-[18px]">{{ $tc['icon'] }}</span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-bold text-slate-900 dark:text-white truncate group-hover/draft:text-blue-600 dark:group-hover/draft:text-blue-400 transition-colors">
+                                                        {{ $draft->title ?: 'Draft ' . ucfirst($draft->draft_type) }}
+                                                    </p>
+                                                    <div class="flex items-center gap-2 mt-0.5">
+                                                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold {{ $clr['bg'] }} {{ $clr['icon'] }} uppercase tracking-wide">
+                                                            {{ ucfirst($draft->draft_type) }}
+                                                        </span>
+                                                        <span class="text-xs text-slate-400 flex items-center gap-0.5">
+                                                            <span class="material-symbols-outlined text-[11px]">schedule</span>
+                                                            {{ optional($draft->last_saved_at ?? $draft->updated_at)->diffForHumans() }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <span class="material-symbols-outlined text-[18px] text-slate-300 group-hover/draft:text-blue-500 transition-colors shrink-0">arrow_forward</span>
+                                            </a>
+                                        @endforeach
                                     </div>
-                                </a>
+                                </div>
                             @endforeach
                         </div>
                     @else
