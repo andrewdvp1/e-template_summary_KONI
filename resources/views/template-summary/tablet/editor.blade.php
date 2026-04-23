@@ -20,17 +20,17 @@
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
                             <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
-                                data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
+                                data-sync="nama_produk" placeholder="INZA 4 Kaplet">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
                                 data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">) DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="2">
+                                placeholder="Tablet" value="Tablet">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production (Produksi Farmasi I Line Soft Capsule Gedung A"
-                                placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
+                                data-sync="bagian" value="Produksi Farmasi I Gedung B"
+                                placeholder="Produksi Farmasi I Gedung B">
                         </p>
                     </div>
 
@@ -92,14 +92,14 @@
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
                                 produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
+                                    data-sync="nama_produk" placeholder="INZA 4 Kaplet">
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
                                     data-sync="line" placeholder="2">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Produksi Farmasi I Line Soft Capsule Gedung A"
-                                    placeholder="Production (Produksi Farmasi I Line Soft Capsule Gedung A">
+                                    data-sync="bagian" value="Produksi Farmasi I Gedung B"
+                                    placeholder="Produksi Farmasi I Gedung B">
                                 yang diproduksi dengan
                                 <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
@@ -107,7 +107,7 @@
                                     placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
                                 dalam menghasilkan produk
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="KONILIFE OMEGA 3 500 mg">
+                                    data-sync="nama_produk" placeholder="INZA 4 Kaplet">
                                 dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
                                 dan Spesifikasi Kemasan yang berlaku.
                             </p>
@@ -384,7 +384,7 @@
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="KONILIFE OMEGA 3 500 mg">,
+                                    placeholder="INZA 4 Kaplet">,
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-48" data-sync="batch"
@@ -471,7 +471,7 @@
                                 pengolahan dan pengemasan produk
                                 <input type="text" name="kesimpulan_final_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="KONILIFE OMEGA 3 500 mg">
+                                    placeholder="INZA 4 Kaplet">
                                 menggunakan
                                 <input type="text" name="kesimpulan_mesin" class="template-input sync-input w-full"
                                     data-sync="mesin"
@@ -1111,7 +1111,7 @@
                 formData.append('_token', CSRF_TOKEN);
                 const state = collectDraftState();
 
-                const product = (state.form_values.judul_nama_produk || '').trim() || 'Konilife';
+                const product = (state.form_values.judul_nama_produk || '').trim() || 'Inza';
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||

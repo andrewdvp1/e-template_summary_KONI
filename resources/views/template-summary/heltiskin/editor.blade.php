@@ -26,11 +26,11 @@
                             (<input type="text" name="judul_formula" class="template-input sync-input w-96"
                                 data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">) DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="6">
+                                placeholder="6" value="6">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Production Pharma III Gedung B"
-                                placeholder="Production Pharma III Gedung B">
+                                data-sync="bagian" value="Production Pharma II Gedung B"
+                                placeholder="Production Pharma II Gedung B">
                         </p>
                     </div>
 
@@ -97,8 +97,8 @@
                                     data-sync="line" placeholder="6">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Production Pharma III Gedung B"
-                                    placeholder="Production Pharma III Gedung B">
+                                    data-sync="bagian" value="Production Pharma II Gedung B"
+                                    placeholder="Production Pharma II Gedung B">
                                 yang diproduksi dengan
                                 <input type="text" name="tujuan_mesin" class="template-input sync-input w-150"
                                     data-sync="mesin"
@@ -1066,7 +1066,7 @@
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
-                    'Production Pharma III Gedung B';
+                    'Production Pharma II Gedung B';
                 const formulaSegment = formula ? ` (${formula})` : '';
                 const titleFallback =
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;

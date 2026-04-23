@@ -66,7 +66,7 @@ class TemplateSummaryController extends Controller
      */
     public function drafts()
     {
-        $drafts = TemplateSummaryDraft::query()
+        $allDrafts = TemplateSummaryDraft::query()
             ->where('draft_type', 'sirup')
             ->orWhere('draft_type', 'tablet')
             ->orWhere('draft_type', 'kapsul')
@@ -77,12 +77,74 @@ class TemplateSummaryController extends Controller
             ->latest('updated_at')
             ->get();
 
+        // Group drafts by production segment based on bagian field
+        $draftsBySegment = [
+            'pharma1a' => ['label' => 'Production Pharmaceutical I A', 'drafts' => collect()],
+            'pharma1b' => ['label' => 'Production Pharmaceutical I B', 'drafts' => collect()],
+            'pharma2'  => ['label' => 'Production Pharmaceutical II', 'drafts' => collect()],
+            'pharma3'  => ['label' => 'Production Pharmaceutical III', 'drafts' => collect()],
+            'natural'  => ['label' => 'Natural Product & Extraction', 'drafts' => collect()],
+            'other'    => ['label' => 'Lainnya', 'drafts' => collect()],
+        ];
+
+        foreach ($allDrafts as $draft) {
+            $formValues = $draft->payload['form_values'] ?? [];
+            $bagian = strtolower(trim($formValues['judul_bagian'] ?? ($formValues['tujuan_bagian'] ?? '')));
+
+            // Determine segment — urutan dari paling spesifik ke paling umum
+            $segment = 'other';
+            if (str_contains($bagian, 'pharma iii') || str_contains($bagian, 'pharmaceutical iii') || str_contains($bagian, 'pharma3')) {
+                $segment = 'pharma3';
+            } elseif (str_contains($bagian, 'pharmaceutical ii') || str_contains($bagian, 'pharma ii') || str_contains($bagian, 'pharma 2')) {
+                $segment = 'pharma2';
+            } elseif (
+                str_contains($bagian, 'pharmaceutical i b') ||
+                str_contains($bagian, 'pharma i b') ||
+                str_contains($bagian, 'pharma ib') ||
+                str_contains($bagian, 'farmasi i b') ||
+                str_contains($bagian, 'farmasi ib') ||
+                (str_contains($bagian, 'farmasi i') && str_contains($bagian, 'gedung b')) ||
+                (str_contains($bagian, 'farmasi i') && str_contains($bagian, 'tablet'))
+            ) {
+                $segment = 'pharma1b';
+            } elseif (
+                str_contains($bagian, 'pharmaceutical i a') ||
+                str_contains($bagian, 'pharma i a') ||
+                str_contains($bagian, 'pharma ia') ||
+                str_contains($bagian, 'pharmaceutical i ') ||
+                str_contains($bagian, 'farmasi i')
+            ) {
+                $segment = 'pharma1a';
+            } elseif (str_contains($bagian, 'natural') || str_contains($bagian, 'extraction')) {
+                $segment = 'natural';
+            }
+
+            // Fallback berdasarkan draft_type jika bagian kosong atau tidak dikenali
+            if ($segment === 'other' && $bagian === '') {
+                $typeSegmentMap = [
+                    'tablet'    => 'pharma1b',
+                    'kapsul'    => 'pharma1a',
+                    'nutracare' => 'pharma1a',
+                    'sirup'     => 'pharma1a',
+                    'siladex'   => 'pharma2',
+                    'konvermex' => 'pharma2',
+                    'heltiskin' => 'pharma2',
+                ];
+                $segment = $typeSegmentMap[$draft->draft_type] ?? 'other';
+            }
+
+            $draftsBySegment[$segment]['drafts']->push($draft);
+        }
+
+        // Remove empty segments
+        $draftsBySegment = array_filter($draftsBySegment, fn($seg) => $seg['drafts']->isNotEmpty());
+
         return view('template-summary.drafts', [
             'breadcrumb' => [
                 'Summary' => null,
                 'Draft Summary' => route('template-summary.drafts'),
             ],
-            'drafts' => $drafts,
+            'draftsBySegment' => $draftsBySegment,
         ]);
     }
 
