@@ -105,7 +105,7 @@
                                     onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.1.1</span> Summary laporan validasi ini bertujuan mendokumentasikan
                                 hasil studi validasi/pembuktian terhadap kualitas proses pengolahan
                                 produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48"
+                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-70"
                                     data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                 dengan besar bets produksi
                                 <input type="text" name="tujuan_besar_bets" class="template-input w-18"
@@ -136,7 +136,7 @@
                                 Studi validasi dilakukan terhadap
                                 <input type="text" name="batch_jumlah" class="template-input w-12" placeholder="3">
                                 bets produksi yaitu batch
-                                <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
+                                <input type="text" name="batch_kode_list" class="template-input sync-input w-80"
                                     data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                 dengan besaran batch
                                 <input type="text" name="batch_besaran" class="template-input w-20" placeholder="34 kg">
@@ -144,7 +144,7 @@
                                 <input type="text" name="batch_jumlah_botol" class="template-input w-28"
                                     placeholder="68.000">
                                 Kapsul Lunak @
-                                <input type="text" name="batch_volume_per_botol" class="template-input w-20"
+                                <input type="text" name="batch_volume_per_botol" class="template-input w-40"
                                     value="" placeholder="500 mg (bobot isi)">,
                                 yang diproduksi di Bagian
                                 <input type="text" name="batch_bagian_produksi" class="template-input sync-input w-96"
@@ -156,16 +156,16 @@
                                     value="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling"
                                     placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling">, mengacu MBR Pengolahan
                                 <input type="text" name="batch_mbr_pengolahan_produk"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">
                                 (
-                                <input type="text" name="batch_mbr_multisource_desc" class="template-input w-96"
+                                <input type="text" name="batch_mbr_multisource_desc" class="template-input w-125"
                                     placeholder="Multisource Omega 3 Fatty Acid Kode Bahan O921-02-CR-HPI">
                                 ) no
                                 <input type="text" name="batch_mbr_no" class="template-input w-40"
                                     placeholder="CC-00077-08-PC">
                                 (
-                                <input type="text" name="batch_mbr_ms_code" class="template-input w-40"
+                                <input type="text" name="batch_mbr_ms_code" class="template-input w-45"
                                     placeholder="MS O921-02-CR-HPI">
                                 ) tanggal
                                 <input type="text" name="batch_mbr_tanggal" class="template-input w-32"
@@ -187,7 +187,7 @@
                                     onclick="toggleBab1Point(this)" title="Klik untuk disable/enable">1.2.3</span>
                                 Tinjauan status validasi proses pembuatan karena perubahan ini, dilakukan berdasar pada Protokol Validasi Proses Pembuatan Produk
                                 <input type="text" name="batch_protokol_produk"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-70" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">, no.
                                 <input type="text" name="batch_protokol_no" class="template-input w-40"
                                     placeholder="AF-D-3-00702-01">, tanggal
@@ -204,7 +204,7 @@
                                     placeholder="05-08-2025">
                                 dan dokumen Spesifikasi Produk
                                 <input type="text" name="batch_sp_produk"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-64" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule"> no
                                 <input type="text" name="batch_sp_no" class="template-input w-56"
                                     placeholder="EA-F03-3-00158-01">
@@ -417,9 +417,9 @@
                                 <p class="pl-10 -indent-10">
                                     <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.1.3</span>
                                     Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk
-                                    <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                    <input type="text" name="enkapsulasi_nama_produk" class="template-input sync-input w-65" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                     bets
-                                    <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                    <input type="text" name="enkapsulasi_batch_list" class="template-input sync-input w-80" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                     memenuhi spesifikasi produk yang ditetapkan.
                                 </p>
                                 </div>
@@ -441,7 +441,7 @@
                                     <p class="pl-10 -indent-10 mb-3">
                                         <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.2.1</span>
                                         Syarat kualitas produk setelah tahap pengeringan memiliki syarat mutu sesuai Spesifikasi Produk
-                                        <input type="text" name="pengeringan_sp_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                        <input type="text" name="pengeringan_sp_produk" class="template-input sync-input w-65" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                         no
                                         <input type="text" name="pengeringan_sp_no" class="template-input w-40" placeholder="EA-F03-3-00158-01">
                                         tanggal
@@ -484,9 +484,10 @@
                                 <div class="bab2-static-content transition-opacity duration-200" style="display:flex; flex-direction:column; gap:1rem;">
                                 <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
                                     <p class="pl-10 -indent-10 mb-3">
-                                        <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.2.2</span>
+                                        <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">
+                                            2.3.2.2</span>
                                         Hasil enkapsulasi setelah tahap pengeringan, berupa soft capsule yang telah dikeringkan pada
-                                        <input type="text" name="pengeringan_mesin" class="template-input sync-input w-48" data-sync="mesin" placeholder="tumbler dryer">,
+                                        <input type="text" name="pengeringan_mesin" class="template-input sync-input w-full" data-sync="mesin" placeholder="tumbler dryer">,
                                         secara urut ditampung dalam tray-tray dan dikeringkan di ruang pengering, sehingga menjadi soft capsule kering. Tray dibagi menjadi
                                         <input type="text" name="pengeringan_jumlah_tray" class="template-input w-8" placeholder="10">
                                         kelompok dan dilakukan sampling sebanyak
@@ -777,9 +778,9 @@
                                 <p class="pl-10 -indent-10">
                                     <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.2.4</span>
                                     Seluruh hasil pemeriksaan sampel pengeringan produk
-                                    <input type="text" name="pengeringan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                    <input type="text" name="pengeringan_nama_produk" class="template-input sync-input w-65" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                     bets
-                                    <input type="text" name="pengeringan_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                    <input type="text" name="pengeringan_batch_list" class="template-input sync-input w-79" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                     memenuhi spesifikasi produk yang ditetapkan.
                                 </p>
                                 </div>
@@ -803,10 +804,10 @@
                                     <p class="pl-10 -indent-10">
                                         <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.3.1</span>
                                         Spesifikasi kemasan
-                                        <input type="text" name="kemas_spek_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                        <input type="text" name="kemas_spek_nama_produk" class="template-input sync-input w-65" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                         (<input type="text" name="kemas_spek_formula" class="template-input sync-input w-32" data-sync="formula" placeholder="O921 ex HPI">)
                                         untuk kemasan botol mengacu Spesifikasi
-                                        <input type="text" name="kemas_spek_nama_produk_2" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                        <input type="text" name="kemas_spek_nama_produk_2" class="template-input sync-input w-65" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                         no
                                         <input type="text" name="kemas_spek_no" class="template-input w-48" placeholder="EC-F-3-00336-00">
                                         tanggal
@@ -908,10 +909,10 @@
                                     <p class="pl-10 -indent-10">
                                         <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.3.4</span>
                                         Seluruh hasil pemeriksaan sampel tahap kemas primer
-                                        <input type="text" name="kemas_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
+                                        <input type="text" name="kemas_nama_produk" class="template-input sync-input w-65" data-sync="nama_produk" placeholder="Konilife Omega 3 Soft Capsule">
                                         (<input type="text" name="kemas_formula" class="template-input sync-input w-32" data-sync="formula" placeholder="O921 ex HPI">)
                                         bets
-                                        <input type="text" name="kemas_batch_list" class="template-input sync-input w-64" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
+                                        <input type="text" name="kemas_batch_list" class="template-input sync-input w-79" data-sync="batch" placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                         telah memenuhi spesifikasi kemasan yang ditetapkan.
                                     </p>
                                 </div>
@@ -955,15 +956,15 @@
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.1</span>
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">
                                 bets
                                 <input type="text" name="kesimpulan_batch_codes"
-                                    class="template-input sync-input w-56" data-sync="batch"
+                                    class="template-input sync-input w-79" data-sync="batch"
                                     placeholder="AUG25A01, AUG25A02, dan AUG25A03">
                                 yang digunakan sebagai batch validasi proses, sekaligus menjadi tinjauan status validasi proses produk
                                 <input type="text" name="kesimpulan_nama_produk_2"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">
                                 terhadap Permintaan Perubahan no
                                 <input type="text" name="kesimpulan_pp_no" class="template-input w-40"
@@ -985,11 +986,11 @@
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
                                 Proses terbukti dapat menghasilkan produk jadi
                                 <input type="text" name="kesimpulan_final_produk"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">
                                 yang memenuhi spesifikasi dalam Spesifikasi Produk dan Spesifikasi Kemasan
                                 <input type="text" name="kesimpulan_nama_produk_3"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">
                                 sehingga dinyatakan
                                 <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
@@ -1033,7 +1034,7 @@
                                     onclick="toggleSaranSection(this)" title="Klik untuk disable/enable">4.1</span>
                                 Apabila dikemudian hari dilakukan perubahan pada proses produksi produk 
                                 <input type="text" name="saran_nama_produk_4"
-                                    class="template-input sync-input w-56" data-sync="nama_produk"
+                                    class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">, 
                                 maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku.
                             </p>
