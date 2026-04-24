@@ -105,12 +105,11 @@
             </div>
 
             {{-- Continue Draft Card --}}
-            <div
-                class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                 <div class="p-6">
+                    {{-- Card Header --}}
                     <div class="flex items-center gap-4 mb-4">
-                        <div
-                            class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600">
                             <span class="material-symbols-outlined text-[28px]">draft</span>
                         </div>
                         <div>
@@ -118,11 +117,10 @@
                             <p class="text-sm text-slate-500 dark:text-slate-400">Buka laporan yang belum selesai</p>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">
-                        Lanjutkan pengerjaan laporan yang sudah disimpan sebelumnya.
-                    </p>
 
                     @php
+                        $hasAnyDraft = collect($draftsByGroup)->contains(fn($g) => $g['drafts']->isNotEmpty());
+
                         $typeConfig = [
                             'sirup'     => ['icon' => 'water_drop',       'color' => 'amber'],
                             'tablet'    => ['icon' => 'medication',        'color' => 'blue'],
@@ -141,37 +139,79 @@
                             'emerald' => ['icon' => 'text-emerald-600', 'bg' => 'bg-emerald-50 dark:bg-emerald-900/10','border' => 'border-emerald-200 dark:border-emerald-800/40'],
                             'violet'  => ['icon' => 'text-violet-600',  'bg' => 'bg-violet-50 dark:bg-violet-900/10',  'border' => 'border-violet-200 dark:border-violet-800/40'],
                         ];
-                        $groupIcon = [
-                            'pharma1a' => ['icon' => 'factory',                'color' => 'text-red-600',    'bg' => 'bg-red-50 dark:bg-red-900/20'],
-                            'pharma1b' => ['icon' => 'factory',                'color' => 'text-blue-600',   'bg' => 'bg-blue-50 dark:bg-blue-900/20'],
-                            'pharma2'  => ['icon' => 'precision_manufacturing','color' => 'text-emerald-600','bg' => 'bg-emerald-50 dark:bg-emerald-900/20'],
-                            'natural'  => ['icon' => 'eco',                    'color' => 'text-amber-600',  'bg' => 'bg-amber-50 dark:bg-amber-900/20'],
+                        $groupMeta = [
+                            'pharma1a' => ['color' => 'text-red-600',    'bg' => 'bg-red-50 dark:bg-red-900/20'],
+                            'pharma1b' => ['color' => 'text-blue-600',   'bg' => 'bg-blue-50 dark:bg-blue-900/20'],
+                            'pharma2'  => ['color' => 'text-emerald-600','bg' => 'bg-emerald-50 dark:bg-emerald-900/20'],
+                            'natural'  => ['color' => 'text-amber-600',  'bg' => 'bg-amber-50 dark:bg-amber-900/20'],
                         ];
                     @endphp
 
-                    @if (!empty($draftsByGroup) && count($draftsByGroup) > 0)
-                        <div class="space-y-4 max-h-[420px] overflow-y-auto pr-1 custom-scrollbar">
+                    @if ($hasAnyDraft)
+                        {{-- ── Controls: Sort + Line Filter ── --}}
+                        <div class="flex gap-2 mb-4">
+                            {{-- Sort --}}
+                            <div class="relative flex-1">
+                                <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[16px] pointer-events-none">sort</span>
+                                <select id="draftSort"
+                                    class="w-full pl-8 pr-6 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 appearance-none cursor-pointer transition-all">
+                                    <option value="newest">Terbaru</option>
+                                    <option value="oldest">Terlama</option>
+                                    <option value="az">A → Z</option>
+                                    <option value="za">Z → A</option>
+                                </select>
+                                <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[14px] pointer-events-none">expand_more</span>
+                            </div>
+                            {{-- Line Filter --}}
+                            <div class="relative flex-1">
+                                <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[16px] pointer-events-none">filter_list</span>
+                                <select id="draftLineFilter"
+                                    class="w-full pl-8 pr-6 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 appearance-none cursor-pointer transition-all">
+                                    <option value="all">Semua Line</option>
+                                    @foreach ($draftsByGroup as $groupKey => $group)
+                                        <optgroup label="{{ $group['label'] }}">
+                                        @foreach (array_keys($group['lines']) as $lineName)
+                                            <option value="{{ $groupKey }}::{{ $lineName }}">{{ $lineName }}</option>
+                                        @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                                <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[14px] pointer-events-none">expand_more</span>
+                            </div>
+                        </div>
+
+                        {{-- ── Draft List ── --}}
+                        <div id="draftListContainer" class="space-y-4 max-h-[380px] overflow-y-auto pr-1 custom-scrollbar">
                             @foreach ($draftsByGroup as $groupKey => $group)
-                                @php
-                                    $gi = $groupIcon[$groupKey] ?? ['icon' => 'folder', 'color' => 'text-slate-500', 'bg' => 'bg-slate-100'];
-                                @endphp
-                                {{-- Group header --}}
-                                <div>
+                                @php $gm = $groupMeta[$groupKey] ?? ['color' => 'text-slate-500', 'bg' => 'bg-slate-100']; @endphp
+
+                                <div class="draft-group" data-group="{{ $groupKey }}">
+                                    {{-- Group header --}}
                                     <div class="flex items-center gap-2 mb-2">
-                                        <div class="flex items-center justify-center w-6 h-6 rounded-md {{ $gi['bg'] }}">
-                                            <span class="material-symbols-outlined {{ $gi['color'] }} text-[14px]">{{ $gi['icon'] }}</span>
+                                        <div class="flex items-center justify-center w-6 h-6 rounded-md {{ $gm['bg'] }}">
+                                            <span class="material-symbols-outlined {{ $gm['color'] }} text-[14px]">{{ $group['icon'] }}</span>
                                         </div>
-                                        <span class="text-[11px] font-semibold {{ $gi['color'] }} uppercase tracking-wide leading-none">{{ $group['label'] }}</span>
+                                        <span class="text-[11px] font-semibold {{ $gm['color'] }} uppercase tracking-wide leading-none">{{ $group['label'] }}</span>
                                         <div class="flex-1 h-px bg-slate-100 dark:bg-slate-700"></div>
                                     </div>
-                                    <div class="space-y-2">
+
+                                    {{-- Draft items --}}
+                                    <div class="space-y-2 draft-items-wrapper">
                                         @foreach ($group['drafts'] as $draft)
                                             @php
                                                 $tc  = $typeConfig[$draft->draft_type] ?? ['icon' => 'description', 'color' => 'blue'];
                                                 $clr = $colorMap[$tc['color']] ?? $colorMap['blue'];
+                                                // Use stored draft_line directly — exact line where draft was created
+                                                $draftLineAttr = $draft->draft_line
+                                                    ? $groupKey . '::' . $draft->draft_line
+                                                    : '';
                                             @endphp
                                             <a href="{{ route('template-summary.continue', ['draft' => $draft->id]) }}"
-                                                class="group/draft flex items-center gap-3 p-3 rounded-xl border {{ $clr['border'] }} hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                                                class="draft-item group/draft flex items-center gap-3 p-3 rounded-xl border {{ $clr['border'] }} hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                                                data-group="{{ $groupKey }}"
+                                                data-lines="{{ $draftLineAttr }}"
+                                                data-title="{{ strtolower($draft->title ?: 'draft ' . $draft->draft_type) }}"
+                                                data-updated="{{ ($draft->last_saved_at ?? $draft->updated_at)->timestamp }}">
                                                 <div class="flex items-center justify-center w-9 h-9 rounded-lg {{ $clr['bg'] }} shrink-0">
                                                     <span class="material-symbols-outlined {{ $clr['icon'] }} text-[18px]">{{ $tc['icon'] }}</span>
                                                 </div>
@@ -195,10 +235,15 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            {{-- Empty state when filter yields nothing --}}
+                            <div id="draftEmptyFilter" class="hidden flex-col items-center justify-center py-8 text-center">
+                                <span class="material-symbols-outlined text-3xl text-slate-300 dark:text-slate-600 mb-2">search_off</span>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Tidak ada draft untuk filter ini.</p>
+                            </div>
                         </div>
                     @else
-                        <div
-                            class="flex flex-col items-center justify-center py-10 border border-dashed border-slate-300 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+                        <div class="flex flex-col items-center justify-center py-10 border border-dashed border-slate-300 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-800/50">
                             <div class="w-16 h-16 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center mb-4 shadow-sm">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-500">inventory_2</span>
                             </div>
@@ -277,6 +322,68 @@
     </div>
 
     @push('scripts')
+    <script>
+    // ── Draft Filter & Sort ──────────────────────────────────────────
+    (function () {
+        const sortEl   = document.getElementById('draftSort');
+        const lineEl   = document.getElementById('draftLineFilter');
+        const container = document.getElementById('draftListContainer');
+        const emptyMsg  = document.getElementById('draftEmptyFilter');
+        if (!sortEl || !lineEl || !container) return;
+
+        function applyFilters() {
+            const sort     = sortEl.value;
+            const lineVal  = lineEl.value; // 'all' or 'groupKey::Line Name'
+
+            // Collect all draft-item elements
+            const allItems = Array.from(container.querySelectorAll('.draft-item'));
+
+            // Filter by line
+            allItems.forEach(item => {
+                if (lineVal === 'all') {
+                    item.style.display = '';
+                } else {
+                    const itemLine = (item.dataset.lines || '').trim();
+                    item.style.display = (itemLine === lineVal) ? '' : 'none';
+                }
+            });
+
+            // Sort visible items — re-insert into their parent wrappers
+            const groups = Array.from(container.querySelectorAll('.draft-group'));
+            groups.forEach(group => {
+                const wrapper = group.querySelector('.draft-items-wrapper');
+                if (!wrapper) return;
+
+                const visibleItems = Array.from(wrapper.querySelectorAll('.draft-item'))
+                    .filter(i => i.style.display !== 'none');
+
+                visibleItems.sort((a, b) => {
+                    if (sort === 'newest') return b.dataset.updated - a.dataset.updated;
+                    if (sort === 'oldest') return a.dataset.updated - b.dataset.updated;
+                    if (sort === 'az')     return a.dataset.title.localeCompare(b.dataset.title);
+                    if (sort === 'za')     return b.dataset.title.localeCompare(a.dataset.title);
+                    return 0;
+                });
+
+                // Re-append in sorted order (hidden ones stay, just move visible)
+                visibleItems.forEach(i => wrapper.appendChild(i));
+
+                // Hide group header if no visible items
+                const anyVisible = Array.from(wrapper.querySelectorAll('.draft-item'))
+                    .some(i => i.style.display !== 'none');
+                group.style.display = anyVisible ? '' : 'none';
+            });
+
+            // Show empty state if everything is hidden
+            const anyVisible = allItems.some(i => i.style.display !== 'none');
+            emptyMsg.classList.toggle('hidden', anyVisible);
+            emptyMsg.classList.toggle('flex', !anyVisible);
+        }
+
+        sortEl.addEventListener('change', applyFilters);
+        lineEl.addEventListener('change', applyFilters);
+    })();
+    </script>
     <script>
     (function() {
         // ── Route URLs (from Laravel) ────────────────────────────────
@@ -443,6 +550,7 @@
         let currentGroup    = null;
         let activeLineIndex = 0;
         let selectedRoute   = null;
+        let selectedLine    = null;
 
         // ── DOM refs ─────────────────────────────────────────────────
         const modal        = document.getElementById('productionModal');
@@ -457,6 +565,7 @@
             currentGroup    = PRODUCTION_DATA[groupKey];
             activeLineIndex = 0;
             selectedRoute   = null;
+            selectedLine    = null;
             if (!currentGroup) return;
 
             modalTitle.textContent = currentGroup.title;
@@ -481,12 +590,15 @@
             modalContent.classList.remove('scale-100');
             document.body.style.overflow = '';
             selectedRoute = null;
+            selectedLine  = null;
         };
 
         // ── Navigate ─────────────────────────────────────────────────
         window.navigateToSelectedTemplate = function() {
             if (selectedRoute) {
-                window.location.href = selectedRoute;
+                const url = new URL(selectedRoute, window.location.origin);
+                if (selectedLine) url.searchParams.set('line', selectedLine);
+                window.location.href = url.toString();
             }
         };
 
@@ -503,6 +615,7 @@
                 btn.onclick = function() {
                     activeLineIndex = idx;
                     selectedRoute   = null;
+                    selectedLine    = null;
                     btnBuat.disabled = true;
                     renderSidebar();
                     renderTemplates();
@@ -556,6 +669,7 @@
             el.querySelector('.tmpl-radio').classList.remove('text-slate-300');
 
             selectedRoute = el.getAttribute('data-route');
+            selectedLine  = currentGroup.lines[activeLineIndex]?.name || null;
             btnBuat.disabled = false;
         };
 

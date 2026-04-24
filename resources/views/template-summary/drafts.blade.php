@@ -158,6 +158,9 @@
                                 // Label line untuk ditampilkan
                                 if ($draftLine !== '') {
                                     $lineLabel = 'Line ' . $draftLine;
+                                } elseif (!empty($draft->draft_line)) {
+                                    // Gunakan draft_line dari DB (disimpan saat membuat draft dari modal)
+                                    $lineLabel = $draft->draft_line;
                                 } elseif ($draftBagian !== '') {
                                     // Ekstrak segmen "Line ..." dari string bagian
                                     if (preg_match('/\b(line\s+\S+(?:\s+\S+){0,3})/i', $draftBagian, $m)) {
@@ -171,8 +174,10 @@
                                     $lineLabel = '';
                                 }
 
-                                // Nilai untuk filter (gunakan judul_line jika ada, else lineLabel)
-                                $lineFilterVal = $draftLine !== '' ? strtolower($draftLine) : strtolower($lineLabel);
+                                // Nilai untuk filter
+                                $lineFilterVal = !empty($draft->draft_line)
+                                    ? strtolower($draft->draft_line)
+                                    : ($draftLine !== '' ? strtolower($draftLine) : strtolower($lineLabel));
 
                                 $tc         = $typeConfig[$draft->draft_type] ?? ['icon' => 'description', 'label' => ucfirst($draft->draft_type)];
                                 $searchText = strtolower($namaProduk . ' ' . $zatAktif . ' ' . $nomorDok . ' ' . $tglDok . ' ' . $draftBagian . ' ' . $lineLabel);

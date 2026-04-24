@@ -8,6 +8,7 @@ class TemplateSummaryDraft extends Model
 {
     protected $fillable = [
         'draft_type',
+        'draft_line',
         'title',
         'payload',
         'last_saved_at',

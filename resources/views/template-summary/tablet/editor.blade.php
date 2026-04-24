@@ -5,6 +5,7 @@
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="draft_id" id="draft_id" value="{{ $draft->id ?? '' }}">
+        <input type="hidden" name="draft_line" id="draft_line" value="{{ $draftLine ?? ''  }}">
 
         <div class="max-w-5xl mx-auto flex flex-col gap-6 pb-24">
 
@@ -1121,6 +1122,7 @@
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;
 
                 formData.append('draft_id', document.getElementById('draft_id').value || '');
+                formData.append('draft_line', document.getElementById('draft_line').value || '');
                 formData.append('draft_title', titleFallback);
                 formData.append('draft_state', JSON.stringify(state));
 

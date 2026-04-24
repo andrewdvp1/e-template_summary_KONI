@@ -16,40 +16,64 @@ class TemplateSummaryController extends Controller
     public function index()
     {
         // Master production grouping — mirrors PRODUCTION_DATA in the JS modal
+        // line_types: mapping line name => draft_types yang termasuk di line itu
         $productionGroups = [
             'pharma1a' => [
                 'label' => 'Production Pharmaceutical I A',
-                'types' => ['nutracare', 'kapsul', 'sirup'],
+                'icon'  => 'factory',
+                'lines' => [
+                    'Line Soft Capsule' => ['nutracare', 'kapsul'],
+                    'Line Paramex'      => ['sirup'],
+                    'Line Steril'       => ['sirup'],
+                ],
             ],
             'pharma1b' => [
                 'label' => 'Production Pharmaceutical I B',
-                'types' => ['tablet', 'kapsul'],
+                'icon'  => 'factory',
+                'lines' => [
+                    'Line Tablet'                    => ['tablet'],
+                    'Line Tablet Kapsul Kapsul Keras' => ['kapsul'],
+                ],
             ],
             'pharma2' => [
                 'label' => 'Production Pharmaceutical II',
-                'types' => ['sirup', 'siladex', 'konvermex', 'heltiskin'],
+                'icon'  => 'precision_manufacturing',
+                'lines' => [
+                    'Line 1' => ['sirup'],
+                    'Line 2' => ['sirup'],
+                    'Line 3' => ['sirup', 'siladex'],
+                    'Line 4' => ['sirup', 'konvermex'],
+                    'Line 5' => ['sirup'],
+                    'Line 6' => ['sirup', 'heltiskin'],
+                ],
             ],
             'natural' => [
                 'label' => 'Natural Product & Extraction',
-                'types' => ['sirup'],
+                'icon'  => 'eco',
+                'lines' => [
+                    'Line Obat Dalam' => ['sirup'],
+                    'Line Obat Luar'  => ['sirup'],
+                    'Line Ekstraksi'  => ['sirup'],
+                ],
             ],
         ];
 
+        // Collect all types per group, fetch all drafts (no limit — JS handles display)
         $draftsByGroup = [];
         foreach ($productionGroups as $groupKey => $group) {
+            $allTypes = collect($group['lines'])->flatten()->unique()->values()->all();
+
             $drafts = TemplateSummaryDraft::query()
-                ->whereIn('draft_type', $group['types'])
+                ->whereIn('draft_type', $allTypes)
                 ->latest('updated_at')
-                ->limit(2)
                 ->get();
 
-            if ($drafts->isNotEmpty()) {
-                $draftsByGroup[$groupKey] = [
-                    'label'  => $group['label'],
-                    'types'  => $group['types'],
-                    'drafts' => $drafts,
-                ];
-            }
+            $draftsByGroup[$groupKey] = [
+                'label'  => $group['label'],
+                'icon'   => $group['icon'],
+                'lines'  => $group['lines'],   // all lines — shown in dropdown always
+                'drafts' => $drafts,
+            ];
         }
 
         return view('template-summary.index', [
@@ -232,6 +256,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -248,31 +273,28 @@ class TemplateSummaryController extends Controller
     public function saveSirupDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'sirup')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'sirup')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'sirup',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'sirup',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }
@@ -369,6 +391,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -385,31 +408,28 @@ class TemplateSummaryController extends Controller
     public function saveTabletDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'tablet')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'tablet')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'tablet',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'tablet',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }
@@ -507,6 +527,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -523,31 +544,28 @@ class TemplateSummaryController extends Controller
     public function saveKapsulDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'kapsul')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'kapsul')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'kapsul',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'kapsul',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }
@@ -645,6 +663,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -661,31 +680,28 @@ class TemplateSummaryController extends Controller
     public function saveHeltiskinDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'heltiskin')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'heltiskin')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'heltiskin',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'heltiskin',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }
@@ -784,6 +800,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -800,31 +817,28 @@ class TemplateSummaryController extends Controller
     public function saveKonvermexDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'konvermex')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'konvermex')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'konvermex',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'konvermex',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }
@@ -923,6 +937,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -939,31 +954,28 @@ class TemplateSummaryController extends Controller
     public function saveNutracareDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'nutracare')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'nutracare')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'nutracare',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'nutracare',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }
@@ -1062,6 +1074,7 @@ class TemplateSummaryController extends Controller
             'breadcrumb' => $breadcrumb,
             'draft' => $draft,
             'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
         ]);
     }
 
@@ -1078,31 +1091,28 @@ class TemplateSummaryController extends Controller
     public function saveSiladexDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'draft_id' => ['nullable', 'integer'],
+            'draft_id'    => ['nullable', 'integer'],
             'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
             'draft_state' => ['required', 'string'],
         ]);
 
         $decodedState = json_decode($validated['draft_state'], true);
         if (!is_array($decodedState)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Format draft_state tidak valid.',
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
         }
 
         $draft = null;
         if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'siladex')
-                ->find($validated['draft_id']);
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'siladex')->find($validated['draft_id']);
         }
 
         if (!$draft) {
             $draft = TemplateSummaryDraft::create([
-                'draft_type' => 'siladex',
-                'title' => $this->resolveDraftTitle($decodedState),
-                'payload' => [],
+                'draft_type'  => 'siladex',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
                 'last_saved_at' => now(),
             ]);
         }

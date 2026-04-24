@@ -1,10 +1,11 @@
-ï»¿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <form action="{{ route('template-summary.kapsul.export') }}" method="POST" id="kapsulTemplateForm"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="draft_id" id="draft_id" value="{{ $draft->id ?? '' }}">
+        <input type="hidden" name="draft_line" id="draft_line" value="{{ $draftLine ?? ''  }}">
 
         <div class="max-w-5xl mx-auto flex flex-col gap-6 pb-24">
 
@@ -363,7 +364,7 @@
                                 <p class="pl-10 -indent-10">
                                     <span class="bab2-static-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab2Static(this)" title="Klik untuk disable/enable">2.3.1.1</span>
                                     Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas
-                                    <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-32" placeholder="500 Â± 50 mg">.
+                                    <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-32" placeholder="500 ± 50 mg">.
                                 </p>
                                 </div>
                             </div>{{-- end 2.3.1.1 --}}
@@ -1689,6 +1690,7 @@
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;
 
                 formData.append('draft_id', document.getElementById('draft_id').value || '');
+                formData.append('draft_line', document.getElementById('draft_line').value || '');
                 formData.append('draft_title', titleFallback);
                 formData.append('draft_state', JSON.stringify(state));
 
@@ -1802,7 +1804,7 @@
             const babNumEl = babCard ? babCard.querySelector('.bab-section-number') : null;
             const babPrefix = babNumEl ? babNumEl.textContent.replace('.', '') : '2';
 
-            // Recursive renumber helper â€” finds direct .bab2-static-section children
+            // Recursive renumber helper — finds direct .bab2-static-section children
             function renumberChildren(parentEl, parentNum) {
                 const children = Array.from(parentEl.children).filter(el => el.classList.contains('bab2-static-section'));
                 let idx = 1;
@@ -2869,7 +2871,7 @@
             });
         });
         // =============================================
-        // BAB 2.3 â€” Hierarchical Sub-section System
+        // BAB 2.3 — Hierarchical Sub-section System
         // =============================================
 
         let bab23SubabCounter = 0;
