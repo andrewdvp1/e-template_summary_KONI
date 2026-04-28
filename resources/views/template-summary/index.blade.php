@@ -151,22 +151,21 @@
                         {{-- ── Controls: Sort + Line Filter ── --}}
                         <div class="flex gap-2 mb-4">
                             {{-- Sort --}}
-                            <div class="relative flex-1">
-                                <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[16px] pointer-events-none">sort</span>
+                            <label class="flex-1 flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2.5 cursor-pointer hover:border-blue-400 transition-colors">
+                                <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">sort</span>
                                 <select id="draftSort"
-                                    class="w-full pl-8 pr-6 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 appearance-none cursor-pointer transition-all">
+                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
                                     <option value="newest">Terbaru</option>
                                     <option value="oldest">Terlama</option>
                                     <option value="az">A → Z</option>
                                     <option value="za">Z → A</option>
                                 </select>
-                                <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[14px] pointer-events-none">expand_more</span>
-                            </div>
+                            </label>
                             {{-- Line Filter --}}
-                            <div class="relative flex-1">
-                                <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[16px] pointer-events-none">filter_list</span>
+                            <label class="flex-1 flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2.5 cursor-pointer hover:border-blue-400 transition-colors">
+                                <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">filter_list</span>
                                 <select id="draftLineFilter"
-                                    class="w-full pl-8 pr-6 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 appearance-none cursor-pointer transition-all">
+                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
                                     <option value="all">Semua Line</option>
                                     @foreach ($draftsByGroup as $groupKey => $group)
                                         <optgroup label="{{ $group['label'] }}">
@@ -176,8 +175,7 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
-                                <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[14px] pointer-events-none">expand_more</span>
-                            </div>
+                            </label>
                         </div>
 
                         {{-- ── Draft List ── --}}

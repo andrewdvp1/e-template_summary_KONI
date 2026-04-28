@@ -54,18 +54,22 @@
 
         @if (!empty($draftsBySegment))
 
-            {{-- Segment Quick-Nav --}}
+            {{-- Segment Quick-Nav (Pill Buttons) --}}
             <div class="flex flex-wrap gap-2" id="segmentNav">
                 @foreach ($draftsBySegment as $segKey => $segment)
                     @php $sc = $segmentConfig[$segKey] ?? $segmentConfig['other']; @endphp
-                    <a href="#seg-{{ $segKey }}"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 {{ $sc['text'] }} text-xs font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 seg-nav-btn"
+                    <button type="button"
+                        class="seg-nav-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border-2 transition-all text-sm font-semibold
+                            border-{{ $sc['color'] }}-500 {{ $sc['text'] }} bg-transparent hover:bg-{{ $sc['color'] }}-500/10"
                         data-target="{{ $segKey }}"
-                        data-ring="ring-{{ $sc['color'] }}-500">
-                        <span class="material-symbols-outlined text-[14px]">{{ $sc['icon'] }}</span>
+                        data-color="{{ $sc['color'] }}"
+                        onclick="scrollToSegment('{{ $segKey }}')">
+                        <span class="material-symbols-outlined text-[18px]">{{ $sc['icon'] }}</span>
                         {{ $segment['label'] }}
-                        <span class="ml-0.5 px-1.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 {{ $sc['text'] }} text-[10px] font-bold seg-nav-count">{{ $segment['drafts']->count() }}</span>
-                    </a>
+                        <span class="seg-nav-count inline-flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full bg-{{ $sc['color'] }}-500/20 {{ $sc['text'] }} text-xs font-bold">
+                            {{ $segment['drafts']->count() }}
+                        </span>
+                    </button>
                 @endforeach
             </div>
 
@@ -80,74 +84,89 @@
                         $fv     = is_array($d->payload['form_values'] ?? null) ? $d->payload['form_values'] : [];
                         $l      = trim($fv['judul_line'] ?? ($fv['tujuan_line'] ?? ''));
                         $bagian = trim($fv['judul_bagian'] ?? ($fv['tujuan_bagian'] ?? ($fv['batch_bagian_produksi'] ?? '')));
+                        
+                        $val = '';
+                        $label = '';
+                        
                         if ($l !== '') {
-                            $label = 'Line ' . $l;
-                            $val   = strtolower($l);
-                        } elseif ($bagian !== '') {
-                            if (preg_match('/\b(line\s+\S+(?:\s+\S+){0,3})/i', $bagian, $m)) {
-                                $label = ucfirst(strtolower($m[1]));
-                                $val   = strtolower($label);
-                            } elseif (preg_match('/\b(lini\s+\S+(?:\s+\S+){0,2})/i', $bagian, $m)) {
-                                $label = ucfirst(strtolower($m[1]));
-                                $val   = strtolower($label);
+                            // Ada line eksplisit dari form
+                            $val   = strtolower($l); // "4"
+                            $label = 'Line ' . $l;   // "Line 4"
+                        } elseif (!empty($d->draft_line)) {
+                            // Gunakan draft_line dari DB
+                            $dbLine = $d->draft_line; // "Line 4" atau "Line Soft Capsule"
+                            // Ekstrak angka/nama line dari string
+                            if (preg_match('/line\s+(.+)/i', $dbLine, $m)) {
+                                $val   = strtolower(trim($m[1])); // "4" atau "soft capsule"
+                                $label = $dbLine; // "Line 4"
                             } else {
-                                // Fallback: gunakan draft_line dari DB
-                                if (!empty($d->draft_line)) {
-                                    $label = $d->draft_line;
-                                    $val   = strtolower($d->draft_line);
-                                } else {
-                                    continue;
+                                $val   = strtolower($dbLine);
+                                $label = $dbLine;
+                            }
+                        } elseif ($bagian !== '') {
+                            // Ekstrak dari bagian
+                            if (preg_match('/\b(line\s+\S+(?:\s+\S+){0,3})/i', $bagian, $m)) {
+                                $extracted = trim($m[1]); // "Line 4"
+                                if (preg_match('/line\s+(.+)/i', $extracted, $m2)) {
+                                    $val   = strtolower(trim($m2[1])); // "4"
+                                    $label = ucfirst(strtolower($extracted)); // "Line 4"
+                                }
+                            } elseif (preg_match('/\b(lini\s+\S+(?:\s+\S+){0,2})/i', $bagian, $m)) {
+                                $extracted = trim($m[1]); // "Lini 4"
+                                if (preg_match('/lini\s+(.+)/i', $extracted, $m2)) {
+                                    $val   = strtolower(trim($m2[1])); // "4"
+                                    $label = 'Line ' . trim($m2[1]); // "Line 4"
                                 }
                             }
-                        } elseif (!empty($d->draft_line)) {
-                            // Tidak ada data di form_values, pakai draft_line DB
-                            $label = $d->draft_line;
-                            $val   = strtolower($d->draft_line);
-                        } else {
-                            continue;
                         }
-                        if (!isset($segLines[$val])) $segLines[$val] = $label;
+                        
+                        if ($val !== '' && !isset($segLines[$val])) {
+                            $segLines[$val] = $label;
+                        }
                     }
                     uksort($segLines, 'strnatcmp');
                 @endphp
 
-                <div id="seg-{{ $segKey }}" class="segment-block rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm overflow-hidden scroll-mt-6">
+                <div id="seg-{{ $segKey }}" class="segment-block rounded-2xl overflow-hidden scroll-mt-6 shadow-lg">
 
                     {{-- Segment Header --}}
-                    <div class="{{ $sc['accent'] }} px-5 py-3 flex items-center justify-between gap-3 cursor-pointer select-none segment-header" data-segment="{{ $segKey }}">
-                        <div class="flex items-center gap-2.5">
+                    <div class="{{ $sc['accent'] }} px-5 py-3 flex items-center justify-between gap-3 select-none segment-header" data-segment="{{ $segKey }}">
+                        <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-white text-[20px]">{{ $sc['icon'] }}</span>
                             <span class="font-bold text-white text-sm tracking-wide">{{ $segment['label'] }}</span>
-                            <span class="px-2 py-0.5 rounded-full bg-white/20 text-white text-[11px] font-bold segment-total-count">{{ $segment['drafts']->count() }} draft</span>
+                            <span class="px-2.5 py-0.5 rounded-md bg-white/25 text-white text-[11px] font-bold segment-total-count">{{ $segment['drafts']->count() }} draft</span>
                         </div>
-                        {{-- Line Filter inside segment --}}
+                        {{-- Controls --}}
                         <div class="flex items-center gap-2 shrink-0">
                             @if (count($segLines) >= 1)
-                                <div class="relative" onclick="event.stopPropagation()">
-                                    <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[15px] pointer-events-none">view_column</span>
-                                    <select class="seg-line-filter pl-8 pr-7 py-1 rounded-lg bg-white/15 border border-white/30 text-white text-xs font-medium appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/40"
+                                {{-- Line Filter --}}
+                                <label class="flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation()">
+                                    <span class="shrink-0 material-symbols-outlined text-white text-[14px]">view_column</span>
+                                    <select class="seg-line-filter bg-transparent text-white text-xs font-medium cursor-pointer focus:outline-none appearance-none"
                                         data-segment="{{ $segKey }}">
                                         <option value="" class="text-slate-800 bg-white">Semua Line</option>
                                         @foreach ($segLines as $lVal => $lLabel)
                                             <option value="{{ $lVal }}" class="text-slate-800 bg-white">{{ $lLabel }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[14px] pointer-events-none">expand_more</span>
-                                </div>
-                                <div class="relative" onclick="event.stopPropagation()">
-                                    <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[15px] pointer-events-none">sort</span>
-                                    <select class="seg-sort-filter pl-8 pr-7 py-1 rounded-lg bg-white/15 border border-white/30 text-white text-xs font-medium appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/40"
+                                    <span class="shrink-0 material-symbols-outlined text-white text-[14px]">expand_more</span>
+                                </label>
+                                {{-- Sort Filter --}}
+                                <label class="flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation()">
+                                    <span class="shrink-0 material-symbols-outlined text-white text-[14px]">sort</span>
+                                    <select class="seg-sort-filter bg-transparent text-white text-xs font-medium cursor-pointer focus:outline-none appearance-none"
                                         data-segment="{{ $segKey }}">
                                         <option value="updated_desc" class="text-slate-800 bg-white">Terbaru</option>
                                         <option value="updated_asc"  class="text-slate-800 bg-white">Terlama</option>
                                         <option value="title_asc"    class="text-slate-800 bg-white">A–Z</option>
                                         <option value="title_desc"   class="text-slate-800 bg-white">Z–A</option>
                                     </select>
-                                    <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[14px] pointer-events-none">expand_more</span>
-                                </div>
+                                    <span class="shrink-0 material-symbols-outlined text-white text-[14px]">expand_more</span>
+                                </label>
                             @endif
                             {{-- Collapse toggle --}}
-                            <button type="button" class="seg-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 transition-all" title="Tampilkan/Sembunyikan">
+                            <button type="button" onclick="event.stopPropagation(); toggleSegment('{{ $segKey }}')"
+                                class="seg-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 transition-all shrink-0" title="Tampilkan/Sembunyikan">
                                 <span class="material-symbols-outlined text-white text-[18px] seg-toggle-icon transition-transform duration-300">expand_more</span>
                             </button>
                         </div>
@@ -191,20 +210,27 @@
                                 }
 
                                 // Nilai untuk filter — harus konsisten dengan key di $segLines
-                                // $segLines key: dari judul_line → strtolower($l) misal "4"
-                                //                dari bagian regex → strtolower($label) misal "line 4"
+                                // $segLines key: angka/nama line saja (tanpa "Line"), misal "4" atau "soft capsule"
                                 if ($draftLine !== '') {
-                                    $lineFilterVal = strtolower($draftLine); // misal "4"
-                                } elseif ($draftBagian !== '') {
-                                    if (preg_match('/\b(line\s+\S+(?:\s+\S+){0,3})/i', $draftBagian, $mf)) {
-                                        $lineFilterVal = strtolower(ucfirst(strtolower($mf[1]))); // misal "line 4"
-                                    } elseif (preg_match('/\b(lini\s+\S+(?:\s+\S+){0,2})/i', $draftBagian, $mf)) {
-                                        $lineFilterVal = strtolower(ucfirst(strtolower($mf[1])));
-                                    } else {
-                                        $lineFilterVal = !empty($draft->draft_line) ? strtolower($draft->draft_line) : '';
-                                    }
+                                    // Ada line eksplisit dari form: "4"
+                                    $lineFilterVal = strtolower($draftLine);
                                 } elseif (!empty($draft->draft_line)) {
-                                    $lineFilterVal = strtolower($draft->draft_line);
+                                    // Gunakan draft_line dari DB: "Line 4" → ekstrak "4"
+                                    $dbLine = $draft->draft_line;
+                                    if (preg_match('/line\s+(.+)/i', $dbLine, $m)) {
+                                        $lineFilterVal = strtolower(trim($m[1])); // "4" atau "soft capsule"
+                                    } else {
+                                        $lineFilterVal = strtolower($dbLine);
+                                    }
+                                } elseif ($draftBagian !== '') {
+                                    // Ekstrak dari bagian
+                                    if (preg_match('/\bline\s+(\S+(?:\s+\S+){0,3})/i', $draftBagian, $mf)) {
+                                        $lineFilterVal = strtolower(trim($mf[1])); // "4"
+                                    } elseif (preg_match('/\blini\s+(\S+(?:\s+\S+){0,2})/i', $draftBagian, $mf)) {
+                                        $lineFilterVal = strtolower(trim($mf[1])); // "4"
+                                    } else {
+                                        $lineFilterVal = '';
+                                    }
                                 } else {
                                     $lineFilterVal = '';
                                 }
@@ -439,23 +465,30 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ── Segment collapse/expand ──────────────────────────────────────
-    document.querySelectorAll('.segment-header').forEach(header => {
-        header.addEventListener('click', function () {
-            const block = this.closest('.segment-block');
-            const body  = block.querySelector('.segment-body');
-            const icon  = this.querySelector('.seg-toggle-icon');
-            const isHidden = body.classList.contains('hidden');
-            body.classList.toggle('hidden', !isHidden);
-            icon.style.transform = isHidden ? 'rotate(180deg)' : '';
-        });
-    });
-    document.querySelectorAll('.seg-nav-btn').forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.getElementById('seg-' + this.dataset.target);
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    });
+    window.toggleSegment = function(segKey) {
+        const block = document.getElementById('seg-' + segKey);
+        if (!block) return;
+        const body    = block.querySelector('.segment-body');
+        const icon    = block.querySelector('.seg-toggle-icon');
+        const isHidden = body.classList.contains('hidden');
+        body.classList.toggle('hidden', !isHidden);
+        if (icon) icon.style.transform = isHidden ? 'rotate(180deg)' : '';
+    }
+
+    // Scroll to segment
+    window.scrollToSegment = function(segKey) {
+        const target = document.getElementById('seg-' + segKey);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Auto-expand if collapsed
+            const body = target.querySelector('.segment-body');
+            const icon = target.querySelector('.seg-toggle-icon');
+            if (body && body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    }
 
     // ── Highlight active segment in nav on scroll ────────────────────
     const segBlocks = Array.from(document.querySelectorAll('.segment-block'));
@@ -463,14 +496,17 @@ document.addEventListener('DOMContentLoaded', function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.id.replace('seg-', '');
-                document.querySelectorAll('.seg-nav-btn').forEach(b => {
+                document.querySelectorAll('.seg-nav-pill').forEach(b => {
                     const active = b.dataset.target === id;
-                    // Remove any previous ring color
-                    b.className = b.className.replace(/\bring-\w+-\d+\b/g, '').trim();
-                    b.classList.toggle('ring-2', active);
-                    b.classList.toggle('ring-offset-2', active);
-                    b.classList.toggle('ring-offset-slate-900', active);
-                    if (active && b.dataset.ring) b.classList.add(b.dataset.ring);
+                    const color = b.dataset.color || 'red';
+                    
+                    if (active) {
+                        // Active state: tambah ring outline saja
+                        b.classList.add('ring-4', `ring-${color}-500/30`);
+                    } else {
+                        // Inactive state: hapus ring
+                        b.classList.remove('ring-4', `ring-${color}-500/30`);
+                    }
                 });
             }
         });
