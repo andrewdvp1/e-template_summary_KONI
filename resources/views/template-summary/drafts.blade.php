@@ -381,9 +381,6 @@
 @endsection
 
 @push('scripts')
-<style>
-.dark .dark-select { color-scheme: dark; }
-</style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 

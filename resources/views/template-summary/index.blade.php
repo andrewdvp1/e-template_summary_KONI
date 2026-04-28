@@ -151,21 +151,60 @@
                         {{-- ── Controls: Sort + Line Filter ── --}}
                         <div class="flex gap-2 mb-4">
                             {{-- Sort --}}
-                            <label class="flex-1 flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2.5 cursor-pointer hover:border-blue-400 transition-colors">
-                                <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">sort</span>
-                                <select id="draftSort"
-                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer dark:[color-scheme:dark]">
+                            <div class="relative flex-1" id="sortDropdownWrap">
+                                <button type="button" id="sortDropdownBtn"
+                                    class="w-full flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-2.5 py-1.5 hover:border-blue-400 transition-colors text-xs text-slate-700 dark:text-slate-300"
+                                    onclick="toggleDropdown('sortDropdown')">
+                                    <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">sort</span>
+                                    <span id="sortDropdownLabel" class="flex-1 text-left">Terbaru</span>
+                                    <span class="shrink-0 material-symbols-outlined text-slate-400 text-[14px]">expand_more</span>
+                                </button>
+                                <div id="sortDropdown" class="hidden absolute z-50 top-full left-0 mt-1 w-full rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg overflow-hidden">
+                                    @foreach(['newest' => 'Terbaru', 'oldest' => 'Terlama', 'az' => 'A → Z', 'za' => 'Z → A'] as $val => $label)
+                                    <button type="button"
+                                        class="sort-option w-full text-left px-3 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                        data-value="{{ $val }}" onclick="selectSort('{{ $val }}', '{{ $label }}')">
+                                        {{ $label }}
+                                    </button>
+                                    @endforeach
+                                </div>
+                                {{-- Hidden native select for JS compatibility --}}
+                                <select id="draftSort" class="hidden">
                                     <option value="newest">Terbaru</option>
                                     <option value="oldest">Terlama</option>
                                     <option value="az">A → Z</option>
                                     <option value="za">Z → A</option>
                                 </select>
-                            </label>
+                            </div>
                             {{-- Line Filter --}}
-                            <label class="flex-1 flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2.5 cursor-pointer hover:border-blue-400 transition-colors">
-                                <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">filter_list</span>
-                                <select id="draftLineFilter"
-                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer dark:[color-scheme:dark]">
+                            <div class="relative flex-1" id="lineDropdownWrap">
+                                <button type="button" id="lineDropdownBtn"
+                                    class="w-full flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-2.5 py-1.5 hover:border-blue-400 transition-colors text-xs text-slate-700 dark:text-slate-300"
+                                    onclick="toggleDropdown('lineDropdown')">
+                                    <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">filter_list</span>
+                                    <span id="lineDropdownLabel" class="flex-1 text-left truncate">Semua Line</span>
+                                    <span class="shrink-0 material-symbols-outlined text-slate-400 text-[14px]">expand_more</span>
+                                </button>
+                                <div id="lineDropdown" class="hidden absolute z-50 top-full left-0 mt-1 w-full max-h-60 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg overflow-y-auto">
+                                    <button type="button"
+                                        class="line-option w-full text-left px-3 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                        data-value="all" onclick="selectLine('all', 'Semua Line')">
+                                        Semua Line
+                                    </button>
+                                    @foreach ($draftsByGroup as $groupKey => $group)
+                                        <div class="px-3 py-1.5 text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide bg-slate-50 dark:bg-slate-900/50">{{ $group['label'] }}</div>
+                                        @foreach (array_keys($group['lines']) as $lineName)
+                                        <button type="button"
+                                            class="line-option w-full text-left px-3 py-2 pl-5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                            data-value="{{ $groupKey }}::{{ $lineName }}"
+                                            onclick="selectLine('{{ $groupKey }}::{{ $lineName }}', '{{ $lineName }}')">
+                                            {{ $lineName }}
+                                        </button>
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                                {{-- Hidden native select for JS compatibility --}}
+                                <select id="draftLineFilter" class="hidden">
                                     <option value="all">Semua Line</option>
                                     @foreach ($draftsByGroup as $groupKey => $group)
                                         <optgroup label="{{ $group['label'] }}">
@@ -175,7 +214,7 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
-                            </label>
+                            </div>
                         </div>
 
                         {{-- ── Draft List ── --}}
@@ -321,6 +360,35 @@
 
     @push('scripts')
     <script>
+    // ── Custom Dropdown helpers ──────────────────────────────────────
+    function toggleDropdown(id) {
+        const el = document.getElementById(id);
+        const isHidden = el.classList.contains('hidden');
+        // Close all dropdowns first
+        ['sortDropdown', 'lineDropdown'].forEach(function(d) {
+            document.getElementById(d)?.classList.add('hidden');
+        });
+        if (isHidden) el.classList.remove('hidden');
+    }
+    function selectSort(val, label) {
+        document.getElementById('sortDropdownLabel').textContent = label;
+        document.getElementById('draftSort').value = val;
+        document.getElementById('sortDropdown').classList.add('hidden');
+        document.getElementById('draftSort').dispatchEvent(new Event('change'));
+    }
+    function selectLine(val, label) {
+        document.getElementById('lineDropdownLabel').textContent = label;
+        document.getElementById('draftLineFilter').value = val;
+        document.getElementById('lineDropdown').classList.add('hidden');
+        document.getElementById('draftLineFilter').dispatchEvent(new Event('change'));
+    }
+    // Close dropdowns on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#sortDropdownWrap') && !e.target.closest('#lineDropdownWrap')) {
+            document.getElementById('sortDropdown')?.classList.add('hidden');
+            document.getElementById('lineDropdown')?.classList.add('hidden');
+        }
+    });
     // ── Draft Filter & Sort ──────────────────────────────────────────
     (function () {
         const sortEl   = document.getElementById('draftSort');
