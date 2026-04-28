@@ -140,29 +140,31 @@
                         <div class="flex items-center gap-2 shrink-0">
                             @if (count($segLines) >= 1)
                                 {{-- Line Filter --}}
-                                <label class="flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation()">
+                                <div class="seg-line-wrapper relative flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation();">
                                     <span class="shrink-0 material-symbols-outlined text-white text-[14px]">view_column</span>
-                                    <select class="seg-line-filter bg-transparent text-white text-xs font-medium cursor-pointer focus:outline-none appearance-none"
+                                    <select class="seg-line-filter absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                         data-segment="{{ $segKey }}">
                                         <option value="" class="text-slate-800 bg-white">Semua Line</option>
                                         @foreach ($segLines as $lVal => $lLabel)
                                             <option value="{{ $lVal }}" class="text-slate-800 bg-white">{{ $lLabel }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="text-white text-xs font-medium pointer-events-none seg-line-text">Semua Line</span>
                                     <span class="shrink-0 material-symbols-outlined text-white text-[14px]">expand_more</span>
-                                </label>
+                                </div>
                                 {{-- Sort Filter --}}
-                                <label class="flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation()">
+                                <div class="seg-sort-wrapper relative flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation();">
                                     <span class="shrink-0 material-symbols-outlined text-white text-[14px]">sort</span>
-                                    <select class="seg-sort-filter bg-transparent text-white text-xs font-medium cursor-pointer focus:outline-none appearance-none"
+                                    <select class="seg-sort-filter absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                         data-segment="{{ $segKey }}">
                                         <option value="updated_desc" class="text-slate-800 bg-white">Terbaru</option>
                                         <option value="updated_asc"  class="text-slate-800 bg-white">Terlama</option>
                                         <option value="title_asc"    class="text-slate-800 bg-white">A–Z</option>
                                         <option value="title_desc"   class="text-slate-800 bg-white">Z–A</option>
                                     </select>
+                                    <span class="text-white text-xs font-medium pointer-events-none seg-sort-text">Terbaru</span>
                                     <span class="shrink-0 material-symbols-outlined text-white text-[14px]">expand_more</span>
-                                </label>
+                                </div>
                             @endif
                             {{-- Collapse toggle --}}
                             <button type="button" onclick="event.stopPropagation(); toggleSegment('{{ $segKey }}')"
@@ -424,6 +426,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const sortVal  = this.value;
             const block    = document.getElementById('seg-' + segKey);
             if (!block) return;
+            
+            // Update visible text
+            const wrapper = this.closest('.seg-sort-wrapper');
+            const textEl = wrapper ? wrapper.querySelector('.seg-sort-text') : null;
+            if (textEl) {
+                const selectedOption = this.options[this.selectedIndex];
+                textEl.textContent = selectedOption.text;
+            }
+            
             const container = block.querySelector('.segment-items');
             const items     = Array.from(container.querySelectorAll('.draft-item'));
             items.sort((a, b) => {
@@ -443,6 +454,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const lineVal = this.value;
             const block   = document.getElementById('seg-' + segKey);
             if (!block) return;
+
+            // Update visible text
+            const wrapper = this.closest('.seg-line-wrapper');
+            const textEl = wrapper ? wrapper.querySelector('.seg-line-text') : null;
+            if (textEl) {
+                const selectedOption = this.options[this.selectedIndex];
+                textEl.textContent = selectedOption.text;
+            }
 
             const query  = searchInput ? searchInput.value.toLowerCase().trim() : '';
             const items  = Array.from(block.querySelectorAll('.draft-item'));
