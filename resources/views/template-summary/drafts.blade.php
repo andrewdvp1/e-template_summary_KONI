@@ -103,16 +103,16 @@
                 <div id="seg-{{ $segKey }}" class="segment-block rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm overflow-hidden scroll-mt-6">
 
                     {{-- Segment Header --}}
-                    <div class="{{ $sc['accent'] }} px-5 py-3 flex items-center justify-between gap-3">
+                    <div class="{{ $sc['accent'] }} px-5 py-3 flex items-center justify-between gap-3 cursor-pointer select-none segment-header" data-segment="{{ $segKey }}">
                         <div class="flex items-center gap-2.5">
                             <span class="material-symbols-outlined text-white text-[20px]">{{ $sc['icon'] }}</span>
                             <span class="font-bold text-white text-sm tracking-wide">{{ $segment['label'] }}</span>
                             <span class="px-2 py-0.5 rounded-full bg-white/20 text-white text-[11px] font-bold segment-total-count">{{ $segment['drafts']->count() }} draft</span>
                         </div>
                         {{-- Line Filter inside segment --}}
-                        @if (count($segLines) >= 1)
-                            <div class="flex items-center gap-2 shrink-0">
-                                <div class="relative">
+                        <div class="flex items-center gap-2 shrink-0">
+                            @if (count($segLines) >= 1)
+                                <div class="relative" onclick="event.stopPropagation()">
                                     <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[15px] pointer-events-none">view_column</span>
                                     <select class="seg-line-filter pl-8 pr-7 py-1 rounded-lg bg-white/15 border border-white/30 text-white text-xs font-medium appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/40"
                                         data-segment="{{ $segKey }}">
@@ -123,7 +123,7 @@
                                     </select>
                                     <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[14px] pointer-events-none">expand_more</span>
                                 </div>
-                                <div class="relative">
+                                <div class="relative" onclick="event.stopPropagation()">
                                     <span class="absolute left-2.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[15px] pointer-events-none">sort</span>
                                     <select class="seg-sort-filter pl-8 pr-7 py-1 rounded-lg bg-white/15 border border-white/30 text-white text-xs font-medium appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/40"
                                         data-segment="{{ $segKey }}">
@@ -134,11 +134,16 @@
                                     </select>
                                     <span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/70 text-[14px] pointer-events-none">expand_more</span>
                                 </div>
-                            </div>
-                        @endif
+                            @endif
+                            {{-- Collapse toggle --}}
+                            <button type="button" class="seg-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 transition-all" title="Tampilkan/Sembunyikan">
+                                <span class="material-symbols-outlined text-white text-[18px] seg-toggle-icon transition-transform duration-300">expand_more</span>
+                            </button>
+                        </div>
                     </div>
 
                     {{-- Draft List (scrollable, max 3 visible) --}}
+                    <div class="segment-body hidden">
                     <div class="segment-items divide-y divide-slate-100 dark:divide-slate-700/50 overflow-y-auto"
                         style="max-height: calc(3 * 100px);">
 
@@ -268,6 +273,8 @@
                         Tidak ada draft yang cocok.
                     </div>
 
+                    </div>{{-- end segment-body --}}
+
                 </div>
             @endforeach
 
@@ -334,7 +341,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 let   visible = 0;
                 items.forEach(item => {
                     const match = !query || (item.dataset.search || '').includes(query);
-                    // Respect line filter too
                     const lineFilter = block.querySelector('.seg-line-filter');
                     const lineVal    = lineFilter ? lineFilter.value : '';
                     const matchLine  = !lineVal || item.dataset.line === lineVal;
@@ -347,6 +353,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (countEl) countEl.textContent = visible + ' draft';
                 const navCount = document.querySelector(`.seg-nav-btn[data-target="${block.id.replace('seg-','')}"] .seg-nav-count`);
                 if (navCount) navCount.textContent = visible;
+                // Auto-expand if search has results
+                if (query && visible > 0) {
+                    const body = block.querySelector('.segment-body');
+                    const icon = block.querySelector('.seg-toggle-icon');
+                    if (body && body.classList.contains('hidden')) {
+                        body.classList.remove('hidden');
+                        if (icon) icon.style.transform = 'rotate(180deg)';
+                    }
+                }
             });
         });
     }
@@ -398,7 +413,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ── Smooth scroll for quick-nav ──────────────────────────────────
+    // ── Segment collapse/expand ──────────────────────────────────────
+    document.querySelectorAll('.segment-header').forEach(header => {
+        header.addEventListener('click', function () {
+            const block = this.closest('.segment-block');
+            const body  = block.querySelector('.segment-body');
+            const icon  = this.querySelector('.seg-toggle-icon');
+            const isHidden = body.classList.contains('hidden');
+            body.classList.toggle('hidden', !isHidden);
+            icon.style.transform = isHidden ? 'rotate(180deg)' : '';
+        });
+    });
     document.querySelectorAll('.seg-nav-btn').forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
