@@ -234,7 +234,7 @@
 
                                     {{-- Draft items --}}
                                     <div class="space-y-2 draft-items-wrapper">
-                                        @foreach ($group['drafts'] as $draft)
+                                        @foreach ($group['drafts'] as $draftIdx => $draft)
                                             @php
                                                 $tc  = $typeConfig[$draft->draft_type] ?? ['icon' => 'description', 'color' => 'blue'];
                                                 $clr = $colorMap[$tc['color']] ?? $colorMap['blue'];
@@ -247,8 +247,10 @@
                                                 class="draft-item group/draft flex items-center gap-3 p-3 rounded-xl border {{ $clr['border'] }} hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
                                                 data-group="{{ $groupKey }}"
                                                 data-lines="{{ $draftLineAttr }}"
-                                                data-title="{{ strtolower($draft->title ?: 'draft ' . $draft->draft_type) }}"
-                                                data-updated="{{ ($draft->last_saved_at ?? $draft->updated_at)->timestamp }}">
+                                                data-title="{{ strtolower($draft->title ?: 'Draft ' . $draft->draft_type) }}"
+                                                data-updated="{{ ($draft->last_saved_at ?? $draft->updated_at)->timestamp }}"
+                                                data-index="{{ $draftIdx }}"
+                                                @if($draftIdx >= 2) style="display:none" data-collapsed="1" @endif>
                                                 <div class="flex items-center justify-center w-9 h-9 rounded-lg {{ $clr['bg'] }} shrink-0">
                                                     <span class="material-symbols-outlined {{ $clr['icon'] }} text-[18px]">{{ $tc['icon'] }}</span>
                                                 </div>
@@ -270,6 +272,16 @@
                                             </a>
                                         @endforeach
                                     </div>
+                                    {{-- Show more button --}}
+                                    @if ($group['drafts']->count() > 2)
+                                    <button type="button"
+                                        class="show-more-btn mt-1 w-full text-center text-xs text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 py-1.5 transition-colors"
+                                        data-group="{{ $groupKey }}"
+                                        data-total="{{ $group['drafts']->count() }}"
+                                        onclick="toggleShowMore(this)">
+                                        <span class="show-more-label">+ {{ $group['drafts']->count() - 2 }} draft lainnya</span>
+                                    </button>
+                                    @endif
                                 </div>
                             @endforeach
 
@@ -361,6 +373,17 @@
     @push('scripts')
     <script>
     // ── Custom Dropdown helpers ──────────────────────────────────────
+    window.toggleShowMore = function(btn) {
+        const groupKey = btn.dataset.group;
+        const group    = btn.closest('.draft-group');
+        const items    = Array.from(group.querySelectorAll('.draft-item[data-collapsed="1"]'));
+        const isHidden = items.length > 0 && items[0].style.display === 'none';
+        items.forEach(function(item) { item.style.display = isHidden ? '' : 'none'; });
+        const total = parseInt(btn.dataset.total);
+        btn.querySelector('.show-more-label').textContent = isHidden
+            ? 'Sembunyikan'
+            : '+ ' + (total - 2) + ' draft lainnya';
+    };
     function toggleDropdown(id) {
         const el = document.getElementById(id);
         const isHidden = el.classList.contains('hidden');
@@ -399,7 +422,8 @@
 
         function applyFilters() {
             const sort     = sortEl.value;
-            const lineVal  = lineEl.value; // 'all' or 'groupKey::Line Name'
+            const lineVal  = lineEl.value;
+            const isFiltered = lineVal !== 'all';
 
             // Collect all draft-item elements
             const allItems = Array.from(container.querySelectorAll('.draft-item'));
@@ -407,11 +431,18 @@
             // Filter by line
             allItems.forEach(item => {
                 if (lineVal === 'all') {
-                    item.style.display = '';
+                    // Restore collapsed state
+                    if (item.dataset.collapsed === '1') item.style.display = 'none';
+                    else item.style.display = '';
                 } else {
                     const itemLine = (item.dataset.lines || '').trim();
                     item.style.display = (itemLine === lineVal) ? '' : 'none';
                 }
+            });
+
+            // Show/hide show-more buttons
+            container.querySelectorAll('.show-more-btn').forEach(btn => {
+                btn.style.display = isFiltered ? 'none' : '';
             });
 
             // Sort visible items — re-insert into their parent wrappers
@@ -431,10 +462,8 @@
                     return 0;
                 });
 
-                // Re-append in sorted order (hidden ones stay, just move visible)
                 visibleItems.forEach(i => wrapper.appendChild(i));
 
-                // Hide group header if no visible items
                 const anyVisible = Array.from(wrapper.querySelectorAll('.draft-item'))
                     .some(i => i.style.display !== 'none');
                 group.style.display = anyVisible ? '' : 'none';
