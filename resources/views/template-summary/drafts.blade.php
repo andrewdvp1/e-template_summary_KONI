@@ -59,11 +59,12 @@
                 @foreach ($draftsBySegment as $segKey => $segment)
                     @php $sc = $segmentConfig[$segKey] ?? $segmentConfig['other']; @endphp
                     <a href="#seg-{{ $segKey }}"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:{{ $sc['light'] }} {{ $sc['text'] }} text-xs font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 seg-nav-btn"
-                        data-target="{{ $segKey }}">
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 {{ $sc['text'] }} text-xs font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 seg-nav-btn"
+                        data-target="{{ $segKey }}"
+                        data-ring="ring-{{ $sc['color'] }}-500">
                         <span class="material-symbols-outlined text-[14px]">{{ $sc['icon'] }}</span>
                         {{ $segment['label'] }}
-                        <span class="ml-0.5 px-1.5 py-0.5 rounded-full {{ $sc['light'] }} {{ $sc['text'] }} text-[10px] font-bold seg-nav-count">{{ $segment['drafts']->count() }}</span>
+                        <span class="ml-0.5 px-1.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 {{ $sc['text'] }} text-[10px] font-bold seg-nav-count">{{ $segment['drafts']->count() }}</span>
                     </a>
                 @endforeach
             </div>
@@ -464,8 +465,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const id = entry.target.id.replace('seg-', '');
                 document.querySelectorAll('.seg-nav-btn').forEach(b => {
                     const active = b.dataset.target === id;
+                    // Remove any previous ring color
+                    b.className = b.className.replace(/\bring-\w+-\d+\b/g, '').trim();
                     b.classList.toggle('ring-2', active);
-                    b.classList.toggle('ring-offset-1', active);
+                    b.classList.toggle('ring-offset-2', active);
+                    b.classList.toggle('ring-offset-slate-900', active);
+                    if (active && b.dataset.ring) b.classList.add(b.dataset.ring);
                 });
             }
         });
