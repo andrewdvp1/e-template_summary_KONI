@@ -154,7 +154,7 @@
                             <label class="flex-1 flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2.5 cursor-pointer hover:border-blue-400 transition-colors">
                                 <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">sort</span>
                                 <select id="draftSort"
-                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
+                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer dark:[color-scheme:dark]">
                                     <option value="newest">Terbaru</option>
                                     <option value="oldest">Terlama</option>
                                     <option value="az">A → Z</option>
@@ -165,7 +165,7 @@
                             <label class="flex-1 flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2.5 cursor-pointer hover:border-blue-400 transition-colors">
                                 <span class="shrink-0 material-symbols-outlined text-slate-400 text-[15px]">filter_list</span>
                                 <select id="draftLineFilter"
-                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
+                                    class="flex-1 py-1.5 bg-transparent text-xs text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer dark:[color-scheme:dark]">
                                     <option value="all">Semua Line</option>
                                     @foreach ($draftsByGroup as $groupKey => $group)
                                         <optgroup label="{{ $group['label'] }}">

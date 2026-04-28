@@ -142,7 +142,7 @@
                                 {{-- Line Filter --}}
                                 <div class="seg-line-wrapper relative flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation();">
                                     <span class="shrink-0 material-symbols-outlined text-white text-[14px]">view_column</span>
-                                    <select class="seg-line-filter absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    <select class="seg-line-filter absolute inset-0 w-full h-full opacity-0 cursor-pointer dark-select"
                                         data-segment="{{ $segKey }}">
                                         <option value="" class="text-slate-800 bg-white">Semua Line</option>
                                         @foreach ($segLines as $lVal => $lLabel)
@@ -155,7 +155,7 @@
                                 {{-- Sort Filter --}}
                                 <div class="seg-sort-wrapper relative flex items-center gap-1.5 rounded-lg bg-white/15 border border-white/30 px-2.5 py-1.5 cursor-pointer hover:bg-white/20 transition-colors" onclick="event.stopPropagation();">
                                     <span class="shrink-0 material-symbols-outlined text-white text-[14px]">sort</span>
-                                    <select class="seg-sort-filter absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    <select class="seg-sort-filter absolute inset-0 w-full h-full opacity-0 cursor-pointer dark-select"
                                         data-segment="{{ $segKey }}">
                                         <option value="updated_desc" class="text-slate-800 bg-white">Terbaru</option>
                                         <option value="updated_asc"  class="text-slate-800 bg-white">Terlama</option>
@@ -381,6 +381,9 @@
 @endsection
 
 @push('scripts')
+<style>
+.dark .dark-select { color-scheme: dark; }
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
