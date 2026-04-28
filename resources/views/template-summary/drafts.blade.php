@@ -90,8 +90,18 @@
                                 $label = ucfirst(strtolower($m[1]));
                                 $val   = strtolower($label);
                             } else {
-                                continue;
+                                // Fallback: gunakan draft_line dari DB
+                                if (!empty($d->draft_line)) {
+                                    $label = $d->draft_line;
+                                    $val   = strtolower($d->draft_line);
+                                } else {
+                                    continue;
+                                }
                             }
+                        } elseif (!empty($d->draft_line)) {
+                            // Tidak ada data di form_values, pakai draft_line DB
+                            $label = $d->draft_line;
+                            $val   = strtolower($d->draft_line);
                         } else {
                             continue;
                         }
@@ -179,10 +189,24 @@
                                     $lineLabel = '';
                                 }
 
-                                // Nilai untuk filter
-                                $lineFilterVal = !empty($draft->draft_line)
-                                    ? strtolower($draft->draft_line)
-                                    : ($draftLine !== '' ? strtolower($draftLine) : strtolower($lineLabel));
+                                // Nilai untuk filter — harus konsisten dengan key di $segLines
+                                // $segLines key: dari judul_line → strtolower($l) misal "4"
+                                //                dari bagian regex → strtolower($label) misal "line 4"
+                                if ($draftLine !== '') {
+                                    $lineFilterVal = strtolower($draftLine); // misal "4"
+                                } elseif ($draftBagian !== '') {
+                                    if (preg_match('/\b(line\s+\S+(?:\s+\S+){0,3})/i', $draftBagian, $mf)) {
+                                        $lineFilterVal = strtolower(ucfirst(strtolower($mf[1]))); // misal "line 4"
+                                    } elseif (preg_match('/\b(lini\s+\S+(?:\s+\S+){0,2})/i', $draftBagian, $mf)) {
+                                        $lineFilterVal = strtolower(ucfirst(strtolower($mf[1])));
+                                    } else {
+                                        $lineFilterVal = !empty($draft->draft_line) ? strtolower($draft->draft_line) : '';
+                                    }
+                                } elseif (!empty($draft->draft_line)) {
+                                    $lineFilterVal = strtolower($draft->draft_line);
+                                } else {
+                                    $lineFilterVal = '';
+                                }
 
                                 $tc         = $typeConfig[$draft->draft_type] ?? ['icon' => 'description', 'label' => ucfirst($draft->draft_type)];
                                 $searchText = strtolower($namaProduk . ' ' . $zatAktif . ' ' . $nomorDok . ' ' . $tglDok . ' ' . $draftBagian . ' ' . $lineLabel);
