@@ -154,6 +154,16 @@
                                 } elseif($draft->draft_type === 'heltiskin') {
                                     $icon = 'spa';
                                     $iconColor = 'text-pink-500';
+                                } elseif($draft->draft_type === 'konvermex') {
+                                    $icon = 'science';
+                                    $iconColor = 'text-purple-500';
+                                } elseif($draft->draft_type === 'nutracare') {
+                                    $icon = 'health_and_safety';
+                                    $iconColor = 'text-red-500';
+                                }
+                                elseif($draft->draft_type === 'siladex') {
+                                    $icon = 'local_pharmacy';
+                                    $iconColor = 'text-violet-500';
                                 }
                             @endphp
                             <div class="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
