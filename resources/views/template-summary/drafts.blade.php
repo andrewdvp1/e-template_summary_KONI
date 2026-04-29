@@ -494,18 +494,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (icon) icon.style.transform = isHidden ? 'rotate(180deg)' : '';
     }
 
-    // Scroll to segment
+    // Scroll to segment — toggle collapse if already expanded
     window.scrollToSegment = function(segKey) {
         const target = document.getElementById('seg-' + segKey);
-        if (target) {
+        if (!target) return;
+        const body = target.querySelector('.segment-body');
+        const icon = target.querySelector('.seg-toggle-icon');
+        const isHidden = body && body.classList.contains('hidden');
+        if (isHidden) {
+            // Expand then scroll
+            body.classList.remove('hidden');
+            if (icon) icon.style.transform = 'rotate(180deg)';
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // Auto-expand if collapsed
-            const body = target.querySelector('.segment-body');
-            const icon = target.querySelector('.seg-toggle-icon');
-            if (body && body.classList.contains('hidden')) {
-                body.classList.remove('hidden');
-                if (icon) icon.style.transform = 'rotate(180deg)';
-            }
+        } else {
+            // Collapse
+            body.classList.add('hidden');
+            if (icon) icon.style.transform = '';
         }
     }
 
