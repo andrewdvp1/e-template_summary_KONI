@@ -12,8 +12,8 @@
             'konvermex' => 'KONVERMEX 125 SUSPENSI',
         ];
         $segmentConfig = [
-            'pharma1a' => ['icon' => 'factory',                 'color' => 'red',     'accent' => 'bg-red-600',     'light' => 'bg-red-50 dark:bg-red-900/20',      'text' => 'text-red-600',     'border' => 'border-red-200 dark:border-red-800/40',     'ring' => 'ring-red-500/20'],
-            'pharma1b' => ['icon' => 'factory',                 'color' => 'blue',    'accent' => 'bg-blue-600',    'light' => 'bg-blue-50 dark:bg-blue-900/20',    'text' => 'text-blue-600',    'border' => 'border-blue-200 dark:border-blue-800/40',   'ring' => 'ring-blue-500/20'],
+            'pharma1a' => ['icon' => 'factory',                 'color' => 'red',     'accent' => 'bg-red-600',     'light' => 'bg-red-50 dark:bg-red-900/20',      'text' => 'text-red-500 dark:text-red-400',     'border' => 'border-red-200 dark:border-red-800/40',     'ring' => 'ring-red-500/20'],
+            'pharma1b' => ['icon' => 'factory',                 'color' => 'blue',    'accent' => 'bg-blue-600',    'light' => 'bg-blue-50 dark:bg-blue-900/20',    'text' => 'text-blue-500 dark:text-blue-400',    'border' => 'border-blue-200 dark:border-blue-800/40',   'ring' => 'ring-blue-500/20'],
             'pharma2'  => ['icon' => 'precision_manufacturing', 'color' => 'emerald', 'accent' => 'bg-emerald-600', 'light' => 'bg-emerald-50 dark:bg-emerald-900/20','text' => 'text-emerald-600','border' => 'border-emerald-200 dark:border-emerald-800/40','ring' => 'ring-emerald-500/20'],
             'pharma3'  => ['icon' => 'precision_manufacturing', 'color' => 'violet',  'accent' => 'bg-violet-600',  'light' => 'bg-violet-50 dark:bg-violet-900/20', 'text' => 'text-violet-600',  'border' => 'border-violet-200 dark:border-violet-800/40', 'ring' => 'ring-violet-500/20'],
             'natural'  => ['icon' => 'eco',                     'color' => 'amber',   'accent' => 'bg-amber-500',   'light' => 'bg-amber-50 dark:bg-amber-900/20',   'text' => 'text-amber-600',   'border' => 'border-amber-200 dark:border-amber-800/40',  'ring' => 'ring-amber-500/20'],
@@ -55,18 +55,17 @@
         @if (!empty($draftsBySegment))
 
             {{-- Segment Quick-Nav (Pill Buttons) --}}
-            <div class="flex flex-wrap gap-2" id="segmentNav">
+            <div class="flex flex-wrap gap-3" id="segmentNav">
                 @foreach ($draftsBySegment as $segKey => $segment)
                     @php $sc = $segmentConfig[$segKey] ?? $segmentConfig['other']; @endphp
                     <button type="button"
-                        class="seg-nav-pill inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border-2 transition-all text-sm font-semibold
-                            border-{{ $sc['color'] }}-500 {{ $sc['text'] }} bg-transparent hover:bg-{{ $sc['color'] }}-500/10"
+                        class="seg-nav-pill inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full transition-all text-sm font-bold text-white {{ $sc['accent'] }} hover:opacity-90 shadow-sm"
                         data-target="{{ $segKey }}"
                         data-color="{{ $sc['color'] }}"
                         onclick="scrollToSegment('{{ $segKey }}')">
                         <span class="material-symbols-outlined text-[18px]">{{ $sc['icon'] }}</span>
                         {{ $segment['label'] }}
-                        <span class="seg-nav-count inline-flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full bg-{{ $sc['color'] }}-500/20 {{ $sc['text'] }} text-xs font-bold">
+                        <span class="seg-nav-count inline-flex items-center justify-center w-6 h-6 rounded-full bg-white/25 text-white text-[11px] font-bold shrink-0">
                             {{ $segment['drafts']->count() }}
                         </span>
                     </button>
@@ -502,39 +501,49 @@ document.addEventListener('DOMContentLoaded', function () {
         const icon = target.querySelector('.seg-toggle-icon');
         const isHidden = body && body.classList.contains('hidden');
         if (isHidden) {
-            // Expand then scroll
             body.classList.remove('hidden');
             if (icon) icon.style.transform = 'rotate(180deg)';
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
-            // Collapse
             body.classList.add('hidden');
             if (icon) icon.style.transform = '';
         }
+        setActivePill(segKey);
     }
 
     // ── Highlight active segment in nav on scroll ────────────────────
-    const segBlocks = Array.from(document.querySelectorAll('.segment-block'));
-    const observer  = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.id.replace('seg-', '');
-                document.querySelectorAll('.seg-nav-pill').forEach(b => {
-                    const active = b.dataset.target === id;
-                    const color = b.dataset.color || 'red';
-                    
-                    if (active) {
-                        // Active state: tambah ring outline saja
-                        b.classList.add('ring-4', `ring-${color}-500/30`);
-                    } else {
-                        // Inactive state: hapus ring
-                        b.classList.remove('ring-4', `ring-${color}-500/30`);
-                    }
-                });
-            }
+    const colorMap = {
+        'red':     '#dc2626',
+        'blue':    '#2563eb',
+        'emerald': '#059669',
+        'violet':  '#7c3aed',
+        'amber':   '#d97706',
+        'slate':   '#475569',
+    };
+
+    function setActivePill(segKey) {
+        document.querySelectorAll('.seg-nav-pill').forEach(b => {
+            b.style.boxShadow = '';
+            b.style.transform = '';
         });
-    }, { threshold: 0.3 });
-    segBlocks.forEach(b => observer.observe(b));
+        const activePill = document.querySelector(`.seg-nav-pill[data-target="${segKey}"]`);
+        if (activePill) {
+            const hex = colorMap[activePill.dataset.color] || '#dc2626';
+            activePill.style.boxShadow = `0 0 0 3px rgba(255,255,255,0.7), 0 0 0 5px ${hex}`;
+            activePill.style.transform = 'scale(1.05)';
+        }
+    }
+    // Observer dihapus — active state hanya via klik pill
+
+    // Klik di luar pill → clear semua active state
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.seg-nav-pill')) {
+            document.querySelectorAll('.seg-nav-pill').forEach(b => {
+                b.style.boxShadow = '';
+                b.style.transform = '';
+            });
+        }
+    });
 });
 
 function deleteDraft(draftId, draftTitle) {
