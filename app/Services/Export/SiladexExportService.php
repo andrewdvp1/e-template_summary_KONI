@@ -539,7 +539,7 @@ class SiladexExportService
             ]);
             $textRun331->addText("3.{$sectionNumber}.1", ['bold' => false, 'size' => 11]);
             $textRun331->addText(" Seluruh atribut yang diuji sesuai Spesifikasi Produk ", ['size' => 11]);
-            $textRun331->addText($zatAktif, ['bold' => true, 'size' => 11]);
+            $textRun331->addText($zatAktif, ['size' => 11]);
             $textRun331->addText(" sudah memberikan hasil yang {$hasil331} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.", ['size' => 11]);
 
             // 3.x.2
