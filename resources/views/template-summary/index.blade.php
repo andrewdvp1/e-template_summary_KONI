@@ -129,6 +129,7 @@
                             'konvermex' => ['icon' => 'science',           'color' => 'red'],
                             'nutracare' => ['icon' => 'health_and_safety', 'color' => 'emerald'],
                             'siladex'   => ['icon' => 'local_pharmacy',    'color' => 'violet'],
+                            'konidinobh'=> ['icon' => 'medication_liquid',  'color' => 'teal'],
                         ];
                         $colorMap = [
                             'amber'   => ['icon' => 'text-amber-600',   'bg' => 'bg-amber-50 dark:bg-amber-900/10',    'border' => 'border-amber-200 dark:border-amber-800/40'],
@@ -138,6 +139,7 @@
                             'red'     => ['icon' => 'text-red-600',     'bg' => 'bg-red-50 dark:bg-red-900/10',        'border' => 'border-red-200 dark:border-red-800/40'],
                             'emerald' => ['icon' => 'text-emerald-600', 'bg' => 'bg-emerald-50 dark:bg-emerald-900/10','border' => 'border-emerald-200 dark:border-emerald-800/40'],
                             'violet'  => ['icon' => 'text-violet-600',  'bg' => 'bg-violet-50 dark:bg-violet-900/10',  'border' => 'border-violet-200 dark:border-violet-800/40'],
+                            'teal'    => ['icon' => 'text-teal-600',    'bg' => 'bg-teal-50 dark:bg-teal-900/10',      'border' => 'border-teal-200 dark:border-teal-800/40'],
                         ];
                         $groupMeta = [
                             'pharma1a' => ['color' => 'text-red-600',    'bg' => 'bg-red-50 dark:bg-red-900/20'],
@@ -490,6 +492,7 @@
             konvermex: "{{ route('template-summary.konvermex') }}",
             nutracare: "{{ route('template-summary.nutracare') }}",
             siladex: "{{ route('template-summary.siladex') }}",
+            konidinobh: "{{ route('template-summary.konidinobh') }}",
         };
 
         // ── Menu Data Config ─────────────────────────────────────────
@@ -592,9 +595,8 @@
                         name: 'Line 5',
                         route: 'sirup',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
-                            { label: 'Template 2', route: 'sirup' },
-                            { label: 'Template 3', route: 'sirup' },
+                            { label: 'Template Sirup', route: 'sirup' },
+                            { label: 'Template Konidin OBH (Sachet)', route: 'konidinobh' },
                         ]
                     },
                     {
