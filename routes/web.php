@@ -38,4 +38,8 @@ Route::get('template-summary/siladex', [TemplateSummaryController::class, 'silad
 Route::post('template-summary/siladex/draft', [TemplateSummaryController::class, 'saveSiladexDraft'])->name('template-summary.siladex.draft');
 Route::post('template-summary/siladex/export', [TemplateSummaryController::class, 'exportSiladex'])->name('template-summary.siladex.export');
 
+Route::get('template-summary/konidinobh', [TemplateSummaryController::class, 'konidinobhEditor'])->name('template-summary.konidinobh');
+Route::post('template-summary/konidinobh/draft', [TemplateSummaryController::class, 'saveKonidinOBHDraft'])->name('template-summary.konidinobh.draft');
+Route::post('template-summary/konidinobh/export', [TemplateSummaryController::class, 'exportKonidinOBH'])->name('template-summary.konidinobh.export');
+
 Route::get('/template-summary/continue/{draft}', [TemplateSummaryController::class, 'continueDraft'])->name('template-summary.continue');

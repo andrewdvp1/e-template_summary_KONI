@@ -43,7 +43,7 @@ class TemplateSummaryController extends Controller
                     'Line 2' => ['sirup'],
                     'Line 3' => ['sirup', 'siladex'],
                     'Line 4' => ['sirup', 'konvermex'],
-                    'Line 5' => ['sirup'],
+                    'Line 5' => ['sirup', 'konidinobh'],
                     'Line 6' => ['sirup', 'heltiskin'],
                 ],
             ],
@@ -98,6 +98,7 @@ class TemplateSummaryController extends Controller
             ->orwhere('draft_type', 'konvermex')
             ->orwhere('draft_type', 'nutracare')
             ->orwhere('draft_type', 'siladex')
+            ->orwhere('draft_type', 'konidinobh')
             ->latest('updated_at')
             ->get();
 
@@ -183,7 +184,8 @@ class TemplateSummaryController extends Controller
         $draft->draft_type !== 'heltiskin' &&
         $draft->draft_type !== 'konvermex' &&
         $draft->draft_type !== 'nutracare' &&
-        $draft->draft_type !== 'siladex') {
+        $draft->draft_type !== 'siladex' &&
+        $draft->draft_type !== 'konidinobh') {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -218,6 +220,8 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.nutracare', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'siladex') {
             return redirect()->route('template-summary.siladex', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'konidinobh') {
+            return redirect()->route('template-summary.konidinobh', ['draft' => $draft->id]);
         }
 
         abort(404, 'Draft tidak ditemukan.');
@@ -1316,6 +1320,120 @@ class TemplateSummaryController extends Controller
         $title .= " DI LINE {$line} BAGIAN " . strtoupper($bagian);
 
         return $title;
+    }
+
+    // ── Konidin OBH ──────────────────────────────────────────────────────────────
+
+    public function konidinobhEditor(Request $request)
+    {
+        $draft = null;
+        $from  = 'new';
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'konidinobh')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = ['Summary' => route('template-summary.index')];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Konidin OBH'] = null;
+
+        return view('template-summary.konidinobh.editor', [
+            'title'             => 'Template Konidin OBH',
+            'breadcrumb'        => $breadcrumb,
+            'draft'             => $draft,
+            'initialDraftState' => $draft?->payload,
+            'draftLine'         => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
+        ]);
+    }
+
+    public function exportKonidinOBH(Request $request)
+    {
+        $exportService = new \App\Services\Export\KonidinOBHExportService();
+        return $exportService->export($request->all());
+    }
+
+    public function saveKonidinOBHDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id'    => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'konidinobh')->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type'    => 'konidinobh',
+                'draft_line'    => $validated['draft_line'] ?? null,
+                'title'         => $this->resolveDraftTitle($decodedState),
+                'payload'       => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) $storedFiles = [];
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup($request, $draft->id, 'mixing_image_file', 'images');
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup($request, $draft->id, 'mixing_excel_file', 'excel');
+
+        $mergedStoredImages = array_merge(
+            is_array($decodedState['stored_files']['mixing_image_file'] ?? null) ? $decodedState['stored_files']['mixing_image_file'] : [],
+            $storedFiles['mixing_image_file']
+        );
+        $mergedStoredExcel = array_merge(
+            is_array($decodedState['stored_files']['mixing_excel_file'] ?? null) ? $decodedState['stored_files']['mixing_excel_file'] : [],
+            $storedFiles['mixing_excel_file']
+        );
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = is_array($decodedState['form_values'] ?? null) ? $decodedState['form_values'] : [];
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title'         => $this->resolveDraftTitle($decodedState),
+            'payload'       => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success'      => true,
+            'draft_id'     => $draft->id,
+            'message'      => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.konidinobh', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at'     => now()->format('Y-m-d H:i:s'),
+        ]);
     }
 
     private function deleteDraftStorageDirectory(int $draftId): void
