@@ -84,6 +84,23 @@
                             </div>
                         </button>
 
+                        {{-- Production Pharmaceutical III --}}
+                        <button onclick="openProductionModal('pharma3')"
+                            class="w-full flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-purple-300 dark:hover:border-purple-700 transition-all hover:-translate-y-0.5 group cursor-pointer">
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-[28px]">biotech</span>
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">Production Pharmaceutical III</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Line 5 (Sachet) Gedung B</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-purple-50 dark:group-hover:bg-purple-900/30 transition-colors">
+                                <span class="material-symbols-outlined text-slate-400 group-hover:text-purple-500 transition-colors">arrow_forward</span>
+                            </div>
+                        </button>
+
                         {{-- Natural Product & Extraction --}}
                         <button onclick="openProductionModal('natural')"
                             class="w-full flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-amber-300 dark:hover:border-amber-700 transition-all hover:-translate-y-0.5 group cursor-pointer">
@@ -145,6 +162,7 @@
                             'pharma1a' => ['color' => 'text-red-600',    'bg' => 'bg-red-50 dark:bg-red-900/20'],
                             'pharma1b' => ['color' => 'text-blue-600',   'bg' => 'bg-blue-50 dark:bg-blue-900/20'],
                             'pharma2'  => ['color' => 'text-emerald-600','bg' => 'bg-emerald-50 dark:bg-emerald-900/20'],
+                            'pharma3'  => ['color' => 'text-purple-600', 'bg' => 'bg-purple-50 dark:bg-purple-900/20'],
                             'natural'  => ['color' => 'text-amber-600',  'bg' => 'bg-amber-50 dark:bg-amber-900/20'],
                         ];
                     @endphp
@@ -596,7 +614,6 @@
                         route: 'sirup',
                         templates: [
                             { label: 'Template Sirup', route: 'sirup' },
-                            { label: 'Template Konidin OBH (Sachet)', route: 'konidinobh' },
                         ]
                     },
                     {
@@ -609,9 +626,21 @@
                     },
                 ]
             },
-            natural: {
-                title: 'Natural Product & Extraction',
+            pharma3: {
+                title: 'Production Pharmaceutical III',
                 lines: [
+                    {
+                        name: 'Line 5 (Sachet) Gedung B',
+                        route: 'konidinobh',
+                        templates: [
+                            { label: 'Template Konidin OBH (Sachet)', route: 'konidinobh' },
+                            { label: 'Template Sirup', route: 'sirup' },
+                        ]
+                    },
+                ]
+            },
+            natural: {
+                title: 'Natural Product & Extraction',                lines: [
                     {
                         name: 'Line Obat Dalam',
                         route: 'sirup',

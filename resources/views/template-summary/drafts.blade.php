@@ -3,30 +3,32 @@
 @section('content')
     @php
         $defaultNames = [
-            'kapsul'    => 'KONILIFE OMEGA 3 SOFT CAPSULE',
-            'sirup'     => 'ANAKONIDIN OBH 30 ML',
-            'tablet'    => 'INZA 4 KAPLET',
-            'siladex'   => 'SILADEX ANTITUSSIVE 60 ML',
-            'nutracare' => 'NUTRACARE EPO 500 SOFT CAPSULE',
-            'heltiskin' => 'HELTISKIN CREAM',
-            'konvermex' => 'KONVERMEX 125 SUSPENSI',
+            'kapsul'     => 'KONILIFE OMEGA 3 SOFT CAPSULE',
+            'sirup'      => 'ANAKONIDIN OBH 30 ML',
+            'tablet'     => 'INZA 4 KAPLET',
+            'siladex'    => 'SILADEX ANTITUSSIVE 60 ML',
+            'nutracare'  => 'NUTRACARE EPO 500 SOFT CAPSULE',
+            'heltiskin'  => 'HELTISKIN CREAM',
+            'konvermex'  => 'KONVERMEX 125 SUSPENSI',
+            'konidinobh' => 'KONIDIN OBH (SACHET)',
         ];
         $segmentConfig = [
-            'pharma1a' => ['icon' => 'factory',                 'color' => 'red',     'accent' => 'bg-red-600',     'light' => 'bg-red-50 dark:bg-red-900/20',      'text' => 'text-red-500 dark:text-red-400',     'border' => 'border-red-200 dark:border-red-800/40',     'ring' => 'ring-red-500/20'],
-            'pharma1b' => ['icon' => 'factory',                 'color' => 'blue',    'accent' => 'bg-blue-600',    'light' => 'bg-blue-50 dark:bg-blue-900/20',    'text' => 'text-blue-500 dark:text-blue-400',    'border' => 'border-blue-200 dark:border-blue-800/40',   'ring' => 'ring-blue-500/20'],
-            'pharma2'  => ['icon' => 'precision_manufacturing', 'color' => 'emerald', 'accent' => 'bg-emerald-600', 'light' => 'bg-emerald-50 dark:bg-emerald-900/20','text' => 'text-emerald-600','border' => 'border-emerald-200 dark:border-emerald-800/40','ring' => 'ring-emerald-500/20'],
-            'pharma3'  => ['icon' => 'precision_manufacturing', 'color' => 'violet',  'accent' => 'bg-violet-600',  'light' => 'bg-violet-50 dark:bg-violet-900/20', 'text' => 'text-violet-600',  'border' => 'border-violet-200 dark:border-violet-800/40', 'ring' => 'ring-violet-500/20'],
-            'natural'  => ['icon' => 'eco',                     'color' => 'amber',   'accent' => 'bg-amber-500',   'light' => 'bg-amber-50 dark:bg-amber-900/20',   'text' => 'text-amber-600',   'border' => 'border-amber-200 dark:border-amber-800/40',  'ring' => 'ring-amber-500/20'],
-            'other'    => ['icon' => 'folder',                  'color' => 'slate',   'accent' => 'bg-slate-500',   'light' => 'bg-slate-100 dark:bg-slate-700',     'text' => 'text-slate-600',   'border' => 'border-slate-200 dark:border-slate-600',     'ring' => 'ring-slate-500/20'],
+            'pharma1a' => ['icon' => 'factory',                 'color' => 'red',     'accent' => 'bg-red-600',     'light' => 'bg-red-50 dark:bg-red-900/20',       'text' => 'text-red-500 dark:text-red-400',      'border' => 'border-red-200 dark:border-red-800/40',      'ring' => 'ring-red-500/20'],
+            'pharma1b' => ['icon' => 'factory',                 'color' => 'blue',    'accent' => 'bg-blue-600',    'light' => 'bg-blue-50 dark:bg-blue-900/20',     'text' => 'text-blue-500 dark:text-blue-400',    'border' => 'border-blue-200 dark:border-blue-800/40',    'ring' => 'ring-blue-500/20'],
+            'pharma2'  => ['icon' => 'precision_manufacturing', 'color' => 'emerald', 'accent' => 'bg-emerald-600', 'light' => 'bg-emerald-50 dark:bg-emerald-900/20','text' => 'text-emerald-600',                    'border' => 'border-emerald-200 dark:border-emerald-800/40','ring' => 'ring-emerald-500/20'],
+            'pharma3'  => ['icon' => 'biotech',                 'color' => 'purple',  'accent' => 'bg-purple-600',  'light' => 'bg-purple-50 dark:bg-purple-900/20', 'text' => 'text-purple-600',                     'border' => 'border-purple-200 dark:border-purple-800/40', 'ring' => 'ring-purple-500/20'],
+            'natural'  => ['icon' => 'eco',                     'color' => 'amber',   'accent' => 'bg-amber-500',   'light' => 'bg-amber-50 dark:bg-amber-900/20',   'text' => 'text-amber-600',                      'border' => 'border-amber-200 dark:border-amber-800/40',  'ring' => 'ring-amber-500/20'],
+            'other'    => ['icon' => 'folder',                  'color' => 'slate',   'accent' => 'bg-slate-500',   'light' => 'bg-slate-100 dark:bg-slate-700',     'text' => 'text-slate-600',                      'border' => 'border-slate-200 dark:border-slate-600',     'ring' => 'ring-slate-500/20'],
         ];
         $typeConfig = [
-            'sirup'     => ['icon' => 'water_drop',        'label' => 'Sirup'],
-            'tablet'    => ['icon' => 'medication',         'label' => 'Tablet'],
-            'kapsul'    => ['icon' => 'blender',            'label' => 'Kapsul'],
-            'heltiskin' => ['icon' => 'spa',                'label' => 'Heltiskin'],
-            'konvermex' => ['icon' => 'science',            'label' => 'Konvermex'],
-            'nutracare' => ['icon' => 'health_and_safety',  'label' => 'Nutracare'],
-            'siladex'   => ['icon' => 'local_pharmacy',     'label' => 'Siladex'],
+            'sirup'      => ['icon' => 'water_drop',        'label' => 'Sirup'],
+            'tablet'     => ['icon' => 'medication',         'label' => 'Tablet'],
+            'kapsul'     => ['icon' => 'blender',            'label' => 'Kapsul'],
+            'heltiskin'  => ['icon' => 'spa',                'label' => 'Heltiskin'],
+            'konvermex'  => ['icon' => 'science',            'label' => 'Konvermex'],
+            'nutracare'  => ['icon' => 'health_and_safety',  'label' => 'Nutracare'],
+            'siladex'    => ['icon' => 'local_pharmacy',     'label' => 'Siladex'],
+            'konidinobh' => ['icon' => 'medication_liquid',  'label' => 'Konidin OBH'],
         ];
     @endphp
 

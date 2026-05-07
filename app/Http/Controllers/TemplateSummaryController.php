@@ -43,8 +43,15 @@ class TemplateSummaryController extends Controller
                     'Line 2' => ['sirup'],
                     'Line 3' => ['sirup', 'siladex'],
                     'Line 4' => ['sirup', 'konvermex'],
-                    'Line 5' => ['sirup', 'konidinobh'],
+                    'Line 5' => ['sirup'],
                     'Line 6' => ['sirup', 'heltiskin'],
+                ],
+            ],
+            'pharma3' => [
+                'label' => 'Production Pharmaceutical III',
+                'icon'  => 'biotech',
+                'lines' => [
+                    'Line 5' => ['konidinobh', 'sirup'],
                 ],
             ],
             'natural' => [
@@ -118,7 +125,10 @@ class TemplateSummaryController extends Controller
 
             // Determine segment — urutan dari paling spesifik ke paling umum
             $segment = 'other';
-            if (str_contains($bagian, 'pharma iii') || str_contains($bagian, 'pharmaceutical iii') || str_contains($bagian, 'pharma3')) {
+            if (str_contains($bagian, 'pharma iii') || str_contains($bagian, 'pharmaceutical iii') || str_contains($bagian, 'pharma3') || str_contains($bagian, 'pharma 3')) {
+                $segment = 'pharma3';
+            } elseif ($draft->draft_type === 'konidinobh') {
+                // konidinobh selalu masuk pharma3 kecuali bagian secara eksplisit menunjuk lain
                 $segment = 'pharma3';
             } elseif (str_contains($bagian, 'pharmaceutical ii') || str_contains($bagian, 'pharma ii') || str_contains($bagian, 'pharma 2')) {
                 $segment = 'pharma2';
@@ -147,13 +157,14 @@ class TemplateSummaryController extends Controller
             // Fallback berdasarkan draft_type jika bagian kosong atau tidak dikenali
             if ($segment === 'other' && $bagian === '') {
                 $typeSegmentMap = [
-                    'tablet'    => 'pharma1b',
-                    'kapsul'    => 'pharma1a',
-                    'nutracare' => 'pharma1a',
-                    'sirup'     => 'pharma1a',
-                    'siladex'   => 'pharma2',
-                    'konvermex' => 'pharma2',
-                    'heltiskin' => 'pharma2',
+                    'tablet'     => 'pharma1b',
+                    'kapsul'     => 'pharma1a',
+                    'nutracare'  => 'pharma1a',
+                    'sirup'      => 'pharma1a',
+                    'siladex'    => 'pharma2',
+                    'konvermex'  => 'pharma2',
+                    'heltiskin'  => 'pharma2',
+                    'konidinobh' => 'pharma3',
                 ];
                 $segment = $typeSegmentMap[$draft->draft_type] ?? 'other';
             }
