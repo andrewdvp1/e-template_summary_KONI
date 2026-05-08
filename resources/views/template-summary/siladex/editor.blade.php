@@ -2487,11 +2487,19 @@
             document.cookie = 'export_done=; Max-Age=0; path=/';
             document.getElementById('exportLoadingModal').classList.remove('hidden');
 
+            const startTime = Date.now();
+            const minDisplayTime = 1500; // Minimum 1.5 detik
+
             const poll = setInterval(function () {
                 if (document.cookie.split(';').some(c => c.trim().startsWith('export_done=' + token))) {
-                    clearInterval(poll);
-                    document.cookie = 'export_done=; Max-Age=0; path=/';
-                    document.getElementById('exportLoadingModal').classList.add('hidden');
+                    const elapsedTime = Date.now() - startTime;
+                    const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
+                    
+                    setTimeout(function() {
+                        clearInterval(poll);
+                        document.cookie = 'export_done=; Max-Age=0; path=/';
+                        document.getElementById('exportLoadingModal').classList.add('hidden');
+                    }, remainingTime);
                 }
             }, 500);
         }
@@ -2499,15 +2507,15 @@
 
     {{-- Export Loading Modal --}}
     <div id="exportLoadingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div class="bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
-            <div class="w-16 h-16 rounded-full border-4 border-slate-600 border-t-red-500 animate-spin"></div>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
+            <div class="w-16 h-16 rounded-full border-4 border-slate-300 dark:border-slate-600 border-t-red-500 dark:border-t-red-400 animate-spin"></div>
             <div class="text-center">
-                <p class="text-white font-bold text-lg">Memproses Export</p>
-                <p class="text-slate-400 text-sm mt-1">Mohon tunggu, dokumen sedang dibuat...</p>
+                <p class="text-slate-900 dark:text-white font-bold text-lg">Memproses Export</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Mohon tunggu, dokumen sedang dibuat...</p>
             </div>
-            <div class="w-full flex items-center gap-3 bg-slate-700/60 rounded-xl px-4 py-3">
-                <span class="material-symbols-outlined text-red-400 text-[22px]">description</span>
-                <span class="text-slate-300 text-sm">Menghasilkan dokumen Word</span>
+            <div class="w-full flex items-center gap-3 bg-slate-100 dark:bg-slate-700/60 rounded-xl px-4 py-3">
+                <span class="material-symbols-outlined text-red-500 dark:text-red-400 text-[22px]">description</span>
+                <span class="text-slate-400 dark:text-slate-400 text-sm">Menghasilkan dokumen Word</span>
             </div>
         </div>
     </div>

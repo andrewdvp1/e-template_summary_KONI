@@ -270,7 +270,7 @@ class KonidinOBHExportService
     {
         return match ($key) {
             'mixing'          => 'Mixing',
-            'sachetting_awal' => 'Awal sachetting',
+            'sachetting_awal' => 'Awal Sachetting',
             'sachetting'      => 'Sachetting',
             default           => trim((string) ($this->data["{$key}_title"] ?? 'Subab')),
         };

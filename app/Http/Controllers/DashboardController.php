@@ -17,6 +17,7 @@ class DashboardController extends Controller
         $pharma1aTypes = ['kapsul', 'nutracare'];
         $pharma1bTypes = ['tablet'];
         $pharma2Types  = ['sirup', 'siladex', 'konvermex', 'heltiskin'];
+        $pharma3Types  = ['konidinobh']; // Pharma III - Sachet products
         $naturalTypes  = ['nutracare_natural']; // placeholder for future
 
         $draftCounts = [
@@ -24,6 +25,7 @@ class DashboardController extends Controller
             'pharma1a' => TemplateSummaryDraft::whereIn('draft_type', $pharma1aTypes)->count(),
             'pharma1b' => TemplateSummaryDraft::whereIn('draft_type', $pharma1bTypes)->count(),
             'pharma2'  => TemplateSummaryDraft::whereIn('draft_type', $pharma2Types)->count(),
+            'pharma3'  => TemplateSummaryDraft::whereIn('draft_type', $pharma3Types)->count(),
             'natural'  => TemplateSummaryDraft::whereIn('draft_type', $naturalTypes)->count(),
         ];
 

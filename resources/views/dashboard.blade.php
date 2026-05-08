@@ -24,11 +24,11 @@
         {{-- Statistics overview --}}
         <div>
             <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Statistik Draft Laporan Anda ({{ $draftCounts['total'] }} Total)</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 
                 {{-- Pharma I A --}}
                 <a href="{{ route('template-summary.index') }}"
-                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(220,38,38,0.15)] border border-slate-100 hover:border-red-200 dark:border-slate-700 dark:hover:border-red-800/50 overflow-hidden">
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(220,38,38,0.15)] border border-slate-100 hover:border-red-200 dark:border-slate-700 dark:hover:border-red-800/50 overflow-hidden aspect-square">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-red-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                     <div class="flex items-start justify-between relative z-10 mb-4">
                         <div>
@@ -50,7 +50,7 @@
 
                 {{-- Pharma I B --}}
                 <a href="{{ route('template-summary.index') }}"
-                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.15)] border border-slate-100 hover:border-blue-200 dark:border-slate-700 dark:hover:border-blue-800/50 overflow-hidden">
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.15)] border border-slate-100 hover:border-blue-200 dark:border-slate-700 dark:hover:border-blue-800/50 overflow-hidden aspect-square">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-blue-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                     <div class="flex items-start justify-between relative z-10 mb-4">
                         <div>
@@ -72,7 +72,7 @@
 
                 {{-- Pharma II --}}
                 <a href="{{ route('template-summary.index') }}"
-                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(16,185,129,0.15)] border border-slate-100 hover:border-emerald-200 dark:border-slate-700 dark:hover:border-emerald-800/50 overflow-hidden">
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(16,185,129,0.15)] border border-slate-100 hover:border-emerald-200 dark:border-slate-700 dark:hover:border-emerald-800/50 overflow-hidden aspect-square">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                     <div class="flex items-start justify-between relative z-10 mb-4">
                         <div>
@@ -92,9 +92,31 @@
                     </div>
                 </a>
 
+                {{-- Pharma III --}}
+                <a href="{{ route('template-summary.index') }}"
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(139,92,246,0.15)] border border-slate-100 hover:border-purple-200 dark:border-slate-700 dark:hover:border-purple-800/50 overflow-hidden aspect-square">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-purple-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-start justify-between relative z-10 mb-4">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">Pharma III</p>
+                            <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ $draftCounts['pharma3'] }}</h3>
+                        </div>
+                        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[26px]">inventory_2</span>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mb-2">Line Sachet (Konidin OBH)</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700/50 text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                            <span>Kelola Draft</span>
+                            <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </div>
+                </a>
+
                 {{-- Natural Product --}}
                 <a href="{{ route('template-summary.index') }}"
-                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(245,158,11,0.15)] border border-slate-100 hover:border-amber-200 dark:border-slate-700 dark:hover:border-amber-800/50 overflow-hidden">
+                    class="group relative bg-white dark:bg-slate-800 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(245,158,11,0.15)] border border-slate-100 hover:border-amber-200 dark:border-slate-700 dark:hover:border-amber-800/50 overflow-hidden aspect-square">
                     <div class="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-full blur-3xl -mr-14 -mt-14 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                     <div class="flex items-start justify-between relative z-10 mb-4">
                         <div>
@@ -164,6 +186,10 @@
                                 elseif($draft->draft_type === 'siladex') {
                                     $icon = 'local_pharmacy';
                                     $iconColor = 'text-violet-500';
+                                }
+                                elseif($draft->draft_type === 'konidinobh') {
+                                    $icon = 'inventory_2';
+                                    $iconColor = 'text-purple-500';
                                 }
                             @endphp
                             <div class="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">

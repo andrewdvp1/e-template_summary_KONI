@@ -158,7 +158,7 @@
                             <div class="bab23-subsubab-container ml-6 flex flex-col gap-4">
                                 <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_1">
                                     <div class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
-                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.1.</span>&nbsp; Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-48" placeholder="500,25 ± 37,52 mg">.</p>
+                                        <p class="pl-12 -indent-12"><span class="bab23-subsubab-number font-medium cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors" onclick="toggleBab23SubSubab(this)" title="Klik untuk disable/enable">2.3.1.1.</span>&nbsp; Hasil enkapsulasi memiliki keseragaman bobot (isi) dengan syarat kualitas <input type="text" name="enkapsulasi_bobot_syarat" class="template-input w-48" placeholder="500,25 ï¿½ 37,52 mg">.</p>
                                     </div>
                                 </div>
                                 <div class="bab23-subsubab" data-subsubab-key="enkapsulasi_2">
@@ -608,20 +608,20 @@
             if (nutracareForm) { nutracareForm.addEventListener('submit', function() { showExportModal(); document.querySelectorAll('.mixing-table-item').forEach(tableItem => { const tableUid = getTableUidFromItem(tableItem); if (!tableUid) return; const previewBox = tableItem.querySelector('.image-preview-box'); const img = previewBox ? previewBox.querySelector('img') : null; const base64Input = tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`); if (img && img.src && img.src.startsWith('data:image') && base64Input && !base64Input.value) base64Input.value = img.src; }); }); }
             document.querySelectorAll('.mixing-table-item').forEach(tableItem => { const tableUid = getTableUidFromItem(tableItem); if (!tableUid) return; const pastedTableInput = tableItem.querySelector(`input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`); if (pastedTableInput && pastedTableInput.value) { try { const rows = JSON.parse(pastedTableInput.value); if (Array.isArray(rows) && rows.length) renderPastedTablePreview(tableItem, rows); } catch (e) {} } const base64Input = tableItem.querySelector(`input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`); if (base64Input && base64Input.value && base64Input.value.startsWith('data:image')) { const previewBox = tableItem.querySelector('.image-preview-box'); const img = previewBox ? previewBox.querySelector('img') : null; if (img && previewBox) { img.src = base64Input.value; previewBox.classList.remove('hidden'); } } });
         });
-        function showExportModal() { const token = 'exp_' + Date.now(); let tokenInput = document.getElementById('export_token_input'); if (!tokenInput) { tokenInput = document.createElement('input'); tokenInput.type = 'hidden'; tokenInput.name = 'export_token'; tokenInput.id = 'export_token_input'; document.getElementById('nutracareTemplateForm').appendChild(tokenInput); } tokenInput.value = token; document.cookie = 'export_done=; Max-Age=0; path=/'; document.getElementById('exportLoadingModal').classList.remove('hidden'); const poll = setInterval(function () { if (document.cookie.split(';').some(c => c.trim().startsWith('export_done=' + token))) { clearInterval(poll); document.cookie = 'export_done=; Max-Age=0; path=/'; document.getElementById('exportLoadingModal').classList.add('hidden'); } }, 500); }
+        function showExportModal() { const token = 'exp_' + Date.now(); let tokenInput = document.getElementById('export_token_input'); if (!tokenInput) { tokenInput = document.createElement('input'); tokenInput.type = 'hidden'; tokenInput.name = 'export_token'; tokenInput.id = 'export_token_input'; document.getElementById('nutracareTemplateForm').appendChild(tokenInput); } tokenInput.value = token; document.cookie = 'export_done=; Max-Age=0; path=/'; document.getElementById('exportLoadingModal').classList.remove('hidden'); const startTime = Date.now(); const minDisplayTime = 1500; const poll = setInterval(function () { if (document.cookie.split(';').some(c => c.trim().startsWith('export_done=' + token))) { const elapsedTime = Date.now() - startTime; const remainingTime = Math.max(0, minDisplayTime - elapsedTime); setTimeout(function() { clearInterval(poll); document.cookie = 'export_done=; Max-Age=0; path=/'; document.getElementById('exportLoadingModal').classList.add('hidden'); }, remainingTime); } }, 500); }
     </script>
 
     {{-- Export Loading Modal --}}
     <div id="exportLoadingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div class="bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
-            <div class="w-16 h-16 rounded-full border-4 border-slate-600 border-t-red-500 animate-spin"></div>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
+            <div class="w-16 h-16 rounded-full border-4 border-slate-300 dark:border-slate-600 border-t-red-500 dark:border-t-red-400 animate-spin"></div>
             <div class="text-center">
-                <p class="text-white font-bold text-lg">Memproses Export</p>
-                <p class="text-slate-400 text-sm mt-1">Mohon tunggu, dokumen sedang dibuat...</p>
+                <p class="text-slate-900 dark:text-white font-bold text-lg">Memproses Export</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Mohon tunggu, dokumen sedang dibuat...</p>
             </div>
-            <div class="w-full flex items-center gap-3 bg-slate-700/60 rounded-xl px-4 py-3">
-                <span class="material-symbols-outlined text-red-400 text-[22px]">description</span>
-                <span class="text-slate-300 text-sm">Menghasilkan dokumen Word</span>
+            <div class="w-full flex items-center gap-3 bg-slate-100 dark:bg-slate-700/60 rounded-xl px-4 py-3">
+                <span class="material-symbols-outlined text-red-500 dark:text-red-400 text-[22px]">description</span>
+                <span class="text-slate-400 dark:text-slate-400 text-sm">Menghasilkan dokumen Word</span>
             </div>
         </div>
     </div>

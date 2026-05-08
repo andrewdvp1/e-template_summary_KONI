@@ -1196,6 +1196,10 @@ class TemplateSummaryController extends Controller
     }
 
 
+
+
+
+
     public function parseExcel(Request $request)
     {
         //     $request->validate([
@@ -1367,13 +1371,13 @@ class TemplateSummaryController extends Controller
         ]);
     }
 
-    public function exportKonidinOBH(Request $request)
+    public function exportKonidinobh(Request $request)
     {
         $exportService = new \App\Services\Export\KonidinOBHExportService();
         return $exportService->export($request->all());
     }
 
-    public function saveKonidinOBHDraft(Request $request): JsonResponse
+    public function saveKonidinobhDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'draft_id'    => ['nullable', 'integer'],
