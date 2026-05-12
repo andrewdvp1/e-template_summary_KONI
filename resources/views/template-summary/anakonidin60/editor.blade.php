@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{ route('template-summary.tablet.export') }}" method="POST" id="tabletTemplateForm"
+    <form action="{{ route('template-summary.anakonidin60.export') }}" method="POST" id="anakonidin60TemplateForm"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="draft_id" id="draft_id" value="{{ $draft->id ?? '' }}">
-        <input type="hidden" name="draft_line" id="draft_line" value="{{ $draftLine ?? ''  }}">
+        <input type="hidden" name="draft_line" id="draft_line" value="{{ $draftLine ?? '' }}">
 
         <div class="max-w-5xl mx-auto flex flex-col gap-6 pb-24">
 
@@ -21,17 +21,17 @@
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
                             <input type="text" name="judul_nama_produk" class="template-input sync-input w-48 uppercase"
-                                data-sync="nama_produk" placeholder="INZA 4 Kaplet">
+                                data-sync="nama_produk" placeholder="Anakonidin OBH 60 ML">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
-                            (<input type="text" name="judul_formula" class="template-input sync-input w-96"
-                                data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">) DI LINE
+                            (<input type="text" name="judul_formula" class="template-input sync-input w-128"
+                                data-sync="formula" placeholder="A001 ex LKA, A019 ex RAS, C018 ex SLI, G012 ex SXJ, P023 ex MLD">) DI LINE
                             <input type="text" name="judul_line" class="template-input sync-input w-8" data-sync="line"
-                                placeholder="Tablet" value="Tablet">
+                                placeholder="1">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-96 uppercase"
-                                data-sync="bagian" value="Produksi Farmasi I Gedung B"
-                                placeholder="Produksi Farmasi I Gedung B">
+                                data-sync="bagian" value="Production (Pharmaceutical II) Gedung B"
+                                placeholder="Production (Pharmaceutical II) Gedung B">
                         </p>
                     </div>
 
@@ -93,23 +93,23 @@
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
                                 produk
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="INZA 4 Kaplet">
+                                    data-sync="nama_produk" placeholder="Anakonidin OBH 60 ml">
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
-                                    data-sync="line" placeholder="2">
+                                    data-sync="line" placeholder="1">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-96"
-                                    data-sync="bagian" value="Produksi Farmasi I Gedung B"
-                                    placeholder="Produksi Farmasi I Gedung B">
+                                    data-sync="bagian" value="Produksi Farmasi II Line Soft Capsule Gedung B"
+                                    placeholder="Production (Produksi Farmasi II Line Soft Capsule Gedung B">
                                 yang diproduksi dengan
                                 <textarea name="tujuan_mesin" class="template-input sync-input w-full resize-none overflow-hidden" 
                                     data-sync="mesin" rows="2"
                                     style="min-height: 2.5rem; line-height: 1.25rem;"
-                                    placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060"
-                                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060</textarea>
+                                    placeholder="Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188"
+                                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188</textarea>
                                 dalam menghasilkan produk
                                 <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="INZA 4 Kaplet">
+                                    data-sync="nama_produk" placeholder="Anakonidin OBH 60 ml">
                                 dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
                                 dan Spesifikasi Kemasan yang berlaku.
                             </p>
@@ -127,13 +127,13 @@
                                     placeholder="tiga">
                                 batch produksi dengan besaran batch
                                 <input type="text" name="batch_besaran" class="template-input w-20"
-                                    placeholder="600 L">
+                                    placeholder="1.000 L">
                                 =
                                 <input type="text" name="batch_jumlah_botol" class="template-input w-24"
-                                    placeholder="20.000">
+                                    placeholder="16.666">
                                 botol @
                                 <input type="text" name="batch_volume_per_botol" class="template-input w-16"
-                                    value="" placeholder="30 ml">,
+                                    placeholder="60 ml">,
                                 yaitu
                                 <input type="text" name="batch_kode_list" class="template-input sync-input w-64"
                                     data-sync="batch" placeholder="A26A01, A26A02, A26A03">:
@@ -215,15 +215,19 @@
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
+
                     {{-- 2.1 --}}
-                    <div>
-                        <!-- <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3">2.1</h3> -->
-                        <div
-                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                    <div class="bab2-section" data-section-id="1">
+                        <div class="bab2-section-content text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
                             <p class="pl-8 -indent-8">
-                                <span class="font-semibold">2.1.</span> Semua tahap dalam penimbangan bahan baku, mixing,
-                                dan filling telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.
-                            </p>
+                                <span class="bab2-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.1.</span> Semua tahap dalam
+                            
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-115"
+                                    data-sync="rangkuman"
+                                    value="penimbangan bahan baku, mixing, dan filling-capping"
+                                    placeholder="penimbangan bahan baku, mixing, dan filling-capping">
+                            telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.</p>
                         </div>
                     </div>
 
@@ -340,12 +344,9 @@
                                 class="mt-6 text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
                                 <p>
                                     Atribut yang diuji pada tahap mixing sudah memberikan hasil yang
-                                    <input type="text" name="mixing_hasil" class="template-input w-32" value=""
+                                    <input type="text" name="mixing_hasil" class="template-input w-32"
                                         placeholder="memenuhi">
-                                    persyaratan menurut Spesifikasi Produk yang berlaku
-                                    <input type="text" name="mixing_hasil_catatan" class="template-input w-64"
-                                        value="" placeholder="">
-                                    .
+                                    persyaratan menurut Spesifikasi Produk yang berlaku.
                                 </p>
                             </div>
                         </div>
@@ -361,6 +362,7 @@
                     </div>
                 </div>
             </div>
+
 
             {{-- BAB 3: KESIMPULAN --}}
             <div
@@ -386,10 +388,10 @@
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="INZA 4 Kaplet">,
+                                    placeholder="Anakonidin OBH 60 ml">,
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
-                                    class="template-input sync-input w-48" data-sync="batch"
+                                    class="template-input sync-input w-56" data-sync="batch"
                                     placeholder="A26A01, A26A02, A26A03">
                                 yang digunakan sebagai batch validasi proses.
                             </p>
@@ -404,13 +406,15 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
-                                Atribut yang diuji pada tahap mixing (<input type="text"
-                                    name="kesimpulan_mixing_atribut" class="template-input w-115"
-                                    value = "bentuk, warna, aroma, kejernihan, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
-                                    placeholder="bentuk, warna, aroma, kejernihan, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba">)
+                                Atribut yang diuji pada tahap mixing (<textarea
+                                    name="kesimpulan_mixing_atribut" class="template-input w-128 resize-none overflow-hidden"
+                                    rows="2"
+                                    style="min-height: 2.5rem; line-height: 1.25rem;"
+                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
+                                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba</textarea>)
                                 sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                    placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk yang berlaku.
                             </p>
                         </div>
@@ -425,12 +429,12 @@
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
                                 Atribut yang diuji pada tahap awal filling-capping (<input type="text"
-                                    name="kesimpulan_fillingawal_atribut" class="template-input w-115"
-                                    value="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba">)
+                                    name="kesimpulan_fillingawal_atribut" class="template-input w-68"
+                                    value="kadar zat aktif, kadar pengawet"
+                                    placeholder="kadar zat aktif, kadar pengawet">)
                                 sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_fillingawal_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                    placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk yang berlaku.
                             </p>
                         </div>
@@ -444,13 +448,15 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
-                                Atribut yang diuji pada tahap filling-capping produk suspensi ke dalam kemasan botol (<input
-                                    type="text" name="kesimpulan_filling_atribut" class="template-input w-full"
-                                    value = "bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan"
-                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, kebocoran botol, volume terpindahkan">)
+                                Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol <textarea
+                                    name="kesimpulan_filling_atribut" class="template-input w-full resize-none overflow-hidden"
+                                    rows="2"
+                                    style="min-height: 2.5rem; line-height: 1.25rem;"
+                                    placeholder="bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan"
+                                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan</textarea>
                                 sudah memberikan hasil yang
                                 <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
-                                    value="" placeholder="memenuhi">
+                                    placeholder="memenuhi">
                                 persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
                             </p>
                         </div>
@@ -466,22 +472,26 @@
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.5</span>
                                 Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses
                                 produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
-                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-full"
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-115"
                                     value="mixing, awal filling-capping, selama filling-capping"
                                     placeholder="mixing, awal filling-capping, selama filling-capping">
-                                yang memenuhi persyaratan, maka proses
+                                yang
+                                <input type="text" name="kesimpulan_filling_hasil" class="template-input w-32"
+                                    placeholder="memenuhi">
+                                persyaratan, maka proses
                                 pengolahan dan pengemasan produk
                                 <input type="text" name="kesimpulan_final_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="INZA 4 Kaplet">
+                                    placeholder="Anakonidin OBH 60 ml">
                                 menggunakan
-                                <input type="text" name="kesimpulan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060"
-                                    placeholder="Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060">
+                                <textarea name="kesimpulan_mesin" class="template-input sync-input w-full resize-none overflow-hidden"
+                                    data-sync="mesin" rows="2"
+                                    style="min-height: 2.5rem; line-height: 1.25rem;"
+                                    placeholder="Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188"
+                                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188</textarea>
                                 dengan formula zat aktif
-                                (<input type="text" name="kesimpulan_formula" class="template-input sync-input w-96"
-                                    data-sync="formula" placeholder="Formula Zat Aktif (Opsional)">)
+                                (<input type="text" name="kesimpulan_formula" class="template-input sync-input w-128"
+                                    data-sync="formula" placeholder="A001 ex LKA, A019 ex RAS, C018 ex SLI, G012 ex SXJ, P023 ex MLD">)
                                 dinyatakan
                                 <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
                                     placeholder="validated">.
@@ -578,56 +588,51 @@
         const tableData = {};
 
         function handleExcelPaste(event, tableId) {
-            event.preventDefault();
+            // Jangan hentikan default jika Anda ingin teks tetap muncul di textarea sebentar
+            // Namun untuk parsing Excel, kita butuh data clipboard-nya
+            const clipboardData = event.clipboardData || window.clipboardData;
+            const pastedData = clipboardData.getData('text');
 
-            // Get pasted data
-            const pastedData = (event.clipboardData || window.clipboardData).getData('text');
-
-            if (!pastedData.trim()) {
+            if (!pastedData || !pastedData.trim()) {
                 return;
             }
 
-            // Parse tab-separated values
-            const rows = pastedData.trim().split('\n').map(row => row.split('\t'));
+            event.preventDefault(); // Hentikan paste teks mentah ke textarea jika data valid
 
-            if (rows.length === 0) {
-                return;
-            }
+            // Parse tab-separated values (Excel format)
+            const rows = pastedData.trim().split(/\r?\n/).map(row => row.split('\t'));
 
-            // Store data
+            if (rows.length === 0) return;
+
+            // Simpan ke hidden input
             tableData[tableId] = rows;
-            document.getElementById('hidden_data_' + tableId).value = JSON.stringify(rows);
+            const hiddenInput = document.getElementById('hidden_data_' + tableId);
+            if (hiddenInput) {
+                hiddenInput.value = JSON.stringify(rows);
+            }
 
-            // Build table preview
+            // Update UI Preview
             const tbody = document.getElementById('table_body_' + tableId);
-            tbody.innerHTML = '';
-
-            rows.forEach((row, index) => {
-                const tr = document.createElement('tr');
-                tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50';
-
-                // Ensure we have 4 columns
-                while (row.length < 4) {
-                    row.push('');
-                }
-
-                row.slice(0, 4).forEach(cell => {
-                    const td = document.createElement('td');
-                    td.className =
-                        'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700';
-                    td.textContent = cell.trim();
-                    tr.appendChild(td);
+            if (tbody) {
+                tbody.innerHTML = '';
+                rows.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = index % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50 dark:bg-slate-900/50';
+                    
+                    // Ambil maksimal 4 kolom sesuai header
+                    for (let i = 0; i < 4; i++) {
+                        const td = document.createElement('td');
+                        td.className = 'px-4 py-2 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700';
+                        td.textContent = row[i] || '';
+                        tr.appendChild(td);
+                    }
+                    tbody.appendChild(tr);
                 });
 
-                tbody.appendChild(tr);
-            });
-
-            // Show table preview, hide paste area
-            document.getElementById('paste_instructions_' + tableId).classList.add('hidden');
-            document.getElementById('table_preview_' + tableId).classList.remove('hidden');
-
-            // Clear textarea
-            document.getElementById('excel_paste_' + tableId).value = '';
+                // Toggle visibility
+                document.getElementById('paste_instructions_' + tableId).classList.add('hidden');
+                document.getElementById('table_preview_' + tableId).classList.remove('hidden');
+            }
         }
 
         function clearExcelTable(tableId) {
@@ -651,6 +656,7 @@
         }
 
         async function triggerClipboardPaste(button) {
+            // Minta akses clipboard dari browser
             if (!navigator.clipboard || !navigator.clipboard.read) {
                 alert('Browser Anda tidak mendukung akses clipboard otomatis. Silakan gunakan Ctrl+V langsung di area textarea.');
                 return;
@@ -661,6 +667,7 @@
                 if (!tableItem) return;
 
                 for (const clipboardItem of clipboardItems) {
+                    // Cek apakah ada gambar di clipboard
                     for (const type of clipboardItem.types) {
                         if (type.startsWith('image/')) {
                             const blob = await clipboardItem.getType(type);
@@ -674,6 +681,7 @@
                             return;
                         }
                     }
+                    // Cek apakah ada teks/tabel di clipboard
                     for (const type of clipboardItem.types) {
                         if (type === 'text/plain') {
                             const blob = await clipboardItem.getType(type);
@@ -697,6 +705,7 @@
                     }
                 }
             } catch (err) {
+                // Fallback: fokuskan textarea agar user bisa paste manual
                 const textarea = button.closest('.mt-4')?.querySelector('.clipboard-input-area');
                 if (textarea) textarea.focus();
                 alert('Tidak bisa membaca clipboard otomatis. Silakan klik area teks di bawah tombol ini lalu tekan Ctrl+V.');
@@ -713,6 +722,7 @@
             for (let index in items) {
                 const item = items[index];
                 if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
+                    // Logika Handle Paste Gambar
                     const blob = item.getAsFile();
                     if (!blob) continue;
 
@@ -722,28 +732,32 @@
                     const tableItem = textarea.closest('.mixing-table-item');
                     if (!tableItem) break;
 
+                    // Isi input[type="file"] via DataTransfer agar gambar ikut ter-submit saat export
                     const imageInput = tableItem.querySelector('input[type="file"][accept*="image"]');
                     if (imageInput) {
                         try {
                             const transfer = new DataTransfer();
                             transfer.items.add(blob);
                             imageInput.files = transfer.files;
+                            // previewImage akan menampilkan gambar DAN menyembunyikan upload-grid
                             previewImage(imageInput);
                         } catch (e) {
+                            // Fallback: tampilkan preview via FileReader jika DataTransfer gagal
                             const reader = new FileReader();
                             reader.onload = function(ev) {
                                 const previewBox = tableItem.querySelector('.image-preview-box');
                                 const img = previewBox ? previewBox.querySelector('img') : null;
-                                const pasteInstructions = tableItem.querySelector('.paste-instructions');
+                                const grid = tableItem.querySelector('.mixing-upload-grid');
                                 if (img && previewBox) {
                                     img.src = ev.target.result;
                                     previewBox.classList.remove('hidden');
                                 }
-                                if (pasteInstructions) pasteInstructions.classList.add('hidden');
+                                if (grid) grid.classList.add('hidden');
                             };
                             reader.readAsDataURL(blob);
                         }
                     } else {
+                        // Tidak ada file input, tampilkan preview saja
                         const reader = new FileReader();
                         reader.onload = function(ev) {
                             const previewBox = tableItem.querySelector('.image-preview-box');
@@ -761,9 +775,11 @@
                 }
             }
 
+            // Jika bukan gambar, cek apakah ada data tabel Excel (tab-separated)
             if (!foundImage) {
                 const text = clipboardData.getData('text/plain') || clipboardData.getData('text');
                 if (text && text.includes('\t')) {
+                    // Ada data tabel dari Excel — proses sebagai tabel yang di-paste
                     const tableItem = textarea.closest('.mixing-table-item');
                     if (tableItem) {
                         event.preventDefault();
@@ -820,7 +836,7 @@
         function collectFormValues() {
             const values = {};
             document.querySelectorAll(
-                    '#tabletTemplateForm input[name]:not([type="file"]), #tabletTemplateForm textarea[name], #tabletTemplateForm select[name]'
+                    '#sirupTemplateForm input[name]:not([type="file"]), #sirupTemplateForm textarea[name], #sirupTemplateForm select[name]'
                 )
                 .forEach(input => {
                     if (input.name === 'draft_id' || input.name === '_token') {
@@ -884,7 +900,7 @@
         function collectDraftState() {
             const disabledFieldNames = [];
             document.querySelectorAll(
-                    '#tabletTemplateForm input[name], #tabletTemplateForm textarea[name], #tabletTemplateForm select[name]')
+                    '#sirupTemplateForm input[name], #sirupTemplateForm textarea[name], #sirupTemplateForm select[name]')
                 .forEach(field => {
                     if (field.disabled) {
                         disabledFieldNames.push(field.name);
@@ -912,6 +928,7 @@
                     return;
                 }
 
+                // Prioritas 1: gambar dari existing (sudah di-upload ke server via Save Draft)
                 const existingImageInput = tableItem.querySelector(
                     `input[name="existing_mixing_image_file[${tableUid}]"]`);
                 if (existingImageInput && existingImageInput.value) {
@@ -1107,13 +1124,13 @@
             setSaveDraftLoading(true);
 
             try {
-                const form = document.getElementById('tabletTemplateForm');
+                const form = document.getElementById('sirupTemplateForm');
                 const formData = new FormData(form);
                 formData.delete('_token');
                 formData.append('_token', CSRF_TOKEN);
                 const state = collectDraftState();
 
-                const product = (state.form_values.judul_nama_produk || '').trim() || 'Inza';
+                const product = (state.form_values.judul_nama_produk || '').trim() || 'Anakonidin';
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
@@ -1301,7 +1318,7 @@
         // ===========================================
 
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
-        const SAVE_DRAFT_URL = "{{ route('template-summary.tablet.draft', [], false) }}";
+        const SAVE_DRAFT_URL = "{{ route('template-summary.sirup.draft', [], false) }}";
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INITIAL_DRAFT_STATE = @json($initialDraftState ?? null);
 
@@ -1564,6 +1581,7 @@
                     if (pasteInstructions) pasteInstructions.classList.add('hidden');
                     previewBox.classList.remove('hidden');
 
+                    // Simpan base64 ke hidden input agar ikut ter-submit saat export
                     const tableUid = getTableUidFromItem(tableItem);
                     if (tableUid) {
                         const base64Input = tableItem.querySelector(
@@ -1646,9 +1664,7 @@
                     <p>
                         Atribut yang diuji pada tahap ${stageText} sudah memberikan hasil yang
                         <input type="text" name="${fieldName}" class="template-input w-32" placeholder="memenuhi">
-                        persyaratan menurut ${specText} yang berlaku
-                        <input type="text" name="${fieldName}_catatan" class="template-input w-64" placeholder="">
-                        .
+                        persyaratan menurut ${specText} yang berlaku.
                     </p>
                 </div>`;
         }
@@ -2003,14 +2019,16 @@
             // FORM SUBMIT: Pastikan semua base64 & tabel
             // ter-serialize ke hidden input sebelum export
             // ===========================================
-            const tabletForm = document.getElementById('tabletTemplateForm');
-            if (tabletForm) {
-                tabletForm.addEventListener('submit', function() {
+            const sirupForm = document.getElementById('sirupTemplateForm');
+            if (sirupForm) {
+                sirupForm.addEventListener('submit', function() {
                     showExportModal();
+                    // Pastikan setiap mixing-table-item sudah punya base64 di hidden input
                     document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
                         const tableUid = getTableUidFromItem(tableItem);
                         if (!tableUid) return;
 
+                        // Sync base64 dari img.src ke hidden input (jaga-jaga jika belum ter-set)
                         const previewBox = tableItem.querySelector('.image-preview-box');
                         const img = previewBox ? previewBox.querySelector('img') : null;
                         const base64Input = tableItem.querySelector(
@@ -2028,6 +2046,7 @@
                 const tableUid = getTableUidFromItem(tableItem);
                 if (!tableUid) return;
 
+                // Restore pasted table JSON preview
                 const pastedTableInput = tableItem.querySelector(
                     `input[name="mixing_pasted_table_json[${escapeNameForSelector(tableUid)}]"]`);
                 if (pastedTableInput && pastedTableInput.value) {
@@ -2037,6 +2056,7 @@
                     } catch (e) { /* abaikan parse error */ }
                 }
 
+                // Restore base64 image preview (gambar yang di-paste, belum di-save ke server)
                 const base64Input = tableItem.querySelector(
                     `input[name="mixing_image_base64[${escapeNameForSelector(tableUid)}]"]`);
                 if (base64Input && base64Input.value && base64Input.value.startsWith('data:image')) {
@@ -2052,6 +2072,7 @@
             });
         });
         function showExportModal() {
+            // Generate a unique token and inject it into the form
             const token = 'exp_' + Date.now();
             let tokenInput = document.getElementById('export_token_input');
             if (!tokenInput) {
@@ -2059,16 +2080,19 @@
                 tokenInput.type = 'hidden';
                 tokenInput.name = 'export_token';
                 tokenInput.id = 'export_token_input';
-                document.getElementById('tabletTemplateForm').appendChild(tokenInput);
+                document.getElementById('sirupTemplateForm').appendChild(tokenInput);
             }
             tokenInput.value = token;
 
+            // Clear any old cookie
             document.cookie = 'export_done=; Max-Age=0; path=/';
+
             document.getElementById('exportLoadingModal').classList.remove('hidden');
 
             const startTime = Date.now();
             const minDisplayTime = 1500; // Minimum 1.5 detik
 
+            // Poll for the cookie the server sets when download is ready
             const poll = setInterval(function () {
                 if (document.cookie.split(';').some(c => c.trim().startsWith('export_done=' + token))) {
                     const elapsedTime = Date.now() - startTime;

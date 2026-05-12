@@ -39,7 +39,7 @@ class TemplateSummaryController extends Controller
                 'label' => 'Production Pharmaceutical II',
                 'icon'  => 'precision_manufacturing',
                 'lines' => [
-                    'Line 1' => ['sirup'],
+                    'Line 1' => ['sirup', 'Anakonidin 60 ml'],
                     'Line 2' => ['sirup'],
                     'Line 3' => ['sirup', 'siladex'],
                     'Line 4' => ['sirup', 'konvermex'],
@@ -98,7 +98,8 @@ class TemplateSummaryController extends Controller
     public function drafts()
     {
         $allDrafts = TemplateSummaryDraft::query()
-            ->where('draft_type', 'sirup')
+            ->where('draft_type', 'anakonidin30')
+            ->orWhere('draft_type', 'sirup')  // Legacy support
             ->orWhere('draft_type', 'tablet')
             ->orWhere('draft_type', 'kapsul')
             ->orWhere('draft_type', 'heltiskin')
@@ -106,6 +107,7 @@ class TemplateSummaryController extends Controller
             ->orwhere('draft_type', 'nutracare')
             ->orwhere('draft_type', 'siladex')
             ->orwhere('draft_type', 'konidinobh')
+            ->orwhere('draft_type', 'anakonidin60')
             ->latest('updated_at')
             ->get();
 
@@ -160,7 +162,8 @@ class TemplateSummaryController extends Controller
                     'tablet'     => 'pharma1b',
                     'kapsul'     => 'pharma1a',
                     'nutracare'  => 'pharma1a',
-                    'sirup'      => 'pharma1a',
+                    'anakonidin30' => 'pharma1a',
+                    'anakonidin60' => 'pharma2',
                     'siladex'    => 'pharma2',
                     'konvermex'  => 'pharma2',
                     'heltiskin'  => 'pharma2',
@@ -189,14 +192,15 @@ class TemplateSummaryController extends Controller
      */
     public function deleteDraft(TemplateSummaryDraft $draft): JsonResponse
     {
-        if ($draft->draft_type !== 'sirup' && 
+        if ($draft->draft_type !== 'anakonidin30' && 
         $draft->draft_type !== 'tablet' && 
         $draft->draft_type !== 'kapsul' && 
         $draft->draft_type !== 'heltiskin' &&
         $draft->draft_type !== 'konvermex' &&
         $draft->draft_type !== 'nutracare' &&
         $draft->draft_type !== 'siladex' &&
-        $draft->draft_type !== 'konidinobh') {
+        $draft->draft_type !== 'konidinobh'&&
+        $draft->draft_type !== 'anakonidin60' ) {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -213,12 +217,15 @@ class TemplateSummaryController extends Controller
 
     }
     /**
-     * Fungsi Continue Draft untuk mengarahkan ke editor yang sesuai berdasarkan tipe draft (sirup/tablet/kapsul)
+     * Fungsi Continue Draft untuk mengarahkan ke editor yang sesuai berdasarkan tipe draft
      */
     public function continueDraft(TemplateSummaryDraft $draft)
     {
-        if ($draft->draft_type === 'sirup') {
-            return redirect()->route('template-summary.sirup', ['draft' => $draft->id]);
+        if ($draft->draft_type === 'anakonidin30') {
+            return redirect()->route('template-summary.anakonidin30', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'sirup') {
+            // Legacy support - redirect sirup to anakonidin30
+            return redirect()->route('template-summary.anakonidin30', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'tablet') {
             return redirect()->route('template-summary.tablet', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'kapsul') {
@@ -233,149 +240,12 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.siladex', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'konidinobh') {
             return redirect()->route('template-summary.konidinobh', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'anakonidin60') {
+            return redirect()->route('template-summary.anakonidin60', ['draft' => $draft->id]);
         }
-
         abort(404, 'Draft tidak ditemukan.');
     }
 
-    /**
-     * Show Sirup template editor
-     */
-    public function sirupEditor(Request $request)
-    {
-        $draft = null;
-        $from = 'new';
-        if ($request->filled('draft')) {
-            $draft = TemplateSummaryDraft::query()
-                ->where('draft_type', 'sirup')
-                ->findOrFail($request->string('draft')->toString());
-            $payload = $draft->payload;
-            if (is_array($payload)) {
-                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
-            }
-            $from = 'draft';
-        }
-
-        $breadcrumb = [
-            'Summary' => route('template-summary.index'),
-        ];
-        if ($from === 'draft') {
-            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
-        } else {
-            $breadcrumb['Buat Baru'] = route('template-summary.index');
-        }
-        $breadcrumb['Sirup'] = null;
-
-        return view('template-summary.sirup.editor', [
-            'title' => 'Template Sirup',
-            'breadcrumb' => $breadcrumb,
-            'draft' => $draft,
-            'initialDraftState' => $draft?->payload,
-            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
-        ]);
-    }
-
-    /**
-     * Export Sirup template to Word
-     */
-    public function exportSirup(Request $request)
-    {
-        // Will be implemented later with SirupExportService
-        $exportService = new \App\Services\Export\SirupExportService();
-        return $exportService->export($request->all());
-    }
-
-    public function saveSirupDraft(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'draft_id'    => ['nullable', 'integer'],
-            'draft_title' => ['nullable', 'string', 'max:255'],
-            'draft_line'  => ['nullable', 'string', 'max:100'],
-            'draft_state' => ['required', 'string'],
-        ]);
-
-        $decodedState = json_decode($validated['draft_state'], true);
-        if (!is_array($decodedState)) {
-            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
-        }
-
-        $draft = null;
-        if (!empty($validated['draft_id'])) {
-            $draft = TemplateSummaryDraft::query()->where('draft_type', 'sirup')->find($validated['draft_id']);
-        }
-
-        if (!$draft) {
-            $draft = TemplateSummaryDraft::create([
-                'draft_type'  => 'sirup',
-                'draft_line'  => $validated['draft_line'] ?? null,
-                'title'       => $this->resolveDraftTitle($decodedState),
-                'payload'     => [],
-                'last_saved_at' => now(),
-            ]);
-        }
-        $previousState = is_array($draft->payload) ? $draft->payload : [];
-
-        $storedFiles = $decodedState['stored_files'] ?? [];
-        if (!is_array($storedFiles)) {
-            $storedFiles = [];
-        }
-
-        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
-            $request,
-            $draft->id,
-            'mixing_image_file',
-            'images'
-        );
-        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
-            $request,
-            $draft->id,
-            'mixing_excel_file',
-            'excel'
-        );
-
-        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
-        if (!is_array($mergedStoredImages)) {
-            $mergedStoredImages = [];
-        }
-        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
-
-        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
-        if (!is_array($mergedStoredExcel)) {
-            $mergedStoredExcel = [];
-        }
-        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
-
-        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
-        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
-        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
-        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
-
-        $formValues = $decodedState['form_values'] ?? [];
-        if (!is_array($formValues)) {
-            $formValues = [];
-        }
-        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
-            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
-                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
-            }
-        }
-        $decodedState['form_values'] = $formValues;
-
-        $draft->update([
-            'title' => $this->resolveDraftTitle($decodedState),
-            'payload' => $decodedState,
-            'last_saved_at' => now(),
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'draft_id' => $draft->id,
-            'message' => 'Draft berhasil disimpan.',
-            'redirect_url' => route('template-summary.sirup', ['draft' => $draft->id]),
-            'stored_files' => $decodedState['stored_files'],
-            'saved_at' => now()->format('Y-m-d H:i:s'),
-        ]);
-    }
    public function tabletEditor(Request $request)
     {
         $draft = null;
@@ -511,6 +381,96 @@ class TemplateSummaryController extends Controller
             'saved_at' => now()->format('Y-m-d H:i:s'),
         ]);
     }
+
+    // ── Anakonidin 30ml (Sirup) ─────────────────────────────────────────────────
+
+    public function sirupEditor(Request $request)
+    {
+        $draft = null;
+        $from = 'new';
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'anakonidin30')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = [
+            'Summary' => route('template-summary.index'),
+        ];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Anakonidin 30ml'] = null;
+
+        return view('template-summary.anakonidin30.editor', [
+            'title' => 'Template Anakonidin 30ml',
+            'breadcrumb' => $breadcrumb,
+            'draft' => $draft,
+            'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
+        ]);
+    }
+
+    public function exportAnakonidin30(Request $request)
+    {
+        $exportService = new \App\Services\Export\Anakonidin30ExportService();
+        return $exportService->export($request->all());
+    }
+
+    public function saveAnakonidin30Draft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id' => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line' => ['nullable', 'string', 'max:100'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'anakonidin30')->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type' => 'anakonidin30',
+                'title' => $validated['draft_title'] ?? 'Draft Anakonidin 30ml',
+                'draft_line' => $validated['draft_line'] ?? null,
+                'payload' => $decodedState,
+                'last_saved_at' => now(),
+            ]);
+        } else {
+            $draft->update([
+                'title' => $validated['draft_title'] ?? $draft->title,
+                'draft_line' => $validated['draft_line'] ?? $draft->draft_line,
+                'payload' => $decodedState,
+                'last_saved_at' => now(),
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Draft berhasil disimpan.',
+            'draft_id' => $draft->id,
+            'redirect_url' => route('template-summary.anakonidin30', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at' => now()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
+    // ── Kapsul ───────────────────────────────────────────────────────────────────
 
     public function kapsulEditor(Request $request)
     {
@@ -1195,10 +1155,144 @@ class TemplateSummaryController extends Controller
         ]);
     }
 
+    /**
+     * Show Anakonidin 60 mL template editor
+     */
+    public function Anakonidin60Editor(Request $request)
+    {
+        $draft = null;
+        $from = 'new';
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'anakonidin60')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
 
+        $breadcrumb = [
+            'Summary' => route('template-summary.index'),
+        ];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Anakonidin 60ml'] = null;
 
+        return view('template-summary.anakonidin60.editor', [
+            'title' => 'Template Anakonidin 60ml',
+            'breadcrumb' => $breadcrumb,
+            'draft' => $draft,
+            'initialDraftState' => $draft?->payload,
+            'draftLine' => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
+        ]);
+    }
 
+    /**
+     * Export Anakonidin 60 mL template to Word
+     */
+    public function exportAnakonidin60(Request $request)
+    {
+        // Will be implemented later with SirupExportService
+        $exportService = new \App\Services\Export\Anakonidin60ExportService();
+        return $exportService->export($request->all());
+    }
 
+    public function saveAnakonidin60Draft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id'    => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()->where('draft_type', 'anakonidin60')->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type'  => 'anakonidin60',
+                'draft_line'  => $validated['draft_line'] ?? null,
+                'title'       => $this->resolveDraftTitle($decodedState),
+                'payload'     => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) {
+            $storedFiles = [];
+        }
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
+            $request,
+            $draft->id,
+            'mixing_image_file',
+            'images'
+        );
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
+            $request,
+            $draft->id,
+            'mixing_excel_file',
+            'excel'
+        );
+
+        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
+        if (!is_array($mergedStoredImages)) {
+            $mergedStoredImages = [];
+        }
+        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
+
+        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
+        if (!is_array($mergedStoredExcel)) {
+            $mergedStoredExcel = [];
+        }
+        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = $decodedState['form_values'] ?? [];
+        if (!is_array($formValues)) {
+            $formValues = [];
+        }
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title' => $this->resolveDraftTitle($decodedState),
+            'payload' => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'draft_id' => $draft->id,
+            'message' => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.anakonidin60', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at' => now()->format('Y-m-d H:i:s'),
+        ]);
+    }
 
     public function parseExcel(Request $request)
     {

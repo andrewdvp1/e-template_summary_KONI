@@ -139,7 +139,8 @@
                         $hasAnyDraft = collect($draftsByGroup)->contains(fn($g) => $g['drafts']->isNotEmpty());
 
                         $typeConfig = [
-                            'sirup'     => ['icon' => 'water_drop',       'color' => 'amber'],
+                            'anakonidin30' => ['icon' => 'water_drop',       'color' => 'amber'],
+                            'sirup'     => ['icon' => 'water_drop',       'color' => 'amber'],  // Legacy support
                             'tablet'    => ['icon' => 'medication',        'color' => 'blue'],
                             'kapsul'    => ['icon' => 'blender',           'color' => 'green'],
                             'heltiskin' => ['icon' => 'spa',               'color' => 'pink'],
@@ -503,7 +504,8 @@
     (function() {
         // ── Route URLs (from Laravel) ────────────────────────────────
         const ROUTES = {
-            sirup:  "{{ route('template-summary.sirup') }}",
+            anakonidin30: "{{ route('template-summary.anakonidin30') }}",
+            sirup:  "{{ route('template-summary.sirup') }}",  // Legacy support
             kapsul: "{{ route('template-summary.kapsul') }}",
             tablet: "{{ route('template-summary.tablet') }}",
             heltiskin: "{{ route('template-summary.heltiskin') }}",
@@ -511,6 +513,7 @@
             nutracare: "{{ route('template-summary.nutracare') }}",
             siladex: "{{ route('template-summary.siladex') }}",
             konidinobh: "{{ route('template-summary.konidinobh') }}",
+            anakonidin60: "{{ route('template-summary.anakonidin60') }}",
         };
 
         // ── Menu Data Config ─────────────────────────────────────────
@@ -575,20 +578,20 @@
                 lines: [
                     {
                         name: 'Line 1',
-                        route: 'sirup',
+                        route: 'anakonidin60',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
-                            { label: 'Template 2', route: 'sirup' },
-                            { label: 'Template 3', route: 'sirup' },
+                            { label: 'Template Anakonidin 60 ml', route: 'anakonidin60' },
+                            { label: 'Template 2', route: 'anakonidin60' },
+                            { label: 'Template 3', route: 'anakonidin60' },
                         ]
                     },
                     {
                         name: 'Line 2',
-                        route: 'sirup',
+                        route: 'anakonidin30',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
-                            { label: 'Template 2', route: 'sirup' },
-                            { label: 'Template 3', route: 'sirup' },
+                            { label: 'Template Anakonidin 30 ml', route: 'anakonidin30' },
+                            { label: 'Template 2', route: 'anakonidin30' },
+                            { label: 'Template 3', route: 'anakonidin30' },
                         ]
                     },
                     {

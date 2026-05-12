@@ -152,10 +152,11 @@
                                     data-sync="bagian" value="Produksi Farmasi I lini Soft Capsule"
                                     placeholder="Produksi Farmasi I lini Soft Capsule">
                                 dilakukan dengan menggunakan
-                                <input type="text" name="tujuan_mesin" class="template-input sync-input w-full"
-                                    data-sync="mesin"
-                                    value="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling"
-                                    placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling">, mengacu MBR Pengolahan
+                                <textarea name="tujuan_mesin" class="template-input sync-input w-full resize-none overflow-hidden" 
+                                    data-sync="mesin" rows="2"
+                                    style="min-height: 2.5rem; line-height: 1.25rem;"
+                                    placeholder="mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling"
+                                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">mixer softgel melting tank, mesin enkapsulasi, tumbler dryer, dan mesin counting filling</textarea>, mengacu MBR Pengolahan
                                 <input type="text" name="batch_mbr_pengolahan_produk"
                                     class="template-input sync-input w-65" data-sync="nama_produk"
                                     placeholder="Konilife Omega 3 Soft Capsule">

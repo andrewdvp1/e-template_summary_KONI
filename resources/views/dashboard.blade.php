@@ -164,7 +164,7 @@
                                 $icon = 'description';
                                 $iconColor = 'text-slate-400';
                                 
-                                if($draft->draft_type === 'sirup') {
+                                if($draft->draft_type === 'anakonidin30' || $draft->draft_type === 'sirup') {
                                     $icon = 'water_drop';
                                     $iconColor = 'text-amber-500';
                                 } elseif($draft->draft_type === 'tablet') {
@@ -190,6 +190,14 @@
                                 elseif($draft->draft_type === 'konidinobh') {
                                     $icon = 'inventory_2';
                                     $iconColor = 'text-purple-500';
+                                }
+                                elseif($draft->draft_type === 'anakonidin30') {
+                                    $icon = 'water_drop';
+                                    $iconColor = 'text-amber-500';
+                                }
+                                elseif($draft->draft_type === 'anakonidin60') {
+                                    $icon = 'water_drop';
+                                    $iconColor = 'text-emerald-500';
                                 }
                             @endphp
                             <div class="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">

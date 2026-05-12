@@ -9,14 +9,14 @@ use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\ComplexType\TblWidth;
 use PhpOffice\PhpWord\IOFactory;
 
-class SirupExportService
+class Anakonidin60ExportService
 {
     protected PhpWord $phpWord;
     protected Section $section;
     protected array $data;
 
     /**
-     * Export the Sirup template to Word document
+     * Export the Anakonidin 60ml template to Word document
      */
     public function export(array $data)
     {
@@ -119,9 +119,9 @@ class SirupExportService
         $this->section->addTextBreak(1);
 
         // Build title from form data - convert to uppercase
-        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Paramex 500mg');
+        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'ANAKONIDIN OBH 60 ML');
         $line = strtoupper($this->data['judul_line'] ?? '2');
-        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Natpro');
+        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production (Pharmaceutical II) Gedung B');
 
         $formula = $this->data['judul_formula'] ?? '';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
@@ -177,10 +177,10 @@ class SirupExportService
         $textRun11->addText('  Tujuan', ['size' => 11]);
 
         // Build tujuan text from form data
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Paramex 500mg';
+        $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 60 ml';
         $line = $this->data['judul_line'] ?? '1';
-        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Natpro';
-        $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
+        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production (Pharmaceutical II) Gedung B';
+        $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188';
 
         $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .
             "dan reprodusibilitas proses pengolahan produk {$namaProduk} di Line {$line} Bagian {$bagian} yang " .
@@ -207,9 +207,9 @@ class SirupExportService
 
         // Build batch text from form data
         $jumlahBatch = $this->data['batch_jumlah'] ?? 'tiga';
-        $besaran = $this->data['batch_besaran'] ?? '600 L';
-        $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '20.000';
-        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '30 ml';
+        $besaran = $this->data['batch_besaran'] ?? '1.000 L';
+        $jumlahBotol = $this->data['batch_jumlah_botol'] ?? '16.666';
+        $volumePerBotol = $this->data['batch_volume_per_botol'] ?? '60 ml';
         $kodeList = $this->data['batch_kode_list'] ?? 'A26A01, A26A02, A26A03';
 
         $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi dengan besaran batch {$besaran} = {$jumlahBotol} botol @ {$volumePerBotol}, yaitu {$kodeList} :";
@@ -451,7 +451,7 @@ class SirupExportService
 
         // Section 1: Produksi
         if (in_array('1', $enabledSections)) {
-            $namaProduk = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 30 ml';
+            $namaProduk = $this->data['kesimpulan_nama_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 60 ml';
             $batchCodes = $this->data['kesimpulan_batch_codes'] ?? 'A26A01, A26A02, A26A03';
             $text = "Telah dilakukan proses produksi terhadap produk {$namaProduk}, yakni pada batch {$batchCodes} yang digunakan sebagai batch validasi proses.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
@@ -469,7 +469,7 @@ class SirupExportService
 
         // Section 3: Awal Filling-Capping
         if (in_array('3', $enabledSections)) {
-            $fillingAwalAtribut = $this->data['kesimpulan_fillingawal_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba';
+            $fillingAwalAtribut = $this->data['kesimpulan_fillingawal_atribut'] ?? 'kadar zat aktif, kadar pengawet';
             $fillingAwalHasil = $this->data['kesimpulan_fillingawal_hasil'] ?? 'memenuhi';
             $text = "Atribut yang diuji pada tahap awal filling-capping ({$fillingAwalAtribut}) sudah memberikan hasil yang {$fillingAwalHasil} persyaratan menurut Spesifikasi Produk yang berlaku.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
@@ -480,19 +480,19 @@ class SirupExportService
         if (in_array('4', $enabledSections)) {
             $fillingAtribut = $this->data['kesimpulan_filling_atribut'] ?? 'bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba, Batas cemaran Etilen glikol, Batas cemaran Dietilen glikol, Senyawa sejenis 4-aminofenol, kebocoran botol, volume terpindahkan';
             $fillingHasil = $this->data['kesimpulan_filling_hasil'] ?? 'memenuhi';
-            $text = "Atribut yang diuji pada tahap filling-capping produk Sirup ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
+            $text = "Atribut yang diuji pada tahap filling-capping produk sirup ke dalam kemasan botol ({$fillingAtribut}) sudah memberikan hasil yang {$fillingHasil} persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.";
             $this->addKesimpulanItem("3.{$sectionNumber}", $text);
             $sectionNumber++;
         }
 
         // Section 5: Final Conclusion (with italic status)
         if (in_array('5', $enabledSections)) {
-            $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 30 ml';
+            $finalProduk = $this->data['kesimpulan_final_produk'] ?? $this->data['tujuan_nama_produk'] ?? 'Anakonidin OBH 60 ml';
             $status = $this->data['kesimpulan_status'] ?? 'validated';
             $formula = $this->data['kesimpulan_formula'] ?? $this->data['judul_formula'] ?? '';
-            $mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mesin Mixer dan Holding Tank Indo Laval 600 L, Mesin Blow and Suck Fillomatic Tornado 8 SA, Mesin Filling-capping Bausch and Stroebel FVF 5060';
+            $mesin = $this->data['kesimpulan_mesin'] ?? $this->data['tujuan_mesin'] ?? 'Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188';
             $tahapProses = $this->data['kesimpulan_tahap_proses'] ?? 'mixing, awal filling-capping, selama filling-capping';
-            $formulaText = $formula ? " dengan formula zat aktif {$formula}" : "";
+            $formulaText = $formula ? " dengan formula zat aktif {$formula}" : "A001 ex LKA, A019 ex RAS, C018 ex SLI, G012 ex SXJ, P023 ex MLD";
 
             $text = "Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter " .
                 "proses dan hasil pemeriksaan atribut kualitas produk pada tahap {$tahapProses} yang memenuhi " .
@@ -650,8 +650,9 @@ class SirupExportService
 
         $cell1 = $footerTable->addCell($col1, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell1->addTextBreak(2);
+        $cell1->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell1->addText('Validation Officer (1)', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell1->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell1->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
         $cell2 = $footerTable->addCell($col2, [
             'borderSize' => 6,
@@ -659,22 +660,24 @@ class SirupExportService
             'valign' => 'bottom'
         ]);
         $cell2->addTextBreak(2);
+        $cell2->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell2->addText('Validation Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-
+        $cell2->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
         $cell3 = $footerTable->addCell($col3, [
             'borderSize' => 6,
             'borderLeftSize' => 0,
             'valign' => 'bottom'
         ]);
         $cell3->addTextBreak(2);
+        $cell3->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell3->addText('QA Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell3->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell3->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
         $cell4 = $footerTable->addCell($col4, ['borderSize' => 6, 'valign' => 'bottom']);
         $cell4->addTextBreak(2);
+        $cell4->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell4->addText('Quality Div. Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell4->addText('Tanggal:', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell4->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
     }
 
     /**
