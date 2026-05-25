@@ -6,6 +6,8 @@ use App\Models\TemplateSummaryDraft;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
+// (kept)
 use Illuminate\View\View;
 
 class TemplateSummaryController extends Controller
@@ -31,7 +33,7 @@ class TemplateSummaryController extends Controller
                 'label' => 'Production Pharmaceutical I B',
                 'icon'  => 'factory',
                 'lines' => [
-                    'Line Tablet'                    => ['tablet'],
+                    'Line Tablet'                     => ['tablet'],
                     'Line Tablet Kapsul Kapsul Keras' => ['kapsul'],
                 ],
             ],
@@ -39,26 +41,26 @@ class TemplateSummaryController extends Controller
                 'label' => 'Production Pharmaceutical II',
                 'icon'  => 'precision_manufacturing',
                 'lines' => [
-                    'Line 1' => ['sirup', 'Anakonidin 60 ml'],
+                    'Line 1' => ['anakonidin60'],
                     'Line 2' => ['sirup'],
-                    'Line 3' => ['sirup', 'siladex'],
-                    'Line 4' => ['sirup', 'konvermex'],
+                    'Line 3' => ['siladex'],
+                    'Line 4' => ['konvermex'],
                     'Line 5' => ['sirup'],
-                    'Line 6' => ['sirup', 'heltiskin'],
+                    'Line 6' => ['heltiskin'],
                 ],
             ],
             'pharma3' => [
                 'label' => 'Production Pharmaceutical III',
                 'icon'  => 'biotech',
                 'lines' => [
-                    'Line 5' => ['konidinobh', 'sirup'],
+                    'Line 5' => ['konidinobh'],
                 ],
             ],
             'natural' => [
                 'label' => 'Natural Product & Extraction',
                 'icon'  => 'eco',
                 'lines' => [
-                    'Line Obat Dalam' => ['sirup'],
+                    'Line Obat Dalam' => ['nutracaregrape'],
                     'Line Obat Luar'  => ['sirup'],
                     'Line Ekstraksi'  => ['sirup'],
                 ],
@@ -105,6 +107,7 @@ class TemplateSummaryController extends Controller
             ->orWhere('draft_type', 'heltiskin')
             ->orwhere('draft_type', 'konvermex')
             ->orwhere('draft_type', 'nutracare')
+            ->orwhere('draft_type', 'nutracaregrape')
             ->orwhere('draft_type', 'siladex')
             ->orwhere('draft_type', 'konidinobh')
             ->orwhere('draft_type', 'anakonidin60')
@@ -125,12 +128,30 @@ class TemplateSummaryController extends Controller
             $formValues = $draft->payload['form_values'] ?? [];
             $bagian = strtolower(trim($formValues['judul_bagian'] ?? ($formValues['tujuan_bagian'] ?? '')));
 
-            // Determine segment — urutan dari paling spesifik ke paling umum
+            // Draft type yang sudah pasti segmennya — tidak boleh dioverride oleh kata kunci bagian
+            $typeSegmentFixed = [
+                'siladex'        => 'pharma2',
+                'konvermex'      => 'pharma2',
+                'heltiskin'      => 'pharma2',
+                'anakonidin60'   => 'pharma2',
+                'anakonidin30'   => 'pharma1a',
+                'sirup'          => 'pharma1a',
+                'kapsul'         => 'pharma1a',
+                'nutracare'      => 'pharma1a',
+                'tablet'         => 'pharma1b',
+                'konidinobh'     => 'pharma3',
+                'nutracaregrape' => 'natural',
+            ];
+
+            if (isset($typeSegmentFixed[$draft->draft_type])) {
+                $segment = $typeSegmentFixed[$draft->draft_type];
+                $draftsBySegment[$segment]['drafts']->push($draft);
+                continue;
+            }
+
+            // Determine segment dari bagian — untuk tipe yang tidak ada di fixed map
             $segment = 'other';
             if (str_contains($bagian, 'pharma iii') || str_contains($bagian, 'pharmaceutical iii') || str_contains($bagian, 'pharma3') || str_contains($bagian, 'pharma 3')) {
-                $segment = 'pharma3';
-            } elseif ($draft->draft_type === 'konidinobh') {
-                // konidinobh selalu masuk pharma3 kecuali bagian secara eksplisit menunjuk lain
                 $segment = 'pharma3';
             } elseif (str_contains($bagian, 'pharmaceutical ii') || str_contains($bagian, 'pharma ii') || str_contains($bagian, 'pharma 2')) {
                 $segment = 'pharma2';
@@ -152,24 +173,13 @@ class TemplateSummaryController extends Controller
                 str_contains($bagian, 'farmasi i')
             ) {
                 $segment = 'pharma1a';
-            } elseif (str_contains($bagian, 'natural') || str_contains($bagian, 'extraction')) {
+            } elseif (str_contains($bagian, 'natural') || str_contains($bagian, 'extraction') || str_contains($bagian, 'natpro')) {
                 $segment = 'natural';
             }
 
             // Fallback berdasarkan draft_type jika bagian kosong atau tidak dikenali
-            if ($segment === 'other' && $bagian === '') {
-                $typeSegmentMap = [
-                    'tablet'     => 'pharma1b',
-                    'kapsul'     => 'pharma1a',
-                    'nutracare'  => 'pharma1a',
-                    'anakonidin30' => 'pharma1a',
-                    'anakonidin60' => 'pharma2',
-                    'siladex'    => 'pharma2',
-                    'konvermex'  => 'pharma2',
-                    'heltiskin'  => 'pharma2',
-                    'konidinobh' => 'pharma3',
-                ];
-                $segment = $typeSegmentMap[$draft->draft_type] ?? 'other';
+            if ($segment === 'other') {
+                $segment = 'other'; // tetap other jika tidak dikenali
             }
 
             $draftsBySegment[$segment]['drafts']->push($draft);
@@ -198,6 +208,7 @@ class TemplateSummaryController extends Controller
         $draft->draft_type !== 'heltiskin' &&
         $draft->draft_type !== 'konvermex' &&
         $draft->draft_type !== 'nutracare' &&
+        $draft->draft_type !== 'nutracaregrape' &&
         $draft->draft_type !== 'siladex' &&
         $draft->draft_type !== 'konidinobh'&&
         $draft->draft_type !== 'anakonidin60' ) {
@@ -236,6 +247,8 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.konvermex', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'nutracare') {
             return redirect()->route('template-summary.nutracare', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'nutracaregrape') {
+            return redirect()->route('template-summary.nutracaregrape', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'siladex') {
             return redirect()->route('template-summary.siladex', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'konidinobh') {
@@ -1686,5 +1699,129 @@ class TemplateSummaryController extends Controller
         }
 
         return ltrim($path, '/');
+    }
+
+    // ── Nutracare Grape Seed ─────────────────────────────────────────────────
+
+    public function nutracareGrapeEditor(Request $request)
+    {
+        $draft = null;
+        $from  = 'new';
+
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'nutracaregrape')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = ['Summary' => route('template-summary.index')];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Nutracare Grape Seed'] = null;
+
+        return view('template-summary.nutracaregrape.editor', [
+            'title'             => 'Template Nutracare Grape Seed',
+            'breadcrumb'        => $breadcrumb,
+            'draft'             => $draft,
+            'initialDraftState' => $draft?->payload,
+            'draftLine'         => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
+        ]);
+    }
+
+    public function exportNutracareGrape(Request $request)
+    {
+        $exportService = new \App\Services\Export\NutracareGrapeExportService();
+        return $exportService->export($request->all());
+    }
+
+    public function saveNutracareGrapeDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id'    => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'nutracaregrape')
+                ->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type'    => 'nutracaregrape',
+                'draft_line'    => $validated['draft_line'] ?? null,
+                'title'         => $this->resolveDraftTitle($decodedState),
+                'payload'       => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) {
+            $storedFiles = [];
+        }
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
+            $request, $draft->id, 'mixing_image_file', 'images'
+        );
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
+            $request, $draft->id, 'mixing_excel_file', 'excel'
+        );
+
+        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
+        if (!is_array($mergedStoredImages)) $mergedStoredImages = [];
+        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
+
+        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
+        if (!is_array($mergedStoredExcel)) $mergedStoredExcel = [];
+        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = $decodedState['form_values'] ?? [];
+        if (!is_array($formValues)) $formValues = [];
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title'         => $this->resolveDraftTitle($decodedState),
+            'payload'       => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success'      => true,
+            'draft_id'     => $draft->id,
+            'message'      => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.nutracaregrape', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at'     => now()->format('Y-m-d H:i:s'),
+        ]);
     }
 }

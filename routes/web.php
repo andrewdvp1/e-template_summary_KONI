@@ -52,6 +52,11 @@ Route::get('template-summary/nutracare', [TemplateSummaryController::class, 'nut
 Route::post('template-summary/nutracare/draft', [TemplateSummaryController::class, 'saveNutracareDraft'])->name('template-summary.nutracare.draft');
 Route::post('template-summary/nutracare/export', [TemplateSummaryController::class, 'exportNutracare'])->name('template-summary.nutracare.export');
 
+// Nutracare Grape Seed Routes
+Route::get('template-summary/nutracaregrape', [TemplateSummaryController::class, 'nutracareGrapeEditor'])->name('template-summary.nutracaregrape');
+Route::post('template-summary/nutracaregrape/draft', [TemplateSummaryController::class, 'saveNutracareGrapeDraft'])->name('template-summary.nutracaregrape.draft');
+Route::post('template-summary/nutracaregrape/export', [TemplateSummaryController::class, 'exportNutracareGrape'])->name('template-summary.nutracaregrape.export');
+
 // Siladex Routes
 Route::get('template-summary/siladex', [TemplateSummaryController::class, 'siladexEditor'])->name('template-summary.siladex');
 Route::post('template-summary/siladex/draft', [TemplateSummaryController::class, 'saveSiladexDraft'])->name('template-summary.siladex.draft');

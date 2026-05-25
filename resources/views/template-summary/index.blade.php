@@ -146,6 +146,7 @@
                             'heltiskin' => ['icon' => 'spa',               'color' => 'pink'],
                             'konvermex' => ['icon' => 'science',           'color' => 'red'],
                             'nutracare' => ['icon' => 'health_and_safety', 'color' => 'emerald'],
+                            'nutracaregrape' => ['icon' => 'eco',          'color' => 'lime'],
                             'siladex'   => ['icon' => 'local_pharmacy',    'color' => 'violet'],
                             'konidinobh'=> ['icon' => 'medication_liquid',  'color' => 'teal'],
                         ];
@@ -156,6 +157,7 @@
                             'pink'    => ['icon' => 'text-pink-600',    'bg' => 'bg-pink-50 dark:bg-pink-900/10',      'border' => 'border-pink-200 dark:border-pink-800/40'],
                             'red'     => ['icon' => 'text-red-600',     'bg' => 'bg-red-50 dark:bg-red-900/10',        'border' => 'border-red-200 dark:border-red-800/40'],
                             'emerald' => ['icon' => 'text-emerald-600', 'bg' => 'bg-emerald-50 dark:bg-emerald-900/10','border' => 'border-emerald-200 dark:border-emerald-800/40'],
+                            'lime'    => ['icon' => 'text-lime-600',    'bg' => 'bg-lime-50 dark:bg-lime-900/10',      'border' => 'border-lime-200 dark:border-lime-800/40'],
                             'violet'  => ['icon' => 'text-violet-600',  'bg' => 'bg-violet-50 dark:bg-violet-900/10',  'border' => 'border-violet-200 dark:border-violet-800/40'],
                             'teal'    => ['icon' => 'text-teal-600',    'bg' => 'bg-teal-50 dark:bg-teal-900/10',      'border' => 'border-teal-200 dark:border-teal-800/40'],
                         ];
@@ -511,6 +513,7 @@
             heltiskin: "{{ route('template-summary.heltiskin') }}",
             konvermex: "{{ route('template-summary.konvermex') }}",
             nutracare: "{{ route('template-summary.nutracare') }}",
+            nutracaregrape: "{{ route('template-summary.nutracaregrape') }}",
             siladex: "{{ route('template-summary.siladex') }}",
             konidinobh: "{{ route('template-summary.konidinobh') }}",
             anakonidin60: "{{ route('template-summary.anakonidin60') }}",
@@ -643,14 +646,14 @@
                 ]
             },
             natural: {
-                title: 'Natural Product & Extraction',                lines: [
+                title: 'Natural Product & Extraction',
+                lines: [
                     {
                         name: 'Line Obat Dalam',
-                        route: 'sirup',
+                        route: 'sirup, nutracaregrape',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
-                            { label: 'Template 2', route: 'sirup' },
-                            { label: 'Template 3', route: 'sirup' },
+                            { label: 'Template Nutracare Grape Seed', route: 'nutracaregrape' },
+                            { label: 'Template Sirup', route: 'sirup' },
                         ]
                     },
                     {

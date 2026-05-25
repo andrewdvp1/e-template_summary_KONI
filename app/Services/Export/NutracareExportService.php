@@ -137,12 +137,12 @@ class NutracareExportService
         $tr12->addText('  Batch Validasi', ['bold' => true, 'size' => 11]);
 
         $jumlah     = $this->data['batch_jumlah'] ?? '2';
-        $kodeList   = $this->data['batch_kode_list'] ?? 'JAN26A01 dan JAN26A02';
-        $besaran    = $this->data['batch_besaran'] ?? '30,015 Kg';
-        $jumlahKap  = $this->data['batch_jumlah_kapsul'] ?? '60.000';
-        $bobotIsi   = $this->data['batch_bobot_isi'] ?? '500,25 mg';
+        $batchName  = $this->data['batch_name'] ?? 'NOV25A01 dan NOV25A02';
+        $besaran    = $this->data['batch_besaran'] ?? '19.99';
+        $jumlahKap  = $this->data['batch_jumlah_kapsul'] ?? '57.137';
+        $satuan     = $this->data['batch_satuan'] ?? '350';
 
-        $batchText = "Studi validasi dilakukan terhadap {$jumlah} bets produksi yaitu batch {$kodeList}, dengan besaran batch {$besaran} = {$jumlahKap} Soft Capsule @ {$bobotIsi} (bobot isi).";
+        $batchText = "Studi validasi telah dilakukan terhadap {$jumlah} batch produksi yaitu batch {$batchName} dengan besaran batch {$besaran} kg ({$jumlahKap} kapsul @ {$satuan} mg).";
         $this->section->addText($batchText, ['size' => 11], ['alignment' => 'both', 'indentation' => ['left' => 440], 'spaceAfter' => 0]);
 
         $this->addBahanAktifTable();
@@ -223,7 +223,7 @@ class NutracareExportService
 
         $enkNama  = $this->data['enkapsulasi_nama_produk'] ?? $this->data['judul_nama_produk'] ?? '';
         $enkBets  = $this->data['enkapsulasi_besar_bets'] ?? $this->data['batch_besaran'] ?? '';
-        $enkBatch = $this->data['enkapsulasi_batch_list'] ?? $this->data['batch_kode_list'] ?? '';
+        $enkBatch = $this->data['enkapsulasi_batch_list'] ?? $this->data['batch_name'] ?? '';
         $this->addSubSubabText('2.3.1.3.', "Seluruh hasil pemeriksaan sampel tahap enkapsulasi (sebelum pengeringan) produk {$enkNama} dengan besar bets {$enkBets}, bets {$enkBatch} memenuhi spesifikasi produk yang ditetapkan.");
 
         // ── 2.3.2 Pengeringan ──
@@ -262,7 +262,7 @@ class NutracareExportService
 
         $pngNama  = $this->data['pengeringan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? '';
         $pngBets  = $this->data['pengeringan_besar_bets'] ?? $this->data['batch_besaran'] ?? '';
-        $pngBatch = $this->data['pengeringan_batch_list'] ?? $this->data['batch_kode_list'] ?? '';
+        $pngBatch = $this->data['pengeringan_batch_list'] ?? $this->data['batch_name'] ?? '';
         $this->addSubSubabText('2.3.2.4.', "Seluruh hasil pemeriksaan sampel pengeringan produk {$pngNama} dengan besar bets {$pngBets}, bets {$pngBatch} memenuhi spesifikasi produk yang ditetapkan.");
 
         // ── 2.3.3 Kemas Primer ──
@@ -284,7 +284,7 @@ class NutracareExportService
 
         $kemNama2  = $this->data['kemasan_nama_produk_2'] ?? $this->data['judul_nama_produk'] ?? '';
         $kemBets   = $this->data['kemasan_besar_bets'] ?? $this->data['batch_besaran'] ?? '';
-        $kemBatch  = $this->data['kemasan_batch_list'] ?? $this->data['batch_kode_list'] ?? '';
+        $kemBatch  = $this->data['kemasan_batch_list'] ?? $this->data['batch_name'] ?? '';
         $this->addSubSubabText('2.3.3.4.', "Seluruh hasil pemeriksaan sampel tahap kemas primer {$kemNama2} dengan besar bets {$kemBets}, bets {$kemBatch} telah memenuhi spesifikasi yang ditetapkan.");
 
         // ── Dynamic 2.3.x subabs ──
@@ -325,7 +325,7 @@ class NutracareExportService
 
         if (in_array('1', $enabled)) {
             $nama  = $this->data['kesimpulan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? '';
-            $batch = $this->data['kesimpulan_batch_codes'] ?? $this->data['batch_kode_list'] ?? '';
+            $batch = $this->data['kesimpulan_batch_codes'] ?? $this->data['batch_name'] ?? '';
             $this->addKesimpulanItem("3.{$num}", "Telah dilakukan proses produksi terhadap produk {$nama}, bets {$batch} yang digunakan sebagai batch validasi proses.");
             $num++;
         }
