@@ -24,6 +24,7 @@ class TemplateSummaryDraft extends Model
         'pencampuran_1331_text',
         'pencampuran_1332_text',
         'pencampuran_spesifikasi_nama',
+        'pencampuran_spesifikasi_pemeriksaan',
         'pencampuran_no_dokumen',
         'pencampuran_tanggal_dokumen',
         'pencampuran_identifikasi',
