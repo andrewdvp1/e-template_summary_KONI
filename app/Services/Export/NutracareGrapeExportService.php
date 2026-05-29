@@ -8,6 +8,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\ComplexType\TblWidth;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 
 class NutracareGrapeExportService
 {
@@ -22,6 +23,8 @@ class NutracareGrapeExportService
     {
         $this->data = $data;
         $this->phpWord = new PhpWord();
+
+        Settings::setOutputEscapingEnabled(true);
 
         $this->setupDocument();
         $this->addHeader();
@@ -710,11 +713,12 @@ class NutracareGrapeExportService
 
         foreach ($rows as $rowIndex => $row) {
             $table->addRow(250);
-            foreach ($row as $cellValue) {
+            for ($c = 0; $c < $colCount; $c++) {
+                $cellValue = $row[$c] ?? '';
                 $isHeader = ($rowIndex === 0);
                 $table->addCell($colWidth, ['valign' => 'center'])
                     ->addText(
-                        htmlspecialchars_decode((string) $cellValue),
+                        (string) $cellValue,
                         ['bold' => $isHeader, 'size' => 10],
                         ['alignment' => 'left', 'spaceAfter' => 0]
                     );
