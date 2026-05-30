@@ -25,6 +25,7 @@
         ];
         $typeConfig = [
             'anakonidin30' => ['icon' => 'water_drop',        'label' => 'Anakonidin 30ml'],
+            'anakonidin60' => ['icon' => 'water_drop',        'label' => 'Anakonidin 60ml'],
             'sirup'      => ['icon' => 'water_drop',        'label' => 'Sirup'],  // Legacy support
             'tablet'     => ['icon' => 'medication',         'label' => 'Tablet'],
             'kapsul'     => ['icon' => 'blender',            'label' => 'Kapsul'],
@@ -34,7 +35,6 @@
             'nutracaregrape' => ['icon' => 'eco',            'label' => 'Nutracare Grape Seed'],
             'siladex'    => ['icon' => 'local_pharmacy',     'label' => 'Siladex'],
             'konidinobh' => ['icon' => 'medication_liquid',  'label' => 'Konidin OBH'],
-            'anakonidin60' => ['icon' => 'water_drop',       'label' => 'Anakonidin 60ml'],
         ];
     @endphp
 

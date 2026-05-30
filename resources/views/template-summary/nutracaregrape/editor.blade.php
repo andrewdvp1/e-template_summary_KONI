@@ -25,8 +25,8 @@
                         </p>
                         <p class="font-bold text-center text-base mb-4">
                              DI 
-                            <input type="text" name="judul_line" class="template-input sync-input w-56" data-sync="line"
-                                placeholder="Obat Dalam">
+                            <input type="text" name="judul_line" class="template-input sync-input w-29" data-sync="line"
+                                placeholder="OBAT  DALAM">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-128 uppercase"
                                 data-sync="bagian" value="Production Natpro & Extraction Bangunan IOT Natpro"

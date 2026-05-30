@@ -140,6 +140,7 @@
 
                         $typeConfig = [
                             'anakonidin30' => ['icon' => 'water_drop',       'color' => 'amber'],
+                            'anakonidin60' => ['icon' => 'water_drop',       'color' => 'orange'],
                             'sirup'     => ['icon' => 'water_drop',       'color' => 'amber'],  // Legacy support
                             'tablet'    => ['icon' => 'medication',        'color' => 'blue'],
                             'kapsul'    => ['icon' => 'blender',           'color' => 'green'],
@@ -152,6 +153,7 @@
                         ];
                         $colorMap = [
                             'amber'   => ['icon' => 'text-amber-600',   'bg' => 'bg-amber-50 dark:bg-amber-900/10',    'border' => 'border-amber-200 dark:border-amber-800/40'],
+                            'orange'  => ['icon' => 'text-orange-600',  'bg' => 'bg-orange-50 dark:bg-orange-900/10',  'border' => 'border-orange-200 dark:border-orange-800/40'],
                             'blue'    => ['icon' => 'text-blue-600',    'bg' => 'bg-blue-50 dark:bg-blue-900/10',      'border' => 'border-blue-200 dark:border-blue-800/40'],
                             'green'   => ['icon' => 'text-green-600',   'bg' => 'bg-green-50 dark:bg-green-900/10',    'border' => 'border-green-200 dark:border-green-800/40'],
                             'pink'    => ['icon' => 'text-pink-600',    'bg' => 'bg-pink-50 dark:bg-pink-900/10',      'border' => 'border-pink-200 dark:border-pink-800/40'],
@@ -584,8 +586,6 @@
                         route: 'anakonidin60',
                         templates: [
                             { label: 'Template Anakonidin 60 ml', route: 'anakonidin60' },
-                            { label: 'Template 2', route: 'anakonidin60' },
-                            { label: 'Template 3', route: 'anakonidin60' },
                         ]
                     },
                     {
@@ -593,8 +593,6 @@
                         route: 'anakonidin30',
                         templates: [
                             { label: 'Template Anakonidin 30 ml', route: 'anakonidin30' },
-                            { label: 'Template 2', route: 'anakonidin30' },
-                            { label: 'Template 3', route: 'anakonidin30' },
                         ]
                     },
                     {

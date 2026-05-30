@@ -14,9 +14,9 @@ class DashboardController extends Controller
     public function index(): View
     {
         // Map draft types to production groups
-        $pharma1aTypes = ['kapsul', 'nutracare', 'anakonidin30'];
+        $pharma1aTypes = ['kapsul', 'nutracare'];
         $pharma1bTypes = ['tablet'];
-        $pharma2Types  = ['sirup', 'siladex', 'konvermex', 'heltiskin', 'anakonidin60'];
+        $pharma2Types  = ['sirup', 'siladex', 'konvermex', 'heltiskin', 'anakonidin60', 'anakonidin30'];
         $pharma3Types  = ['konidinobh'];
         $naturalTypes  = ['nutracaregrape'];
 

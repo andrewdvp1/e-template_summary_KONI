@@ -839,7 +839,7 @@
         function collectFormValues() {
             const values = {};
             document.querySelectorAll(
-                    '#sirupTemplateForm input[name]:not([type="file"]), #sirupTemplateForm textarea[name], #sirupTemplateForm select[name]'
+                    '#anakonidin30TemplateForm input[name]:not([type="file"]), #anakonidin30TemplateForm textarea[name], #anakonidin30TemplateForm select[name]'
                 )
                 .forEach(input => {
                     if (input.name === 'draft_id' || input.name === '_token') {
@@ -903,7 +903,7 @@
         function collectDraftState() {
             const disabledFieldNames = [];
             document.querySelectorAll(
-                    '#sirupTemplateForm input[name], #sirupTemplateForm textarea[name], #sirupTemplateForm select[name]')
+                    '#anakonidin30TemplateForm input[name], #anakonidin30TemplateForm textarea[name], #anakonidin30TemplateForm select[name]')
                 .forEach(field => {
                     if (field.disabled) {
                         disabledFieldNames.push(field.name);
@@ -1127,7 +1127,7 @@
             setSaveDraftLoading(true);
 
             try {
-                const form = document.getElementById('sirupTemplateForm');
+                const form = document.getElementById('anakonidin30TemplateForm');
                 const formData = new FormData(form);
                 formData.delete('_token');
                 formData.append('_token', CSRF_TOKEN);
@@ -1321,7 +1321,7 @@
         // ===========================================
 
         const PARSE_EXCEL_URL = "{{ route('template-summary.parse-excel', [], false) }}";
-        const SAVE_DRAFT_URL = "{{ route('template-summary.sirup.draft', [], false) }}";
+        const SAVE_DRAFT_URL = "{{ route('template-summary.anakonidin30.draft', [], false) }}";
         const CSRF_TOKEN = "{{ csrf_token() }}";
         const INITIAL_DRAFT_STATE = @json($initialDraftState ?? null);
 
@@ -2024,9 +2024,9 @@
             // FORM SUBMIT: Pastikan semua base64 & tabel
             // ter-serialize ke hidden input sebelum export
             // ===========================================
-            const sirupForm = document.getElementById('sirupTemplateForm');
-            if (sirupForm) {
-                sirupForm.addEventListener('submit', function() {
+            const anakonidin30Form = document.getElementById('anakonidin30TemplateForm');
+            if (anakonidin30Form) {
+                anakonidin30Form.addEventListener('submit', function() {
                     showExportModal();
                     // Pastikan setiap mixing-table-item sudah punya base64 di hidden input
                     document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
@@ -2085,7 +2085,7 @@
                 tokenInput.type = 'hidden';
                 tokenInput.name = 'export_token';
                 tokenInput.id = 'export_token_input';
-                document.getElementById('sirupTemplateForm').appendChild(tokenInput);
+                document.getElementById('anakonidin30TemplateForm').appendChild(tokenInput);
             }
             tokenInput.value = token;
 
