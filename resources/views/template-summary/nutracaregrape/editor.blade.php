@@ -29,8 +29,8 @@
                                 placeholder="OBAT  DALAM">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-128 uppercase"
-                                data-sync="bagian" value="Production Natpro & Extraction Bangunan IOT Natpro"
-                                placeholder="Production Natpro & Extract Bangunan IOT Natpro">
+                                data-sync="bagian" value="Production Natpro &amp; Extraction Bangunan IOT Natpro"
+                                placeholder="Production Natpro &amp; Extract Bangunan IOT Natpro">
                         </p>
                     </div>
 
@@ -110,8 +110,8 @@
                                     data-sync="line" placeholder="Obat Dalam">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-128"
-                                    data-sync="bagian" value="Production Production Natpro & Extraction"
-                                    placeholder="Production Production Natpro & Extraction">
+                                    data-sync="bagian" value="Production Production Natpro &amp; Extraction"
+                                    placeholder="Production Production Natpro &amp; Extraction">
                                 dalam menghasilkan produk yang memenuhi persyaratan mutu yang 
                                 tercantum dalam Spesifikasi Produk dan Kemasan 
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
