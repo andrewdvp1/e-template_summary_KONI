@@ -121,7 +121,7 @@ class HeltiskinExportService
         // Build title from form data - convert to uppercase
         $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Heltiskin Cream');
         $line = strtoupper($this->data['judul_line'] ?? '6');
-        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production Pharma III Gedung B');
+        $bagian = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'Production Pharma II');
 
         $formula = $this->data['judul_formula'] ?? '';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
@@ -179,7 +179,7 @@ class HeltiskinExportService
         // Build tujuan text from form data
         $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Heltiskin Cream';
         $line = $this->data['judul_line'] ?? '6';
-        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production Pharma III Gedung B';
+        $bagian = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production Pharma II';
         $mesin = $this->data['tujuan_mesin'] ?? $this->data['kesimpulan_mesin'] ?? 'Vacuum homogenizer mixer Koruma dan Mesin filling tube IWK FP10';
 
         $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .

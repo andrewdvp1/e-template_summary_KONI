@@ -97,7 +97,7 @@ class KonidinOBHExportService
 
         $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'KONIDIN OBH');
         $line       = strtoupper($this->data['judul_line'] ?? '5');
-        $bagian     = strtoupper($this->data['judul_bagian'] ?? 'Production Pharma III Gedung B');
+        $bagian     = strtoupper($this->data['judul_bagian'] ?? 'Production Pharma II');
         $formula    = $this->data['judul_formula'] ?? '';
         $formulaStr = $formula ? ' (' . strtoupper($formula) . ')' : '';
 
@@ -142,7 +142,7 @@ class KonidinOBHExportService
 
         $namaProduk = $this->data['tujuan_nama_produk'] ?? 'Konidin OBH';
         $line       = $this->data['judul_line'] ?? '5';
-        $bagian     = $this->data['tujuan_bagian'] ?? 'Production Pharma III Gedung B';
+        $bagian     = $this->data['tujuan_bagian'] ?? 'Production Pharma II';
         $mesin      = $this->data['tujuan_mesin'] ?? 'Mesin mixer Indolaval Lexamix tanpa Impeller dan Mesin sachetting Klockner';
 
         $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap kualitas " .

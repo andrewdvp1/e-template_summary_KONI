@@ -45,22 +45,15 @@ class TemplateSummaryController extends Controller
                     'Line 2' => ['anakonidin30'],
                     'Line 3' => ['siladex'],
                     'Line 4' => ['konvermex'],
-                    'Line 5' => ['sirup'],
-                    'Line 6' => ['heltiskin'],
-                ],
-            ],
-            'pharma3' => [
-                'label' => 'Production Pharmaceutical III',
-                'icon'  => 'biotech',
-                'lines' => [
                     'Line 5' => ['konidinobh'],
+                    'Line 6' => ['heltiskin'],
                 ],
             ],
             'natural' => [
                 'label' => 'Natural Product & Extraction',
                 'icon'  => 'eco',
                 'lines' => [
-                    'Line Obat Dalam' => ['nutracaregrape'],
+                    'Line Obat Dalam' => ['nutracaregrape', 'qfomil'],
                     'Line Obat Luar'  => ['sirup'],
                     'Line Ekstraksi'  => ['sirup'],
                 ],
@@ -111,6 +104,7 @@ class TemplateSummaryController extends Controller
             ->orwhere('draft_type', 'siladex')
             ->orwhere('draft_type', 'konidinobh')
             ->orwhere('draft_type', 'anakonidin60')
+            ->orwhere('draft_type', 'qfomil')
             ->latest('updated_at')
             ->get();
 
@@ -119,7 +113,6 @@ class TemplateSummaryController extends Controller
             'pharma1a' => ['label' => 'Production Pharmaceutical I A', 'drafts' => collect()],
             'pharma1b' => ['label' => 'Production Pharmaceutical I B', 'drafts' => collect()],
             'pharma2'  => ['label' => 'Production Pharmaceutical II', 'drafts' => collect()],
-            'pharma3'  => ['label' => 'Production Pharmaceutical III', 'drafts' => collect()],
             'natural'  => ['label' => 'Natural Product & Extraction', 'drafts' => collect()],
             'other'    => ['label' => 'Lainnya', 'drafts' => collect()],
         ];
@@ -139,8 +132,9 @@ class TemplateSummaryController extends Controller
                 'kapsul'         => 'pharma1a',
                 'nutracare'      => 'pharma1a',
                 'tablet'         => 'pharma1b',
-                'konidinobh'     => 'pharma3',
+                'konidinobh'     => 'pharma2',
                 'nutracaregrape' => 'natural',
+                'qfomil'         => 'natural',
             ];
 
             if (isset($typeSegmentFixed[$draft->draft_type])) {
@@ -151,9 +145,7 @@ class TemplateSummaryController extends Controller
 
             // Determine segment dari bagian — untuk tipe yang tidak ada di fixed map
             $segment = 'other';
-            if (str_contains($bagian, 'pharma iii') || str_contains($bagian, 'pharmaceutical iii') || str_contains($bagian, 'pharma3') || str_contains($bagian, 'pharma 3')) {
-                $segment = 'pharma3';
-            } elseif (str_contains($bagian, 'pharmaceutical ii') || str_contains($bagian, 'pharma ii') || str_contains($bagian, 'pharma 2')) {
+            if (str_contains($bagian, 'pharmaceutical ii') || str_contains($bagian, 'pharma ii') || str_contains($bagian, 'pharma 2')) {
                 $segment = 'pharma2';
             } elseif (
                 str_contains($bagian, 'pharmaceutical i b') ||
@@ -211,7 +203,8 @@ class TemplateSummaryController extends Controller
         $draft->draft_type !== 'nutracaregrape' &&
         $draft->draft_type !== 'siladex' &&
         $draft->draft_type !== 'konidinobh'&&
-        $draft->draft_type !== 'anakonidin60' ) {
+        $draft->draft_type !== 'anakonidin60'&&
+        $draft->draft_type !== 'qfomil') {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -255,6 +248,8 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.konidinobh', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'anakonidin60') {
             return redirect()->route('template-summary.anakonidin60', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'qfomil') {
+            return redirect()->route('template-summary.qfomil', ['draft' => $draft->id]);
         }
         abort(404, 'Draft tidak ditemukan.');
     }
@@ -1478,13 +1473,13 @@ class TemplateSummaryController extends Controller
         ]);
     }
 
-    public function exportKonidinobh(Request $request)
+    public function exportKonidinOBH(Request $request)
     {
         $exportService = new \App\Services\Export\KonidinOBHExportService();
         return $exportService->export($request->all());
     }
 
-    public function saveKonidinobhDraft(Request $request): JsonResponse
+    public function saveKonidinOBHDraft(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'draft_id'    => ['nullable', 'integer'],
@@ -1820,6 +1815,128 @@ class TemplateSummaryController extends Controller
             'draft_id'     => $draft->id,
             'message'      => 'Draft berhasil disimpan.',
             'redirect_url' => route('template-summary.nutracaregrape', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at'     => now()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
+    // ── Q-Fomil ──────────────────────────────────────────────────────────────
+
+    public function QFomilEditor(Request $request)
+    {
+        $draft = null;
+        $from  = 'new';
+
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'qfomil')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = ['Summary' => route('template-summary.index')];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Q-Fomil'] = null;
+
+        return view('template-summary.qfomil.editor', [
+            'title'             => 'Template Q-Fomil',
+            'breadcrumb'        => $breadcrumb,
+            'draft'             => $draft,
+            'initialDraftState' => $draft?->payload,
+            'draftLine'         => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
+        ]);
+    }
+
+    public function exportQFomil(Request $request)
+    {
+        $exportService = new \App\Services\Export\QFomilExportService();
+        return $exportService->export($request->all());
+    }
+
+    public function saveQFomilDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id'    => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'qfomil')
+                ->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type'    => 'qfomil',
+                'draft_line'    => $validated['draft_line'] ?? null,
+                'title'         => $this->resolveDraftTitle($decodedState),
+                'payload'       => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) $storedFiles = [];
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
+            $request, $draft->id, 'mixing_image_file', 'images'
+        );
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
+            $request, $draft->id, 'mixing_excel_file', 'excel'
+        );
+
+        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
+        if (!is_array($mergedStoredImages)) $mergedStoredImages = [];
+        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
+
+        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
+        if (!is_array($mergedStoredExcel)) $mergedStoredExcel = [];
+        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = $decodedState['form_values'] ?? [];
+        if (!is_array($formValues)) $formValues = [];
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title'         => $this->resolveDraftTitle($decodedState),
+            'payload'       => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success'      => true,
+            'draft_id'     => $draft->id,
+            'message'      => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.qfomil', ['draft' => $draft->id]),
             'stored_files' => $decodedState['stored_files'],
             'saved_at'     => now()->format('Y-m-d H:i:s'),
         ]);

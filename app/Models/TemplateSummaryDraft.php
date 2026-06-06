@@ -32,6 +32,8 @@ class TemplateSummaryDraft extends Model
         'pencampuran_sampling_titik',
         'pencampuran_sampling_waktu',
         'pencampuran_pemeriksaan_jenis',
+        'pencampuran_bahan_baku',
+        'pencampuran_ukuran',
         'kemasan_sampling_titik',
         'kemasan_sampling_waktu',
         'kemasan_3331_table_json',
