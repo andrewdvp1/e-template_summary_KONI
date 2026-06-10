@@ -18,6 +18,21 @@ export default {
         'bg-purple-50', 'bg-purple-600', 'bg-purple-900/20',
         'bg-amber-50', 'bg-amber-500', 'bg-amber-900/20',
         'bg-slate-100', 'bg-slate-500', 'bg-slate-700',
+        // Safelist untuk warna cyan (Evaporasi) di listmachine.blade.php
+        'bg-cyan-50', 'bg-cyan-600', 'bg-cyan-900/20',
+        'text-cyan-400', 'text-cyan-500', 'text-cyan-600',
+        'border-cyan-200', 'border-cyan-800/40',
+        'ring-cyan-500/20',
+        // Safelist untuk warna orange (Pengecilan Ukuran Granul) di listmachine.blade.php
+        'bg-orange-100', 'bg-orange-500', 'bg-orange-700',
+        'text-orange-600',
+        'border-orange-200', 'border-orange-600',
+        'ring-orange-500/20',
+        // Safelist untuk warna green (tahapan baru / default fallback) di listmachine.blade.php
+        'bg-green-50', 'bg-green-600', 'bg-green-900/20',
+        'text-green-600',
+        'border-green-200', 'border-green-800/40',
+        'ring-green-500/20',
         'text-red-400', 'text-red-500', 'text-red-600',
         'text-blue-400', 'text-blue-500', 'text-blue-600',
         'text-emerald-600',

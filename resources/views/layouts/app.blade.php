@@ -131,5 +131,37 @@
 
     {{-- SweetAlert2 for beautiful popups --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- Flash Toast Handler (session 'toast') --}}
+    @if(session('toast'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toast = @json(session('toast'));
+            const isDark = document.documentElement.classList.contains('dark');
+
+            const isSuccess = toast.type === 'success';
+            Swal.fire({
+                title: `<span class="text-slate-800 dark:text-white sm:text-2xl">${isSuccess ? 'Berhasil!' : 'Gagal!'}</span>`,
+                html: `<p class="text-slate-600 dark:text-slate-300">${toast.message || ''}</p>`,
+                icon: isSuccess ? 'success' : 'error',
+                iconColor: isSuccess ? '#10b981' : '#ef4444',
+                background: isDark ? '#1e293b' : '#ffffff',
+                position: 'center',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700',
+                },
+                showClass: {
+                    popup: 'animate__animated animate__fadeInUp animate__faster'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutDown animate__faster'
+                }
+            });
+        });
+    </script>
+    @endif
 </body>
 </html>

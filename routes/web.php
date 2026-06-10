@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\MachineController;
 use App\Http\Controllers\TemplateSummaryController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -11,7 +13,19 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
 Route::get('settings/database-status', [SettingsController::class, 'checkDatabase'])->name('settings.database-status');
 
+// List Machine Routes
+Route::get('list-machine', [MachineController::class, 'index'])->name('listmachine.index');
+// Stage CRUD
+Route::post('list-machine/stages', [MachineController::class, 'storeStage'])->name('listmachine.stages.store');
+Route::put('list-machine/stages/{stage}', [MachineController::class, 'updateStage'])->name('listmachine.stages.update');
+Route::delete('list-machine/stages/{stage}', [MachineController::class, 'destroyStage'])->name('listmachine.stages.destroy');
+// Machine CRUD
+Route::post('list-machine/stages/{stage}/machines', [MachineController::class, 'store'])->name('listmachine.machines.store');
+Route::put('list-machine/stages/{stage}/machines/{machine}', [MachineController::class, 'update'])->name('listmachine.machines.update');
+Route::delete('list-machine/stages/{stage}/machines/{machine}', [MachineController::class, 'destroy'])->name('listmachine.machines.destroy');
+
 // Template Report Routes (New simplified system)
+
 Route::get('template-summary', [TemplateSummaryController::class, 'index'])->name('template-summary.index');
 Route::get('template-summary/drafts', [TemplateSummaryController::class, 'drafts'])->name('template-summary.drafts');
 Route::delete('template-summary/drafts/{draft}', [TemplateSummaryController::class, 'deleteDraft'])->name('template-summary.drafts.delete');

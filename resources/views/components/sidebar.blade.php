@@ -55,8 +55,16 @@
                             class="w-1.5 h-1.5 rounded-full {{ ($isTemplateDrafts || $isDraftEditor) ? 'bg-red-600' : 'bg-slate-300' }}"></span>
                         <span class="sidebar-text">Draft Summary</span>
                     </a>
+
                 </div>
             </details>
+
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors {{ request()->routeIs('listmachine.*') ? 'bg-red-50 text-red-600 font-medium' : 'text-[#64748b] hover:bg-gray-50 hover:text-[#0f172a]' }}"
+                href="{{ route('listmachine.index') }}" title="List Machine">
+                <span
+                    class="material-symbols-outlined text-[20px] {{ request()->routeIs('listmachine.*') ? 'material-symbols-filled' : '' }}">inventory_2</span>
+                <p class="text-sm font-medium sidebar-text">List Machine</p>
+            </a>
 
             <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors {{ request()->routeIs('settings.*') ? 'bg-red-50 text-red-600 font-medium' : 'text-[#64748b] hover:bg-gray-50 hover:text-[#0f172a]' }}"
                 href="{{ route('settings.index') }}" title="Settings">
