@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('content')
     <form action="{{ route('template-summary.nutracaregrape.export') }}" method="POST" id="nutracaregrapeTemplateForm"
@@ -24,7 +24,7 @@
                                 data-sync="nama_produk" placeholder="Nutracare Grape Seed ">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
-                             DI 
+                             DI LINI
                             <input type="text" name="judul_line" class="template-input sync-input w-29" data-sync="line"
                                 placeholder="OBAT  DALAM">
                             BAGIAN
@@ -918,10 +918,10 @@
                                 style="text-align:left;">
                                 Berdasarkan pemeriksaan batch validasi 
                                 <input type="text" name="batch_besaran" class="template-input w-56"
-                                    placeholder="NOV25A01 dan NOV25A02"> 
+                                placeholder="NOV25A01 dan NOV25A02"> 
                                 terhadap parameter mutu produk pada tahap kapsulasi antara lain parameter 
                                 <textarea name="kapsulasi_pemeriksaan_jenis" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                placeholder="emerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat">pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat</textarea>
+                                placeholder="pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat">pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat</textarea>
                                 didapatkan seluruh hasil pengujian 
                                 <input type="text" name="kemasan_hasil" class="template-input w-36" 
                                 value="" placeholder="memenuhi">
@@ -2901,6 +2901,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function() {
+            document.addEventListener('input', function(e) {
+                var el = e.target;
+                if (!el || !el.classList || !el.classList.contains('sync-input')) return;
+                var key = el.getAttribute('data-sync');
+                if (!key) return;
+                var val = el.value;
+                var others = document.querySelectorAll('.sync-input[data-sync="' + key + '"]');
+                for (var i = 0; i < others.length; i++) {
+                    if (others[i] !== el) others[i].value = val;
+                }
+            });
+        })();
+    </script>
 @endsection
-
-

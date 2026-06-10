@@ -71,3 +71,8 @@ Route::post('template-summary/konidinobh/export', [TemplateSummaryController::cl
 Route::get('template-summary/anakonidin60', [TemplateSummaryController::class, 'Anakonidin60Editor'])->name('template-summary.anakonidin60');
 Route::post('template-summary/anakonidin60/draft', [TemplateSummaryController::class, 'saveAnakonidin60Draft'])->name('template-summary.anakonidin60.draft');
 Route::post('template-summary/anakonidin60/export', [TemplateSummaryController::class, 'exportAnakonidin60'])->name('template-summary.anakonidin60.export');
+
+// Q-Fomil Routes
+Route::get('template-summary/qfomil', [TemplateSummaryController::class, 'QFomilEditor'])->name('template-summary.qfomil');
+Route::post('template-summary/qfomil/draft', [TemplateSummaryController::class, 'saveQFomilDraft'])->name('template-summary.qfomil.draft');
+Route::post('template-summary/qfomil/export', [TemplateSummaryController::class, 'exportQFomil'])->name('template-summary.qfomil.export');

@@ -1179,7 +1179,7 @@
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
-                    'Production Pharma III Gedung B';
+                    'Production Pharma II';
                 const formulaSegment = formula ? ` (${formula})` : '';
                 const titleFallback =
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;

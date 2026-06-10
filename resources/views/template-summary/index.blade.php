@@ -84,23 +84,6 @@
                             </div>
                         </button>
 
-                        {{-- Production Pharmaceutical III --}}
-                        <button onclick="openProductionModal('pharma3')"
-                            class="w-full flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-purple-300 dark:hover:border-purple-700 transition-all hover:-translate-y-0.5 group cursor-pointer">
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 group-hover:scale-110 transition-transform">
-                                    <span class="material-symbols-outlined text-[28px]">biotech</span>
-                                </div>
-                                <div class="text-left">
-                                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">Production Pharmaceutical III</h3>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Line 5 (Sachet) Gedung B</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-purple-50 dark:group-hover:bg-purple-900/30 transition-colors">
-                                <span class="material-symbols-outlined text-slate-400 group-hover:text-purple-500 transition-colors">arrow_forward</span>
-                            </div>
-                        </button>
-
                         {{-- Natural Product & Extraction --}}
                         <button onclick="openProductionModal('natural')"
                             class="w-full flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-amber-300 dark:hover:border-amber-700 transition-all hover:-translate-y-0.5 group cursor-pointer">
@@ -148,6 +131,7 @@
                             'konvermex' => ['icon' => 'science',           'color' => 'red'],
                             'nutracare' => ['icon' => 'health_and_safety', 'color' => 'emerald'],
                             'nutracaregrape' => ['icon' => 'eco',          'color' => 'lime'],
+                            'qfomil'         => ['icon' => 'science',       'color' => 'cyan'],
                             'siladex'   => ['icon' => 'local_pharmacy',    'color' => 'violet'],
                             'konidinobh'=> ['icon' => 'medication_liquid',  'color' => 'teal'],
                         ];
@@ -162,12 +146,12 @@
                             'lime'    => ['icon' => 'text-lime-600',    'bg' => 'bg-lime-50 dark:bg-lime-900/10',      'border' => 'border-lime-200 dark:border-lime-800/40'],
                             'violet'  => ['icon' => 'text-violet-600',  'bg' => 'bg-violet-50 dark:bg-violet-900/10',  'border' => 'border-violet-200 dark:border-violet-800/40'],
                             'teal'    => ['icon' => 'text-teal-600',    'bg' => 'bg-teal-50 dark:bg-teal-900/10',      'border' => 'border-teal-200 dark:border-teal-800/40'],
+                            'cyan'    => ['icon' => 'text-cyan-600',    'bg' => 'bg-cyan-50 dark:bg-cyan-900/10',      'border' => 'border-cyan-200 dark:border-cyan-800/40'],
                         ];
                         $groupMeta = [
                             'pharma1a' => ['color' => 'text-red-600',    'bg' => 'bg-red-50 dark:bg-red-900/20'],
                             'pharma1b' => ['color' => 'text-blue-600',   'bg' => 'bg-blue-50 dark:bg-blue-900/20'],
                             'pharma2'  => ['color' => 'text-emerald-600','bg' => 'bg-emerald-50 dark:bg-emerald-900/20'],
-                            'pharma3'  => ['color' => 'text-purple-600', 'bg' => 'bg-purple-50 dark:bg-purple-900/20'],
                             'natural'  => ['color' => 'text-amber-600',  'bg' => 'bg-amber-50 dark:bg-amber-900/20'],
                         ];
                     @endphp
@@ -517,6 +501,7 @@
             nutracare: "{{ route('template-summary.nutracare') }}",
             nutracaregrape: "{{ route('template-summary.nutracaregrape') }}",
             siladex: "{{ route('template-summary.siladex') }}",
+            qfomil: "{{ route('template-summary.qfomil') }}",
             konidinobh: "{{ route('template-summary.konidinobh') }}",
             anakonidin60: "{{ route('template-summary.anakonidin60') }}",
         };
@@ -615,9 +600,9 @@
                     },
                     {
                         name: 'Line 5',
-                        route: 'sirup',
+                        route: 'konidinobh',
                         templates: [
-                            { label: 'Template Sirup', route: 'sirup' },
+                            { label: 'Template Konidin OBH (Sachet)', route: 'konidinobh' },
                         ]
                     },
                     {
@@ -630,27 +615,15 @@
                     },
                 ]
             },
-            pharma3: {
-                title: 'Production Pharmaceutical III',
-                lines: [
-                    {
-                        name: 'Line 5 (Sachet) Gedung B',
-                        route: 'konidinobh',
-                        templates: [
-                            { label: 'Template Konidin OBH (Sachet)', route: 'konidinobh' },
-                            { label: 'Template Sirup', route: 'sirup' },
-                        ]
-                    },
-                ]
-            },
             natural: {
                 title: 'Natural Product & Extraction',
                 lines: [
                     {
                         name: 'Line Obat Dalam',
-                        route: 'sirup, nutracaregrape',
+                        route: 'sirup, nutracaregrape, qfomil',
                         templates: [
                             { label: 'Template Nutracare Grape Seed', route: 'nutracaregrape' },
+                            { label: 'Template Q-Fomil', route: 'qfomil' },
                             { label: 'Template Sirup', route: 'sirup' },
                         ]
                     },
