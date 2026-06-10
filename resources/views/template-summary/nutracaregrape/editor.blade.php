@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <form action="{{ route('template-summary.nutracaregrape.export') }}" method="POST" id="nutracaregrapeTemplateForm"
@@ -21,16 +21,16 @@
                         <p class="font-bold text-center text-base mb-2">
                             SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK
                             <input type="text" name="judul_nama_produk" class="template-input sync-input w-72 uppercase"
-                                data-sync="nama_produk" placeholder="Nutracare Grape Seed ">
+                                data-sync="nama_produk" data-sync-master="1" placeholder="Nutracare Grape Seed">
                         </p>
                         <p class="font-bold text-center text-base mb-4">
-                             DI LINI
-                            <input type="text" name="judul_line" class="template-input sync-input w-29" data-sync="line"
-                                placeholder="OBAT  DALAM">
+                             DI 
+                            <input type="text" name="judul_line" class="template-input sync-input w-56" data-sync="line"
+                                placeholder="Obat Dalam">
                             BAGIAN
                             <input type="text" name="judul_bagian" class="template-input sync-input w-128 uppercase"
-                                data-sync="bagian" value="Production Natpro &amp; Extraction Bangunan IOT Natpro"
-                                placeholder="Production Natpro &amp; Extract Bangunan IOT Natpro">
+                                data-sync="bagian" value="Production Natpro & Extraction Bangunan IOT Natpro"
+                                placeholder="Production Natpro & Extract Bangunan IOT Natpro">
                         </p>
                     </div>
 
@@ -110,8 +110,8 @@
                                     data-sync="line" placeholder="Obat Dalam">
                                 Bagian
                                 <input type="text" name="tujuan_bagian" class="template-input sync-input w-128"
-                                    data-sync="bagian" value="Production Production Natpro &amp; Extraction"
-                                    placeholder="Production Production Natpro &amp; Extraction">
+                                    data-sync="bagian" value="Production Production Natpro & Extraction"
+                                    placeholder="Production Production Natpro & Extraction">
                                 dalam menghasilkan produk yang memenuhi persyaratan mutu yang 
                                 tercantum dalam Spesifikasi Produk dan Kemasan 
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
@@ -243,7 +243,7 @@
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
                                     data-sync="nama_produk" placeholder="Nutracare Grape Seed">
                                 yaitu
-                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-full"
+                            <input type="text" name="rangkuman_metode" class="template-input sync-input w-128"
                                     data-sync="rangkuman"
                                     value="penimbangan bahan baku, pencampuran, kapsulasi, dan pengemasan primer (botol)"
                                     placeholder="penimbangan bahan baku, pencampuran, kapsulasi, dan pengemasan primer (botol)">
@@ -251,10 +251,10 @@
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
                                     data-sync="nama_produk" placeholder="Nutracare Grape Seed">
                                 , no. dokumen
-                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-53"
+                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-128"
                                     data-sync="no_dokumen" placeholder="AI-A0005-00-PC">
                                 , tanggal
-                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-53"
+                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-128"
                                     data-sync="tanggal_dokumen" placeholder="06-11-2025">
                                 dan MBR Pengemasan 
                                 <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
@@ -262,10 +262,10 @@
                                 <input type="text" name="batch_jumlah_botol" class="template-input w-24"
                                     placeholder="Botol 30">
                                 , no dokumen 
-                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-53"
+                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-128"
                                     data-sync="no_dokumen" placeholder="AI-A0008-00-NL">
                                 , tanggal
-                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-53"
+                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-128"
                                     data-sync="tanggal_dokumen" placeholder="29-10-2025">
                             </p>
                         </div>
@@ -356,6 +356,188 @@
                                     </div>
 
 
+                        {{-- 2.2.1 Mixing --}}
+                       <div class="bab22-subab" id="bab22_subab_mixing" draggable="true" data-subab-type="default"
+                            data-subab-id="1" data-subab-key="mixing" data-subab-title="Mixing"
+                            data-closing-kind="template" data-template-stage="mixing">
+                            <h4
+                                class="font-medium text-slate-700 dark:text-slate-300 mb-4 flex items-center justify-between">
+                                <span>
+                                    <span
+                                        class="bab22-number bab22-toggle-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                        onclick="toggleBab22Subab(this)" title="Klik untuk disable/enable">2.2.1</span>
+                                    <span class="bab22-title">Mixing</span>
+                                </span>
+                                <span
+                                    class="material-symbols-outlined text-[18px] text-slate-400 cursor-grab select-none">drag_indicator</span>
+                            </h4>
+
+                            {{-- Dynamic Tables Container --}}
+                            <div class="mixing-tables-container flex flex-col gap-4">
+                                {{-- Initial Table (Table 1) --}}
+                                <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative"
+                                    data-table-index="0" data-table-uid="table_1"
+                                    onpaste="handleMixingPaste(event, this)">
+                                    {{-- Three Dot Menu --}}
+                                    <div class="absolute top-1 right-1 z-20 remove-table-btn">
+                                        <button type="button" onclick="toggleTableMenu(this)"
+                                            class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors"
+                                            title="Opsi">
+                                            <span class="material-symbols-outlined text-[20px] block">more_vert</span>
+                                        </button>
+                                        {{-- Dropdown Menu --}}
+                                        <div
+                                            class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30">
+                                            <button type="button" onclick="removeMixingTable(this)"
+                                                class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+                                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                                                Hapus Tabel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {{-- Excel / Screenshot Paste Area --}}
+                                    <div class="p-6">
+                                        {{-- Instructions & Drop Zone --}}
+                                        <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-8 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                                            <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">content_paste</span>
+                                            <p class="text-base font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Copy data dari Excel atau Screenshot lalu paste di bawah (Ctrl+V)</p>
+                                            <div class="flex justify-center mb-4">
+                                                <button type="button" onclick="triggerClipboardPaste(this)"
+                                                    class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                                    <span class="material-symbols-outlined text-[16px]">content_paste_go</span>
+                                                    Tempel dari Clipboard
+                                                </button>
+                                            </div>
+                                            <textarea rows="4"
+                                                class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono"
+                                                placeholder="Paste screenshot / tabel Excel di sini, atau ketik catatan... (Ctrl+V)"
+                                                onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                                        </div>
+
+                                        {{-- Hidden File Inputs untuk Backward Compatibility / Export --}}
+                                        <input type="file" name="mixing_image_file[table_1]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                                        <input type="file" name="mixing_excel_file[table_1]" accept=".xlsx,.xls,.ods" class="hidden" onchange="updateFileName(this)">
+
+                                        {{-- Full Width Preview Container (Hidden by default) --}}
+                                        <div
+                                            class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1">
+                                            <img src="" alt="Preview"
+                                                class="w-full h-auto rounded-md shadow-sm">
+                                            <button type="button" onclick="removeImage(this)"
+                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
+                                                title="Hapus Gambar">
+                                                <span class="material-symbols-outlined text-[14px] block">close</span>
+                                            </button>
+                                        </div>
+
+                                        <div
+                                            class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3">
+                                            <div class="overflow-auto max-h-[420px]">
+                                                <table class="w-full text-sm border-collapse pasted-table-preview-table"></table>
+                                            </div>
+                                            <button type="button" onclick="removePastedTable(this)"
+                                                class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10"
+                                                title="Hapus Tabel Paste">
+                                                <span class="material-symbols-outlined text-[14px] block">close</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="bab22_table_subab_key[table_1]" value="mixing">
+                            <input type="hidden" name="existing_mixing_image_file[table_1]" value="">
+                            <input type="hidden" name="mixing_pasted_table_json[table_1]" value="">
+                            <input type="hidden" name="mixing_image_base64[table_1]" value="">
+
+                            {{-- Add Table Button --}}
+                            <button type="button" onclick="addMixingTableToSubab(this)"
+                                class="mt-4 w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-500 dark:text-slate-400 hover:border-red-400 hover:text-red-600 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">add</span>
+                                <span class="text-sm font-medium">Tambah Tabel</span>
+                            </button>
+
+                            {{-- Closing Text --}}
+                            <div
+                                class="mt-6 text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify">
+                                <p>
+                                    Atribut yang diuji pada tahap mixing sudah memberikan hasil yang
+                                    <input type="text" name="mixing_hasil" class="template-input w-32" value=""
+                                        placeholder="memenuhi">
+                                    persyaratan menurut Spesifikasi Produk yang berlaku
+                                    .
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="bab22_dynamic_subab_container" class="ml-4 flex flex-col gap-4"></div>
+                        <div class="ml-4 mt-4">
+                            <button type="button" onclick="addBab22CustomSubab()"
+                                class="w-full py-3 border-2 border-dashed border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:border-red-400 hover:bg-red-50/40 dark:hover:bg-red-900/20 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">add</span>
+                                <span class="text-sm font-medium">Tambah Subab/Proses</span>
+                            </button>
+                        </div>
+                        </div>{{-- end bab2-section-content --}}
+                    </div>{{-- end bab2-section 2.2 --}}
+                    
+                 {{--2.2.2.1--}}
+                 <div class="bab22-subab" data-subab-key="partikel_asing" data-subab-id="2">
+                    <h4 class="font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-start gap-2">
+                        <span
+                            class="bab22-number bab22-toggle-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                            onclick="toggleBab22Subab(this)" title="Klik untuk disable/enable">2.2.2.1</span>
+                         <span class="flex-1 text-justify text-base">
+                            Dikarenakan pada proses pengolahan juga dilakukan perubahan filter yang digunakan saat transfer dari mesin mixing ke holding tank yang semula menggunakan filter 25 mikron menjadi filter 250 mikron, maka ditambahkan pemeriksaan Partikel asing/endapan*, yang diperiksa dengan menuang sirup pada wadah kaca, kemudian dilakukan pemeriksaan secara visual. Metode ini dipilih dikarenakan sirup berwarna hitam, dengan hasil sebagai berikut :
+                        </span>
+                    </h4>
+                    <div class="mixing-tables-container flex flex-col gap-3 ml-4">
+                        <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative"
+                            data-table-uid="table_partikel" onpaste="handleMixingPaste(event, this)">
+                            <div class="absolute top-1 right-1 z-20 remove-table-btn">
+                                <button type="button" onclick="toggleTableMenu(this)"
+                                    class="flex items-center p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors" title="Opsi">
+                                    <span class="material-symbols-outlined text-[20px] block">more_vert</span>
+                                </button>
+                                <div class="table-dropdown-menu hidden absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg py-1 z-30">
+                                    <button type="button" onclick="removeMixingTable(this)"
+                                        class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>Hapus Tabel
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="paste-instructions border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4 text-center bg-slate-50 dark:bg-slate-900/40 hover:border-blue-400 transition-colors cursor-pointer" onclick="focusClipboardField(this)">
+                                    <span class="material-symbols-outlined text-3xl text-slate-300 dark:text-slate-600 mb-1">content_paste</span>
+                                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Paste Tabel atau Screenshot</p>
+                                    <div class="flex justify-center mb-2">
+                                        <button type="button" onclick="triggerClipboardPaste(this)"
+                                            class="px-3 py-1.5 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700 transition-colors flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-[16px]">content_paste_go</span>Tempel dari Clipboard
+                                        </button>
+                                    </div>
+                                    <textarea rows="3"
+                                        class="clipboard-input-area w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono"
+                                        placeholder="Paste screenshot / tabel Excel di sini... (Ctrl+V)"
+                                        onpaste="handleClipboardFieldPaste(event, this)"></textarea>
+                                </div>
+                                <input type="file" name="mixing_image_file[table_partikel]" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="previewImage(this)">
+                                <div class="hidden image-preview-box relative border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-1"><img src="" alt="Preview" class="w-full h-auto rounded-md shadow-sm"><button type="button" onclick="removeImage(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-70 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Gambar"><span class="material-symbols-outlined text-[14px] block">close</span></button></div>
+                                <div class="hidden pasted-table-preview-box relative border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-3"><div class="overflow-auto max-h-[420px]"><table class="w-full text-sm border-collapse pasted-table-preview-table"></table></div><button type="button" onclick="removePastedTable(this)" class="flex items-center absolute top-4 right-4 p-2 bg-red-500 opacity-80 text-white rounded-lg hover:bg-red-600 shadow-md transition-colors z-10" title="Hapus Tabel Paste"><span class="material-symbols-outlined text-[14px] block">close</span></button></div>
+                            </div>
+                            <input type="hidden" name="bab22_table_subab_key[table_partikel]" value="partikel_asing">
+                            <input type="hidden" name="existing_mixing_image_file[table_partikel]" value="">
+                            <input type="hidden" name="mixing_pasted_table_json[table_partikel]" value="">
+                            <input type="hidden" name="mixing_image_base64[table_partikel]" value="">
+                        </div>
+                    </div>
+                    <button type="button" onclick="addMixingTableToSubab(this)"
+                        class="mt-3 w-full py-2 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-500 dark:text-slate-400 hover:border-red-400 hover:text-red-600 transition-colors flex items-center justify-center gap-2 text-sm">
+                        <span class="material-symbols-outlined text-[18px]">add</span>
+                        <span class="font-medium">Tambah Tabel</span>
+                    </button>
+                 </div>{{-- end bab22-subab 2.2.2.1 --}}
 
                     {{-- 2.3 Hasil Pemeriksaan Sampel --}}
                     <div class="bab2-section mt-6" data-section-id="3">
@@ -553,21 +735,14 @@
                                         titik yang mewakili
                                         <input type="text" name="kapsulasi_sampling_waktu" class="template-input w-52" placeholder="awal, tengah, dan akhir proses">,
                                         kemudian dilakukan pemeriksaan
-                                        <textarea 
-                                        name="kapsulasi_pemeriksaan_jenis" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                        placeholder="pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi, dan cemaran logam berat">pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi, dan cemaran logam berat</textarea>
+                                        <input type="text" name="kapsulasi_pemeriksaan_jenis" class="template-input w-full mt-1" value="pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi, dan cemaran logam berat" placeholder="pemerian, kadar air, waktu hancur, keseragaman bobot, identifikasi, dan cemaran logam berat">
                                         dengan hasil sebagai berikut:
                                     </p>
                                     {{-- 2.3.2.3.1 --}}
                                     <div class="ml-6 mb-3">
                                         <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
                                             <span class="font-semibold">2.3.2.3.1</span>
-                                            Tabel data hasil pemeriksaan pemerian 
-                                           <textarea 
-                                            name="kapsulasi_pemeriksaan_jenis" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                            placeholder="pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, dan keseragaman bobot">
-                                            pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, dan keseragaman bobot</textarea>
-                                        pada tahap kapsulasi. 
+                                            Tabel data hasil pemeriksaan pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, dan keseragaman bobot pada tahap kapsulasi.
                                         </p>
                                         <div class="mixing-tables-container flex flex-col gap-3 ml-4">
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative mt-3"
@@ -598,9 +773,7 @@
                                     <div class="ml-6 mb-3">
                                         <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
                                             <span class="font-semibold">2.3.2.3.2</span>
-                                            Tabel data hasil pemeriksaan 
-                                           <input type="text" name="pencampuran_spesifikasi_nama" class="template-input w-56" placeholder="cemaran logam berat">
-                                            pada tahap kapsulasi.
+                                            Tabel data hasil pemeriksaan cemaran logam berat pada tahap kapsulasi.
                                         </p>
                                         <div class="mixing-tables-container flex flex-col gap-3 ml-4">
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative mt-3"
@@ -629,20 +802,13 @@
                                     </div>
                                     {{-- 2.3.2.3.3 --}}
                                     <div class="ml-6 mb-3">
-                                        <p 
-                                        class="text-base text-slate-700 dark:text-slate-300">
+                                        <p class="text-base text-slate-700 dark:text-slate-300">
                                             <span class="font-semibold">2.3.2.3.3</span>
                                             Hasil pemeriksaan batch validasi
-                                            <input type="text" name="batch_name" class="template-input sync-input w-56" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
+                                            <input type="text" name="batch_name" class="template-input sync-input w-52" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
                                             pada tahap kapsulasi memberikan hasil yang
-                                            <input type="text" name="kapsulasi_hasil" class="template-input  w-32" 
-                                            value="" placeholder="memenuhi">
-                                            syarat Spesifikasi Produk yang berlaku untuk parameter 
-                                            <textarea 
-                                            name="kapsulasi_pemeriksaan_jenis" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                            placeholder="pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat.">
-                                            pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat.</textarea>
-                                        
+                                            <input type="text" name="kapsulasi_hasil" class="template-input w-36" placeholder="memenuhi syarat">
+                                            Spesifikasi Produk yang berlaku untuk parameter pemerian (bentuk, warna cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat.
                                         </p>
                                     </div>
                                 </div>
@@ -659,12 +825,10 @@
                                         Tahap kemas primer produk
                                         <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare Grape Seed">
                                         batch
-                                        <input type="text" name="batch_name" class="template-input sync-input w-56" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
+                                        <input type="text" name="batch_name" class="template-input sync-input w-52" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
                                         dilakukan menggunakan mesin
                                         <input type="text" name="tujuan_mesin_kemas" class="template-input w-52" value="Counting Unimach" placeholder="Counting Unimach">.
-                                        Aluseal pada tutup botol diseal menggunakan 
-                                        <input type="text" name="tujuan_mesin_kemas" class="template-input w-86" value="mesin induction seal conveyor." placeholder="mesin induction seal conveyor.">
-                                        
+                                        Aluseal pada tutup botol diseal menggunakan mesin induction seal conveyor.
                                     </p>
                                 </div>
 
@@ -675,7 +839,7 @@
                                         Spesifikasi Produk dan kemasan
                                         <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare Grape Seed">
                                         batch
-                                        <input type="text" name="batch_name" class="template-input sync-input w-56" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
+                                        <input type="text" name="batch_name" class="template-input sync-input w-52" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
                                         pada tahap kemas primer sesuai dengan Spesifikasi Produk
                                         <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48" data-sync="nama_produk" placeholder="Nutracare Grape Seed">,
                                         no. dokumen
@@ -723,18 +887,15 @@
                                         Pada tahap kemas primer dilakukan sampling sebanyak
                                         <input type="text" name="kemasan_sampling_titik" class="template-input w-12" placeholder="10">
                                         titik yang mewakili
-                                        <input type="text" name="kemasan_sampling_waktu" class="template-input w-86" placeholder="awal, tengah, dan akhir proses">,
-                                        kemudian dilakukan pemeriksaan 
-                                        <input type="text" name="kemasan_spesifikasi_pemeriksaan" class="template-input w-180" placeholder="isi dalam satu botol, kondisi aluseal, aflatoksin total, dan cemaran mikroba">
-                                        dengan hasil sebagai berikut:
+                                        <input type="text" name="kemasan_sampling_waktu" class="template-input w-52" placeholder="awal, tengah, dan akhir proses">,
+                                        kemudian dilakukan pemeriksaan isi dalam satu botol, kondisi aluseal, aflatoksin total, dan cemaran mikroba dengan hasil sebagai berikut:
                                     </p>
                                     {{-- 2.3.3.3.1 --}}
                                     <div class="ml-6 mb-3">
                                         <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
                                             <span class="font-semibold">2.3.3.3.1</span>
-                                            Tabel data hasil pemeriksaan 
-                                            <input type="text" name="kemasan_spesifikasi_pemeriksaan" class="template-input w-180" placeholder="isi dalam satu botol, kondisi aluseal, dan aflatoksin total">
-
+                                            Tabel data hasil pemeriksaan isi dalam satu botol, kondisi aluseal, dan aflatoksin total
+                                        </p>
                                         <div class="mixing-tables-container flex flex-col gap-3 ml-4">
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative mt-3"
                                     data-table-uid="tbl_kemasan_3331" onpaste="handleMixingPaste(event, this)">
@@ -764,9 +925,7 @@
                                     <div class="ml-6 mb-3">
                                         <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
                                             <span class="font-semibold">2.3.3.3.2</span>
-                                            Tabel data hasil pemeriksaan 
-                                            <input type="text" name="pencampuran_spesifikasi_nama" class="template-input w-56" placeholder="cemaran mikroba">
-                                            pada tahap kapsulasi
+                                            Tabel data hasil pemeriksaan cemaran mikroba pada tahap kapsulasi
                                         </p>
                                         <div class="mixing-tables-container flex flex-col gap-3 ml-4">
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative mt-3"
@@ -797,8 +956,7 @@
                                     <div class="ml-6 mb-3">
                                         <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
                                             <span class="font-semibold">2.3.3.3.3</span>
-                                            Tabel data hasil pemeriksaan 
-                                            <input type="text" name="pencampuran_spesifikasi_nama" class="template-input w-56" placeholder="aflatoksin total">
+                                            Tabel data hasil pemeriksaan aflatoksin total
                                         </p>
                                         <div class="mixing-tables-container flex flex-col gap-3 ml-4">
                                 <div class="mixing-table-item border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden relative mt-3"
@@ -830,13 +988,10 @@
                                         <p class="text-base text-slate-700 dark:text-slate-300">
                                             <span class="font-semibold">2.3.3.3.4</span>
                                             Hasil pemeriksaan batch validasi
-                                            <input type="text" name="batch_name" class="template-input sync-input w-56" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
+                                            <input type="text" name="batch_name" class="template-input sync-input w-52" data-sync="batch" placeholder="NOV25A01 dan NOV25A02">
                                             pada tahap kemas primer memberikan hasil yang
-                                            <input type="text" name="kemasan_hasil" class="template-input w-36" 
-                                            value="" placeholder="memenuhi">
-                                            syarat Spesifikasi Produk dan Kemasan yang berlaku untuk parameter 
-                                           <input type="text" name="kemasan_spesifikasi_pemeriksaan" class="template-input w-180" placeholder="isi dalam satu botol, kondisi aluseal, aflatoksin total, dan cemaran mikroba">
-                                            
+                                            <input type="text" name="kemasan_hasil" class="template-input w-36" placeholder="memenuhi syarat">
+                                            Spesifikasi Produk dan Kemasan yang berlaku untuk parameter isi dalam satu botol, kondisi aluseal, aflatoksin total, dan cemaran mikroba.
                                         </p>
                                     </div>
                                 </div>
@@ -869,112 +1024,20 @@
                     <div class="kesimpulan-section" data-section-id="1">
                         <div
                             class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                            <p 
-                            class="pl-8 -indent-8">
+                            <p class="pl-8 -indent-8">
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.1</span>
-                                Telah dilakukan validasi proses pengolahan 
+                                Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-52" data-sync="nama_produk"
                                     placeholder="Nutracare Grape Seed">,
-                                batch
-                                <input type="text" name="batch_besaran" class="template-input w-56"
-                                placeholder="NOV25A01 dan NOV25A02"> 
-                                yaitu 
-                                <input type="text" name="rangkuman_metode" class="template-input sync-input w-128"
-                                    data-sync="rangkuman"
-                                    value="penimbangan bahan baku, pencampuran, kapsulasi, dan pengemasan primer (botol)"
-                                    placeholder="penimbangan bahan baku, pencampuran, kapsulasi, dan pengemasan primer (botol)">
-                                telah dilakukan sesusai MBR Skala Produksi Pengolahan 
-                                 <input type="text" name="kesimpulan_nama_produk"
-                                    class="template-input sync-input w-52" data-sync="nama_produk"
-                                    placeholder="Nutracare Grape Seed">, 
-                                , no. dokumen
-                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-53"
-                                    data-sync="no_dokumen" placeholder="AI-A0005-00-PC">
-                                , tanggal
-                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-53"
-                                    data-sync="tanggal_dokumen" placeholder="06-11-2025">
-                                dan MBR Pengemasan 
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
-                                    data-sync="nama_produk" placeholder="Nutracare Grape Seed">
-                                , no dokumen 
-                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-53"
-                                    data-sync="no_dokumen" placeholder="AI-A0008-00-NL">
-                                , tanggal
-                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-53"
-                                    data-sync="tanggal_dokumen" placeholder="29-10-2025">.
-                                
+                                yakni pada batch
+                                <input type="text" name="kesimpulan_batch_codes"
+                                    class="template-input sync-input w-52" data-sync="batch"
+                                    placeholder="L25A15, L25A16, L25A17">
+                                yang digunakan sebagai batch validasi proses.
                             </p>
-
-                            <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.1.1">
-                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                    <div class="flex items-start gap-2">
-                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.1.1</span> 
-                                <p 
-
-                                style="text-align:left;">
-                                Berdasarkan pemeriksaan batch validasi 
-                                <input type="text" name="batch_besaran" class="template-input w-56"
-                                placeholder="NOV25A01 dan NOV25A02"> 
-                                terhadap parameter mutu produk pada tahap kapsulasi antara lain parameter 
-                                <textarea name="kapsulasi_pemeriksaan_jenis" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                placeholder="pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat">pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat</textarea>
-                                didapatkan seluruh hasil pengujian 
-                                <input type="text" name="kemasan_hasil" class="template-input w-36" 
-                                value="" placeholder="memenuhi">
-                                spesifikasi produk yang berlaku. 
-                            
-                                </p>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.1.2">
-                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                    <div class="flex items-start gap-2">
-                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.1.2</span> 
-                                <p>
-                                Berdasarkan pemeriksaan batch validasi
-                                <input type="text" name="batch_besaran" class="template-input w-56"
-                                placeholder="NOV25A01 dan NOV25A02">
-                                terhadap parameter mutu produk pada tahap kapsulasi antara lain parameter
-                                <textarea name="kapsulasi_pemeriksaan_jenis" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                placeholder="pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat">pemerian (bentuk, wana cangkang, dan pemerian isi kapsul), kadar air, waktu hancur, keseragaman bobot, identifikasi grape seed extract, dan cemaran logam berat</textarea>
-                                didapatkan seluruh hasil pengujian 
-                                <input type="text" name="kemasan_hasil" class="template-input w-36" 
-                                value="" placeholder="memenuhi">
-                                spesifikasi produk yang berlaku. 
-
-                                </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                        <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.1.3">
-                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
-                                    <div class="flex items-start gap-2">
-                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
-                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.1.3</span> 
-                                <p>
-
-                                Berdasarkan pemeriksaan batch validasi
-                                <input type="text" name="batch_besaran" class="template-input w-56"
-                                placeholder="NOV25A01 dan NOV25A02">
-                                terhadap parameter mutu produk dan kemasan pada tahap kemas primer, antara lain
-                               <input type="text" name="kemasan_spesifikasi_pemeriksaan" class="template-input w-180" placeholder=" isi dalam satu botol, kondisi aluseal, aflatoksin total, dan cemaran mikroba">
-                                didapatkan seluruh hasil pengujian 
-                                <input type="text" name="kemasan_hasil" class="template-input w-36" 
-                                value="" placeholder="memenuhi">
-                                spesifikasi produk dan kemasan yang berlaku. 
-
-                                </p>
-                                        </div>
-                                    </div>
-                                </div>
                         </div>
                     </div>
 
@@ -986,35 +1049,126 @@
                                 <span
                                     class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
                                     onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.2</span>
-                                Berdasarkan pemeriksaan pada batch validasi
-                                <input type="text" name="batch_besaran" class="template-input w-56"
-                                placeholder="NOV25A01 dan NOV25A02">
-                                proses pengolahan dapat menghasilkan produk jadi
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
-                                        data-sync="nama_produk" placeholder="Nutracare Grape Seed">
-                                yang memenuhi spesifikasi sesuai dengan Spesifikasi Produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
-                                        data-sync="nama_produk" placeholder="Nutracare Grape Seed"> 
-                                , no. dokumen
-                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-53"
-                                    data-sync="no_dokumen" placeholder="AI-F03-3-A0018-00">
-                                , tanggal
-                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-53"
-                                    data-sync="tanggal_dokumen" placeholder="24-06-2024">
-                                dan Spesifikasi Kemasan
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
-                                    data-sync="nama_produk" placeholder="Nutracare Grape Seed">
-                                , no dokumen 
-                                <input type="text" name="pencampuran_no_dokumen" class="template-input sync-input w-53"
-                                    data-sync="no_dokumen" placeholder="AI-F04-3-A0015-01">
-                                , tanggal
-                                <input type="text" name="pencampuran_tanggal_dokumen" class="template-input sync-input w-53"
-                                    data-sync="tanggal_dokumen" placeholder="06-11-2025">.
-                                sehingga dinyatakan 
-                                <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
-                                    placeholder="validated">.
-
+                                Atribut yang diuji pada tahap mixing
+                                <input type="text" name="kesimpulan_tahap_proses" class="template-input w-180"
+                                    value="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)"
+                                    placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, batas mikroba)">
+                                sudah memberikan hasil yang
+                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                    value="" placeholder="memenuhi">
+                                memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.
                             </p>
+                        </div>
+                    </div>
+
+
+                    {{-- 3.3 --}}
+                    <div class="kesimpulan-section" data-section-id="3">
+                        <div
+                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                        <p class="pl-8 -indent-8">
+                                <span
+                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.3</span>
+                                Atribut yang diuji pada tahap awal filling-capping produk sirup ke dalam kemasan botol
+                            </p>
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.1">
+                                    <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                    <div class="flex items-start gap-2">
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.1</span> 
+                                <p style="text-align:left;">
+                                Seluruh atribut yang diuji sesuai Spesifikasi Produk
+                                <textarea 
+                                name="kesimpulan_zat_aktif" rows="3" class="template-input w-full resize-y text-base font-bold" 
+                                placeholder="(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)">(bentuk, warna, aroma, pH, identifikasi, kadar zat aktif, kadar pengawet, cemaran Etilen Glikol dan Dietilen Glikol, batas mikroba, kebocoran botol, volume terpindahkan)</textarea>
+                                sudah memberikan hasil yang 
+                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                    value="" placeholder="memenuhi">
+                                persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku.
+                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.3.2">
+                                    <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                        <div class="flex items-start gap-2">
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.3.2</span> 
+                                <p>Atribut tambahan yang diuji (partikel asing/endapan*) sudah memberikan hasil yang
+                                <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                    value="" placeholder="memenuhi">
+                                persyaratan.
+                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+
+                    {{-- 3.4 --}}
+                    <div class="kesimpulan-section" data-section-id="4">
+                        <div
+                            class="text-base leading-relaxed text-slate-800 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                            <p class="pl-8 -indent-8">
+                                <span
+                                    class="kesimpulan-number font-semibold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                    onclick="toggleKesimpulanSection(this)" title="Klik untuk disable/enable">3.4</span>
+                                Hasil evaluasi data proses, parameter kritis proses dan data mentah hasil pemeriksaan
+                            </p>
+
+                            <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.1">
+                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                    <div class="flex items-start gap-2">
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.1</span>
+                                
+                                <p> 
+                                    Atribut yang diuji sesuai Spesifikasi Produk <br>
+                                    Sesuai dengan hasil evaluasi terhadap kesesuaian pelaksanaan di setiap tahap proses produksi, parameter proses dan hasil pemeriksaan atribut kualitas produk pada tahap
+                                    <input type="text" name="kesimpulan_tahap_mixing" class="template-input w-128"
+                                        value="mixing, awal filling-capping, selama filling-capping"
+                                        placeholder="mixing, awal filling-capping, selama filling-capping">
+                                    yang 
+                                    <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                        value="" placeholder="memenuhi">
+                                    persyaratan, maka proses pengolahan dan pengemasan produk
+                                    <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-53"
+                                        data-sync="nama_produk" placeholder="Nutracare Grape Seed">
+                                    menggunakan 
+                                    <input type="text" name="tujuan_mesin" class="template-input sync-input w-180"
+                                        data-sync="mesin"
+                                        value="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac"
+                                        placeholder="Mixer Shang Yuh+holding tank, Mesin Filling Kalishtronic KT-12, dan Mesin Capping Agmac">
+                                    dengan formula zat aktif 
+                                    <input type="text" name="kesimpulan_formula" class="template-input w-64"
+                                        value="D004 ex DIV, C018 ex SLI"
+                                        placeholder=" D004 ex DIV, C018 ex SLI">
+                                    dinyatakan
+                                    <input type="text" name="kesimpulan_status" class="template-input w-32 italic"
+                                        placeholder="validated">.
+                                </p>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="kesimpulan-sub-point ml-4" data-sub-point-id="3.4.2">
+                                <div class="kesimpulan-content text-base leading-relaxed text-slate-700 dark:text-slate-300 template-text text-justify transition-opacity duration-200">
+                                    <div class="flex items-start gap-2">
+                                <span class="kesimpulan-sub-number font-bold cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleKesimpulanSubPoint(this)" title="Klik untuk disable/enable">3.4.2</span>
+                                <p>
+                                    Atribut tambahan yang diuji (partikel asing/endapan*) <br>
+                                    Hasil pemeriksaan atribut tambahan (partikel asing/endapan*) semua
+                                    <input type="text" name="kesimpulan_mixing_hasil" class="template-input w-32"
+                                        value="" placeholder="memenuhi">
+                                   persyaratan dan kriteria penerimaan.
+                                </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1381,6 +1535,14 @@
                 });
             });
 
+            // After restoring, trigger input event on nama_produk master to sync all fields
+            const namaProdukMaster = document.querySelector(
+                '.sync-input[data-sync="nama_produk"][data-sync-master="1"]'
+            );
+            if (namaProdukMaster && namaProdukMaster.value) {
+                namaProdukMaster.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+
             // Sync contenteditable fields from their hidden inputs
             if (values['bab1_112_text']) {
                 const editor = document.getElementById('bab1_112_editor');
@@ -1691,7 +1853,7 @@
                 const formula = (state.form_values.judul_formula || '').trim();
                 const line = (state.form_values.judul_line || '').trim() || '2';
                 const bagian = (state.form_values.judul_bagian || state.form_values.tujuan_bagian || '').trim() ||
-                    'Production Pharma III Gedung B';
+                    'Natural Product & Extraction';
                 const formulaSegment = formula ? ` (${formula})` : '';
                 const titleFallback =
                     `SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK ${product}${formulaSegment} DI LINE ${line} BAGIAN ${bagian.toUpperCase()}`;
@@ -2712,103 +2874,16 @@
             initBab22DragDrop();
             //renumberBab22Subab();
 
-            // Input Synchronization Logic
-            const syncInputs = document.querySelectorAll('.sync-input');
-
-            // Group inputs by sync key
-            const syncGroups = {};
-            syncInputs.forEach(input => {
-                const key = input.dataset.sync;
-                if (!syncGroups[key]) {
-                    syncGroups[key] = [];
-                }
-                syncGroups[key].push(input);
-            });
-
-            // Add event listeners
-            Object.keys(syncGroups).forEach(key => {
-                const group = syncGroups[key];
-
-                group.forEach(input => {
-                    input.addEventListener('input', function() {
-                        const value = this.value;
-                        group.forEach(otherInput => {
-                            if (otherInput !== this) {
-                                otherInput.value = value;
-                            }
-                        });
-                    });
-                });
-            });
-
-            // ===========================================
-            // LINKED FIELDS SYNC SYSTEM
-            // ===========================================
-
-            /**
-             * Sync all fields with the same data-sync value
-             * Works for both inputs (sync-input) and displays (sync-display)
-             */
-            function syncLinkedFields(syncKey, newValue) {
-                // Update all inputs with same sync key
-                const syncInputs = document.querySelectorAll(`.sync-input[data-sync="${syncKey}"]`);
-                syncInputs.forEach(input => {
-                    if (input.value !== newValue) {
-                        input.value = newValue;
-                    }
-                });
-
-                // Update all display spans with same sync key
-                const syncDisplays = document.querySelectorAll(`.sync-display[data-sync="${syncKey}"]`);
-                syncDisplays.forEach(display => {
-                    const placeholder = display.getAttribute('data-placeholder') || `[${syncKey}]`;
-                    display.textContent = newValue.trim() || placeholder;
-
-                    // Visual styling: italicize placeholder, normal for actual value
-                    if (newValue.trim()) {
-                        display.classList.remove('italic', 'text-slate-400');
-                        display.classList.add('text-slate-900', 'dark:text-white');
-                    } else {
-                        display.classList.add('italic', 'text-slate-400');
-                        display.classList.remove('text-slate-900', 'dark:text-white');
-                    }
-                });
-            }
-
-            // Attach event listeners to all sync inputs
-            const allSyncInputs = document.querySelectorAll('.sync-input[data-sync]');
-            allSyncInputs.forEach(input => {
-                // Listen to both 'input' (real-time) and 'change' events
-                input.addEventListener('input', function() {
-                    const syncKey = this.getAttribute('data-sync');
-                    syncLinkedFields(syncKey, this.value);
-                });
-
-                input.addEventListener('change', function() {
-                    const syncKey = this.getAttribute('data-sync');
-                    syncLinkedFields(syncKey, this.value);
-                });
-            });
-
-            // Initialize displays on page load (in case of pre-filled values)
-            const uniqueSyncKeys = [...new Set(
-                Array.from(allSyncInputs).map(input => input.getAttribute('data-sync'))
-            )];
-
-            uniqueSyncKeys.forEach(syncKey => {
-                const firstInput = document.querySelector(`.sync-input[data-sync="${syncKey}"]`);
-                if (firstInput && firstInput.value) {
-                    syncLinkedFields(syncKey, firstInput.value);
-                }
-            });
+            // Sync semua field setelah subab dinamis selesai di-render
+            // (event delegation sudah dipasang di luar DOMContentLoaded)
 
             // ===========================================
             // FORM SUBMIT: Pastikan semua base64 & tabel
             // ter-serialize ke hidden input sebelum export
             // ===========================================
-            const nutracaregrapeForm = document.getElementById('nutracaregrapeTemplateForm');
-            if (nutracaregrapeForm) {
-                nutracaregrapeForm.addEventListener('submit', function() {
+            const siladexForm = document.getElementById('nutracaregrapeTemplateForm');
+            if (siladexForm) {
+                siladexForm.addEventListener('submit', function() {
                     showExportModal();
                     document.querySelectorAll('.mixing-table-item').forEach(tableItem => {
                         const tableUid = getTableUidFromItem(tableItem);
@@ -2854,6 +2929,12 @@
                 }
             });
         });
+
+        // ==============================================
+        // SYNC INPUT — dihandle oleh script terpisah
+        // di bawah, setelah Export Loading Modal.
+        // ==============================================
+
         function showExportModal() {
             const token = 'exp_' + Date.now();
             let tokenInput = document.getElementById('export_token_input');
@@ -2902,11 +2983,17 @@
         </div>
     </div>
 
+    {{-- ============================================================
+         SYNC INPUT SCRIPT — script terpisah & independen
+         Berjalan terlepas dari error apapun di script utama.
+         Saat satu field nama produk diubah, semua field lain ikut.
+         ============================================================ --}}
     <script>
         (function() {
+            // Listener input: saat salah satu sync-input diubah, semua group yang sama ikut
             document.addEventListener('input', function(e) {
                 var el = e.target;
-                if (!el || !el.classList || !el.classList.contains('sync-input')) return;
+                if (!el || !el.classList.contains('sync-input')) return;
                 var key = el.getAttribute('data-sync');
                 if (!key) return;
                 var val = el.value;
@@ -2915,6 +3002,36 @@
                     if (others[i] !== el) others[i].value = val;
                 }
             });
+
+            // Saat halaman siap: sebarkan nilai dari field master ke semua follower
+            function spreadMasterValues() {
+                var keys = [];
+                var inputs = document.querySelectorAll('.sync-input[data-sync]');
+                for (var i = 0; i < inputs.length; i++) {
+                    var k = inputs[i].getAttribute('data-sync');
+                    if (k && keys.indexOf(k) === -1) keys.push(k);
+                }
+                for (var j = 0; j < keys.length; j++) {
+                    var key = keys[j];
+                    var master = (key === 'nama_produk')
+                        ? document.querySelector('.sync-input[data-sync="nama_produk"][data-sync-master="1"]')
+                        : document.querySelector('.sync-input[data-sync="' + key + '"]');
+                    if (!master || !master.value.trim()) continue;
+                    var followers = document.querySelectorAll('.sync-input[data-sync="' + key + '"]');
+                    for (var k2 = 0; k2 < followers.length; k2++) {
+                        followers[k2].value = master.value;
+                    }
+                }
+            }
+
+            // Jalankan setelah DOM siap + delay kecil untuk subab dinamis
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() { setTimeout(spreadMasterValues, 300); });
+            } else {
+                setTimeout(spreadMasterValues, 300);
+            }
         })();
     </script>
 @endsection
+
+
