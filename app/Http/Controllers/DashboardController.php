@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $pharma1aTypes = ['kapsul', 'nutracare'];
         $pharma1bTypes = ['tablet'];
         $pharma2Types  = ['sirup', 'siladex', 'konvermex', 'heltiskin', 'anakonidin60', 'anakonidin30', 'konidinobh'];
-        $naturalTypes  = ['nutracaregrape', 'qfomil'];
+        $naturalTypes  = ['nutracaregrape', 'qfomil', 'zingiberis'];
 
         $draftCounts = [
             'total'    => TemplateSummaryDraft::count(),

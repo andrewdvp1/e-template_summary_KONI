@@ -14,7 +14,7 @@
             'heltiskin'  => 'HELTISKIN CREAM',
             'konvermex'  => 'KONVERMEX 125 SUSPENSI',
             'konidinobh' => 'KONIDIN OBH (SACHET)',
-            'anakonidin60' => 'ANAKONIDIN 60 ML',
+            'zingiberis'     => 'ZINGIBERIS OFFICINALIS POWDER EXTRACT 2:1 (ZOS-32) HOF',
         ];
         $segmentConfig = [
             'pharma1a' => ['icon' => 'factory',                 'color' => 'red',     'accent' => 'bg-red-600',     'light' => 'bg-red-50 dark:bg-red-900/20',       'text' => 'text-red-500 dark:text-red-400',      'border' => 'border-red-200 dark:border-red-800/40',      'ring' => 'ring-red-500/20'],
@@ -35,7 +35,7 @@
             'nutracaregrape' => ['icon' => 'eco',            'label' => 'Nutracare Grape Seed'],
             'qfomil'     => ['icon' => 'science',            'label' => 'Q-Fomil'],
             'siladex'    => ['icon' => 'local_pharmacy',     'label' => 'Siladex'],
-            'konidinobh' => ['icon' => 'medication_liquid',  'label' => 'Konidin OBH'],
+            'zingiberis'     => ['icon' => 'description', 'label' => 'Zingiberis'],
         ];
     @endphp
 

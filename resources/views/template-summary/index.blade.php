@@ -134,6 +134,7 @@
                             'qfomil'         => ['icon' => 'science',       'color' => 'cyan'],
                             'siladex'   => ['icon' => 'local_pharmacy',    'color' => 'violet'],
                             'konidinobh'=> ['icon' => 'medication_liquid',  'color' => 'teal'],
+                            'zingiberis'=> ['icon' => 'forest',             'color' => 'amber'],
                         ];
                         $colorMap = [
                             'amber'   => ['icon' => 'text-amber-600',   'bg' => 'bg-amber-50 dark:bg-amber-900/10',    'border' => 'border-amber-200 dark:border-amber-800/40'],
@@ -504,6 +505,7 @@
             qfomil: "{{ route('template-summary.qfomil') }}",
             konidinobh: "{{ route('template-summary.konidinobh') }}",
             anakonidin60: "{{ route('template-summary.anakonidin60') }}",
+            zingiberis: "{{ route('template-summary.zingiberis') }}",
         };
 
         // ── Menu Data Config ─────────────────────────────────────────
@@ -638,11 +640,9 @@
                     },
                     {
                         name: 'Line Ekstraksi',
-                        route: 'sirup',
+                        route: 'zingiberis',
                         templates: [
-                            { label: 'Template 1', route: 'sirup' },
-                            { label: 'Template 2', route: 'sirup' },
-                            { label: 'Template 3', route: 'sirup' },
+                            { label: 'Template Zingiberis Officinalis Powder Extract', route: 'zingiberis' },
                         ]
                     },
                 ]

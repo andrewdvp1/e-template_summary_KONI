@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div class="relative z-10">
-                        <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-1.5">Nutracare Grape Seed, Q-Fomil</p>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-1.5">Nutracare Grape Seed, Q-Fomil, Zingiberis</p>
                         <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/50 text-xs font-semibold text-slate-600 dark:text-slate-300 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                             <span>Kelola Draft</span>
                             <span class="material-symbols-outlined text-[15px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -182,6 +182,15 @@
                                 } elseif($draft->draft_type === 'anakonidin60') {
                                     $icon = 'water_drop';
                                     $iconColor = 'text-emerald-500';
+                                } elseif($draft->draft_type === 'nutracaregrape') {
+                                    $icon = 'eco';
+                                    $iconColor = 'text-lime-500';
+                                } elseif($draft->draft_type === 'qfomil') {
+                                    $icon = 'science';
+                                    $iconColor = 'text-cyan-500';
+                                } elseif($draft->draft_type === 'zingiberis') {
+                                    $icon = 'forest';
+                                    $iconColor = 'text-amber-500';
                                 }
                             @endphp
                             <div class="group flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">

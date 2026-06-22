@@ -90,3 +90,8 @@ Route::post('template-summary/anakonidin60/export', [TemplateSummaryController::
 Route::get('template-summary/qfomil', [TemplateSummaryController::class, 'QFomilEditor'])->name('template-summary.qfomil');
 Route::post('template-summary/qfomil/draft', [TemplateSummaryController::class, 'saveQFomilDraft'])->name('template-summary.qfomil.draft');
 Route::post('template-summary/qfomil/export', [TemplateSummaryController::class, 'exportQFomil'])->name('template-summary.qfomil.export');
+
+// Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32) HOF
+Route::get('template-summary/zingiberis', [TemplateSummaryController::class, 'ZingiberisEditor'])->name('template-summary.zingiberis');
+Route::post('template-summary/zingiberis/draft', [TemplateSummaryController::class, 'saveZingiberisDraft'])->name('template-summary.zingiberis.draft');
+Route::post('template-summary/zingiberis/export', [TemplateSummaryController::class, 'exportZingiberis'])->name('template-summary.zingiberis.export');

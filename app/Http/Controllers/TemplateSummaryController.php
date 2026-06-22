@@ -55,7 +55,7 @@ class TemplateSummaryController extends Controller
                 'lines' => [
                     'Line Obat Dalam' => ['nutracaregrape', 'qfomil'],
                     'Line Obat Luar'  => ['sirup'],
-                    'Line Ekstraksi'  => ['sirup'],
+                    'Line Ekstraksi'  => ['zingiberis'],
                 ],
             ],
         ];
@@ -105,6 +105,7 @@ class TemplateSummaryController extends Controller
             ->orwhere('draft_type', 'konidinobh')
             ->orwhere('draft_type', 'anakonidin60')
             ->orwhere('draft_type', 'qfomil')
+            ->orwhere('draft_type', 'zingiberis')
             ->latest('updated_at')
             ->get();
 
@@ -135,6 +136,7 @@ class TemplateSummaryController extends Controller
                 'konidinobh'     => 'pharma2',
                 'nutracaregrape' => 'natural',
                 'qfomil'         => 'natural',
+                'zingiberis'     => 'natural',
             ];
 
             if (isset($typeSegmentFixed[$draft->draft_type])) {
@@ -204,7 +206,9 @@ class TemplateSummaryController extends Controller
         $draft->draft_type !== 'siladex' &&
         $draft->draft_type !== 'konidinobh'&&
         $draft->draft_type !== 'anakonidin60'&&
-        $draft->draft_type !== 'qfomil') {
+        $draft->draft_type !== 'qfomil' &&
+        $draft->draft_type !== 'zingiberis')
+        {
             return response()->json([
                 'success' => false,
                 'message' => 'Draft tidak ditemukan.',
@@ -250,7 +254,10 @@ class TemplateSummaryController extends Controller
             return redirect()->route('template-summary.anakonidin60', ['draft' => $draft->id]);
         } elseif ($draft->draft_type === 'qfomil') {
             return redirect()->route('template-summary.qfomil', ['draft' => $draft->id]);
+        } elseif ($draft->draft_type === 'zingiberis') {
+            return redirect()->route('template-summary.zingiberis', ['draft' => $draft->id]);
         }
+
         abort(404, 'Draft tidak ditemukan.');
     }
 
@@ -1937,6 +1944,139 @@ class TemplateSummaryController extends Controller
             'draft_id'     => $draft->id,
             'message'      => 'Draft berhasil disimpan.',
             'redirect_url' => route('template-summary.qfomil', ['draft' => $draft->id]),
+            'stored_files' => $decodedState['stored_files'],
+            'saved_at'     => now()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
+    // ── Zingiberis Officinalis Powder Extract ─────────────────────────────────
+
+    public function ZingiberisEditor(Request $request)
+    {
+        $draft = null;
+        $from  = 'new';
+
+        if ($request->filled('draft')) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'zingiberis')
+                ->findOrFail($request->string('draft')->toString());
+            $payload = $draft->payload;
+            if (is_array($payload)) {
+                $draft->payload = $this->normalizeStoredFilesUrl($payload, $draft->id);
+            }
+            $from = 'draft';
+        }
+
+        $breadcrumb = ['Summary' => route('template-summary.index')];
+        if ($from === 'draft') {
+            $breadcrumb['Draft Summary'] = route('template-summary.drafts');
+        } else {
+            $breadcrumb['Buat Baru'] = route('template-summary.index');
+        }
+        $breadcrumb['Zingiberis'] = null;
+
+        // Load stages with machines for machine dropdowns
+        $stages = \App\Models\Stage::query()
+            ->orderBy('sort_order')
+            ->with(['machines' => fn($q) => $q->orderBy('sort_order')])
+            ->get();
+
+        return view('template-summary.zingiberis.editor', [
+            'title'             => 'Template Zingiberis',
+            'breadcrumb'        => $breadcrumb,
+            'draft'             => $draft,
+            'initialDraftState' => $draft?->payload,
+            'draftLine'         => $draft?->draft_line ?? $request->string('line')->toString() ?: null,
+            'stages'            => $stages,
+        ]);
+    }
+
+    public function exportZingiberis(Request $request)
+    {
+        // TEMP DEBUG: log semua data yang diterima
+        $all = $request->except(['_token', 'export_token']);
+        \Illuminate\Support\Facades\Log::info('ZINGIBERIS EXPORT DATA', $all);
+
+        $exportService = new \App\Services\Export\ZingiberisExportService();
+        return $exportService->export($all);
+    }
+
+    public function saveZingiberisDraft(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'draft_id'    => ['nullable', 'integer'],
+            'draft_title' => ['nullable', 'string', 'max:255'],
+            'draft_line'  => ['nullable', 'string', 'max:100'],
+            'draft_state' => ['required', 'string'],
+        ]);
+
+        $decodedState = json_decode($validated['draft_state'], true);
+        if (!is_array($decodedState)) {
+            return response()->json(['success' => false, 'message' => 'Format draft_state tidak valid.'], 422);
+        }
+
+        $draft = null;
+        if (!empty($validated['draft_id'])) {
+            $draft = TemplateSummaryDraft::query()
+                ->where('draft_type', 'zingiberis')
+                ->find($validated['draft_id']);
+        }
+
+        if (!$draft) {
+            $draft = TemplateSummaryDraft::create([
+                'draft_type'    => 'zingiberis',
+                'draft_line'    => $validated['draft_line'] ?? null,
+                'title'         => $this->resolveDraftTitle($decodedState),
+                'payload'       => [],
+                'last_saved_at' => now(),
+            ]);
+        }
+
+        $previousState = is_array($draft->payload) ? $draft->payload : [];
+
+        $storedFiles = $decodedState['stored_files'] ?? [];
+        if (!is_array($storedFiles)) $storedFiles = [];
+
+        $storedFiles['mixing_image_file'] = $this->storeDraftFileGroup(
+            $request, $draft->id, 'mixing_image_file', 'images'
+        );
+        $storedFiles['mixing_excel_file'] = $this->storeDraftFileGroup(
+            $request, $draft->id, 'mixing_excel_file', 'excel'
+        );
+
+        $mergedStoredImages = $decodedState['stored_files']['mixing_image_file'] ?? [];
+        if (!is_array($mergedStoredImages)) $mergedStoredImages = [];
+        $mergedStoredImages = array_merge($mergedStoredImages, $storedFiles['mixing_image_file']);
+
+        $mergedStoredExcel = $decodedState['stored_files']['mixing_excel_file'] ?? [];
+        if (!is_array($mergedStoredExcel)) $mergedStoredExcel = [];
+        $mergedStoredExcel = array_merge($mergedStoredExcel, $storedFiles['mixing_excel_file']);
+
+        $decodedState['stored_files']['mixing_image_file'] = $mergedStoredImages;
+        $decodedState['stored_files']['mixing_excel_file'] = $mergedStoredExcel;
+        $decodedState = $this->normalizeStoredFilesUrl($decodedState, $draft->id);
+        $this->cleanupRemovedDraftFiles($previousState, $decodedState);
+
+        $formValues = $decodedState['form_values'] ?? [];
+        if (!is_array($formValues)) $formValues = [];
+        foreach ($mergedStoredImages as $tableUid => $imageMeta) {
+            if (is_array($imageMeta) && !empty($imageMeta['path'])) {
+                $formValues["existing_mixing_image_file[{$tableUid}]"] = (string) $imageMeta['path'];
+            }
+        }
+        $decodedState['form_values'] = $formValues;
+
+        $draft->update([
+            'title'         => $this->resolveDraftTitle($decodedState),
+            'payload'       => $decodedState,
+            'last_saved_at' => now(),
+        ]);
+
+        return response()->json([
+            'success'      => true,
+            'draft_id'     => $draft->id,
+            'message'      => 'Draft berhasil disimpan.',
+            'redirect_url' => route('template-summary.zingiberis', ['draft' => $draft->id]),
             'stored_files' => $decodedState['stored_files'],
             'saved_at'     => now()->format('Y-m-d H:i:s'),
         ]);
