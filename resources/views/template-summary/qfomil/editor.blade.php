@@ -3284,9 +3284,18 @@
                         clearInterval(poll);
                         document.cookie = 'export_done=; Max-Age=0; path=/';
                         document.getElementById('exportLoadingModal').classList.add('hidden');
+                        showExportSuccessModal();
                     }, remainingTime);
                 }
             }, 500);
+        }
+
+        function showExportSuccessModal() {
+            const modal = document.getElementById('exportSuccessModal');
+            modal.classList.remove('hidden');
+            setTimeout(function() {
+                modal.classList.add('hidden');
+            }, 3000);
         }
     </script>
 
@@ -3301,6 +3310,19 @@
             <div class="w-full flex items-center gap-3 bg-slate-100 dark:bg-slate-700/60 rounded-xl px-4 py-3">
                 <span class="material-symbols-outlined text-red-500 dark:text-red-400 text-[22px]">description</span>
                 <span class="text-slate-400 dark:text-slate-400 text-sm">Menghasilkan dokumen Word</span>
+            </div>
+        </div>
+    </div>
+
+    {{-- Export Success Modal --}}
+    <div id="exportSuccessModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
+            <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                <span class="material-symbols-outlined text-green-500 dark:text-green-400 text-[40px]">check_circle</span>
+            </div>
+            <div class="text-center">
+                <p class="text-slate-900 dark:text-white font-bold text-lg">Export Berhasil!</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Dokumen Word berhasil diunduh.</p>
             </div>
         </div>
     </div>

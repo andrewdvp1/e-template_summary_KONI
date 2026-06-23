@@ -665,8 +665,8 @@
                                 </p>
                                 </div>
                                 
-                            </div>{{-- end subsec-232 2.3.2.7 --}}
                             </div>{{-- end box 2.3.2 --}}
+
 
                             {{-- 2.3.3 Tahap Sterilisasi --}}
                             <div class="ml-4 mb-6 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-700">
@@ -889,8 +889,8 @@
                                         @php
                                             $stagePengecilan = $stages->first(fn($s) => str_contains(strtolower($s->name), 'pengecil') || str_contains(strtolower($s->name), 'grind') || str_contains(strtolower($s->name), 'mill'));
                                         @endphp
-                                        <select name="tujuan_mesin_pengecilan" class="template-input w-64">
-                                            <option value="">-- Pilih Mesin Pengecilan Ukuran --</option>
+                                        <select name="tujuan_mesin_pengecilan" class="template-input w-90">
+                                            <option value="">-- Pilih Mesin Pengecilan Ukuran Granul--</option>
                                             @if($stagePengecilan)
                                                 @foreach($stagePengecilan->machines as $machine)
                                                     <option value="{{ $machine->name }}"
@@ -1103,7 +1103,7 @@
                             </div>
                          {{-- 2.3.5 Tahap Pengemasan --}}
                             <div class="ml-4 mb-6 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-700">
-                                <h4 class="font-semibold text-slate-700 dark:text-slate-300 mb-4">2.3.4 Tahap Granulasi</h4>
+                                <h4 class="font-semibold text-slate-700 dark:text-slate-300 mb-4">2.3.5 Tahap Pengemasan</h4>
 
                                  {{-- 2.3.5.1 --}}
                                 <div class="ml-4 mb-4">
@@ -1201,18 +1201,26 @@
                     </div>{{-- end bab2-section 2.3 --}}
 
                     {{-- 2.4 CATATAN --}}
-                            <div class="ml-4 mb-6 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-700">
-                                <h4 class="font-semibold text-slate-700 dark:text-slate-300 mb-4">2.4 CATATAN</h4>
-                                {{-- 2.4.1--}}
-                                <div class="ml-4 mb-4">
-                                    <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
-                                        <span class="font-semibold">2.4.1</span>
-                                        <textarea 
-                                        name="pencampuran_catatan" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                        placeholder="Tahap evaporasi belum dapat memberikan hasil bobot tetap yang sesuai dengan MBR Proses Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32), no. dokumen CG-00087-04-PC, tanggal 29-09-2025, yaitu 15-20%">
-                                        Tahap evaporasi belum dapat memberikan hasil bobot tetap yang sesuai dengan MBR Proses Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32), no. dokumen CG-00087-04-PC, tanggal 29-09-2025, yaitu 15-20%</textarea>
-                                    </p>
-                                </div>
+                    <div class="bab2-section mt-6" data-section-id="4">
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-4">
+                            <span class="bab2-number cursor-pointer select-none px-1 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                                onclick="toggleBab2Section(this)" title="Klik untuk disable/enable">2.4</span>
+                            CATATAN
+                        </h3>
+                        <div class="bab2-section-content transition-opacity duration-200">
+
+                            {{-- 2.4.1 --}}
+                            <div class="ml-4 mb-4">
+                                <p class="text-base text-slate-700 dark:text-slate-300 mb-2">
+                                    <span class="font-semibold">2.4.1</span>
+                                    <textarea 
+                                    name="pencampuran_catatan" rows="3" class="template-input w-full resize-y text-base font-bold" 
+                                    placeholder="Tahap evaporasi belum dapat memberikan hasil bobot tetap yang sesuai dengan MBR Proses Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32), no. dokumen CG-00087-04-PC, tanggal 29-09-2025, yaitu 15-20%">
+                                    Tahap evaporasi belum dapat memberikan hasil bobot tetap yang sesuai dengan MBR Proses Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32), no. dokumen CG-00087-04-PC, tanggal 29-09-2025, yaitu 15-20%</textarea>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>{{-- end p-6 BAB 2 --}}
             </div>{{-- end bab2_card --}}
 
@@ -1453,7 +1461,7 @@
                         <span class="material-symbols-outlined text-[18px]">save</span>
                         <span id="saveDraftText">Simpan Draft</span>
                     </button>
-                    <button type="submit"
+                    <button type="submit" onclick="showExportModal()"
                         class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold text-sm shadow-sm flex items-center gap-2 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">description</span>
                         Export ke Word
@@ -3372,9 +3380,18 @@
                         clearInterval(poll);
                         document.cookie = 'export_done=; Max-Age=0; path=/';
                         document.getElementById('exportLoadingModal').classList.add('hidden');
+                        showExportSuccessModal();
                     }, remainingTime);
                 }
             }, 500);
+        }
+
+        function showExportSuccessModal() {
+            const modal = document.getElementById('exportSuccessModal');
+            modal.classList.remove('hidden');
+            setTimeout(function() {
+                modal.classList.add('hidden');
+            }, 3000);
         }
     </script>
 
@@ -3389,6 +3406,19 @@
             <div class="w-full flex items-center gap-3 bg-slate-100 dark:bg-slate-700/60 rounded-xl px-4 py-3">
                 <span class="material-symbols-outlined text-red-500 dark:text-red-400 text-[22px]">description</span>
                 <span class="text-slate-400 dark:text-slate-400 text-sm">Menghasilkan dokumen Word</span>
+            </div>
+        </div>
+    </div>
+
+    {{-- Export Success Modal --}}
+    <div id="exportSuccessModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl px-10 py-8 flex flex-col items-center gap-4 min-w-[320px]">
+            <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                <span class="material-symbols-outlined text-green-500 dark:text-green-400 text-[40px]">check_circle</span>
+            </div>
+            <div class="text-center">
+                <p class="text-slate-900 dark:text-white font-bold text-lg">Export Berhasil!</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Dokumen Word berhasil diunduh.</p>
             </div>
         </div>
     </div>

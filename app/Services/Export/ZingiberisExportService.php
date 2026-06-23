@@ -52,7 +52,7 @@ class ZingiberisExportService
         $this->exportBab1();
         $this->exportBab2();
         $this->exportBab3();
-        $this->exportBab4();
+        //$this->exportBab4();
         $this->addFooter();
 
         return $this->saveAndDownload();
@@ -302,16 +302,18 @@ class ZingiberisExportService
             "Hasil pemeriksaan {$bobotTetapEvapo} seluruh sampel produk antara hasil evaporasi dari batch {$batchEvapo} {$hasilEvapo2} syarat spesifikasi IPC yaitu {$syaratEvapo}."
         );
 
-        // ── 2.3.3 Tahap Sterilisasi ──
+        // ── 2.3.3 & 2.3.4 (Sterilisasi + Granulasi) ──
+        // Sinkron dengan editor: blok 2.3.3 (Sterilisasi) ikut berada di dalam konteks 2.3 (Hasil pemeriksaan per tahapan)
+        // dan berlanjut ke 2.3.4 (Granulasi) tanpa tertukar.
+
+        // 2.3.3 Tahap Sterilisasi
         $this->addSubabHeading('2.3.3.', 'Tahap Sterilisasi');
 
-        // 2.3.3.1 — mesin default SCH500
         $mesinSteril1 = $this->mesin('tujuan_mesin_sterilisasi');
         $this->addSubSubabText('2.3.3.1.',
             "Tahap sterilisasi untuk {$namaProduk} batch {$batchSteril} dengan menggunakan mesin {$mesinSteril1}."
         );
 
-        // 2.3.3.2 — mesin default SCH500
         $mesinSteril2 = $this->mesin('tujuan_mesin_sterilisasi_2');
         $paramSteril  = trim((string)($this->data['parameter_sterilisasi'] ?? ($this->data['pencampuran_parameter'] ?? 'sirkulasi selama 14 menit pada suhu 85°C')));
         $beratSteril  = trim((string)($this->data['berat_hasil_sterilisasi'] ?? '223.75'));
@@ -319,28 +321,26 @@ class ZingiberisExportService
             "Proses sterilisasi dengan {$mesinSteril2} dilakukan dengan parameter {$paramSteril}. Dengan hasil akhir tahap sterilisasi sebesar {$beratSteril} kg."
         );
 
-        // 2.3.3.3
         $pemSteril = trim((string)($this->data['param_kemas_344'] ?? 'cemaran mikroba'));
         $this->addSubSubabText('2.3.3.3.',
             "Pemeriksaan {$pemSteril} pada produk antara hasil sterilisasi bukan merupakan syarat release QC (spesifikasi pemeriksaan rutin), tetapi hanya digunakan sebagai pendataan."
         );
         $this->addBab22SubabTables('tbl_kemasan_332', $tableSubabMap, $imageMap, $existingImageMap);
 
-        // 2.3.3.4
         $samplingLokasi = trim((string)($this->data['pencampuran_sampling_waktu'] ?? 'atas, tengah, dan bawah'));
         $this->addSubSubabText('2.3.3.4.',
             "Dilakukan pengambilan sampel yang mewakili {$samplingLokasi} dari vat/kontainer dengan hasil sebagai berikut:"
         );
         $this->addBab22SubabTables('tbl_kemasan_3331', $tableSubabMap, $imageMap, $existingImageMap);
 
-        // 2.3.3.5
         $hasilSteril = trim((string)($this->data['hasil_sterilisasi'] ?? 'telah memenuhi'));
         $this->addSubSubabText('2.3.3.5.',
             "Hasil pemeriksaan {$pemSteril} seluruh sampel produk antara hasil sterilisasi dari batch {$batchSteril} {$hasilSteril} kriteria penerimaan yang berlaku."
         );
 
-        // ── 2.3.4 Tahap Granulasi ──
+        // 2.3.4 Tahap Granulasi
         $this->addSubabHeading('2.3.4.', 'Tahap Granulasi');
+
 
         // 2.3.4.1 — mesin mixing default Mixer Tateng
         $mesinMixing  = $this->mesin('tujuan_mesin_mixing');
@@ -418,14 +418,14 @@ class ZingiberisExportService
         $samplingWadah = $this->data['kapsulasi_sampling_titik'] ?? '9';
         $beratSatuan  = $this->data['berat_kemasan_satuan'] ?? '25';
         $this->addSubSubabText('2.3.5.2.',
-            "{$namaProduk} batch {$batchSteril} yang dikemas dalam kemasan primer {$kemasan} dengan kemasan sekunder {$tempat} adalah sebanyak {$samplingWadah} wadah, dengan masing-masing memiliki bobot {$beratSatuan} kg." . ($hasil2352 !== '' ? " {$hasil2352}" : '') . '.'
+            "{$namaProduk} batch {$batchSteril} yang dikemas dalam kemasan primer {$kemasan} dengan kemasan sekunder {$tempat} adalah sebanyak {$samplingWadah} wadah, dengan masing-masing memiliki bobot {$beratSatuan} kg" . ($hasil2352 !== '' ? " {$hasil2352}" : '') . '.'
         );
         $this->addBab22SubabTables('kemas_pem', $tableSubabMap, $imageMap, $existingImageMap);
 
         $hasil2353 = trim((string)($this->data['hasil_2353'] ?? ''));
         $tempat     = $this->data['pencampuran_tempat']          ?? 'Fiber Drum';
         $this->addSubSubabText('2.3.5.3.',
-            "Dengan hasil pemeriksaan hasil kemas {$tempat} sebagai berikut : " . ($hasil2353 !== '' ? " {$hasil2353}" : '') . '.'
+            "Dengan hasil pemeriksaan hasil kemas {$tempat} sebagai berikut : " . ($hasil2353 !== '' ? " {$hasil2353}" : '') . ''
         );
         $this->addBab22SubabTables('kemas_hasil', $tableSubabMap, $imageMap, $existingImageMap);
         $this->addBab22SubabTables('gran_pem2', $tableSubabMap, $imageMap, $existingImageMap); 
@@ -433,7 +433,7 @@ class ZingiberisExportService
         $hasil2354 = trim((string)($this->data['hasil_2354'] ?? ''));
         $hasilGran     = trim((string)($this->data['hasil_granulasi'] ?? 'memenuhi'));
         $this->addSubSubabText('2.3.5.4.',
-            "Secara keseluruhan, atribut yang diuji pada tahap pengemasan sudah memberikan hasil yang {$hasilGran} persyaratan menurut spesifikasi ekstrak yang berlaku." . ($hasil2354 !== '' ? " {$hasil2354}" : '') . '.'
+            "Secara keseluruhan, atribut yang diuji pada tahap pengemasan sudah memberikan hasil yang {$hasilGran} persyaratan menurut spesifikasi ekstrak yang berlaku" . ($hasil2354 !== '' ? " {$hasil2354}" : '') . '.'
         );
         $this->addBab22SubabTables('kemas_hasil', $tableSubabMap, $imageMap, $existingImageMap);
     }
@@ -447,28 +447,31 @@ class ZingiberisExportService
         $kesimpulanTahapan = $this->data['kesimpulan_tahapan']          ?? 'ekstraksi, evaporasi, sterilisasi, granulasi, dan pengemasan';
         $noDok             = $this->data['pencampuran_no_dokumen']       ?? 'CG-00087-04-PC';
         $tglDok            = $this->data['pencampuran_tanggal_dokumen']  ?? '29-09-2025';
+        $noDokKemas        = $this->data['pencampuran_no_dokumen']       ?? 'CG-00090-01-NL';
+        $tglDokKemas       = $this->data['pencampuran_no_dokumen']       ?? '05-07-2023';
+        $noDok2344             = $this->data['pencampuran_no_dokumen']       ?? 'SX-F03-3-00018-02';
+        $tglDok2344            = $this->data['pencampuran_tanggal_dokumen']  ?? '09-08-2024';
         $tempat            = $this->data['pencampuran_tempat']           ?? 'Fiber Drum';
-        $batchCode         = $this->data['batch_besaran']                ?? 'DEC25A07';
+        $batchCode         = $this->data['batch_besaran']                ?? '(DEC25A07)';
         $kemHasil          = trim((string)($this->data['kemasan_hasil'] ?? 'memenuhi'));
         $status            = trim((string)($this->data['kesimpulan_status'] ?? 'validated'));
 
         // 3.1
         $r31 = $this->section->addTextRun(['alignment' => 'both', 'indentation' => ['left' => 740, 'hanging' => 440], 'contextualSpacing' => true]);
         $r31->addText('3.1', ['size' => 11]);
-        $r31->addText(" Telah dilakukan validasi proses pengolahan produk {$namaProduk}, yaitu {$kesimpulanTahapan}, telah dilakukan sesuai dengan MBR Proses {$namaProduk}, No. Dokumen {$noDok}, tanggal {$tglDok}, MBR Pengemasan {$namaProduk} {$tempat}, No. Dokumen {$noDok}, tanggal {$tglDok}.", ['size' => 11]);
+        $r31->addText(" Telah dilakukan validasi proses pengolahan produk {$namaProduk}, yaitu {$kesimpulanTahapan}, telah dilakukan sesuai dengan MBR Proses {$namaProduk}, No. Dokumen {$noDok}, tanggal {$tglDok}, MBR Pengemasan {$namaProduk} {$tempat}, No. Dokumen {$noDokKemas}, tanggal {$tglDokKemas}.", ['size' => 11]);
 
         // sub-poin 3.1.x — field dari blade
         $pemJenis    = trim((string)($this->data['param_mutu_ekstraksi']  ?? 'pemerian dan bobot tetap'));
         $kemHasil11  = trim((string)($this->data['hasil_311']             ?? 'telah memenuhi'));
-        $paramEvapo2 = trim((string)($this->data['param_penyalutan_313']  ?? ''));
-
+        $paramEvapo2 = trim((string)($this->data['param_penyalutan_313']  ?? 'pemerian'));
+        
+        
         $texts = [
             '3.1.1' => "Berdasarkan pemeriksaan batch validasi {$batchCode} terhadap parameter mutu produk pada tahap ekstraksi antara lain {$pemJenis} didapatkan hasil pengujian {$kemHasil11} spesifikasi produk yang berlaku.",
-            '3.1.2' => "Berdasarkan pemeriksaan batch validasi {$batchCode} terhadap parameter mutu produk pada tahap evaporasi antara lain "
-                . trim((string)($this->data['param_mutu_evaporasi'] ?? 'pemerian'))
-                . " didapatkan hasil pengujian " . trim((string)($this->data['hasil_312'] ?? 'telah memenuhi'))
-                . ($paramEvapo2 !== '' ? " {$paramEvapo2}" : '.'),
-            '3.1.3' => "Berdasarkan pemeriksaan batch validasi {$batchCode} terhadap parameter mutu produk pada tahap sterilisasi antara lain "
+'3.1.2' => "Berdasarkan pemeriksaan batch validasi {$batchCode} terhadap parameter mutu produk pada tahap evaporasi antara lain pemerian didapatkan hasil pengujian telah memenuhi spesifikasi produk yang berlaku."
+                . " Namun belum dapat menghasilkan bobot tetap yang sesuai dengan spesifikasi produk yang berlaku. Pemeriksaan bobot tetap pada hasil akhir evaporasi bukan merupakan syarat rilis produk, melainkan hanya sebagai kontrol dan pendataan.",
+            '3.1.3' => "Berdasarkan pemeriksaan batch validasi {$batchCode} terhadap parameter mutu produk pada tahap sterilisasi antara lain  "
                 . trim((string)($this->data['param_mutu_sterilisasi'] ?? 'batas mikroba'))
                 . " didapatkan hasil pengujian " . trim((string)($this->data['hasil_313'] ?? 'telah memenuhi')) . " spesifikasi produk yang berlaku.",
             '3.1.4' => "Berdasarkan pemeriksaan batch validasi {$batchCode} terhadap parameter mutu produk pada tahap akhir granulasi sebagai produk jadi, antara lain "
@@ -479,52 +482,54 @@ class ZingiberisExportService
                 . " didapatkan hasil pegujian " . trim((string)($this->data['hasil_315'] ?? 'telah memenuhi')) . " spesifikasi produk yang berlaku.",
         ];
 
-        $enabledStr      = (string)($this->data['kesimpulan_enabled_sections'] ?? '1,2,3,4');
-        $enabledSections = array_values(array_filter(array_map('trim', explode(',', $enabledStr))));
+        // Sinkron dengan editor.blade:
+        // Editor tidak mengandalkan `kesimpulan_enabled_sections` untuk sub-poin 3.1.x.
+        // Di sini kita tampilkan semua 3.1.1 s/d 3.1.5 (sesuai teks & field yang ada),
+        // bukan berdasarkan daftar hidden/enable sections.
+        $this->addSubKesimpulanItem('3.1.1', $texts['3.1.1']);
+        $this->addSubKesimpulanItem('3.1.2', $texts['3.1.2']);
+        $this->addSubKesimpulanItem('3.1.3', $texts['3.1.3']);
+        $this->addSubKesimpulanItem('3.1.4', $texts['3.1.4']);
+        $this->addSubKesimpulanItem('3.1.5', $texts['3.1.5']);
 
-        $subMap = ['1' => '3.1.1', '2' => '3.1.2', '3' => '3.1.3', '4' => '3.1.4'];
-        foreach ($subMap as $sid => $num) {
-            if (in_array($sid, $enabledSections, true)) {
-                $this->addSubKesimpulanItem($num, $texts[$num]);
-                if ($sid === '4') {
-                    $this->addSubKesimpulanItem('3.1.5', $texts['3.1.5']);
-                }
-            }
-        }
 
         // 3.2
         $kemHasil  = trim((string)($this->data['kemasan_hasil']    ?? 'memenuhi'));
         $hasilProses = trim((string)($this->data['hasil_32_proses'] ?? ($this->data['kemasan_hasil'] ?? 'memenuhi')));
         $r32 = $this->section->addTextRun(['alignment' => 'both', 'indentation' => ['left' => 740, 'hanging' => 440], 'contextualSpacing' => true]);
         $r32->addText('3.2', ['size' => 11]);
-        $r32->addText(" Proses {$hasilProses} terbukti dapat menghasilkan produk jadi {$namaProduk} batch {$batchCode} yang memenuhi spesifikasi dalam Spesifikasi {$namaProduk}, No. Dokumen {$noDok}, tanggal {$tglDok}, sehingga dinyatakan ", ['size' => 11]);
+        $r32->addText(" Proses terbukti dapat menghasilkan produk jadi {$namaProduk} batch {$batchCode} yang {$kemHasil} spesifikasi dalam Spesifikasi {$namaProduk}, No. Dokumen {$noDok2344}, tanggal {$tglDok2344}, sehingga dinyatakan ", ['size' => 11]);
         $r32->addText($status, ['italic' => true, 'size' => 11]);
         $r32->addText('.', ['size' => 11]);
 
-        // Custom poin tambahan
+        // Custom poin tambahan (sinkron dengan editor)
         $customNumber = 3;
-        foreach ($enabledSections as $sectionId) {
-            if (str_starts_with($sectionId, 'c')) {
-                $customNum  = substr($sectionId, 1);
-                $customText = trim((string)($this->data["kesimpulan_custom_{$customNum}"] ?? ''));
-                if ($customText !== '') {
-                    $this->addKesimpulanItem("3.{$customNumber}", $customText);
-                    $customNumber++;
-                }
+        foreach ($this->data as $key => $value) {
+            if (!is_string($key)) {
+                continue;
             }
+            if (!str_starts_with($key, 'kesimpulan_custom_')) {
+                continue;
+            }
+            $customText = trim((string)$value);
+            if ($customText === '') {
+                continue;
+            }
+            $this->addKesimpulanItem("3.{$customNumber}", $customText);
+            $customNumber++;
         }
+
     }
 
-    protected function exportBab4(): void
-    {
-        $this->section->addTextBreak(1);
-        $this->section->addText('4. SARAN', ['bold' => true, 'size' => 11], ['alignment' => 'both', 'spaceAfter' => 0]);
-
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? 'Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32) HOF';
-        $this->addKesimpulanItem('4.1',
-            "Apabila dikemudian hari dilakukan perubahan pada proses produksi produk {$namaProduk}, maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku."
-        );
-    }
+    //protected function exportBab4(): void
+    //{
+    //    $this->section->addTextBreak(1);
+    //    $this->section->addText('4. SARAN', ['bold' => true, 'size' => 11], ['alignment' => 'both', 'spaceAfter' => 0]);
+    //    $namaProduk = $this->data['tujuan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? 'Zingiberis Officinalis Powder Extract 2 : 1 (ZOS-32) HOF';
+    //    $this->addKesimpulanItem('4.1',
+    //        "Apabila dikemudian hari dilakukan perubahan pada proses produksi produk {$namaProduk}, maka perubahan tersebut harus diberitahukan ke pihak-pihak terkait dengan mekanisme sesuai pedoman pengendalian perubahan yang berlaku."
+    //    );
+    //}
 
     // ── Helpers ──────────────────────────────────────────────────────────────
 
