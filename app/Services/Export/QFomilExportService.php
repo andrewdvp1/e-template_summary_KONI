@@ -8,6 +8,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\ComplexType\TblWidth;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 
 class QFomilExportService
 {
@@ -16,12 +17,25 @@ class QFomilExportService
     protected array $data;
 
     /**
+     * Ambil nilai dari data form. Jika kosong/null, gunakan fallback.
+     * Ini menangani kasus input yang tidak punya value attribute (hanya placeholder)
+     * sehingga saat submit mengirim string kosong "".
+     */
+    protected function d(string $key, string $fallback = '-'): string
+    {
+        $val = trim((string) ($this->data[$key] ?? ''));
+        return $val !== '' ? $val : $fallback;
+    }
+
+    /**
      * Export the Q-Fomil template to Word document
      */
     public function export(array $data)
     {
         $this->data = $data;
         $this->phpWord = new PhpWord();
+
+        Settings::setOutputEscapingEnabled(true);
 
         $this->setupDocument();
         $this->addHeader();
@@ -118,9 +132,9 @@ class QFomilExportService
     {
         $this->section->addTextBreak(1);
 
-        $namaProduk = strtoupper($this->data['judul_nama_produk'] ?? 'Q-Fomil');
-        $line       = strtoupper($this->data['judul_line'] ?? 'OBAT DALAM');
-        $bagian     = strtoupper($this->data['judul_bagian'] ?? $this->data['tujuan_bagian'] ?? 'PRODUCTION NATPRO & EXTRACTION BANGUNAN IOT NATPRO');
+        $namaProduk = strtoupper($this->d('judul_nama_produk', 'Q-FOMIL'));
+        $line       = strtoupper($this->d('judul_line', 'OBAT DALAM'));
+        $bagian     = strtoupper($this->d('judul_bagian', $this->d('tujuan_bagian', 'PRODUCTION NATPRO & EXTRACTION BANGUNAN IOT NATPRO')));
 
         // Baris 1: SUMMARY ... PRODUK [NAMA] DI LINI [LINE]
         $line1 = "SUMMARY LAPORAN VALIDASI PROSES PEMBUATAN PRODUK {$namaProduk} DI LINI {$line}";
@@ -143,15 +157,15 @@ class QFomilExportService
 
         $infoTable->addRow();
         $infoTable->addCell(2000)->addText('Dokumen No. :', ['size' => 11], $cellParagraph);
-        $infoTable->addCell(3000)->addText($this->data['dokumen_no'] ?? '-', ['size' => 11], $cellParagraph);
+        $infoTable->addCell(3000)->addText($this->d('dokumen_no', '-'), ['size' => 11], $cellParagraph);
         $infoTable->addCell(1500)->addText('Tanggal :', ['size' => 11], $cellParagraph);
-        $infoTable->addCell(2500)->addText($this->data['dokumen_tanggal'] ?? '-', ['size' => 11], $cellParagraph);
+        $infoTable->addCell(2500)->addText($this->d('dokumen_tanggal', '-'), ['size' => 11], $cellParagraph);
 
         $infoTable->addRow();
         $infoTable->addCell(2000)->addText('Pengganti No. :', ['size' => 11], $cellParagraph);
-        $infoTable->addCell(3000)->addText($this->data['pengganti_no'] ?? '-', ['size' => 11], $cellParagraph);
+        $infoTable->addCell(3000)->addText($this->d('pengganti_no', '-'), ['size' => 11], $cellParagraph);
         $infoTable->addCell(1500)->addText('Tanggal :', ['size' => 11], $cellParagraph);
-        $infoTable->addCell(2500)->addText($this->data['pengganti_tanggal'] ?? '-', ['size' => 11], $cellParagraph);
+        $infoTable->addCell(2500)->addText($this->d('pengganti_tanggal', '-'), ['size' => 11], $cellParagraph);
 
         $this->section->addTextBreak(1);
     }
@@ -175,21 +189,25 @@ class QFomilExportService
         ]);
         $textRun11->addText('1.1', ['size' => 11]);
         $textRun11->addText('  Tujuan', ['size' => 11]);
-        $namaProduk  = $this->data['tujuan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? 'Q-Fomil';
-        $line        = $this->data['tujuan_line'] ?? $this->data['judul_line'] ?? 'Obat Dalam';
-        $bagian      = $this->data['tujuan_bagian'] ?? $this->data['judul_bagian'] ?? 'Production Natpro & Extraction';
-        $varian      = $this->data['varian_produk'] ?? 'kemasan botol';
 
-        $tujuanText  = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap " .
+        $namaProduk  = $this->d('tujuan_nama_produk', $this->d('judul_nama_produk', 'Q-Fomil'));
+        $line        = $this->d('tujuan_line', 'Obat Dalam');
+        $bagian      = $this->d('tujuan_bagian', 'Production Natpro & Extraction');
+        $varian      = $this->d('varian_produk', 'kemasan botol');
+        $namaProduk2 = $this->d('tujuan_nama_produk_2', $namaProduk);
+
+        $tujuanText = "Summary validasi ini bertujuan mendokumentasikan hasil studi validasi/pembuktian terhadap " .
             "kualitas dan reprodusibilitas proses pengolahan produk {$namaProduk} di Lini {$line} Bagian {$bagian} " .
             "dalam menghasilkan produk yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk dan " .
-            "Kemasan {$namaProduk} {$varian} yang berlaku.";
+            "Kemasan {$namaProduk2} {$varian} yang berlaku.";
 
         $textRun111 = $this->section->addTextRun([
             'alignment' => 'both',
             'indentation' => ['left' => 740, 'hanging' => 440],
             'contextualSpacing' => true,
         ]);
+        $textRun111->addText('1.1.1', ['size' => 11]);
+        $textRun111->addText(' ' . $tujuanText, ['size' => 11]);
 
         // 1.2 Batch Validasi
         $textRun12 = $this->section->addTextRun([
@@ -200,13 +218,9 @@ class QFomilExportService
         $textRun12->addText('1.2', ['size' => 11]);
         $textRun12->addText('  Batch Validasi', ['size' => 11]);
 
-        // Build batch text from form data
-        // Editor: "Studi validasi dilakukan terhadap [batch_jumlah] batch produksi yaitu batch [batch_besaran] dengan besaran batch [batch_besaran]"
-        // Note: editor has two fields named "batch_besaran" — PHP submits only the last value (besaran/kg)
-        // The first batch_besaran field (batch code like "DEC25A01") is overwritten — we use batch_name as fallback
-        $jumlahBatch = $this->data['batch_jumlah'] ?? 'satu';
-        $batchKode   = $this->data['batch_name'] ?? $this->data['batch_besaran'] ?? '-';
-        $besaran     = $this->data['batch_besaran'] ?? '21 kg';
+        $jumlahBatch = $this->d('batch_jumlah', 'satu');
+        $batchKode   = $this->d('batch_name', $this->d('batch_besaran', 'DEC25A01'));
+        $besaran     = $this->d('batch_besaran', '21 kg');
 
         $batchText = "Studi validasi dilakukan terhadap {$jumlahBatch} batch produksi yaitu batch {$batchKode} dengan besaran batch {$besaran}.";
 
@@ -216,7 +230,6 @@ class QFomilExportService
             'contextualSpacing' => true,
         ]);
 
-        // Add Bahan Aktif table if present
         $this->addBahanAktifTable();
     }
 
@@ -295,65 +308,42 @@ class QFomilExportService
         $enabledBab2 = array_map('trim', explode(',', $this->data['bab2_enabled_sections'] ?? '1,2,3'));
 
         if (in_array('1', $enabledBab2)) {
-            $namaProduk = $this->data['tujuan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? 'Q-Fomil';
-            $metode     = $this->data['rangkuman_metode'] ?? 'penimbangan bahan baku, pencampuran, pencetakan, penyalutan, dan pengemasan primer (stripping)';
-            $noDokumen  = $this->data['pencampuran_no_dokumen'] ?? '-';
-            $tglDokumen = $this->data['pencampuran_tanggal_dokumen'] ?? '-';
+            $namaProduk  = $this->d('tujuan_nama_produk', $this->d('judul_nama_produk', 'Q-Fomil'));
+            $batchKode21 = $this->d('batch_name', $this->d('batch_besaran', 'DEC25A01'));
+            $metode      = $this->d('rangkuman_metode', 'penimbangan bahan baku, pencampuran, pencetakan, penyalutan, dan pengemasan primer (stripping)');
+            $noDokumen   = $this->d('pencampuran_no_dokumen', 'CE-00467-01-NL');
+            $tglDokumen  = $this->d('pencampuran_tanggal_dokumen', '07-11-2025');
 
             $textRun21 = $this->section->addTextRun([
                 'alignment' => 'both', 'indentation' => ['left' => 740, 'hanging' => 440], 'contextualSpacing' => true,
             ]);
             $textRun21->addText('2.1.', ['size' => 11]);
-            $textRun21->addText(" Seluruh tahapan pengolahan dan pengemasan primer {$namaProduk} yaitu {$metode} telah dilakukan sesuai MBR Pengolahan {$namaProduk}, no. dokumen {$noDokumen}, tanggal {$tglDokumen} dan MBR Pengemasan {$namaProduk}, no. Dokumen {$noDokumen}, tanggal {$tglDokumen}.", ['size' => 11]);
+            $textRun21->addText(" Seluruh tahapan pengolahan dan pengemasan primer {$namaProduk} batch {$batchKode21} yaitu {$metode} telah dilakukan sesuai MBR Pengolahan {$namaProduk}, no. dokumen {$noDokumen}, tanggal {$tglDokumen} dan MBR Pengemasan {$namaProduk}, no. Dokumen {$noDokumen}, tanggal {$tglDokumen} telah dilakukan sesuai prosedur pengolahan dan pengemasan yang berlaku.", ['size' => 11]);
         }
 
-        // 2.2 Pelaksanaan Proses Produksi — dynamic mixing subabs
-        if (in_array('2', $enabledBab2)) {
-            $textRun22 = $this->section->addTextRun([
-                'alignment' => 'both', 'indentation' => ['left' => 300], 'contextualSpacing' => true,
-            ]);
-            $textRun22->addText('2.2', ['size' => 11]);
-            $textRun22->addText('  Pelaksanaan Proses Produksi', ['size' => 11]);
+        // Shared map dibutuhkan oleh 2.3
+        $tableSubabMap    = is_array($this->data['bab22_table_subab_key'] ?? null) ? $this->data['bab22_table_subab_key'] : [];
+        $imageMap         = is_array($this->data['mixing_image_file'] ?? null) ? $this->data['mixing_image_file'] : [];
+        $existingImageMap = is_array($this->data['existing_mixing_image_file'] ?? null) ? $this->data['existing_mixing_image_file'] : [];
 
-            $enabledSubabKeys = $this->getEnabledBab22SubabKeys();
-            $tableSubabMap    = is_array($this->data['bab22_table_subab_key'] ?? null) ? ($this->data['bab22_table_subab_key']) : [];
-            $imageMap         = is_array($this->data['mixing_image_file'] ?? null) ? ($this->data['mixing_image_file']) : [];
-            $existingImageMap = is_array($this->data['existing_mixing_image_file'] ?? null) ? ($this->data['existing_mixing_image_file']) : [];
+        // 2.2 Pelaksanaan Proses Produksi — hanya tabel tunggal (table_1), sesuai blade
+        $textRun22 = $this->section->addTextRun([
+            'alignment' => 'both', 'indentation' => ['left' => 300], 'contextualSpacing' => true,
+        ]);
+        $textRun22->addText('2.2', ['size' => 11]);
+        $textRun22->addText('  Pelaksanaan Proses Produksi', ['size' => 11]);
 
-            $subabNumber = 1;
-            foreach ($enabledSubabKeys as $subabKey) {
-                $subabTitle = $this->getBab22SubabTitle($subabKey);
+        // Render tabel table_1 langsung (bukan subab dinamis)
+        $this->renderTableUid('table_1', $imageMap, $existingImageMap);
 
-                $textRun22x = $this->section->addTextRun([
-                    'alignment' => 'both', 'indentation' => ['left' => 740], 'spaceAfter' => 120,
-                ]);
-                $textRun22x->addText("2.2.{$subabNumber}", ['size' => 11]);
-                $textRun22x->addText(" {$subabTitle}", ['size' => 11]);
+        // 2.3 Hasil Pemeriksaan Sampel — selalu ditampilkan (tidak tergantung bab2_enabled_sections)
+        $textRun23 = $this->section->addTextRun([
+            'alignment' => 'both', 'indentation' => ['left' => 300], 'contextualSpacing' => true,
+        ]);
+        $textRun23->addText('2.3', ['size' => 11]);
+        $textRun23->addText('  Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :', ['size' => 11]);
 
-                $this->addBab22SubabTables($subabKey, $tableSubabMap, $imageMap, $existingImageMap);
-
-                $closingText = $this->getBab22SubabClosingText($subabKey);
-                if (!empty($closingText)) {
-                    $this->section->addText($closingText, ['size' => 11], [
-                        'alignment' => 'both', 'indentation' => ['left' => 740], 'contextualSpacing' => true,
-                    ]);
-                }
-
-                $subabNumber++;
-                $this->section->addTextBreak(1);
-            }
-        }
-
-        // 2.3 Hasil Pemeriksaan Sampel
-        if (in_array('3', $enabledBab2)) {
-            $textRun23 = $this->section->addTextRun([
-                'alignment' => 'both', 'indentation' => ['left' => 300], 'contextualSpacing' => true,
-            ]);
-            $textRun23->addText('2.3', ['size' => 11]);
-            $textRun23->addText('  Hasil pemeriksaan sampel pada masing-masing tahapan adalah sebagai berikut :', ['size' => 11]);
-
-            $this->exportBab23($tableSubabMap ?? [], $imageMap ?? [], $existingImageMap ?? []);
-        }
+        $this->exportBab23($tableSubabMap, $imageMap, $existingImageMap);
     }
 
     /**
@@ -361,145 +351,138 @@ class QFomilExportService
      */
     protected function exportBab23(array $tableSubabMap, array $imageMap, array $existingImageMap): void
     {
-        $namaProduk     = $this->data['tujuan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? 'Q-Fomil';
-        $batchName      = $this->data['batch_name'] ?? $this->data['batch_besaran'] ?? '-';
-        $mesin          = $this->data['tujuan_mesin'] ?? 'Double Cone Mixer DC 40';
+        $namaProduk = $this->d('tujuan_nama_produk', $this->d('judul_nama_produk', 'Q-Fomil'));
+        $batchName  = $this->d('batch_name', $this->d('batch_besaran', 'DEC25A01'));
+        $mesin      = $this->d('tujuan_mesin', 'Double Cone Mixer DC 40');
 
         // ── 2.3.1 Tahap Pencampuran Akhir ──────────────────────────────
-        $this->section->addText('2.3.1  Tahap Pencampuran Akhir', ['bold' => true, 'size' => 11], [
+        $this->section->addText('2.3.1  Tahap Pencampuran Akhir', [ 'size' => 11], [
             'alignment' => 'both', 'indentation' => ['left' => 440], 'spaceBefore' => 120, 'spaceAfter' => 60,
         ]);
 
-        // 2.3.1.1
-        $noDoc  = $this->data['pencampuran_no_dokumen'] ?? '-';
-        $tglDoc = $this->data['pencampuran_tanggal_dokumen'] ?? '-';
+        $noDoc  = $this->d('pencampuran_no_dokumen', 'EA-F03-3-00261-00');
+        $tglDoc = $this->d('pencampuran_tanggal_dokumen', '19-01-2024');
         $this->addParagraphIndented('2.3.1.1', "Proses pencampuran {$namaProduk} batch {$batchName} dilakukan dengan mesin {$mesin}.");
 
-        // 2.3.1.2 + table
-        $spesifikasi = $this->data['pencampuran_spesifikasi'] ?? '-';
-        $this->addParagraphIndented('2.3.1.2', "Berdasarkan Spesifikasi Produk {$namaProduk}, no. dokumen {$noDoc}, tanggal {$tglDoc}, produk antara hasil lubrikasi memiliki spesifikasi sebagai berikut:");
+        $this->addParagraphIndented('2.3.1.2', "Berdasarkan acuan Spesifikasi Produk {$namaProduk}, no. dokumen {$noDoc}, tanggal {$tglDoc}, produk antara hasil lubrikasi memiliki spesifikasi sebagai berikut:");
         $this->addBab22SubabTables('pencampuran_212', $tableSubabMap, $imageMap, $existingImageMap);
 
-        // 2.3.1.3
-        $samplingTitik    = $this->data['pencampuran_sampling_titik'] ?? '7';
-        $samplingWaktu    = $this->data['pencampuran_sampling_waktu_213'] ?? '(3 titik di lokasi bagian atas dan 3 titik dilokasi bagian bawah dengan sudut radial + 120°, serta 1 titik di lokasi tengah vat/ kontainer)';
-        $pemeriksaanJenis = $this->data['pencampuran_pemeriksaan_jenis'] ?? 'Kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12';
-        $this->addParagraphIndented('2.3.1.3', "Pada tahap lubrikasi dilakukan sampling sebanyak {$samplingTitik} lokasi {$samplingWaktu}, kemudian dilakukan pemeriksaan {$pemeriksaanJenis} dengan hasil sebagai berikut:");
+        $samplingTitik    = $this->d('pencampuran_sampling_titik', '7');
+        $samplingWaktu    = $this->d('pencampuran_sampling_waktu_213', '(3 titik di lokasi bagian atas dan 3 titik dilokasi bagian bawah dengan sudut radial ±120°, serta 1 titik di lokasi tengah vat/ kontainer)');
+        $pemeriksaanJenis = $this->d('pencampuran_pemeriksaan_jenis', 'Kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12');
+        $this->addParagraphIndented('2.3.1.3', "Pada tahap lubrikasi dilakukan sampling sebanyak {$samplingTitik} titik lokasi {$samplingWaktu}, kemudian dilakukan pemeriksaan {$pemeriksaanJenis} dengan hasil sebagai berikut:");
+        $this->addBab22SubabTables('pencampuran_213', $tableSubabMap, $imageMap, $existingImageMap);
+
+        $this->addParagraphIndented('2.3.1.3.1', 'Tabel data hasil pemeriksaan kadar zat aktif');
         $this->addBab22SubabTables('pencampuran_1331', $tableSubabMap, $imageMap, $existingImageMap);
 
-        //2.3.1.3.1
-        $this->addParagraphIndented('2.3.1.3.1', "Tabel data hasil pemeriksaan kadar zat aktif");
-        $this->addBab22SubabTables('pencampuran_1331', $tableSubabMap, $imageMap, $existingImageMap);
-        
-        // 2.3.1.3.1.1 & 2.3.1.3.1.2
-        $bahanBaku = $this->data['pemeriksaan_bahan_baku'] ?? '(6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6 HCl, dan Vitamin B12';
+        $bahanBaku = $this->d('pemeriksaan_bahan_baku', '(6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6 HCl, dan Vitamin B12');
         $this->addParagraphIndented('2.3.1.3.1.1', "Parameter kadar {$bahanBaku}, pada tahap lubrikasi produk {$namaProduk}, bukan merupakan syarat release, tetapi hanya sebagai pendataan selama proses.");
         $this->addParagraphIndented('2.3.1.3.1.2', "Seluruh hasil pemeriksaan kadar {$bahanBaku}, pada tahap lubrikasi akhir produk {$namaProduk}, batch {$batchName} sudah memberikan hasil yang memenuhi persyaratan Spesifikasi Produk yang berlaku.");
 
         // ── 2.3.2 Tahap Pencetakan ──────────────────────────────────────
         $this->section->addTextBreak(1);
-        $this->section->addText('2.3.2  Tahap Pencetakan', ['bold' => true, 'size' => 11], [
+        $this->section->addText('2.3.2  Tahap Pencetakan', ['size' => 11], [
             'alignment' => 'both', 'indentation' => ['left' => 440], 'spaceBefore' => 120, 'spaceAfter' => 60,
         ]);
 
-        $mesinKapsulasi = $this->data['tujuan_mesin_kapsulasi'] ?? 'cetak Hanseaten PII/S';
-        $noKapsulasi    = $this->data['kapsulasi_no_dokumen'] ?? '-';
-        $tglKapsulasi   = $this->data['kapsulasi_tanggal_dokumen'] ?? '-';
+        // fields: tujuan_mesin_kapsulasi, kapsulasi_no_dokumen, kapsulasi_tanggal_dokumen
+        $mesinKapsulasi = $this->d('tujuan_mesin_kapsulasi', 'cetak Hanseaten PII/S');
+        $noKapsulasi    = $this->d('kapsulasi_no_dokumen', 'EA-F03-3-00261-00');
+        $tglKapsulasi   = $this->d('kapsulasi_tanggal_dokumen', '19-01-2024');
 
         $this->addParagraphIndented('2.3.2.1', "Tahap pencetakan produk {$namaProduk} menggunakan mesin {$mesinKapsulasi}.");
         $this->addParagraphIndented('2.3.2.2', "Spesifikasi Produk {$namaProduk} pada tahap pencetakan sesuai dengan Spesifikasi Produk {$namaProduk}, no. dokumen {$noKapsulasi}, tanggal {$tglKapsulasi} produk antara hasil pencetakan memiliki spesifikasi sebagai berikut:");
         $this->addBab22SubabTables('kapsulasi_222', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $samplingCetakTitik = $this->data['kapsulasi_sampling_titik'] ?? '10';
+        $samplingCetakTitik = $this->d('kapsulasi_sampling_titik', '10');
         $this->addParagraphIndented('2.3.2.3', "Pada proses pencetakan dilakukan pengambilan sampel sebanyak {$samplingCetakTitik} kali sepanjang proses pencetakan.");
 
-        $paramCetak234 = $this->data['pencampuran_sampling_waktu_234'] ?? 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12.';
+        $paramCetak234 = $this->d('pencampuran_sampling_waktu_234', 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12.');
         $this->addParagraphIndented('2.3.2.4', "Sampel yang didapat kemudian dilakukan pemeriksaan {$paramCetak234}.");
 
-        $paramCetak235 = $this->data['pencampuran_sampling_waktu_235'] ?? 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot';
+        $paramCetak235 = $this->d('pencampuran_sampling_waktu_235', 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot');
         $this->addParagraphIndented('2.3.2.5', "Data pemeriksaan dan evaluasi pada proses pencetakan untuk parameter {$paramCetak235} adalah sebagai berikut:");
         $this->addBab22SubabTables('kapsulasi_2231', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $paramIdentif = $this->data['pencampuran_identifikasi'] ?? 'identifikasi dan kadar';
+        $paramIdentif = $this->d('pencampuran_identifikasi', 'identifikasi dan kadar');
         $this->addParagraphIndented('2.3.2.6', "Data pemeriksaan tahap pencetakan untuk parameter {$paramIdentif} adalah sebagai berikut:");
         $this->addBab22SubabTables('kapsulasi_2232', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $param2361 = $this->data['pencampuran_sampling_waktu_2361'] ?? 'ukuran, tebal, identifikasi, dan kadar zat aktif ((6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12)';
+        $param2361 = $this->d('pencampuran_sampling_waktu_2361', 'ukuran, tebal, identifikasi, dan kadar zat aktif ((6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12)');
         $this->addParagraphIndented('2.3.2.6.1', "Parameter {$param2361} pada tahap pencetakan produk {$namaProduk} bukan merupakan syarat release, tetapi hanya sebagai pendataan selama proses.");
 
-        $param2362 = $this->data['pencampuran_sampling_waktu_2362'] ?? 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12';
-        $batch2362  = $this->data['batch_besaran_2362'] ?? $batchName;
+        $param2362 = $this->d('pencampuran_sampling_waktu_2362', 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12');
+        $batch2362 = $this->d('batch_besaran_2362', $batchName);
         $this->addParagraphIndented('2.3.2.6.2', "Seluruh hasil pemeriksaan {$param2362} pada tahap pencetakan produk {$namaProduk} batch {$batch2362} sudah memberikan hasil yang memenuhi persyaratan Spesifikasi Produk yang berlaku.");
 
         // ── 2.3.3 Tahap Penyalutan ─────────────────────────────────────
         $this->section->addTextBreak(1);
-        $this->section->addText('2.3.3  Tahap Penyalutan', ['bold' => true, 'size' => 11], [
+        $this->section->addText('2.3.3  Tahap Penyalutan', ['size' => 11], [
             'alignment' => 'both', 'indentation' => ['left' => 440], 'spaceBefore' => 120, 'spaceAfter' => 60,
         ]);
 
-        $mesinSalut  = $this->data['tujuan_mesin_kemas'] ?? 'coating Rama Cota';
-        $noSalut     = $this->data['kemasan_no_dokumen_produk'] ?? '-';
-        $tglSalut    = $this->data['kemasan_tanggal_dokumen_produk'] ?? '-';
+        $mesinSalut = $this->d('tujuan_mesin_kemas', 'coating Rama Cota');
+        $noSalut    = $this->d('kemasan_no_dokumen_produk', 'EA-F03-3-00261-00');
+        $tglSalut   = $this->d('kemasan_tanggal_dokumen_produk', '19-01-2024');
 
         $this->addParagraphIndented('2.3.3.1', "Tahap penyalutan produk {$namaProduk} menggunakan mesin {$mesinSalut}.");
         $this->addParagraphIndented('2.3.3.2', "Spesifikasi Produk {$namaProduk} pada tahap penyalutan sesuai dengan Spesifikasi Produk {$namaProduk}, no. dokumen {$noSalut}, tanggal {$tglSalut} produk antara hasil pencetakan memiliki spesifikasi sebagai berikut:");
         $this->addBab22SubabTables('kemasan_332', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $samplingSalutTitik = $this->data['kemasan_sampling_titik'] ?? '5';
-        $samplingSalutWaktu = $this->data['pencampuran_sampling_waktu'] ?? 'depan kiri, depan kanan, tengah, belakang kiri, dan belakang kanan';
-        $this->addParagraphIndented('2.3.3.3', "Pada proses penyalutan dilakukan pengambilan sampel sebanyak {$samplingSalutTitik} lokasi dalam panci penyalut yang mewakili bagian depan kiri, {$samplingSalutWaktu}.");
+        $samplingSalutTitik = $this->d('kemasan_sampling_titik', '5');
+        $lokasiSalut        = $this->d('lokasi_sampling_penyalutan', 'depan kiri, depan kanan, tengah, belakang kiri, dan belakang kanan');
+        $this->addParagraphIndented('2.3.3.3', "Pada proses penyalutan dilakukan pengambilan sampel sebanyak {$samplingSalutTitik} lokasi dalam panci penyalut yang mewakili bagian {$lokasiSalut}.");
 
-        $paramSalut334 = $this->data['pencampuran_sampling_waktu_334'] ?? 'pemerian kaplet salut (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12, dan cemaran logam berat.';
+        $paramSalut334 = $this->d('pencampuran_sampling_waktu_334', 'pemerian kaplet salut (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12, dan cemaran logam berat.');
         $this->addParagraphIndented('2.3.3.4', "Sampel yang didapat kemudian dilakukan pemeriksaan {$paramSalut334}");
 
-        $paramSalut335 = $this->data['param_penyalutan_335'] ?? 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot';
+        $paramSalut335 = $this->d('param_penyalutan_335', 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot');
         $this->addParagraphIndented('2.3.3.5', "Data pemeriksaan dan evaluasi pada proses kapsulasi untuk parameter {$paramSalut335} adalah sebagai berikut:");
         $this->addBab22SubabTables('kemasan_3331', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $paramSalut336 = $this->data['pencampuran_spesifikasi_nama'] ?? 'cemaran logam berat';
+        $paramSalut336 = $this->d('pencampuran_spesifikasi_nama', 'cemaran logam berat');
         $this->addParagraphIndented('2.3.3.6', "Data pemeriksaan tahap penyalutan untuk parameter {$paramSalut336}");
         $this->addBab22SubabTables('kemasan_3332', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $paramSalut337 = $this->data['pencampuran_identifikasi_337'] ?? 'identifikasi dan kadar';
+        $paramSalut337 = $this->d('pencampuran_identifikasi', 'identifikasi dan kadar');
         $this->addParagraphIndented('2.3.3.7', "Data pemeriksaan tahap penyalutan untuk parameter {$paramSalut337} adalah sebagai berikut:");
-        $this->addBab22SubabTables('kemasan_3333', $tableSubabMap, $imageMap, $existingImageMap);
+        $this->addBab22SubabTables('kemasan_3335', $tableSubabMap, $imageMap, $existingImageMap);
 
-        $paramUkuran = $this->data['pencampuran_ukuran'] ?? 'ukuran dan tebal';
+        $paramUkuran = $this->d('pencampuran_ukuran', 'ukuran dan tebal');
         $this->addParagraphIndented('2.3.3.7.1', "Parameter {$paramUkuran} pada tahap penyalutan produk {$namaProduk} bukan merupakan syarat release, tetapi hanya sebagai pendataan selama proses.");
 
-        $param3372 = $this->data['pencampuran_sampling_waktu_3372'] ?? 'pemerian kaplet salut (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12';
+        $param3372 = $this->d('pencampuran_sampling_waktu_3372', 'pemerian kaplet salut (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12');
         $this->addParagraphIndented('2.3.3.7.2', "Seluruh hasil pemeriksaan {$param3372} pada tahap pencetakan produk {$namaProduk} batch {$batchName} sudah memberikan hasil yang memenuhi persyaratan Spesifikasi Produk yang berlaku.");
 
         // ── 2.3.4 Tahap Kemas Primer ────────────────────────────────────
         $this->section->addTextBreak(1);
-        $this->section->addText('2.3.4  Tahap Kemas Primer', ['bold' => true, 'size' => 11], [
+        $this->section->addText('2.3.4  Tahap Kemas Primer', ['size' => 11], [
             'alignment' => 'both', 'indentation' => ['left' => 440], 'spaceBefore' => 120, 'spaceAfter' => 60,
         ]);
 
-        $mesinKemas      = $this->data['tujuan_mesin_kemas_primer'] ?? 'Uhlmann HS 40';
-        $samplingKemas   = $this->data['kapsulasi_sampling_titik_kemas'] ?? $this->data['kapsulasi_sampling_titik'] ?? '10';
-        $waktuKemas      = $this->data['kapsulasi_sampling_waktu'] ?? 'awal, tengah, dan akhir proses';
-        $noKemasKemasan  = $this->data['pencampuran_no_dokumen_kemasan'] ?? $this->data['pencampuran_no_dokumen'] ?? '-';
-        $tglKemasKemasan = $this->data['pencampuran_tanggal_dokumen_kemasan'] ?? $this->data['pencampuran_tanggal_dokumen'] ?? '-';
-        $noKemasProduk   = $this->data['pencampuran_no_dokumen_produk_kemas'] ?? '-';
-        $tglKemasProduk  = $this->data['pencampuran_tanggal_dokumen_produk_kemas'] ?? '-';
-        $paramKemas344   = $this->data['param_kemas_344'] ?? 'isi dalam 1 strip, elegance strip, dan cemaran mikroba';
-        $paramKemas345   = $this->data['param_kemas_3451'] ?? 'isi dalam 1 strip, elegance strip';
-        $paramMikroba    = $this->data['param_kemas_3461'] ?? 'pemeriksaan cemaran mikroba';
+        // fields: tujuan_mesin_kemas_primer, kapsulasi_sampling_titik, kapsulasi_sampling_waktu
+        // pencampuran_no_dokumen (Spek Kemasan), pencampuran_tanggal_dokumen (Spek Kemasan)
+        // pencampuran_no_dokumen (Spek Produk), pencampuran_tanggal_dokumen (Spek Produk) — sama field, sync
+        $mesinKemas    = $this->d('tujuan_mesin_kemas_primer', 'Uhlmann HS 40');
+        $samplingKemas = $this->d('kapsulasi_sampling_titik', '10');
+        $waktuKemas    = $this->d('kapsulasi_sampling_waktu', 'awal, tengah, dan akhir');
+        $noDoc234      = $this->d('pencampuran_no_dokumen', 'EC-F04-3-00189-01');
+        $tglDoc234     = $this->d('pencampuran_tanggal_dokumen', '03-05-2025');
+        $paramKemas344 = $this->d('param_kemas_344', 'isi dalam 1 strip, elegance strip, dan cemaran mikroba');
+        $paramMikroba  = $this->d('param_kemas_3461', 'pemeriksaan cemaran mikroba');
 
         $this->addParagraphIndented('2.3.4.1', "Tahap kemas primer (strip) produk {$namaProduk} menggunakan mesin {$mesinKemas}.");
         $this->addParagraphIndented('2.3.4.2', "Pada proses pengemasan primer (strip) dilakukan {$samplingKemas} kali sampling yang mewakili {$waktuKemas} selama proses pengemasan primer.");
-        $this->addParagraphIndented('2.3.4.3', "Spesifikasi Produk {$namaProduk} pada proses pengemasan primer (strip) sesuai dengan Spesifikasi Kemasan {$namaProduk}, No. Dokumen {$noKemasKemasan}, tanggal {$tglKemasKemasan} ditambah dengan pemeriksaan cemaran mikroba sesuai Spesifikasi Produk {$namaProduk}, No.Dokumen {$noKemasProduk}, tanggal {$tglKemasProduk}, adalah sebagai berikut:");
-        $this->addBab22SubabTables('kemasan_3334', $tableSubabMap, $imageMap, $existingImageMap);
+        $this->addParagraphIndented('2.3.4.3', "Spesifikasi Produk {$namaProduk} pada proses pengemasan primer (strip) sesuai dengan Spesifikasi Kemasan {$namaProduk}, No. Dokumen {$noDoc234}, tanggal {$tglDoc234} ditambah dengan pemeriksaan cemaran mikroba sesuai Spesifikasi Produk {$namaProduk}, No.Dokumen {$noDoc234}, tanggal {$tglDoc234}, adalah sebagai berikut:");
+        $this->addBab22SubabTables('kemasan_3333', $tableSubabMap, $imageMap, $existingImageMap);
 
         $this->addParagraphIndented('2.3.4.4', "Sampel yang didapat kemudian dilakukan pemeriksaan {$paramKemas344}.");
-        $this->addParagraphIndented('2.3.4.5', 'Data hasil pemeriksaan isi dalam 1 (botol) adalah sebagai berikut:');
-        $this->addBab22SubabTables('kemasan_3335', $tableSubabMap, $imageMap, $existingImageMap);
-
-        $this->addParagraphIndented('2.3.4.5.1', "Secara keseluruhan, atribut yang diuji pada tahap kemas primer {$paramKemas345}. produk {$namaProduk} pada batch {$batchName} sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Kemasan yang berlaku.");
+        $this->addParagraphIndented('2.3.4.5', 'Data hasil pemeriksaan isi dalam 1 (strip) adalah sebagai berikut:');
+        $this->addBab22SubabTables('kemasan_3336', $tableSubabMap, $imageMap, $existingImageMap);
 
         $this->addParagraphIndented('2.3.4.6', 'Data hasil pengujian cemaran mikroba adalah sebagai berikut:');
-        $this->addBab22SubabTables('kemasan_3336', $tableSubabMap, $imageMap, $existingImageMap);
+        $this->addBab22SubabTables('kemasan_3334', $tableSubabMap, $imageMap, $existingImageMap);
 
         $this->addParagraphIndented('2.3.4.6.1', "Secara keseluruhan, atribut yang diuji pada tahap kemas primer {$paramMikroba} Produk {$namaProduk} pada batch {$batchName} sudah memberikan hasil yang memenuhi persyaratan menurut Spesifikasi Produk yang berlaku.");
     }
@@ -575,25 +558,25 @@ class QFomilExportService
     {
         return match ($subabKey) {
             'mixing' => 'Atribut yang diuji pada tahap mixing sudah memberikan hasil yang ' .
-                ($this->data['mixing_hasil'] ?? 'memenuhi') .
+                $this->d('mixing_hasil', 'memenuhi') .
                 ' persyaratan menurut Spesifikasi Produk yang berlaku' .
                 $this->resolveBab22ClosingTail('mixing_hasil_catatan') . '.',
             'filling_awal' => 'Atribut yang diuji pada tahap awal filling-capping sudah memberikan hasil yang ' .
-                ($this->data['filling_awal_hasil'] ?? 'memenuhi') .
+                $this->d('filling_awal_hasil', 'memenuhi') .
                 ' persyaratan menurut Spesifikasi Produk yang berlaku' .
                 $this->resolveBab22ClosingTail('filling_awal_hasil_catatan') . '.',
             'filling_capping' => 'Atribut yang diuji pada tahap filling-capping sudah memberikan hasil yang ' .
-                ($this->data['filling_capping_hasil'] ?? 'memenuhi') .
+                $this->d('filling_capping_hasil', 'memenuhi') .
                 ' persyaratan menurut Spesifikasi Produk dan Spesifikasi Kemasan yang berlaku' .
                 $this->resolveBab22ClosingTail('filling_capping_hasil_catatan') . '.',
-            'partikel_asing' => '',  // No closing text; description is rendered as the subab header
-            default => trim((string) ($this->data["{$subabKey}_notes"] ?? '')),
+            'partikel_asing' => '',
+            default => $this->d("{$subabKey}_notes", ''),
         };
     }
 
     private function resolveBab22ClosingTail(string $fieldName): string
     {
-        $tail = trim((string) ($this->data[$fieldName] ?? ''));
+        $tail = $this->d($fieldName, '');
         return $tail !== '' ? " {$tail}" : '';
     }
 
@@ -611,36 +594,32 @@ class QFomilExportService
         $enabledStr      = $this->data['kesimpulan_enabled_sections'] ?? '1,2';
         $enabledSections = array_filter(array_map('trim', explode(',', $enabledStr)), fn($s) => $s !== '');
 
-        $namaProduk = $this->data['tujuan_nama_produk'] ?? $this->data['judul_nama_produk'] ?? 'Q-Fomil';
-        $batchName  = $this->data['batch_besaran'] ?? '-';
+        $namaProduk = $this->d('tujuan_nama_produk', $this->d('judul_nama_produk', 'Q-Fomil'));
+        $batchName  = $this->d('batch_name', $this->d('batch_besaran', 'DEC25A01'));
         $sectionNum = 1;
 
         // Section 3.1
         if (in_array('1', $enabledSections)) {
-            $metode   = $this->data['pencampuran_sampling_waktu_31'] ?? 'penimbangan bahan baku, pencampuran, pencetakan, penyalutan, dan pengemasan primer (stripping)';
-            $noDoc    = $this->data['pencampuran_no_dokumen'] ?? '-';
-            $tglDoc   = $this->data['pencampuran_tanggal_dokumen'] ?? '-';
+            $metode = $this->d('rangkuman_metode', 'penimbangan bahan baku, pencampuran, pencetakan, penyalutan, dan pengemasan primer (stripping)');
+            $noDoc  = $this->d('pencampuran_no_dokumen', 'CE-00466-00-PC');
+            $tglDoc = $this->d('pencampuran_tanggal_dokumen', '12-07-2025');
 
             $this->addKesimpulanItem("3.{$sectionNum}", "Telah dilakukan validasi proses pengolahan dan pengemasan primer produk {$namaProduk}, batch {$batchName} {$metode} telah dilakukan sesuai MBR Pengolahan {$namaProduk}, No. Dokumen {$noDoc}, tanggal {$tglDoc} dan MBR Pengemasan {$namaProduk} No. Dokumen {$noDoc}, tanggal {$tglDoc}.");
 
-            // 3.1.1
-            $param311  = $this->data['param_lubrikasi_311'] ?? 'kadar zat aktif (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12';
-            $hasil311  = $this->data['kemasan_hasil_311'] ?? $this->data['kemasan_hasil'] ?? 'memenuhi';
+            $param311 = $this->d('param_lubrikasi_311', 'kadar zat aktif (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12');
+            $hasil311 = $this->d('kemasan_hasil', 'memenuhi');
             $this->addKesimpulanSubItem("3.{$sectionNum}.1", "Berdasarkan pemeriksaan batch validasi {$batchName} terhadap parameter mutu produk pada tahap lubrikasi antara lain {$param311} didapatkan seluruh hasil pengujian {$hasil311} spesifikasi produk yang berlaku.");
 
-            // 3.1.2
-            $param312  = $this->data['param_pencetakan_312'] ?? 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12';
-            $hasil312  = $this->data['kemasan_hasil_312'] ?? $this->data['kemasan_hasil'] ?? 'memenuhi';
+            $param312 = $this->d('param_pencetakan_312', 'pemerian kaplet inti (bentuk, warna), ukuran, kekerasan, tebal, kerapuhan, waktu hancur, kadar air, keseragaman bobot, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12');
+            $hasil312 = $this->d('kemasan_hasil', 'memenuhi');
             $this->addKesimpulanSubItem("3.{$sectionNum}.2", "Berdasarkan pemeriksaan batch validasi {$batchName} terhadap parameter mutu produk pada tahap pencetakan, antara lain {$param312} didapatkan seluruh hasil pengujian telah {$hasil312} spesifikasi produk yang berlaku.");
 
-            // 3.1.3
-            $param313  = $this->data['param_penyalutan_313'] ?? 'pemerian kaplet salut (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot, cemaran logam berat, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12';
-            $hasil313  = $this->data['kemasan_hasil_313'] ?? $this->data['kemasan_hasil'] ?? 'memenuhi';
+            $param313 = $this->d('param_penyalutan_313', 'pemerian kaplet salut (bentuk, warna), ukuran, kekerasan, tebal, waktu hancur, kadar air, keseragaman bobot, cemaran logam berat, identifikasi, dan kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12');
+            $hasil313 = $this->d('kemasan_hasil', 'memenuhi');
             $this->addKesimpulanSubItem("3.{$sectionNum}.3", "Berdasarkan pemeriksaan batch validasi {$batchName} terhadap parameter mutu produk pada tahap penyalutan, antara lain {$param313} didapatkan seluruh hasil pengujian {$hasil313} spesifikasi produk yang berlaku.");
 
-            // 3.1.4
-            $param314  = $this->data['param_kemas_314'] ?? 'isi dalam 1 strip, kebocoran strip, elegance strip, dan cemaran mikroba';
-            $hasil314  = $this->data['kemasan_hasil_314'] ?? $this->data['kemasan_hasil'] ?? 'memenuhi';
+            $param314 = $this->d('param_kemas_314', 'isi dalam 1 strip, kebocoran strip, elegance strip, dan cemaran mikroba');
+            $hasil314 = $this->d('kemasan_hasil', 'memenuhi');
             $this->addKesimpulanSubItem("3.{$sectionNum}.4", "Berdasarkan pemeriksaan batch validasi {$batchName} terhadap parameter mutu produk pada tahap pengemasan primer, antara lain {$param314}, didapatkan seluruh hasil pengujian {$hasil314} spesifikasi produk yang berlaku.");
 
             $sectionNum++;
@@ -648,19 +627,17 @@ class QFomilExportService
 
         // Section 3.2
         if (in_array('2', $enabledSections)) {
-            $noSpek    = $this->data['pencampuran_no_dokumen'] ?? '-';
-            $tglSpek   = $this->data['pencampuran_tanggal_dokumen'] ?? '-';
-            $noKemasan = $this->data['pencampuran_no_dokumen'] ?? '-';
-            $tglKemasan = $this->data['pencampuran_tanggal_dokumen'] ?? '-';
-            $status    = $this->data['kesimpulan_status'] ?? 'validated';
-            $hasil32   = $this->data['kemasan_hasil'] ?? 'memenuhi';
+            $noSpek  = $this->d('pencampuran_no_dokumen', 'EA-F03-3-00261-00');
+            $tglSpek = $this->d('pencampuran_tanggal_dokumen', '19-01-2024');
+            $status  = $this->d('kesimpulan_status', 'validated');
+            $hasil32 = $this->d('kemasan_hasil', 'memenuhi');
 
             $textRun = $this->section->addTextRun([
                 'alignment' => 'both', 'indentation' => ['left' => 740, 'hanging' => 440], 'contextualSpacing' => true,
             ]);
             $textRun->addText("3.{$sectionNum}", ['size' => 11]);
             $textRun->addText(
-                "  Berdasarkan pemeriksaan pada batch validasi {$batchName}, proses terbukti dapat menghasilkan produk jadi {$namaProduk} yang {$hasil32} spesifikasi sesuai dengan Spesifikasi Produk {$namaProduk}, No. Dokumen {$noSpek} tanggal {$tglSpek} dan Spesifikasi Kemasan {$namaProduk} No. Dokumen {$noKemasan}, tanggal {$tglKemasan}. sehingga dinyatakan ",
+                "  Berdasarkan pemeriksaan pada batch validasi {$batchName}, proses terbukti dapat menghasilkan produk jadi {$namaProduk} yang {$hasil32} spesifikasi sesuai dengan Spesifikasi Produk {$namaProduk}, No. Dokumen {$noSpek} tanggal {$tglSpek} dan Spesifikasi Kemasan {$namaProduk} No. Dokumen {$noSpek}, tanggal {$tglSpek}. sehingga dinyatakan ",
                 ['size' => 11]
             );
             $textRun->addText($status, ['italic' => true, 'size' => 11]);
@@ -672,7 +649,7 @@ class QFomilExportService
         foreach ($enabledSections as $sectionId) {
             if (str_starts_with($sectionId, 'c')) {
                 $customNum  = substr($sectionId, 1);
-                $customText = trim((string) ($this->data["kesimpulan_custom_{$customNum}"] ?? ''));
+                $customText = $this->d("kesimpulan_custom_{$customNum}", '');
                 if ($customText !== '') {
                     $this->addKesimpulanItem("3.{$sectionNum}", $customText);
                     $sectionNum++;
@@ -707,6 +684,56 @@ class QFomilExportService
         ]);
         $textRun->addText($number, ['bold' => false, 'size' => 11]);
         $textRun->addText(' ' . $text, ['size' => 11]);
+    }
+
+    /**
+     * Render satu tabel/gambar berdasarkan table uid langsung (tanpa subab mapping).
+     * Digunakan untuk tabel tunggal seperti table_1 di section 2.2.
+     */
+    protected function renderTableUid(string $tableUid, array $imageMap, array $existingImageMap): void
+    {
+        $imageFile         = $imageMap[$tableUid] ?? null;
+        $resolvedImagePath = $this->resolveStoredImagePath($existingImageMap[$tableUid] ?? null);
+        $base64            = trim((string) ($this->data['mixing_image_base64'][$tableUid] ?? ''));
+
+        if ($imageFile instanceof UploadedFile && $imageFile->isValid()) {
+            try {
+                $this->section->addImage($imageFile->getPathname(), [
+                    'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
+                ]);
+            } catch (\Exception $e) {
+                $this->section->addText("[Error memuat gambar: {$e->getMessage()}]", ['color' => 'FF0000']);
+            }
+        } elseif ($resolvedImagePath) {
+            try {
+                $this->section->addImage($resolvedImagePath, [
+                    'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
+                ]);
+            } catch (\Exception $e) {
+                $this->section->addText("[Error memuat gambar draft: {$e->getMessage()}]", ['color' => 'FF0000']);
+            }
+        } elseif ($base64 !== '' && str_starts_with($base64, 'data:image')) {
+            try {
+                $commaPos  = strpos($base64, ',');
+                $imageData = base64_decode(substr($base64, $commaPos + 1));
+                $tmpFile   = tempnam(sys_get_temp_dir(), 'bab2img');
+                file_put_contents($tmpFile, $imageData);
+                $this->section->addImage($tmpFile, [
+                    'width' => 450, 'height' => null, 'marginTop' => 10, 'marginBottom' => 10, 'align' => 'center',
+                ]);
+                @unlink($tmpFile);
+            } catch (\Exception $e) {
+                $this->section->addText("[Error gambar base64]", ['color' => 'FF0000']);
+            }
+        } else {
+            $pastedJson = trim((string) ($this->data['mixing_pasted_table_json'][$tableUid] ?? ''));
+            if ($pastedJson !== '') {
+                $rows = json_decode($pastedJson, true);
+                if (is_array($rows) && !empty($rows)) {
+                    $this->renderPastedTableToWord($rows);
+                }
+            }
+        }
     }
 
     /**
@@ -907,7 +934,7 @@ class QFomilExportService
      */
     protected function saveAndDownload()
     {
-        $namaProduk = $this->data['judul_nama_produk'] ?? 'Q-Fomil';
+        $namaProduk = $this->d('judul_nama_produk', 'Q-Fomil');
         $fileName = 'Summary_Validasi_' . str_replace(' ', '_', $namaProduk) . '_' . date('Y-m-d') . '.docx';
 
         $tempFile = tempnam(sys_get_temp_dir(), 'PHPWord');

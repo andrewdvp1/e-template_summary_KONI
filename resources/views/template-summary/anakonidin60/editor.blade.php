@@ -92,8 +92,8 @@
                                 <span class="font-medium">1.1.1</span> Summary validasi ini bertujuan mendokumentasikan
                                 hasil studi validasi/pembuktian terhadap kualitas dan reprodusibilitas proses pengolahan
                                 produk
-                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Anakonidin OBH 60 ml">
+                                <input type="text" name="tujuan_nama_produk" class="template-input sync-input w-48"
+                                    data-sync="nama_produk" placeholder="Anakonidin OBH 60 ML">
                                 di Line
                                 <input type="text" name="tujuan_line" class="template-input sync-input w-8"
                                     data-sync="line" placeholder="1">
@@ -108,8 +108,8 @@
                                     placeholder="Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188"
                                     oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">Mesin mixer Indo Laval 2000L+holding tank, Mesin blow and suck Fillomatic Tornado 8SA, dan Mesin filling-capping Krones V0-G 024-188</textarea>
                                 dalam menghasilkan produk
-                                <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-40"
-                                    data-sync="nama_produk" placeholder="Anakonidin OBH 60 ml">
+                                <input type="text" name="tujuan_nama_produk_2" class="template-input sync-input w-48"
+                                    data-sync="nama_produk" placeholder="Anakonidin OBH 60 ML">
                                 dalam kemasan botol yang memenuhi persyaratan mutu yang tercantum dalam Spesifikasi Produk
                                 dan Spesifikasi Kemasan yang berlaku.
                             </p>
@@ -388,7 +388,7 @@
                                 Telah dilakukan proses produksi terhadap produk
                                 <input type="text" name="kesimpulan_nama_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Anakonidin OBH 60 ml">,
+                                    placeholder="Anakonidin OBH 60 ML">,
                                 yakni pada batch
                                 <input type="text" name="kesimpulan_batch_codes"
                                     class="template-input sync-input w-56" data-sync="batch"
@@ -482,7 +482,7 @@
                                 pengolahan dan pengemasan produk
                                 <input type="text" name="kesimpulan_final_produk"
                                     class="template-input sync-input w-48" data-sync="nama_produk"
-                                    placeholder="Anakonidin OBH 60 ml">
+                                    placeholder="Anakonidin OBH 60 ML">
                                 menggunakan
                                 <textarea name="kesimpulan_mesin" class="template-input sync-input w-full resize-none overflow-hidden"
                                     data-sync="mesin" rows="2"

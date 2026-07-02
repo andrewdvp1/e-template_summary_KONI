@@ -218,7 +218,7 @@
                     <span class="text-xs text-slate-400 dark:text-slate-500">Klik nomor untuk enable/disable</span>
                 </div>
                 <div class="p-6 flex flex-col gap-6">
-                    <input type="hidden" name="bab2_enabled_sections" id="bab2_enabled_sections" value="1,2">
+                    <input type="hidden" name="bab2_enabled_sections" id="bab2_enabled_sections" value="1,2,3">
 
                     {{-- 2.1 --}}
                     <div class="bab2-section" data-section-id="1">
@@ -413,8 +413,8 @@
                                         titik lokasi
                                         <textarea 
                                         name="pencampuran_sampling_waktu_213" rows="3" class="template-input w-full resize-y text-base font-bold" 
-                                        placeholder="(3 titik di lokasi bagian atas dan 3 titik dilokasi bagian bawah dengan sudut radial + 120o, serta 1 titik di lokasi tengah vat/ kontainer)">
-                                        (3 titik di lokasi bagian atas dan 3 titik dilokasi bagian bawah dengan sudut radial + 120o, serta 1 titik di lokasi tengah vat/ kontainer)</textarea>,
+                                        placeholder="(3 titik di lokasi bagian atas dan 3 titik dilokasi bagian bawah dengan sudut radial ±120°, serta 1 titik di lokasi tengah vat/ kontainer)">
+                                        (3 titik di lokasi bagian atas dan 3 titik dilokasi bagian bawah dengan sudut radial ±120°, serta 1 titik di lokasi tengah vat/ kontainer)</textarea>,
                                         kemudian dilakukan pemeriksaan
                                         <input type="text" name="pencampuran_pemeriksaan_jenis" class="template-input w-180" 
                                         placeholder="Kadar (6S)-5-Methyltetrahydofolic Acid Glucosamine Salt, Vitamin B6, dan Vitamin B12">
@@ -3297,6 +3297,25 @@
                 modal.classList.add('hidden');
             }, 3000);
         }
+
+        // Pasang form submit listener secara independen
+        // agar tidak terpengaruh error di blok DOMContentLoaded lain
+        (function() {
+            function attachExportListener() {
+                const form = document.getElementById('qfomilTemplateForm');
+                if (form && !form._exportListenerAttached) {
+                    form._exportListenerAttached = true;
+                    form.addEventListener('submit', function() {
+                        showExportModal();
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', attachExportListener);
+            } else {
+                attachExportListener();
+            }
+        })();
     </script>
 
     {{-- Export Loading Modal --}}
@@ -3326,6 +3345,56 @@
             </div>
         </div>
     </div>
+
+     {{-- ============================================================
+         SYNC INPUT SCRIPT — script terpisah & independen
+         Berjalan terlepas dari error apapun di script utama.
+         Saat satu field nama produk diubah, semua field lain ikut.
+         ============================================================ --}}
+    <script>
+        (function() {
+            // Listener input: saat salah satu sync-input diubah, semua group yang sama ikut
+            document.addEventListener('input', function(e) {
+                var el = e.target;
+                if (!el || !el.classList.contains('sync-input')) return;
+                var key = el.getAttribute('data-sync');
+                if (!key) return;
+                var val = el.value;
+                var others = document.querySelectorAll('.sync-input[data-sync="' + key + '"]');
+                for (var i = 0; i < others.length; i++) {
+                    if (others[i] !== el) others[i].value = val;
+                }
+            });
+
+            // Saat halaman siap: sebarkan nilai dari field master ke semua follower
+            function spreadMasterValues() {
+                var keys = [];
+                var inputs = document.querySelectorAll('.sync-input[data-sync]');
+                for (var i = 0; i < inputs.length; i++) {
+                    var k = inputs[i].getAttribute('data-sync');
+                    if (k && keys.indexOf(k) === -1) keys.push(k);
+                }
+                for (var j = 0; j < keys.length; j++) {
+                    var key = keys[j];
+                    var master = (key === 'nama_produk')
+                        ? document.querySelector('.sync-input[data-sync="nama_produk"][data-sync-master="1"]')
+                        : document.querySelector('.sync-input[data-sync="' + key + '"]');
+                    if (!master || !master.value.trim()) continue;
+                    var followers = document.querySelectorAll('.sync-input[data-sync="' + key + '"]');
+                    for (var k2 = 0; k2 < followers.length; k2++) {
+                        followers[k2].value = master.value;
+                    }
+                }
+            }
+
+            // Jalankan setelah DOM siap + delay kecil untuk subab dinamis
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() { setTimeout(spreadMasterValues, 300); });
+            } else {
+                setTimeout(spreadMasterValues, 300);
+            }
+        })();
+    </script>
 @endsection
 
 
