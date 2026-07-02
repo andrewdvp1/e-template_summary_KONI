@@ -919,7 +919,7 @@ class QFomilExportService
         ]);
         $cell3->addTextBreak(2);
         $cell3->addText('__________', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
-        $cell3->addText('QA Manager', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
+        $cell3->addText('APJ IOBA', ['size' => 11], ['alignment' => 'center', 'spaceAfter' => 0]);
         $cell3->addText('Tanggal:', ['size' => 11], ['alignment' => 'left', 'spaceAfter' => 0]);
 
         $cell4 = $footerTable->addCell($col4, ['borderSize' => 6, 'valign' => 'bottom']);
